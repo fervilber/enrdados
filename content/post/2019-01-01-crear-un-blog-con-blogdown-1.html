@@ -1,0 +1,95 @@
+---
+title: Crear un blog con blogdown (1)
+author: FVB
+date: '2019-01-01'
+slug: crear-un-blog-con-blogdown-1
+categories:
+  - R
+  - blog
+tags: []
+---
+
+
+
+<div id="antes" class="section level1">
+<h1>Antes</h1>
+<p>Llevo ya varias semanas con la idea de crear un blog con la herramienta blogdown de Yihue Xie, la cuestión de si cambiar a blogdown no es simple, aunque tienen muchas cosas buenas, yo me apaño bastante bien con otras herramientas como docuwiki que me gustan mucho, me aportasn flexibilidad y puedo editar desde cualquier sitio, pero el problema es que para usar especificamente con R hay que pasar las gráficas, tablas y datos a estilos diferentes y eso con blogdown lo tienes de inmediato.</p>
+<p>También está el tema de las plantillas, que con el uso de Hugo facilita mucho las cosas, y permite usar muchas cosas actualizadas que ya no es facil en docuwiki.</p>
+</div>
+<div id="dificultades" class="section level1">
+<h1>Dificultades</h1>
+<p>No ha sido facil empezar con blogdown, muchas cosas no han funcionado a la primera, y solo despues de actualizar tanto R como RSTUDIO he logrado que fuese bien. Tampoco es sencillo enfrentarse con Hugo al pricipio. Las plantillas son fantásticas, pero complejas, con especificaciones propias de cada una, por lo que no todas son complatibles con blogdown ni con R.</p>
+<p>Me temo que solo despues de un tiempo de préctica podré sacar conclusiones de si ha sido conveniente el cambio.</p>
+</div>
+<div id="blogdown" class="section level1">
+<h1>Blogdown</h1>
+<p><code>Blogdown</code> es una librería de R que permite gestionar por completo un blog y publicarlo. Está pensado especialmente para usuarios y desarrolladores que usan el lenguaje R, pero no es solo para ellor pues podrías gestionar un blog de cocina con esta librería de la misma forma.</p>
+<p>Las ventajas que aporta para un usario que no sepa R son menos que las que obtiene alguien que sepa programar en R, pues puede exprimir mucho más sus posibilidades y generar gráficos, informes o scripts de código que automáticamente se suben al blog.</p>
+</div>
+<div id="empecemos" class="section level1">
+<h1>Empecemos</h1>
+<p>Doy por hecho que usas RSTUDIO o R.</p>
+<div id="instalar-librerias" class="section level2">
+<h2>instalar librerías</h2>
+<p>Primeor bajamos blogdown y lo instalamos, quizás tengamos problemas, yo tuve que actualizar tanto R como RSTUDIo para que esto funcionase.</p>
+<pre class="r"><code>install.packages(“blogdown”)
+blogdown::install_hugo()</code></pre>
+<p>Despues de que se instale cargamos HUGO que es otro programa que gestiona las plantillas web libres que podemos usar con blogdown. Para ver todas las plantillas disponibles echa un ojo a su web <a href="https://themes.gohugo.io/" class="uri">https://themes.gohugo.io/</a></p>
+<p>Aunque no todos son compatibles. En el libro de blogdown de los autores dice que algunas que funcionan bien. Yo probé muchas y pocas son 100% compatibles.</p>
+<p>Una vez que has seleccionado un tema, (theme) puedes probar a instalarlo en local y ver si funciona con blogdown copn el siguiente comando. fijate que escribo el usuario y theme de la web github del desarrollador en este caso Vimux y el theme mainroad</p>
+<pre class="r"><code>blogdown::install_theme(&quot;htr3n/hyde-hyde&quot;, theme_example = TRUE)</code></pre>
+</div>
+<div id="ver-la-prueba" class="section level2">
+<h2>ver la prueba</h2>
+<p>Una vez descargado el theme, si tenemos el RSTUDIO actualizado nos sale un menu de Addins en el que se encuentra un listado de comandos. Entre ellos <code>server-site</code>. En todo caso podemos ejecutarlo desde la ventana de comandos:</p>
+<pre class="r"><code>blogdown:::serve_site()</code></pre>
+<p>Y nos arranca el servidor de prueba local del blog. que podemos ver en la ventana de RSTUDI Viewer o en el navegador poniendo la dirección local:<a href="http://127.0.0.1:4321//" class="uri">http://127.0.0.1:4321//</a></p>
+</div>
+</div>
+<div id="personalizar" class="section level1">
+<h1>Personalizar</h1>
+<p>Si todo ha ido bien, veremos un ejemplo de web, con las paginas por defecto del theme seleccionado, que nos toca personalizar. Esto ya dependerá de cada theme, pero en lineas generales existe siempre un fichero en el raiz de nuestro proyecto actual que será <code>config.toml</code>. En este fichero están lo prarmetros de configuración del theme, como el idioma, el titulo, subtitulos, menus, enlaces.</p>
+<p>Por ejemplo si usamos una plantilla sencilla como la Amnix la el fichero <code>config.toml</code> inicial es:</p>
+<pre><code>baseURL = &quot;/&quot;
+languageCode = &quot;es&quot;
+title = &quot;RqR&quot;
+theme = &quot;Amnix&quot;
+paginate = 10
+ignoreFiles = [&quot;\\.Rmd$&quot;, &quot;\\.Rmarkdown$&quot;, &quot;_files$&quot;, &quot;_cache$&quot;]
+defaultContentLanguage = &quot;es&quot;
+[Params]
+  description = &quot;Responsive and configurable Hugo theme&quot;
+  homeLayout = &quot;2 columns + sidebar&quot;
+  listLayout = &quot;2 columns + sidebar&quot;
+  singleLayout = &quot;content + sidebar&quot;
+  mainSections = [&quot;post&quot;]
+
+[Params.Widgets]
+  recent = true
+  recentNum = 5
+  recentDate = true
+  categories = true
+  tags = true
+
+[Params.Share]
+  facebook = true
+  twitter = true
+  reddit = true
+</code></pre>
+</div>
+<div id="crear-una-cuenta-en-netlify" class="section level1">
+<h1>Crear una cuenta en Netlify</h1>
+<p>Estos pasos son relativamente sencillos, para ello:</p>
+<pre><code>Crea un usuario
+Elige el método para actualizar tu página deploy method: manual o Git</code></pre>
+<p>La manera más eficiente de actualizar la página web es haciendo uso de GitHub. Esta es la razón por la que hemos empezado creando el proyecto primero en git. No obstante algo más sencillo es volcar la carpeta public que se creará cada vez aue renderices el blog en local y llevarla manualmente a Netlify. Credits to: Amber</p>
+<p>Credits to: Amber</p>
+<p>Para usar Git (lo recomendado): Credits to: Amber</p>
+<p>Cambia el dominio a: foodomin.netlify.com</p>
+<p>El último paso es modificar la configuración para el deploy, para que todo funcione correctamente asegúrate que la versión de hugo coincide con la que tienes instalada en tu ordenador:</p>
+<p>¡Listo! Ya has publicado por primera vez tu blog. Para añadir nuevos post y configurar a tu gusto todas las características lee el manual de Blogdown.</p>
+</div>
+<div id="enlaces" class="section level1">
+<h1>Enlaces</h1>
+<p><a href="https://notes.peter-baumgartner.net/tutorial/blogdown-tutorial-part-3/" class="uri">https://notes.peter-baumgartner.net/tutorial/blogdown-tutorial-part-3/</a></p>
+</div>
