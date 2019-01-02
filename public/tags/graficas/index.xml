@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Graficas on RqR</title>
+    <link>/tags/graficas/</link>
+    <description>Recent content in Graficas on RqR</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>es</language>
+    <copyright>&amp;copy; 2018 VilBer</copyright>
+    <lastBuildDate>Tue, 18 Dec 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/graficas/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Primera prueba</title>
+      <link>/post/primera-cosa/</link>
+      <pubDate>Tue, 18 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/primera-cosa/</guid>
+      <description>Esto es lo que quieroNada era verdad hasta que llegaste tu;
+y&amp;lt;-rnorm(1040)hist(y,col=&amp;quot;red&amp;quot;)</description>
+    </item>
+    
+  </channel>
+</rss>

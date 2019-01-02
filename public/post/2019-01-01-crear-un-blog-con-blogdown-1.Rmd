@@ -1,0 +1,10 @@
+---
+title: Crear un blog con blogdown (1)
+author: FVB
+date: '2019-01-01'
+slug: crear-un-blog-con-blogdown-1
+categories:
+  - R
+  - blog
+tags: []
+---

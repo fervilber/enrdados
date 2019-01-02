@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Mathjax on RqR</title>
+    <link>/tags/mathjax/</link>
+    <description>Recent content in Mathjax on RqR</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>es</language>
+    <copyright>&amp;copy; 2018 VilBer</copyright>
+    <lastBuildDate>Sat, 14 Apr 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/mathjax/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>MathJax</title>
+      <link>/post/mathjax/</link>
+      <pubDate>Sat, 14 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/mathjax/</guid>
+      <description>&lt;p&gt;MathJax JavaScript library allows you to include mathematics in your web pages for viewing in any modern browser.&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>
