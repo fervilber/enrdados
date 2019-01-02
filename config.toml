@@ -1,5 +1,5 @@
 baseurl = "/"
-title = "RqR"
+title = "enRdados"
 languageCode = "es"
 paginate = "10" # Number of posts per page
 theme = "mainroad"
