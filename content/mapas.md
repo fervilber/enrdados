@@ -1,10 +1,10 @@
 ---
-title: About Hugo
-date: 2014-04-09
+title: Mapas
+date: 2018-04-09
 menu: main
 ---
 
-Hugo is a static site engine written in Go.
+# Chuleta de mapas en R
 
 
 It makes use of a variety of open source projects including:
