@@ -1,32 +1,28 @@
 ---
-title: Sobre Hugo
-date: 2014-04-09
+title: Sobre mi
+date: 2018-12-10
 authorbox: false
 sidebar: false
 menu: main
 ---
 
-Hugo es a static site engine written in Go.
+## Por qué un blog de R
 
+Aunque llevo varios años usando R, ha sido este 2018, después de acudir a un congreso de entusiastas usuarios de R en Murcia cuando me he decidido a poner cosas en el blog.
 
-It makes use of a variety of open source projects including:
+Es una manera de difundir conocimiento, dudas, e inquietudes que me ha parecido intersante.
 
-* [Cobra](https://github.com/spf13/cobra)
-* [Viper](https://github.com/spf13/viper)
-* [J Walter Weatherman](https://github.com/spf13/jWalterWeatherman)
-* [Cast](https://github.com/spf13/cast)
+## Quiés soy
 
-Learn more and contribute on [GitHub](https://github.com/spf13).
+Fundamentalmente una persona.. aunque parezca mentira.
 
-## Setup
+Puedes ver otros proyectos en:
 
-Some fun facts about [Hugo](http://gohugo.io/):
+* [gitHub](https://github.com/fervilber)
+* [facebook](https://github.com/spf13/viper)
+* [www.gritos.org](www.gritos.org)
 
-* Built in [Go](http://golang.org/)
-* Loosely inspired by [Jekyll](http://jekyllrb.com/)
-* Primarily developed by [spf13](http://spf13.com/) on the train while commuting to and from Manhattan.
-* Coded in [Vim](http://vim.org) using [spf13-vim](http://vim.spf13.com/)
+Muchas Gracias a todos y a divertirse!
 
-Have questions or suggestions? Feel free to [open an issue on GitHub](https://github.com/spf13/hugo/issues/new) or [ask me on Twitter](https://twitter.com/spf13).
+![gritos](gritos.jpg)
 
-Thanks for reading!

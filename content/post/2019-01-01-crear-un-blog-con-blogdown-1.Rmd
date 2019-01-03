@@ -109,9 +109,20 @@ Para usar Git (lo recomendado): Credits to: Amber
 
 Cambia el dominio a: foodomin.netlify.com
 
+## cambiar la versión de Hugo
 El último paso es modificar la configuración para el deploy, para que todo funcione correctamente asegúrate que la versión de hugo coincide con la que tienes instalada en tu ordenador:
 
 ¡Listo! Ya has publicado por primera vez tu blog. Para añadir nuevos post y configurar a tu gusto todas las características lee el manual de Blogdown.
 
+## themes
+algunos themes que he probado:
+
+*hyde-hyde
+*mainroad
+*amnix
+
+
 # Enlaces
-https://notes.peter-baumgartner.net/tutorial/blogdown-tutorial-part-3/
+
+*<https://bookdown.org/yihui/blogdown/netlify.html>
+* https://notes.peter-baumgartner.net/tutorial/blogdown-tutorial-part-3/

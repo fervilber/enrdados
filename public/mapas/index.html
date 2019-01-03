@@ -1,330 +1,318 @@
 <!DOCTYPE html>
-<html lang="en">
-    
-    
-
-
-    <head>
-    <link href="https://gmpg.org/xfn/11" rel="profile">
-    <meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta http-equiv="Cache-Control" content="public" />
-<!-- Enable responsiveness on mobile devices -->
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.53" />
-
-    
-    
-    
-
-<title>Mapas • Title</title>
-
-
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Mapas"/>
-<meta name="twitter:description" content="Chuleta de mapas en R It makes use of a variety of open source projects including:
- Cobra Viper J Walter Weatherman Cast  Learn more and contribute on GitHub.
-Setup Some fun facts about Hugo:
- Built in Go Loosely inspired by Jekyll Primarily developed by spf13 on the train while commuting to and from Manhattan. Coded in Vim using spf13-vim  Have questions or suggestions? Feel free to open an issue on GitHub or ask me on Twitter."/>
-
-<meta property="og:title" content="Mapas" />
-<meta property="og:description" content="Chuleta de mapas en R It makes use of a variety of open source projects including:
- Cobra Viper J Walter Weatherman Cast  Learn more and contribute on GitHub.
-Setup Some fun facts about Hugo:
- Built in Go Loosely inspired by Jekyll Primarily developed by spf13 on the train while commuting to and from Manhattan. Coded in Vim using spf13-vim  Have questions or suggestions? Feel free to open an issue on GitHub or ask me on Twitter." />
+<html class="no-js" lang="es">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>R Mapas</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+	<meta name="generator" content="Hugo 0.53" />
+	<meta property="og:title" content="R Mapas" />
+<meta property="og:description" content="Chuleta rápida para hacer mapas con R Olga está conmigo
+enlaces recomendados para mapeo con R  https://geocompr.robinlovelace.net/intro.html hoja resumen a imprimirse siempre ejemplos devarias librerias https://paleolimbot.github.io/ggspatial/  Crear mapa estático El objetivo es crear un mapa estático, en imagen, y representar varios puntos de coordenadas. Usaremos la librería ggspatial que es una versión de ggplot especial para hacer mapas con base de mapas libres, como los osm de openlayer." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/mapas/" /><meta property="article:published_time" content="2018-04-09T00:00:00&#43;00:00"/>
-<meta property="article:modified_time" content="2018-04-09T00:00:00&#43;00:00"/><meta property="og:site_name" content="Title" />
+<meta property="article:modified_time" content="2018-04-09T00:00:00&#43;00:00"/>
 
-
-    
-
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
-
-
-
-
-
-
-
-
-<link rel="stylesheet" href="/scss/hyde-hyde.9181f25ed2263aeb878ec6f8a84f10c4ebb16150000fca8767308880bdde5ca0.css" integrity="sha256-kYHyXtImOuuHjsb4qE8QxOuxYVAAD8qHZzCIgL3eXKA=">
-
-
-<link rel="stylesheet" href="/scss/print.2744dcbf8a0b2e74f8a50e4b34e5f441be7cf93cc7de27029121c6a09f9e77bc.css" integrity="sha256-J0Tcv4oLLnT4pQ5LNOX0Qb58&#43;TzH3icCkSHGoJ&#43;ed7w=" media="print">
-
-
-
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-    <!-- Icons -->
-    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
-    <link rel="shortcut icon" href="/favicon.png">
-    
-
-</head>
-
-
-    <body class=" ">
-    
-<div class="sidebar">
-  <div class="container ">
-    <div class="sidebar-about">
-      <span class="site__title">
-        <a href="/">Title</a>
-      </span>
-      
-        
-        
-        
-        <div class="author-image">
-          <img src="//img/hugo.png" alt="Author Image" class="img--circle img--headshot element--center">
-        </div>
-        
-      
-      
-      <p class="site__description">
-        
-      </p>
-    </div>
-    <div class="collapsible-menu">
-      <input type="checkbox" id="menuToggle">
-      <label for="menuToggle">Title</label>
-      <div class="menu-content">
-        <div>
-	<ul class="sidebar-nav">
-		 
-		 
-			 
-				<li>
-					<a href="/post/migrate-from-jekyll/">
-						<span>Jekyll Migration</span>
-					</a>
-				</li>
-			 
-		 
-			 
-				<li>
-					<a href="/posts/">
-						<span>Posts</span>
-					</a>
-				</li>
-			 
-		 
-			 
-				<li>
-					<a href="/portfolio/">
-						<span>Portfolio</span>
-					</a>
-				</li>
-			 
-		 
-			 
-				<li>
-					<a href="/about/">
-						<span>About</span>
-					</a>
-				</li>
-			 
-		 
-			 
-				<li>
-					<a href="/post/goisforlovers/">
-						<span>(Hu)go Template Primer</span>
-					</a>
-				</li>
-			 
-		 
-			 
-				<li>
-					<a href="/post/hugoisforlovers/">
-						<span>Getting Started With Hugo</span>
-					</a>
-				</li>
-			 
-		 
-			 
-				<li>
-					<a href="/mapas/">
-						<span>Mapas</span>
-					</a>
-				</li>
-			 
-		 
-			 
-				<li>
-					<a href="/post/2015-07-23-r-rmarkdown/">
-						<span>R Markdown Intro</span>
-					</a>
-				</li>
-			 
-		 
-			 
-				<li>
-					<a href="/about.es/">
-						<span>Sobre Hugo</span>
-					</a>
-				</li>
-			 
+	
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="shortcut icon" href="/favicon.ico">
 		
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container">
+		<div class="logo">
+			<a class="logo__link" href="/" title="en_R_dados" rel="home">
+				<div class="logo__title">en_R_dados</div>
+				<div class="logo__tagline">Un blog de R, programación, internet y otras cosas interesantes</div>
+			</a>
+		</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menú</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item menu__item--active">
+			<a class="menu__link" href="/mapas/">R Mapas</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/2015-07-23-r-rmarkdown/">R Markdown</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/about/">Sobre mi</a>
 		</li>
 	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">R Mapas</h1>
+			<div class="post__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 16 16"><path d="m8-.0000003c-4.4 0-8 3.6-8 8 0 4.4000003 3.6 8.0000003 8 8.0000003 4.4 0 8-3.6 8-8.0000003 0-4.4-3.6-8-8-8zm0 14.4000003c-3.52 0-6.4-2.88-6.4-6.4000003 0-3.52 2.88-6.4 6.4-6.4 3.52 0 6.4 2.88 6.4 6.4 0 3.5200003-2.88 6.4000003-6.4 6.4000003zm.4-10.4000003h-1.2v4.8l4.16 2.5600003.64-1.04-3.6-2.1600003z"/></svg>
+	<time class="meta__text" datetime="2018-04-09T00:00:00">April 09, 2018</time>
 </div>
-
-        <section class="social">
-	
-	<a href="https://twitter.com/%3cusername%3e" rel="me"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a>
-	
-	
-	<a href="https://facebook.com/%3cusername%3e" rel="me"><i class="fab fa-facebook-f"></i></a>
-	
-	
-	<a href="https://github.com/%3cusername%3e" rel="me"><i class="fab fa-github fa-lg" aria-hidden="true"></i></a>
-	
-	
-	
-	
-	<a href="https://instagram.com/%3cusername%3e" rel="me"><i class="fab fa-instagram fa-lg" aria-hidden="true"></i></a>
-	
-	
-	<a href="https://linkedin.com/in/%3cusername%3e" rel="me"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a>
-	
-	
-	<a href="https://stackoverflow.com/users/%3cusername%3e" rel="me"><i class="fab fa-stack-overflow fa-lg" aria-hidden="true"></i></a>
-	
-	
-	
-	<a href="https://www.xing.com/profile/%3cusername%3e" rel="me"><i class="fab fa-xing fa-lg" aria-hidden="true"></i></a>
-	
-	
-	
-	<a href="https://t.me/%3cusername%3e" rel="me"><i class="fab fa-telegram fa-lg" aria-hidden="true"></i></a>
-	
-	
-	
-	<a href="mailto:your-email@example.com" rel="me"><i class="fas fa-at fa-lg" aria-hidden="true"></i></a>
-	
-</section>
-
-      </div>
-    </div>
-    
-<div class="copyright">
-  &copy; 2019 htr3n
-  
-    <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a>
-  
 </div>
+		</header><div class="content post__content clearfix">
+			
 
+<h1 id="chuleta-rápida-para-hacer-mapas-con-r">Chuleta rápida para hacer mapas con R</h1>
 
-<div class="builtwith">
-Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.com/htr3n/hyde-hyde">hyde-hyde</a>.
-</div>
+<p>Olga está conmigo</p>
 
-
-  </div>
-</div>
-
-        <div class="content container">
-            
-    <article>
-  <header>
-    <h1>Mapas</h1>
-    
-    
-<div class="post__meta">
-    
-    
-      <i class="fas fa-calendar-alt"></i> Apr 9, 2018
-    
-    
-    
-    
-    
-    <br/>
-    <i class="fas fa-clock"></i> 1 min read
-</div>
-
-
-  </header>
-  
-  
-  <div class="post">
-    
-
-<h1 id="chuleta-de-mapas-en-r">Chuleta de mapas en R</h1>
-
-<p>It makes use of a variety of open source projects including:</p>
+<h2 id="enlaces-recomendados-para-mapeo-con-r">enlaces recomendados para mapeo con R</h2>
 
 <ul>
-<li><a href="https://github.com/spf13/cobra">Cobra</a></li>
-<li><a href="https://github.com/spf13/viper">Viper</a></li>
-<li><a href="https://github.com/spf13/jWalterWeatherman">J Walter Weatherman</a></li>
-<li><a href="https://github.com/spf13/cast">Cast</a></li>
+<li><a href="https://geocompr.robinlovelace.net/intro.html">https://geocompr.robinlovelace.net/intro.html</a></li>
+<li><a href="https://www.maths.lancs.ac.uk/~rowlings/Teaching/UseR2012/cheatsheet.html">hoja resumen a imprimirse siempre</a></li>
+<li><a href="https://bhaskarvk.github.io/user2017.geodataviz/notebooks/02-Static-Maps.nb.html">ejemplos devarias librerias</a></li>
+<li><a href="https://paleolimbot.github.io/ggspatial/">https://paleolimbot.github.io/ggspatial/</a></li>
 </ul>
 
-<p>Learn more and contribute on <a href="https://github.com/spf13">GitHub</a>.</p>
+<h2 id="crear-mapa-estático">Crear mapa estático</h2>
 
-<h2 id="setup">Setup</h2>
+<p>El objetivo es crear un mapa estático, en imagen, y representar varios puntos de coordenadas.
+Usaremos la librería <em>ggspatial</em> que es una versión de ggplot especial para hacer mapas con base de mapas libres, como los osm de openlayer.</p>
 
-<p>Some fun facts about <a href="http://gohugo.io/">Hugo</a>:</p>
+<p>Los datos que usaremos de entrada son coordenadas de dos puntos de la ciudad de Torrevieja, Alicante.
+Las funciones de ggspatial son dos una <code>ggosm()</code> pinta mapas con base, pero es más interesante usar la funcion <code>ggplot</code> habitual y añadir como una geometría más el tipo de fondo mediante la fucnión <code>geom_osm</code> que se usa siempre dentro de <code>ggplot</code> .</p>
+
+<p>Fondos libres o bases cartográficas que podemos usar son la mismas que las definidas en la función <code>osm.types()</code> de la librería <code>rosm</code>:</p>
 
 <ul>
-<li>Built in <a href="http://golang.org/">Go</a></li>
-<li>Loosely inspired by <a href="http://jekyllrb.com/">Jekyll</a></li>
-<li>Primarily developed by <a href="http://spf13.com/">spf13</a> on the train while commuting to and from Manhattan.</li>
-<li>Coded in <a href="http://vim.org">Vim</a> using <a href="http://vim.spf13.com/">spf13-vim</a></li>
+<li>&ldquo;osm&rdquo;</li>
+<li>&ldquo;opencycle&rdquo;</li>
+<li>&ldquo;hotstyle&rdquo;</li>
+<li>&ldquo;loviniahike&rdquo;</li>
+<li>&ldquo;loviniacycle&rdquo;</li>
+<li>&ldquo;hikebike&rdquo;</li>
+<li>&ldquo;osmgrayscale&rdquo;</li>
+<li>&ldquo;stamenbw&rdquo;</li>
+<li>&ldquo;stamenwatercolor&rdquo;</li>
+<li>&ldquo;osmtransport&rdquo;</li>
+<li>&ldquo;thunderforestlandscape&rdquo;</li>
+<li>&ldquo;thunderforestoutdoors&rdquo;</li>
+<li>&ldquo;cartodark&rdquo;</li>
+<li>&ldquo;cartolight&rdquo;</li>
 </ul>
 
-<p>Have questions or suggestions? Feel free to <a href="https://github.com/spf13/hugo/issues/new">open an issue on GitHub</a> or <a href="https://twitter.com/spf13">ask me on Twitter</a>.</p>
+<p>Veamos un ejemplo</p>
 
-<p>Thanks for reading!</p>
+<pre><code class="language-r">suppressPackageStartupMessages(library(sp))
+#library(sp)
+library(ggplot2)
+library(ggspatial)
 
-  </div>
-  
 
-<div class="navigation navigation-single">
-    
-    
+## Creamos capa de puntos como data frame
+torrevieja &lt;- data.frame(lon = c(-0.69,-0.67), lat = c(37.98,37.97))
+# Convertimos la  tabla de puntos en capa espacial con sp
+capa_puntos&lt;-SpatialPoints(torrevieja)
+str(capa_puntos)
+# Pintamos el mapa generico que se define con las coordenadas anteriroes
+# pero no pinta los puntos
+ggosm(capa_puntos) + ggtitle(&quot;Plano Torrevieja&quot;)
+
+# Pintamos el mapa con los puntos
+
+ggosm(type = &quot;osm&quot;) +  # pinta el mapa base
+    ggtitle(&quot;Plano Torrevieja con puntos de interés&quot;)+
+    geom_spatial(capa_puntos,size = 4, col=&quot;red&quot;,alpha = 0.6,lty = 2)+# pinta los puntos
+    coord_map() # pinta leyenda 
+
+# la funcion ggosm es igual a geom_osm
+ggplot(capa_puntos)+
+    geom_osm(type = &quot;stamenwatercolor&quot;)+  # pinta el mapa base
+    ggtitle(&quot;Plano Torrevieja con puntos de interés y escala&quot;)+
+    geom_spatial(capa_puntos,size = 5, col=&quot;blue&quot;,alpha = 0.3)+# pinta los puntos
+    annotation_scale() # pinta leyenda 
+
+</code></pre>
+
+<h2 id="preattymap">preattymap</h2>
+
+<pre><code class="language-r">#install.packages(&quot;prettymapr&quot;)
+library(prettymapr)
+library(rosm)
+# source=&quot;dsk&quot; to use the Data Science Toolkit que evita tener que darse de alta en las APIs
+prettymap(osm.plot(searchbbox(&quot;Murcia&quot;)),source=&quot;dsk&quot;)
+
+# plano con puntos a mano
+torrevieja &lt;- data.frame(lon = c(-0.69,-0.67), lat = c(37.98,37.97))
+
+prettymap({
+  osm.plot(searchbbox(&quot;Torrevieja&quot;),zoom=13)
+  osm.points(torrevieja$lon, torrevieja$lat, pch=18, cex=2)
+},scale.pos = &quot;topleft&quot;,
+ arrow.pos=&quot;topright&quot;,
+ drawarrow=T,arrow.scale=0.5,
+ source=&quot;dsk&quot;)
+
+</code></pre>
+
+<h2 id="ejemplo-sencillo-de-mapa-fondo-con-plot">Ejemplo sencillo de mapa fondo con plot</h2>
+
+<p>Mapa sencillo con prettymapr</p>
+
+<pre><code class="language-r">
+library(prettymapr)
+torrevieja &lt;- data.frame(lon = c(-0.69,-0.67), lat = c(37.98,37.97))
+# crea una caja de pintar makebbox(norte lat, este lon, sur lat, west lon)
+#cajamapa &lt;- makebbox(max(torrevieja$lat),max(torrevieja$lon),min(torrevieja$lat),min(torrevieja$lon))
+cajamapa &lt;- makebbox(37.98,-0.67,37.97,-0.69)
+
+osm.plot(cajamapa, type=&quot;stamenbw&quot;)
+prettymap(osm.plot(cajamapa, type=&quot;osmtransport&quot;), scale.style=&quot;ticks&quot;, scale.tick.cex=0)
+
+</code></pre>
+
+<h2 id="pintar-posicion-de-fotografías">pintar posicion de fotografías</h2>
+
+<p>Vamos a leer los datos EFIX de unas fotos y pinta la posición de las mismas en una mapa estático.</p>
+
+<pre><code class="language-r"># cargamos librería que leer exif
+library(exifr)
+
+# cargamos una lista con las imagenes
+# ojo que es sensible a mayusculas o minusculas
+imagenes &lt;- list.files(&quot;imag/&quot;, pattern = &quot;*.jpg&quot;,full.names=TRUE,ignore.case = T)
+dat &lt;- exifr(imagenes)
+str(dat)
+
+library(dplyr)
+# seleccionamos la columnas justas
+dat2 &lt;- select(dat,
+    GPSLongitude, GPSLatitude)
+# pintamos los puntos de posicion de las fotos
+plot(dat2$GPSLongitude, dat2$GPSLatitude)
+
+# pintamos con fondo
+#capap&lt;-SpatialPointsDataFrame(dat2, dat[,&quot;ModifyDate&quot;])
+
+require(sf)
+capap &lt;- st_as_sf(x = dat2, 
+                        coords = c(&quot;GPSLongitude&quot;, &quot;GPSLatitude&quot;),
+                        crs = &quot;+proj=longlat +datum=WGS84&quot;)
+#plot(capap)
+#str(capap@data)
+# esto es porque da problemas con otros nombres
+#names(capap@data)&lt;-c(&quot;x&quot;,&quot;y&quot;)
+
+library(ggplot2)
+library(ggspatial)
+# la funcion ggosm es igual a geom_osm
+ggplot(capap)+
+    geom_osm(type = &quot;stamenwatercolor&quot;)+  # pinta el mapa base
+    ggtitle(&quot;Plano Torrevieja con puntos de interés y escala&quot;)+
+    geom_spatial(capap,size = 5, col=&quot;blue&quot;,alpha = 0.3)+
+geom_text(aes(x=dat2$GPSLongitude, y=dat2$GPSLatitude, label = dat[,&quot;FileName&quot;]), size=3, col=&quot;blue&quot;)+ 
+    annotation_scale()
+
+# pinta los puntos
+    geom_text(aes(x=capap$GPSLongitude+0.002, y = capap$GPSLatitude, label = dat[,&quot;FileName&quot;]), size=3, col=&quot;blue&quot;)+ 
+    annotation_scale() # pinta leyenda 
+str(capap)
+# otros graficos
+#caja&lt;-bbox(capap) # no funciona no se por qué
+caja&lt;-sp::bbox(cbind(dat2$GPSLongitude, dat2$GPSLatitude))
+
+#osm.plot(caja)
+
+prettymap({
+  osm.plot(caja, type=&quot;osm&quot;)
+  osm.points(dat2$GPSLongitude, dat2$GPSLatitude, pch=18, cex=2)
+},scale.pos = &quot;topleft&quot;,
+ arrow.pos=&quot;topright&quot;,
+ drawarrow=T,arrow.scale=0.5,
+ source=&quot;dsk&quot;)
+
+
+</code></pre>
+
+		</div>
+		
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="F.VilBer avatar" src="/gritos.jpg" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">Sobre el autor F.VilBer</span>
+	</div>
+	<div class="authorbox__description">
+		Ser humano, ingeniero de caminos, artista o eso me gustaría, padre, .. además de otras muchas cosas...
+	</div>
 </div>
 
 
-  
 
-  
-    
-
-
-</article>
-
-
-        </div>
-        
-    
-<script defer src="https://use.fontawesome.com/releases/v5.5.0/js/all.js" integrity="sha384-GqVMZRt5Gn7tB9D9q7ONtcp4gtHIUEW/yG7h98J7IpE3kpi+srfFyyB/04OV6pG0" crossorigin="anonymous"></script>
-
-
-    
-    
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
-        
-    
-    <script type="text/javascript">
-        
-        hljs.initHighlightingOnLoad();
-    </script>
-    
-
-
-
-
-    
-
-
-
-    </body>
+			</div>
+			<aside class="sidebar"><div class="widget-search widget">
+	<form class="widget-search__form" role="search" method="get" action="https://google.com/search">
+		<label>
+			<input class="widget-search__field" type="search" placeholder="SEARCH..." value="" name="q" aria-label="SEARCH...">
+		</label>
+		<input class="widget-search__submit" type="submit" value="Search">
+		<input type="hidden" name="sitesearch" value="/" />
+	</form>
+</div>
+<div class="widget-recent widget">
+	<h4 class="widget__title">Mas Recientes</h4>
+	<div class="widget__content">
+		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/post/crear-un-blog-con-blogdown-2/">Crear un blog con blogdown (2)</a></li>
+			<li class="widget__item"><a class="widget__link" href="/post/crear-un-blog-con-blogdown-1/">Crear un blog con blogdown (1)</a></li>
+			<li class="widget__item"><a class="widget__link" href="/post/primera-cosa/">Primera prueba</a></li>
+			<li class="widget__item"><a class="widget__link" href="/post/mathjax/">MathJax</a></li>
+			<li class="widget__item"><a class="widget__link" href="/post/featured-image/">Featured Image</a></li>
+		</ul>
+	</div>
+</div>
+<div class="widget-categories widget">
+	<h4 class="widget__title">Categorias</h4>
+	<div class="widget__content">
+		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/categories/blog">Blog</a></li>
+			<li class="widget__item"><a class="widget__link" href="/categories/r">R</a></li>
+		</ul>
+	</div>
+</div>
+<div class="widget-taglist widget">
+	<h4 class="widget__title">Etiquetas</h4>
+	<div class="widget__content">
+		<a class="widget-taglist__link widget__link btn" href="/tags/blogdown" title="Blogdown">Blogdown</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/graficas" title="Graficas">Graficas</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/markdown" title="Markdown">Markdown</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/mathjax" title="Mathjax">Mathjax</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/r" title="R">R</a>
+	</div>
+</div>
+</aside>
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+		<div class="footer__copyright">
+			&copy; 2019 en_R_dados.
+			<span class="footer__copyright-credits">Generado con <a href="https://bookdown.org/yihui/blogdown/" rel="nofollow noopener" target="_blank">Blogdown</a>,  <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> y <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a>.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script></body>
 </html>

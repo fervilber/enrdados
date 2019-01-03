@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Mathjax on Title</title>
+    <title>Mathjax on en_R_dados</title>
     <link>/tags/mathjax/</link>
-    <description>Recent content in Mathjax on Title</description>
+    <description>Recent content in Mathjax on en_R_dados</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en</language>
+    <language>es</language>
     <lastBuildDate>Sat, 14 Apr 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/mathjax/index.xml" rel="self" type="application/rss+xml" />
@@ -17,7 +17,7 @@
       <pubDate>Sat, 14 Apr 2018 00:00:00 +0000</pubDate>
       
       <guid>/post/mathjax/</guid>
-      <description>&lt;p&gt;MathJax JavaScript library allows you to include mathematics in your web pages for viewing in any modern browser.&lt;/p&gt;</description>
+      <description>&lt;p&gt;MathJax es una librería JavaScript que permite ver ecuaciones y notación matimática en casi cualquier navegador moderno.&lt;/p&gt;</description>
     </item>
     
   </channel>

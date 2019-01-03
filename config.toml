@@ -1,72 +1,35 @@
-## Basic Configuration
-baseurl = "/"
-languageCode = "en"
+baseurl = "https://enrdados.netlify.com/"
+title = "en_R_dados"
+languageCode = "es"
+paginate = "10" # Number of posts per page
+theme = "mainroad"
+disqusShortname = "" # Enable comments by entering your Disqus shortname
+googleAnalytics = "" # Enable Google Analytics by entering your tracking id
+ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
+defaultContentLanguage = "es"
 
-title = "Title"
-theme = "hyde-hyde"
+[Author]
+  name = "F.VilBer"
+  bio = "Ser humano, ingeniero de caminos, artista o eso me gustaría, padre, .. además de otras muchas cosas..."
+  avatar = "gritos.jpg"
 
-## Hugo Built-in Features
-# disqusShortname = "your-disqus-shortname"
-# googleAnalytics = "your-google-analytics-id"
-# enableRobotsTXT = true
+[Params]
+  subtitle = "Un blog de R, programación, internet y otras cosas interesantes" # Subtitle of your site
+  description = "Fundamentalmente hablamos de R, el lenguaje de moda" # Description of your site
+  opengraph = true
+  twitter_cards = false
+  readmore = false # Show "Read more" button in list if true
+  authorbox = true
+  post_navigation = true
+  postSections = ["post"]
 
-# summarylength = 30
+[Params.sidebar]
+  home = "right"   # Configure layout for home page
+  list = "right"   # Configure layout for list pages
+  single = "right" # Configure layout for single pages
+  # Enable widgets in given order
+  widgets = ["search", "recent", "categories", "taglist"]
 
-#paginate = 5
-
-## Site Settings
-[params]
-    author = "Author"
-    title = "Title"
-    # description = "..."
-    authorimage = "/img/hugo.png"
-    dateformat = "Jan 2, 2006"
-
-    # sidebar, copyright & license
-    copyright = "htr3n"
-    license = "CC BY-SA 4.0"
-    licenseURL = "https://creativecommons.org/licenses/by-sa/4.0"
-    showBuiltWith = true
-
-    # https://highlightjs.org
-    highlightjs = true
-    highlightjsstyle = "github"
-    
-    # please choose either GraphComment or Disqus or Utterances
-    #GraphCommentId = "..."
-    #UtterancesRepo = "..." # https://utteranc.es/
-    #UtterancesIssueTerm = "..." # pathname, url, title, og:title
-    #UtterancesTheme = "..." # github-light or github-dark
-
-    # Table of contents
-    #toc = none, "hugo", or "tocbot"
-
-## Social Accounts
-[params.social]
-    github = "<username>"
-    instagram = "<username>"
-    xing = "<username>"
-    linkedin = "<username>"
-    twitter = "<username>"
-    facebook = "<username>"
-    stackoverflow = "<username>"
-    telegram = "<username>"
-    email = "your-email@example.com"
-    # gravatar = "your-email@example.com"
-
-## Main Menu
-[[menu.main]]
-    name = "Posts"
-    weight = 100
-    identifier = "posts"
-    url = "/posts/"
-[[menu.main]]
-    name = "Portfolio"
-    identifier = "portfolio"
-    weight = 200
-    url = "/portfolio/"
-[[menu.main]]
-    name = "About"
-    identifier = "about"
-    weight = 300
-    url = "/about/"
+[Params.widgets]
+  recent_num = 5 # Set the number of articles in the "Recent articles" widget
+  tags_counter = false # Enable counter for each tag in "Tags" widget (disabled by default)

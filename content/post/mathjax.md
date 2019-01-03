@@ -8,7 +8,8 @@ tags:
   - "MathJax"
 ---
 
-MathJax JavaScript library allows you to include mathematics in your web pages for viewing in any modern browser.
+MathJax es una librería JavaScript que permite ver ecuaciones y notación matimática en casi cualquier navegador moderno.
+
 <!--more-->
 
 ## How to enable MathJax
