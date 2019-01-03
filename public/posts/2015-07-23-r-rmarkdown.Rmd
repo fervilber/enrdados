@@ -1,0 +1,39 @@
+---
+title: "R Markdown intro"
+author: "FVB"
+date: 2015-07-23T21:13:14-05:00
+categories: ["R"]
+tags: ["R Markdown", "plot"]
+authorbox: true
+sidebar: true
+menu: main
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE)
+```
+
+# R Markdown
+Esta es un documento escrito en R Markdowe que es un lenguaje de formato simple para crear documentos HTML, PDF o MS Word. Para mas detalles visitar <http://rmarkdown.rstudio.com>.
+
+Puedes introducir un párrafo de código en un RMarkdown así:
+
+```{r cars}
+summary(cars)
+fit <- lm(dist ~ speed, data = cars)
+fit
+```
+
+# Meter gráficas
+
+También puedes meter gráficas en el dopcumento generadas con R. Mira la ficgura \@ref(fig:pie) por ejemplo:
+
+```{r pie, fig.cap='A fancy pie chart.', tidy=FALSE}
+par(mar = c(0, 1, 0, 1))
+pie(
+  c(280, 60, 20),
+  c('Sky', 'Sunny side of pyramid', 'Shady side of pyramid'),
+  col = c('#0292D8', '#F7EA39', '#C4B632'),
+  init.angle = -50, border = NA
+)
+```

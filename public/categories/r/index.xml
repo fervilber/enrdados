@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>R on enRdados</title>
+    <title>R on Title</title>
     <link>/categories/r/</link>
-    <description>Recent content in R on enRdados</description>
+    <description>Recent content in R on Title</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>es</language>
-    <copyright>&amp;copy; 2018 VilBer</copyright>
+    <language>en</language>
     <lastBuildDate>Tue, 01 Jan 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/categories/r/index.xml" rel="self" type="application/rss+xml" />
@@ -22,11 +21,30 @@
     </item>
     
     <item>
+      <title>Crear un blog con blogdown (1)</title>
+      <link>/posts/crear-un-blog-con-blogdown-1/</link>
+      <pubDate>Tue, 01 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/crear-un-blog-con-blogdown-1/</guid>
+      <description>AntesLlevo ya varias semanas con la idea de crear un blog con la herramienta blogdown de Yihue Xie, la cuestión de si cambiar a blogdown no es simple, aunque tienen muchas cosas buenas, yo me apaño bastante bien con otras herramientas como docuwiki que me gustan mucho, me aportasn flexibilidad y puedo editar desde cualquier sitio, pero el problema es que para usar especificamente con R hay que pasar las gráficas, tablas y datos a estilos diferentes y eso con blogdown lo tienes de inmediato.</description>
+    </item>
+    
+    <item>
       <title>Primera prueba</title>
       <link>/post/primera-cosa/</link>
       <pubDate>Tue, 18 Dec 2018 00:00:00 +0000</pubDate>
       
       <guid>/post/primera-cosa/</guid>
+      <description>Esto es lo que quieroNada era verdad hasta que llegaste tu; eso quise decirtte
+y&amp;lt;-rnorm(1040)hist(y,col=&amp;quot;red&amp;quot;)</description>
+    </item>
+    
+    <item>
+      <title>Primera prueba</title>
+      <link>/posts/primera-cosa/</link>
+      <pubDate>Tue, 18 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/primera-cosa/</guid>
       <description>Esto es lo que quieroNada era verdad hasta que llegaste tu; eso quise decirtte
 y&amp;lt;-rnorm(1040)hist(y,col=&amp;quot;red&amp;quot;)</description>
     </item>
