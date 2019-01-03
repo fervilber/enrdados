@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Posts on en_R_dados</title>
+    <title>Posts on Mainroad</title>
     <link>/post/</link>
-    <description>Recent content in Posts on en_R_dados</description>
+    <description>Recent content in Posts on Mainroad</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>es</language>
+    <language>en-us</language>
     <lastBuildDate>Thu, 03 Jan 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
@@ -33,13 +33,12 @@ Sin embargo es mucho más sencillo y rápido hacerlo desde el terminal de RSTUYD
     </item>
     
     <item>
-      <title>Primera prueba</title>
-      <link>/post/primera-cosa/</link>
-      <pubDate>Tue, 18 Dec 2018 00:00:00 +0000</pubDate>
+      <title>Basic HTML Elements</title>
+      <link>/post/basic-elements/</link>
+      <pubDate>Mon, 16 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>/post/primera-cosa/</guid>
-      <description>Esto es lo que quieroNada era verdad hasta que llegaste tu; eso quise decirtte
-y&amp;lt;-rnorm(1040)hist(y,col=&amp;quot;red&amp;quot;)</description>
+      <guid>/post/basic-elements/</guid>
+      <description>&lt;p&gt;The main purpose of this article is to make sure that all basic HTML Elements are decorated with CSS so as to not miss any possible elements when creating new themes for Hugo.&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -58,6 +57,16 @@ y&amp;lt;-rnorm(1040)hist(y,col=&amp;quot;red&amp;quot;)</description>
       
       <guid>/post/featured-image/</guid>
       <description>&lt;p&gt;Featured images can definitely be useful in making your site pages more attractive. You can add featured image to any part of the website, on each individual content page.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Creating a New Theme</title>
+      <link>/post/creating-a-new-theme/</link>
+      <pubDate>Sun, 28 Sep 2014 00:00:00 +0000</pubDate>
+      
+      <guid>/post/creating-a-new-theme/</guid>
+      <description>Introduction This tutorial will show you how to create a simple theme in Hugo. I assume that you are familiar with HTML, the bash command line, and that you are comfortable using Markdown to format content. I&amp;rsquo;ll explain how Hugo uses templates and how you can organize your templates to create a theme. I won&amp;rsquo;t cover using CSS to style your theme.
+We&amp;rsquo;ll start with creating a new site with a very basic template.</description>
     </item>
     
   </channel>

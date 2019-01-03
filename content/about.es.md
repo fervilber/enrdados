@@ -8,7 +8,8 @@ menu: main
 
 ## Por qué un blog de R
 
-Aunque llevo varios años usando R, ha sido este 2018, después de acudir a un congreso de entusiastas usuarios de R en Murcia cuando me he decidido a poner cosas en el blog.
+
+Aunque *llevo* varios años usando R, ha sido este 2018, después de acudir a un congreso de entusiastas usuarios de R en Murcia cuando me he decidido a poner cosas en el blog.
 
 Es una manera de difundir conocimiento, dudas, e inquietudes que me ha parecido intersante.
 

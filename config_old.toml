@@ -1,19 +1,21 @@
-baseurl = "/"
-title = "Mainroad"
-languageCode = "en-us"
+baseurl = "https://enrdados.netlify.com/"
+title = "en_R_dados"
+languageCode = "es"
 paginate = "10" # Number of posts per page
-theme = "Mainroad"
+theme = "mainroad"
 disqusShortname = "" # Enable comments by entering your Disqus shortname
 googleAnalytics = "" # Enable Google Analytics by entering your tracking id
 ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
+defaultContentLanguage = "es"
+
 [Author]
-  name = "John Doe"
-  bio = "John Doe's true identity is unknown. Maybe he is a successful blogger or writer. Nobody knows it."
-  avatar = "img/avatar.png"
+  name = "F.VilBer"
+  bio = "Ser humano, ingeniero de caminos, artista o eso me gustaría, padre, .. además de otras muchas cosas..."
+  avatar = "/static/img/gritos.jpg"
 
 [Params]
-  subtitle = "Just another site" # Subtitle of your site
-  description = "John Doe's Personal blog about everything" # Description of your site
+  subtitle = "Un blog de R, programación, internet y otras cosas interesantes" # Subtitle of your site
+  description = "Fundamentalmente hablamos de R, el lenguaje de moda" # Description of your site
   opengraph = true
   twitter_cards = false
   readmore = false # Show "Read more" button in list if true
