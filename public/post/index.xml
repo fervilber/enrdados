@@ -7,10 +7,21 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>es</language>
     <copyright>&amp;copy; 2018 VilBer</copyright>
-    <lastBuildDate>Tue, 01 Jan 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 03 Jan 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Crear un blog con blogdown (2)</title>
+      <link>/post/crear-un-blog-con-blogdown-2/</link>
+      <pubDate>Thu, 03 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/crear-un-blog-con-blogdown-2/</guid>
+      <description>Parte 2Sigo tieniendo problemas en el deploy de la web, hasta que no me fuencione esto no puedo seguir con la planificación prevista.
+enlacesAquí irán los enlaces a la documentación que voy a poner
+</description>
+    </item>
     
     <item>
       <title>Crear un blog con blogdown (1)</title>
