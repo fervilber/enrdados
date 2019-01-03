@@ -5,7 +5,7 @@
     <link>/</link>
     <description>Recent content on Mainroad</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
+    <language>es</language>
     <lastBuildDate>Thu, 03 Jan 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
@@ -34,10 +34,10 @@ Sin embargo es mucho más sencillo y rápido hacerlo desde el terminal de RSTUYD
     
     <item>
       <title>Sobre mi</title>
-      <link>/about.es/</link>
+      <link>/about/</link>
       <pubDate>Mon, 10 Dec 2018 00:00:00 +0000</pubDate>
       
-      <guid>/about.es/</guid>
+      <guid>/about/</guid>
       <description>Por qué un blog de R Aunque llevo varios años usando R, ha sido este 2018, después de acudir a un congreso de entusiastas usuarios de R en Murcia cuando me he decidido a poner cosas en el blog.
 Es una manera de difundir conocimiento, dudas, e inquietudes que me ha parecido intersante.
 Quiés soy Fundamentalmente una persona.. aunque parezca mentira.
