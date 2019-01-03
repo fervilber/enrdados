@@ -1,8 +1,8 @@
 ---
 title: Sobre mi
 date: 2018-12-10
-authorbox: false
-sidebar: false
+authorbox: true
+sidebar: true
 menu: main
 ---
 
@@ -24,5 +24,5 @@ Puedes ver otros proyectos en:
 
 Muchas Gracias a todos y a divertirse!
 
-![gritos](gritos.jpg)
+![gritos](../static/img/gritos.jpg)
 
