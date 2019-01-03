@@ -1,22 +1,19 @@
 baseurl = "/"
-title = "enRdados"
-languageCode = "es"
+title = "Mainroad"
+languageCode = "en-us"
 paginate = "10" # Number of posts per page
-theme = "mainroad"
-disqusShortname = "Ferran" # Enable comments by entering your Disqus shortname
+theme = "Mainroad"
+disqusShortname = "" # Enable comments by entering your Disqus shortname
 googleAnalytics = "" # Enable Google Analytics by entering your tracking id
-ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
-defaultContentLanguage = "es"
-copyright = "&copy; 2018 VilBer"
 
 [Author]
-  name = "VilBer"
-  bio = "VilBer es un ser humano."
-  avatar = "imag/gritos.jpg"
+  name = "John Doe"
+  bio = "John Doe's true identity is unknown. Maybe he is a successful blogger or writer. Nobody knows it."
+  avatar = "img/avatar.png"
 
 [Params]
-  subtitle = "Un blog de R... el lenguaje de la ciencia" # Subtitle of your site
-  description = "Solo un blog de R" # Description of your site
+  subtitle = "Just another site" # Subtitle of your site
+  description = "John Doe's Personal blog about everything" # Description of your site
   opengraph = true
   twitter_cards = false
   readmore = false # Show "Read more" button in list if true
