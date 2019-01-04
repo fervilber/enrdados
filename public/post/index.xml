@@ -1,15 +1,26 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Posts on Mainroad</title>
+    <title>Posts on En_R_dados</title>
     <link>/post/</link>
-    <description>Recent content in Posts on Mainroad</description>
+    <description>Recent content in Posts on En_R_dados</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>es</language>
-    <lastBuildDate>Thu, 03 Jan 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 04 Jan 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Doc a 2 columnas</title>
+      <link>/post/editar-pdf-a-dos-columnas/</link>
+      <pubDate>Fri, 04 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/editar-pdf-a-dos-columnas/</guid>
+      <description>AntecedentesTrabajo con unos modelos de proyectos tipos para generar documentos. Cuando inicio un nuevo proyecto los copio y cambio cosas sobre la plantilla.
+Hoy quería hacer un documento en formato pdf con salida en dos columnas. Es algo que ya había necesitado antes, así que me puse a buscar.
+Recuerdo que me costó unas horas de investigación en su día, pero di con la tecla y por eso lo pongo en el blog, para que a otros les sea más facil.</description>
+    </item>
     
     <item>
       <title>Crear un blog con blogdown (2)</title>

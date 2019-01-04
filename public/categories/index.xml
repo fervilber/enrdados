@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Categories on Mainroad</title>
+    <title>Categories on En_R_dados</title>
     <link>/categories/</link>
-    <description>Recent content in Categories on Mainroad</description>
+    <description>Recent content in Categories on En_R_dados</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>es</language>
     <lastBuildDate>Tue, 01 Jan 2019 00:00:00 +0000</lastBuildDate>
@@ -21,11 +21,29 @@
     </item>
     
     <item>
+      <title>Bookdown</title>
+      <link>/categories/bookdown/</link>
+      <pubDate>Fri, 04 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/categories/bookdown/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Development</title>
       <link>/categories/development/</link>
       <pubDate>Mon, 16 Apr 2018 00:00:00 +0000</pubDate>
       
       <guid>/categories/development/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Edicion</title>
+      <link>/categories/edicion/</link>
+      <pubDate>Fri, 04 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/categories/edicion/</guid>
       <description></description>
     </item>
     

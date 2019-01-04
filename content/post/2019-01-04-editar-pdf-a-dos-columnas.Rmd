@@ -1,0 +1,65 @@
+---
+title: Doc a 2 columnas
+author: FVB
+date: '2019-01-04'
+slug: editar-pdf-a-dos-columnas
+categories:
+  - edicion
+  - bookdown
+tags:
+  - pdf columna R bookdown
+description: ''
+thumbnail: ''
+---
+
+## Antecedentes
+Trabajo con unos modelos de proyectos tipos para generar documentos. Cuando inicio un nuevo proyecto los copio y cambio cosas sobre la plantilla.
+
+Hoy quería hacer un documento en formato pdf con salida en **dos columnas**. Es algo que ya había necesitado antes, así que me puse a buscar.
+
+Recuerdo que me costó unas horas de investigación en su día, pero di con la tecla y por eso lo pongo en el blog, para que a otros les sea más facil.
+
+## BOOKDOWN
+Casi todos los documentos que hago en RSTUDIO que requieren salida en papel o pdf los hago con la plantilla de bookdown a la que añado algunas cosas en $LaTeX$  si necesito configurar encabezados o pies de página.
+
+## 2 columnas
+Para hacer un documento a dos columnas hay que añadir simplemente dos líneas al encabezado YAML del fichero `index.Rmd`.
+
+ * una para incluir el paquete de $LaTeX$ lipsum `- \usepackage{lipsum}` y
+ * otra para especificar las dos columnas con la marca de YAML: `classoption: twocolumn`
+
+```{r eval=FALSE, echo=TRUE}
+--- 
+title: "Informe tipo 2"
+author: "FVB (fervilber@gmail.com)"
+date: "`r Sys.Date()`"
+header-includes:
+- \usepackage[utf8]{inputenc}
+- \usepackage{graphicx}
+- \usepackage{lipsum}
+output: bookdown::pdf_book
+documentclass: article
+bibliography: [book.bib, packages.bib]
+biblio-style: apalike
+link-citations: yes
+description: "Informe tipo 2"
+lang: es
+geometry: 
+- tmargin = 2 cm
+- bmargin= 3 cm
+- lmargin= 2.5 cm
+- rmargin= 2 cm
+linkcolor: blue
+urlcolor: blue
+citecolor: red
+mainfont: "Bookman"
+papersize: a4
+fontsize: 10pt
+classoption: twocolumn
+---
+```
+
+Así que, por ejemplo, el encabezado YAML del fichero quedaría así:
+![ejemplo de salida a dos col en pdf](/post/2019-01-04-editar-pdf-a-dos-columnas_files/dos_col.png)
+
+El fichero index.Rmd es el inicio del libro y el que contiene la configuración gerneral.

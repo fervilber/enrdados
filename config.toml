@@ -1,5 +1,5 @@
-baseurl = "/"
-title = "Mainroad"
+baseurl = "https://enrdados.netlify.com"
+title = "En_R_dados"
 languageCode = "es"
 defaultContentLanguage = "es"
 paginate = "10" # Number of posts per page
@@ -8,20 +8,22 @@ disqusShortname = "" # Enable comments by entering your Disqus shortname
 googleAnalytics = "" # Enable Google Analytics by entering your tracking id
 ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
 [Author]
-  name = "John Doe"
-  bio = "John Doe's true identity is unknown. Maybe he is a successful blogger or writer. Nobody knows it."
-  avatar = "img/avatar.png"
+  name = "F.Vilber"
+  bio = "F.VilBer true identity is unknown. Maybe he is a successful blogger or writer. Nobody knows it."
+  avatar = "img/gritos.png"
 
 [Params]
-  subtitle = "Just another site" # Subtitle of your site
-  description = "John Doe's Personal blog about everything" # Description of your site
+  subtitle = "Hablamos de R, red y otras cosas..." # Subtitle of your site
+  description = "Pagina de programación en R" # Description of your site
   opengraph = true
   twitter_cards = false
   readmore = false # Show "Read more" button in list if true
   authorbox = true
   post_navigation = true
   postSections = ["post"]
-
+  dateformat = "2006-01-02" # change the format of dates
+  toc = true
+  
 [Params.sidebar]
   home = "right"   # Configure layout for home page
   list = "right"   # Configure layout for list pages

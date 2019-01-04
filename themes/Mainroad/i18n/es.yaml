@@ -9,15 +9,15 @@
 
 # Post meta
 - id: meta_lastmod
-  translation: "Ultima modificación"
+  translation: "Última modificación"
 
 # Table of Contents
 - id: toc_title
-  translation: "Indice"
+  translation: "Índice"
 
 # Post nav
 - id: post_nav_prev
-  translation: "Previa"
+  translation: "Anterior"
 
 - id: post_nav_next
   translation: "Siguiente"
@@ -35,15 +35,15 @@
 
 # Search widget
 - id: search_placeholder
-  translation: SEARCH...
+  translation: "Buscar..."
 
 # Categories widget
 - id: categories_title
-  translation: "Categorias"
+  translation: "Categorías"
 
 # Recent Posts widget
 - id: recent_title
-  translation: "Mas Recientes"
+  translation: "Más Recientes"
 
 # Social widget
 - id: social_title

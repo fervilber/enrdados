@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Tags on Mainroad</title>
+    <title>Tags on En_R_dados</title>
     <link>/tags/</link>
-    <description>Recent content in Tags on Mainroad</description>
+    <description>Recent content in Tags on En_R_dados</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>es</language>
     <lastBuildDate>Mon, 16 Apr 2018 00:00:00 +0000</lastBuildDate>
@@ -53,6 +53,15 @@
       <pubDate>Sat, 14 Apr 2018 00:00:00 +0000</pubDate>
       
       <guid>/tags/mathjax/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Pdf Columna R Bookdown</title>
+      <link>/tags/pdf-columna-r-bookdown/</link>
+      <pubDate>Fri, 04 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/pdf-columna-r-bookdown/</guid>
       <description></description>
     </item>
     
