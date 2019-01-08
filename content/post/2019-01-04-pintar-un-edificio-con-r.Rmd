@@ -1,0 +1,102 @@
+---
+title: pintar una ciudad con R
+author: F.Vilber
+date: '2019-01-04'
+slug: pintar-un-edificio-con-r
+categories:
+  - gráficos
+tags:
+  - dibujo
+  - gráficas
+description: ''
+thumbnail: ''
+editor_options: 
+  chunk_output_type: console
+---
+
+## Objetivo
+
+Hace poco me acordé de un programa escrito en processing, un lenguaje gráfico fantástico en el que conseguían hacer el sky line de una ciudad completamente aleatori mediante programación.
+
+Siempre he querido trasladarlo a R, pero hace tanto tiempo que no veo nada de processing que hasta he perdido el enlace. Empezaremos de cero.
+
+# Pintar un rectángulo
+Empezaremos creando un simple rectangulo en una gráfica.
+
+```{r}
+dibu_rectangulo<-function (npisos,nvent){
+          h<-3.5
+          altura<-h*npisos
+          ancho<-nvent*3
+          x_ver<-c(0,ancho,ancho,0,0)
+          y_ver<-c(0,0,altura,altura,0)
+          plot(x_ver,y_ver,type="l", xlim = c(0,max(altura,ancho)))
+          lines(x_ver,y_ver,lwd=2)
+          margen=1
+          for (i in 2:npisos-1){
+            x1<-c(0,ancho)
+            y0<-i*h
+            y1<-c(y0,y0)
+            lines(x1,y1,col="grey")
+            for (k in 0:(nvent-1)){
+              vx<-c(0+margen,1+margen,1+margen,0+margen,0+margen)
+              y0v<-y0+margen
+              vy<-c(y0v,y0v,y0v+1,y0v+1,y0v)
+              vx<-vx+3*k
+              lines(vx,vy,lwd=2,bg="wheat")
+            }
+          }
+          
+}
+
+dibu_rectangulo(10,3)
+```
+
+## Crear una funcion para dibujar un edificio
+Vamos a complicar la cosaun poco. Empezaremos por cambiar la función de pintado de `lines` a `rect`, esto nos ahorrará código. La función rect pinta un rectangulo a partir de los 4 vertices `rect(xleft, ybottom, xright, ytop)`
+
+También vamos a introducir algunas opciones nuevas como trasladar el rectangolo principal o edificio a un origen distinto de (0,0), que llamaremos (x0,y0).
+
+
+```{r}
+# usaremos la funcion rect
+# rect(xleft, ybottom, xright, ytop, density = NULL, angle = 45,
+#     col = NA, border = NULL, lty = par("lty"), lwd = par("lwd"),
+
+edificio2<-function (npisos,nvent,x0=0,y0=0,add=T){
+          h<-3.5
+          altura<-h*npisos
+          ancho<-nvent*3
+          x_ver<-c(x0,ancho+x0,ancho+x0,x0)
+          y_ver<-c(y0,y0,altura+y0,altura+y0)
+          if(add == T){
+            plot(x_ver,y_ver,type="l", xlim = c(x0,max(x0+altura,x0+ancho)))
+                  }
+          rect(x0, y0, ancho+x0,altura+y0, col = "grey")
+          margen=1
+          for (i in 2:npisos-1){
+            x1<-c(x0,x0+ancho)
+            y_0<-i*h+y0
+            y1<-c(y_0,y_0)
+            lines(x1,y1)
+            for (k in 0:(nvent-1)){
+              #vx<-c(0+margen,1+margen,1+margen,0+margen)
+              y0v<-y_0+margen
+              rect(margen+3*k+x0,y0v,x0+1+margen+3*k,y0v+1, col = "black")
+              #lines(vx,vy,lwd=2,bg="wheat")
+            }
+          }
+          
+}
+# creamos el primer edificio
+edificio2(34,5)
+# añadimos varios más
+edificio2(15,3,13,0,add=F)
+edificio2(22,2,23,0,add=F)
+edificio2(15,6,34,0,add=F)
+edificio2(23,3,55,0,add=F)
+edificio2(4,6,60,0,add=F)
+
+```
+Bueno la cosa ya mola más.
+

@@ -8,13 +8,6 @@ toc: true
 ***
 Chuleta rápida para hacer mapas con R
 
-## enlaces recomendados para mapeo con R
-
- - [https://geocompr.robinlovelace.net/intro.html](https://geocompr.robinlovelace.net/intro.html)
- - [hoja resumen a imprimirse siempre](https://www.maths.lancs.ac.uk/~rowlings/Teaching/UseR2012/cheatsheet.html)
- - [ejemplos devarias librerias](https://bhaskarvk.github.io/user2017.geodataviz/notebooks/02-Static-Maps.nb.html)
- - [https://paleolimbot.github.io/ggspatial/](https://paleolimbot.github.io/ggspatial/)
- 
 ## Crear mapa estático
 
 El objetivo es crear un mapa estático, en imagen, y representar varios puntos de coordenadas.
@@ -175,3 +168,11 @@ prettymap({
 
 
 ```
+
+## enlaces recomendados para mapeo con R
+
+ - [https://geocompr.robinlovelace.net/intro.html](https://geocompr.robinlovelace.net/intro.html)
+ - [hoja resumen a imprimirse siempre](https://www.maths.lancs.ac.uk/~rowlings/Teaching/UseR2012/cheatsheet.html)
+ - [ejemplos devarias librerias](https://bhaskarvk.github.io/user2017.geodataviz/notebooks/02-Static-Maps.nb.html)
+ - [https://paleolimbot.github.io/ggspatial/](https://paleolimbot.github.io/ggspatial/)
+ 

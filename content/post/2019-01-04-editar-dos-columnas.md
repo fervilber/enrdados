@@ -13,24 +13,26 @@ tags:
 toc: true
 ---
 
-## Antecedentes
-Trabajo con unos modelos de proyectos tipos para generar documentos. Cuando inicio un nuevo proyecto los copio y cambio cosas sobre la plantilla.
 
-Hoy quería hacer un documento en formato pdf con salida en **dos columnas**. Es algo que ya había necesitado antes, así que me puse a buscar.
+Suelo trabajar con unos modelos de proyecto tipo para generar documentos. Cuando inicio un nuevo proyecto los copio y cambio cosas sobre estas plantillas.
+
+Hoy quería hacer un documento en formato `pdf` con salida en **dos columnas**. Es algo que ya había necesitado antes, así que me puse a buscar.
 
 <!--more-->
+![ejemplo de salida a dos col en pdf](/post/2019-01-04-editar-pdf-a-dos-columnas_files/dos_col.png)
 
-Recuerdo que me costó unas horas de investigación en su día, pero di con la tecla y por eso lo pongo en el blog, para que a otros les sea más facil.
+Recuerdo que me costó unas horas de investigación en su día, pero di con la tecla y por eso lo pongo en el blog, para que a otros les sea más fácil.
 
-## Bookdown
-Casi todos los documentos que hago en RSTUDIO que requieren salida en papel o pdf los hago con la plantilla de bookdown a la que añado algunas cosas en $LaTeX$  si necesito configurar encabezados o pies de página.
+## Antecedentes
+Casi todos los documentos que hago en RSTUDIO y que requieren salida en papel o pdf los hago con la plantilla de [bookdown](https://bookdown.org/) a la que añado algunas cosas en *LaTeX*  si necesito configurar encabezados o pies de página.
 
-## 2 columnas
-Para hacer un documento a dos columnas hay que añadir simplemente dos líneas al encabezado YAML del fichero `index.Rmd`.
+## Salida a 2 columnas
+Para hacer un documento a **dos columnas** hay que añadir simplemente dos líneas al encabezado *YAML* del fichero `index.Rmd`. El fichero `index.Rmd` es el inicio del libro (`bookdown`) y el que contiene la configuración general.
 
- * una para incluir el paquete de $LaTeX$ lipsum `- \usepackage{lipsum}` y
+ * una para incluir el paquete de LaTeX *lipsum* `- \usepackage{lipsum}` y
  * otra para especificar las dos columnas con la marca de YAML: `classoption: twocolumn`
 
+Quedaría algo así (ver última línea):
 ```
 --- 
 title: "Informe tipo 2"
@@ -62,7 +64,5 @@ classoption: twocolumn
 ---
 ```
 
-Así que, por ejemplo, el encabezado YAML del fichero quedaría así:
-![ejemplo de salida a dos col en pdf](/post/2019-01-04-editar-pdf-a-dos-columnas_files/dos_col.png)
+Con esto he conseguido un pdf a dos columnas como la imagen de arriba.
 
-El fichero index.Rmd es el inicio del libro y el que contiene la configuración gerneral.

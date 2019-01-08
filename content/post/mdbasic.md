@@ -15,13 +15,13 @@ toc: true
 
 El principal propósito de este artículo es tener a mano un resumen para los formatos básicos de markdown.
 
-RSTUDIO pone a disposición de los usuarios una chuleta resumida muy bueno con gran parte de los formatos de sintaxis, pero creo conveniente ponerlo a mano tambien en el blog
+RSTUDIO pone a disposición de los usuarios una chuleta resumida muy bueno con gran parte de los formatos de sintaxis, pero creo conveniente ponerlo a mano también en el blog
 
 <!--more-->
 
 ## Encabecados
 
-Los encabezados se forman con con el simbolo almohadilla `#`. Repitiendo este símbolo sucesivamente hacemos los encabezados o títulos cada vez más pequeños.
+Los encabezados se forman con con el símbolo almohadilla `#`. Repitiendo este símbolo sucesivamente hacemos los encabezados o títulos cada vez más pequeños.
 
 # Título 1
 ## Título 2
@@ -51,7 +51,7 @@ Los encabezados se forman con con el simbolo almohadilla `#`. Repitiendo este s�
 
 ## Bloques de código
 
-En md para meter un bloque de código lo podemos hacer encerrando la escritura entre las los simbolos tilde 3 veces:  
+En md para meter un bloque de código lo podemos hacer encerrando la escritura entre las los símbolos tilde 3 veces:  
 
 \`\`\`
 
@@ -79,7 +79,7 @@ var s = "JavaScript syntax highlighting";
 alert(s);
 ```
 
-En Rmd que es la versión adaptada de markdown que usa RSTUDIO lo haremos con el mismo simbolo y a continuación unas llaves `{}` indicando dentro de la llave el lenguaje y muchos otros parámetros.
+En Rmd que es la versión adaptada de markdown que usa RSTUDIO lo haremos con el mismo símbolo y a continuación unas llaves `{}` indicando dentro de la llave el lenguaje y muchos otros parámetros.
 
 ## Tablas
 Las tablas que no se generan dentro de código R, pueden hacerse directamente con el formato usando el símbolo `|`.
@@ -91,7 +91,17 @@ Las tablas que no se generan dentro de código R, pueden hacerse directamente co
 | 2   | Toyota    | Camry   | 2012 |
 | 3   | Hyundai   | Elantra | 2010 |
 ```
-Que crea esto:
+Con esto:
+
+```
+| Tables      | Are           | Cool         |
+|:----------- |:-------------:| ------------:|
+| align: left | align: center | align: right |
+| align: left | align: center | align: right |
+| align: left | align: center | align: right |
+```
+
+se crea esto:
 
 | Tables      | Are           | Cool         |
 |:----------- |:-------------:| ------------:|
