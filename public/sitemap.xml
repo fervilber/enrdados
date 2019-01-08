@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>/post/resaltar-sintaxis/</loc>
+    <lastmod>2019-01-08T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/post/editar-pdf-a-dos-columnas/</loc>
     <lastmod>2019-01-04T00:00:00+00:00</lastmod>
   </url>
@@ -48,11 +53,6 @@
   </url>
   
   <url>
-    <loc>/about/</loc>
-    <lastmod>2014-04-09T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>/tags/basic-elements/</loc>
     <lastmod>2018-04-16T00:00:00+00:00</lastmod>
     <priority>0</priority>
@@ -66,13 +66,13 @@
   
   <url>
     <loc>/tags/blogdown/</loc>
-    <lastmod>2019-01-03T00:00:00+00:00</lastmod>
+    <lastmod>2019-01-08T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/categories/bookdown/</loc>
-    <lastmod>2019-01-04T00:00:00+00:00</lastmod>
+    <lastmod>2019-01-08T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -84,7 +84,7 @@
   
   <url>
     <loc>/tags/css/</loc>
-    <lastmod>2018-04-16T00:00:00+00:00</lastmod>
+    <lastmod>2019-01-08T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -102,7 +102,7 @@
   
   <url>
     <loc>/</loc>
-    <lastmod>2019-01-04T00:00:00+00:00</lastmod>
+    <lastmod>2019-01-08T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -126,7 +126,7 @@
   
   <url>
     <loc>/post/</loc>
-    <lastmod>2019-01-04T00:00:00+00:00</lastmod>
+    <lastmod>2019-01-08T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -139,6 +139,12 @@
   <url>
     <loc>/categories/r/</loc>
     <lastmod>2019-01-01T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/sintaxis/</loc>
+    <lastmod>2019-01-08T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   

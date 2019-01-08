@@ -6,10 +6,20 @@
     <description>Recent content on En_R_dados</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>es</language>
-    <lastBuildDate>Fri, 04 Jan 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 08 Jan 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Resaltar sintaxis</title>
+      <link>/post/resaltar-sintaxis/</link>
+      <pubDate>Tue, 08 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/resaltar-sintaxis/</guid>
+      <description>AntecedentesAunque conseguí que la plantilla de Hugo funcionase bien y crear un flujo correcto en el blog usando blogdown, he visto que la sintaxis que viene por defecto en los bloques de código es muy simple. Tan solo resalta en gris el bloque.
+Me gustaría, ya que esto es un blog de programación en R, que los bloques de código apareciesen con un resaltado más vivo, distinguendo incluso comandos y funciones.</description>
+    </item>
     
     <item>
       <title>Doc a 2 columnas</title>
@@ -49,11 +59,8 @@ Sin embargo es mucho más sencillo y rápido hacerlo desde el terminal de RSTUYD
       <pubDate>Mon, 10 Dec 2018 00:00:00 +0000</pubDate>
       
       <guid>/about/</guid>
-      <description>Por qué un blog de R Aunque llevo varios años usando R, ha sido este 2018, después de acudir a un congreso de entusiastas usuarios de R en Murcia cuando me he decidido a poner cosas en el blog.
-Es una manera de difundir conocimiento, dudas, e inquietudes que me ha parecido intersante.
-Quiés soy Fundamentalmente una persona.. aunque parezca mentira.
-Puedes ver otros proyectos en:
- gitHub facebook www.</description>
+      <description>Por qué un blog de R Aunque llevo varios años usando R, ha sido este 2018, después de acudir a un congreso de entusiastas usuarios de R en Murcia cuando me he decidido a iniciar este blog.
+Me animó muchoconocer a otras personas que comparten la inquietud por R, que ven en este lenguaje un elemento prometedor para realizar su trabajo, sus investigaciones, sus documentos. Y sobre todo de ver que se trata de gente maja, agradable y con ganas muchas ganas de compartir conocimiento.</description>
     </item>
     
     <item>
@@ -101,19 +108,6 @@ enlaces recomendados para mapeo con R  https://geocompr.robinlovelace.net/intro.
       <guid>/post/creating-a-new-theme/</guid>
       <description>Introduction This tutorial will show you how to create a simple theme in Hugo. I assume that you are familiar with HTML, the bash command line, and that you are comfortable using Markdown to format content. I&amp;rsquo;ll explain how Hugo uses templates and how you can organize your templates to create a theme. I won&amp;rsquo;t cover using CSS to style your theme.
 We&amp;rsquo;ll start with creating a new site with a very basic template.</description>
-    </item>
-    
-    <item>
-      <title>About Hugo</title>
-      <link>/about/</link>
-      <pubDate>Wed, 09 Apr 2014 00:00:00 +0000</pubDate>
-      
-      <guid>/about/</guid>
-      <description>Hugo is a static site engine written in Go.
-It makes use of a variety of open source projects including:
- Cobra Viper J Walter Weatherman Cast  Learn more and contribute on GitHub.
-Setup Some fun facts about Hugo:
- Built in Go Loosely inspired by Jekyll Primarily developed by spf13 on the train while commuting to and from Manhattan. Coded in Vim using spf13-vim  Have questions or suggestions?</description>
     </item>
     
   </channel>

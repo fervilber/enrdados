@@ -13,13 +13,13 @@ highlightjsLang = ["r", "yaml"]
 highlightjsTheme = "hybrid"
 
 [Author]
-  name = "F.Vilber"
-  bio = "F.VilBer true identity is unknown. Maybe he is a successful blogger or writer. Nobody knows it."
-  avatar = "img/gritos.png"
+  name = "F.VilBer"
+  bio = "Hola soy Fernando VilBer, ingeniero de caminos y entusiasta usuario de R."
+  avatar = "/img/gritos.jpg"
 
 [Params]
-  subtitle = "Hablamos de R, red y otras cosas..." # Subtitle of your site
-  description = "Pagina de programación en R" # Description of your site
+  subtitle = "Hablamos de R, programación y otras cosas..." # Subtitle of your site
+  description = "Web de usuarios de R, el lenguaje de la ciencia" # Description of your site
   opengraph = true
   twitter_cards = false
   readmore = false # Show "Read more" button in list if true
