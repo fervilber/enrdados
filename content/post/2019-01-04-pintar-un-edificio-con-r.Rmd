@@ -1,7 +1,7 @@
 ---
 title: pintar una ciudad con R
 author: F.Vilber
-date: '2019-01-04'
+date: '2019-01-08'
 slug: pintar-un-edificio-con-r
 categories:
   - gráficos

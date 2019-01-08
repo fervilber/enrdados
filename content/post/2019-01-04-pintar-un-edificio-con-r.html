@@ -1,0 +1,97 @@
+---
+title: pintar una ciudad con R
+author: F.Vilber
+date: '2019-01-08'
+slug: pintar-un-edificio-con-r
+categories:
+  - gráficos
+tags:
+  - dibujo
+  - gráficas
+description: ''
+thumbnail: ''
+editor_options: 
+  chunk_output_type: console
+---
+
+
+
+<div id="objetivo" class="section level2">
+<h2>Objetivo</h2>
+<p>Hace poco me acordé de un programa escrito en processing, un lenguaje gráfico fantástico en el que conseguían hacer el sky line de una ciudad completamente aleatori mediante programación.</p>
+<p>Siempre he querido trasladarlo a R, pero hace tanto tiempo que no veo nada de processing que hasta he perdido el enlace. Empezaremos de cero.</p>
+</div>
+<div id="pintar-un-rectangulo" class="section level1">
+<h1>Pintar un rectángulo</h1>
+<p>Empezaremos creando un simple rectangulo en una gráfica.</p>
+<pre class="r"><code>dibu_rectangulo&lt;-function (npisos,nvent){
+          h&lt;-3.5
+          altura&lt;-h*npisos
+          ancho&lt;-nvent*3
+          x_ver&lt;-c(0,ancho,ancho,0,0)
+          y_ver&lt;-c(0,0,altura,altura,0)
+          plot(x_ver,y_ver,type=&quot;l&quot;, xlim = c(0,max(altura,ancho)))
+          lines(x_ver,y_ver,lwd=2)
+          margen=1
+          for (i in 2:npisos-1){
+            x1&lt;-c(0,ancho)
+            y0&lt;-i*h
+            y1&lt;-c(y0,y0)
+            lines(x1,y1,col=&quot;grey&quot;)
+            for (k in 0:(nvent-1)){
+              vx&lt;-c(0+margen,1+margen,1+margen,0+margen,0+margen)
+              y0v&lt;-y0+margen
+              vy&lt;-c(y0v,y0v,y0v+1,y0v+1,y0v)
+              vx&lt;-vx+3*k
+              lines(vx,vy,lwd=2,bg=&quot;wheat&quot;)
+            }
+          }
+          
+}
+
+dibu_rectangulo(10,3)</code></pre>
+<p><img src="/post/2019-01-04-pintar-un-edificio-con-r_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<div id="crear-una-funcion-para-dibujar-un-edificio" class="section level2">
+<h2>Crear una funcion para dibujar un edificio</h2>
+<p>Vamos a complicar la cosaun poco. Empezaremos por cambiar la función de pintado de <code>lines</code> a <code>rect</code>, esto nos ahorrará código. La función rect pinta un rectangulo a partir de los 4 vertices <code>rect(xleft, ybottom, xright, ytop)</code></p>
+<p>También vamos a introducir algunas opciones nuevas como trasladar el rectangolo principal o edificio a un origen distinto de (0,0), que llamaremos (x0,y0).</p>
+<pre class="r"><code># usaremos la funcion rect
+# rect(xleft, ybottom, xright, ytop, density = NULL, angle = 45,
+#     col = NA, border = NULL, lty = par(&quot;lty&quot;), lwd = par(&quot;lwd&quot;),
+
+edificio2&lt;-function (npisos,nvent,x0=0,y0=0,add=T){
+          h&lt;-3.5
+          altura&lt;-h*npisos
+          ancho&lt;-nvent*3
+          x_ver&lt;-c(x0,ancho+x0,ancho+x0,x0)
+          y_ver&lt;-c(y0,y0,altura+y0,altura+y0)
+          if(add == T){
+            plot(x_ver,y_ver,type=&quot;l&quot;, xlim = c(x0,max(x0+altura,x0+ancho)))
+                  }
+          rect(x0, y0, ancho+x0,altura+y0, col = &quot;grey&quot;)
+          margen=1
+          for (i in 2:npisos-1){
+            x1&lt;-c(x0,x0+ancho)
+            y_0&lt;-i*h+y0
+            y1&lt;-c(y_0,y_0)
+            lines(x1,y1)
+            for (k in 0:(nvent-1)){
+              #vx&lt;-c(0+margen,1+margen,1+margen,0+margen)
+              y0v&lt;-y_0+margen
+              rect(margen+3*k+x0,y0v,x0+1+margen+3*k,y0v+1, col = &quot;black&quot;)
+              #lines(vx,vy,lwd=2,bg=&quot;wheat&quot;)
+            }
+          }
+          
+}
+# creamos el primer edificio
+edificio2(34,5)
+# añadimos varios más
+edificio2(15,3,13,0,add=F)
+edificio2(22,2,23,0,add=F)
+edificio2(15,6,34,0,add=F)
+edificio2(23,3,55,0,add=F)
+edificio2(4,6,60,0,add=F)</code></pre>
+<p><img src="/post/2019-01-04-pintar-un-edificio-con-r_files/figure-html/unnamed-chunk-2-1.png" width="672" /> Bueno la cosa ya mola más.</p>
+</div>
+</div>

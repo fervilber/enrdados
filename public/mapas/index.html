@@ -10,8 +10,8 @@
 	<meta name="generator" content="Hugo 0.53" />
 	<meta property="og:title" content="R Mapas" />
 <meta property="og:description" content="Chuleta rápida para hacer mapas con R
-enlaces recomendados para mapeo con R  https://geocompr.robinlovelace.net/intro.html hoja resumen a imprimirse siempre ejemplos devarias librerias https://paleolimbot.github.io/ggspatial/  Crear mapa estático El objetivo es crear un mapa estático, en imagen, y representar varios puntos de coordenadas. Usaremos la librería ggspatial que es una versión de ggplot especial para hacer mapas con base de mapas libres, como los osm de openlayer.
-Los datos que usaremos de entrada son coordenadas de dos puntos de la ciudad de Torrevieja, Alicante." />
+Crear mapa estático El objetivo es crear un mapa estático, en imagen, y representar varios puntos de coordenadas. Usaremos la librería ggspatial que es una versión de ggplot especial para hacer mapas con base de mapas libres, como los osm de openlayer.
+Los datos que usaremos de entrada son coordenadas de dos puntos de la ciudad de Torrevieja, Alicante. Las funciones de ggspatial son dos una ggosm() pinta mapas con base, pero es más interesante usar la funcion ggplot habitual y añadir como una geometría más el tipo de fondo mediante la fucnión geom_osm que se usa siempre dentro de ggplot ." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/mapas/" /><meta property="article:published_time" content="2018-04-09T00:00:00&#43;00:00"/>
 <meta property="article:modified_time" content="2018-04-09T00:00:00&#43;00:00"/>
@@ -78,11 +78,11 @@ Los datos que usaremos de entrada son coordenadas de dos puntos de la ciudad de 
 <ul>
 <li>
 <ul>
-<li><a href="#enlaces-recomendados-para-mapeo-con-r">enlaces recomendados para mapeo con R</a></li>
 <li><a href="#crear-mapa-estático">Crear mapa estático</a></li>
 <li><a href="#preattymap">preattymap</a></li>
 <li><a href="#ejemplo-sencillo-de-mapa-fondo-con-plot">Ejemplo sencillo de mapa fondo con plot</a></li>
 <li><a href="#pintar-posicion-de-fotografías">pintar posicion de fotografías</a></li>
+<li><a href="#enlaces-recomendados-para-mapeo-con-r">enlaces recomendados para mapeo con R</a></li>
 </ul></li>
 </ul>
 </nav>
@@ -94,15 +94,6 @@ Los datos que usaremos de entrada son coordenadas de dos puntos de la ciudad de 
 <hr />
 
 <p>Chuleta rápida para hacer mapas con R</p>
-
-<h2 id="enlaces-recomendados-para-mapeo-con-r">enlaces recomendados para mapeo con R</h2>
-
-<ul>
-<li><a href="https://geocompr.robinlovelace.net/intro.html">https://geocompr.robinlovelace.net/intro.html</a></li>
-<li><a href="https://www.maths.lancs.ac.uk/~rowlings/Teaching/UseR2012/cheatsheet.html">hoja resumen a imprimirse siempre</a></li>
-<li><a href="https://bhaskarvk.github.io/user2017.geodataviz/notebooks/02-Static-Maps.nb.html">ejemplos devarias librerias</a></li>
-<li><a href="https://paleolimbot.github.io/ggspatial/">https://paleolimbot.github.io/ggspatial/</a></li>
-</ul>
 
 <h2 id="crear-mapa-estático">Crear mapa estático</h2>
 
@@ -264,6 +255,15 @@ prettymap({
 
 </code></pre>
 
+<h2 id="enlaces-recomendados-para-mapeo-con-r">enlaces recomendados para mapeo con R</h2>
+
+<ul>
+<li><a href="https://geocompr.robinlovelace.net/intro.html">https://geocompr.robinlovelace.net/intro.html</a></li>
+<li><a href="https://www.maths.lancs.ac.uk/~rowlings/Teaching/UseR2012/cheatsheet.html">hoja resumen a imprimirse siempre</a></li>
+<li><a href="https://bhaskarvk.github.io/user2017.geodataviz/notebooks/02-Static-Maps.nb.html">ejemplos devarias librerias</a></li>
+<li><a href="https://paleolimbot.github.io/ggspatial/">https://paleolimbot.github.io/ggspatial/</a></li>
+</ul>
+
 		</div>
 		
 	</article>
@@ -298,10 +298,10 @@ prettymap({
 	<div class="widget__content">
 		<ul class="widget__list">
 			<li class="widget__item"><a class="widget__link" href="/post/resaltar-sintaxis/">Resaltar sintaxis</a></li>
+			<li class="widget__item"><a class="widget__link" href="/post/pintar-un-edificio-con-r/">pintar una ciudad con R</a></li>
 			<li class="widget__item"><a class="widget__link" href="/post/editar-a-dos-columnas/">Documento a dos columnas</a></li>
 			<li class="widget__item"><a class="widget__link" href="/post/crear-un-blog-con-blogdown-2/">Crear un blog con blogdown (2)</a></li>
 			<li class="widget__item"><a class="widget__link" href="/post/crear-un-blog-con-blogdown-1/">Crear un blog con blogdown (1)</a></li>
-			<li class="widget__item"><a class="widget__link" href="/post/mdbasic/">markdown básico</a></li>
 		</ul>
 	</div>
 </div>
@@ -313,6 +313,7 @@ prettymap({
 			<li class="widget__item"><a class="widget__link" href="/categories/blogdown">Blogdown</a></li>
 			<li class="widget__item"><a class="widget__link" href="/categories/bookdown">Bookdown</a></li>
 			<li class="widget__item"><a class="widget__link" href="/categories/edicion">Edicion</a></li>
+			<li class="widget__item"><a class="widget__link" href="/categories/gr%c3%a1ficos">Gráficos</a></li>
 			<li class="widget__item"><a class="widget__link" href="/categories/markdown">Markdown</a></li>
 			<li class="widget__item"><a class="widget__link" href="/categories/r">R</a></li>
 		</ul>
@@ -325,7 +326,9 @@ prettymap({
 		<a class="widget-taglist__link widget__link btn" href="/tags/bookdown" title="Bookdown">Bookdown (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/columna" title="Columna">Columna (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/css" title="Css">Css (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/dibujo" title="Dibujo">Dibujo (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/formato" title="Formato">Formato (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/gr%c3%a1ficas" title="Gráficas">Gráficas (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/markdown" title="Markdown">Markdown (2)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/matem%c3%a1ticas" title="Matemáticas">Matemáticas (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/mathjax" title="Mathjax">Mathjax (1)</a>

@@ -22,16 +22,26 @@ Me gustaría, ya que esto es un blog de programación en R, que los bloques de c
     </item>
     
     <item>
+      <title>pintar una ciudad con R</title>
+      <link>/post/pintar-un-edificio-con-r/</link>
+      <pubDate>Tue, 08 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/pintar-un-edificio-con-r/</guid>
+      <description>ObjetivoHace poco me acordé de un programa escrito en processing, un lenguaje gráfico fantástico en el que conseguían hacer el sky line de una ciudad completamente aleatori mediante programación.
+Siempre he querido trasladarlo a R, pero hace tanto tiempo que no veo nada de processing que hasta he perdido el enlace. Empezaremos de cero.
+Pintar un rectánguloEmpezaremos creando un simple rectangulo en una gráfica.
+dibu_rectangulo&amp;lt;-function (npisos,nvent){h&amp;lt;-3.</description>
+    </item>
+    
+    <item>
       <title>Documento a dos columnas</title>
       <link>/post/editar-a-dos-columnas/</link>
       <pubDate>Fri, 04 Jan 2019 00:00:00 +0000</pubDate>
       
       <guid>/post/editar-a-dos-columnas/</guid>
-      <description>&lt;h2 id=&#34;antecedentes&#34;&gt;Antecedentes&lt;/h2&gt;
+      <description>&lt;p&gt;Suelo trabajar con unos modelos de proyecto tipo para generar documentos. Cuando inicio un nuevo proyecto los copio y cambio cosas sobre estas plantillas.&lt;/p&gt;
 
-&lt;p&gt;Trabajo con unos modelos de proyectos tipos para generar documentos. Cuando inicio un nuevo proyecto los copio y cambio cosas sobre la plantilla.&lt;/p&gt;
-
-&lt;p&gt;Hoy quería hacer un documento en formato pdf con salida en &lt;strong&gt;dos columnas&lt;/strong&gt;. Es algo que ya había necesitado antes, así que me puse a buscar.&lt;/p&gt;</description>
+&lt;p&gt;Hoy quería hacer un documento en formato &lt;code&gt;pdf&lt;/code&gt; con salida en &lt;strong&gt;dos columnas&lt;/strong&gt;. Es algo que ya había necesitado antes, así que me puse a buscar.&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -72,7 +82,7 @@ Me animó mucho conocer a otras personas que comparten la inquietud por R, que v
       <guid>/post/mdbasic/</guid>
       <description>&lt;p&gt;El principal propósito de este artículo es tener a mano un resumen para los formatos básicos de markdown.&lt;/p&gt;
 
-&lt;p&gt;RSTUDIO pone a disposición de los usuarios una chuleta resumida muy bueno con gran parte de los formatos de sintaxis, pero creo conveniente ponerlo a mano tambien en el blog&lt;/p&gt;</description>
+&lt;p&gt;RSTUDIO pone a disposición de los usuarios una chuleta resumida muy bueno con gran parte de los formatos de sintaxis, pero creo conveniente ponerlo a mano también en el blog&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -101,8 +111,8 @@ Podemos usarla directamente en nuestros post de blogdown sin necesidad de acudir
       
       <guid>/mapas/</guid>
       <description>Chuleta rápida para hacer mapas con R
-enlaces recomendados para mapeo con R  https://geocompr.robinlovelace.net/intro.html hoja resumen a imprimirse siempre ejemplos devarias librerias https://paleolimbot.github.io/ggspatial/  Crear mapa estático El objetivo es crear un mapa estático, en imagen, y representar varios puntos de coordenadas. Usaremos la librería ggspatial que es una versión de ggplot especial para hacer mapas con base de mapas libres, como los osm de openlayer.
-Los datos que usaremos de entrada son coordenadas de dos puntos de la ciudad de Torrevieja, Alicante.</description>
+Crear mapa estático El objetivo es crear un mapa estático, en imagen, y representar varios puntos de coordenadas. Usaremos la librería ggspatial que es una versión de ggplot especial para hacer mapas con base de mapas libres, como los osm de openlayer.
+Los datos que usaremos de entrada son coordenadas de dos puntos de la ciudad de Torrevieja, Alicante. Las funciones de ggspatial son dos una ggosm() pinta mapas con base, pero es más interesante usar la funcion ggplot habitual y añadir como una geometría más el tipo de fondo mediante la fucnión geom_osm que se usa siempre dentro de ggplot .</description>
     </item>
     
   </channel>
