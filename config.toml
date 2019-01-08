@@ -7,6 +7,11 @@ theme = "Mainroad"
 disqusShortname = "" # Enable comments by entering your Disqus shortname
 googleAnalytics = "" # Enable Google Analytics by entering your tracking id
 ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
+
+highlightjsCDN = "//cdn.bootcss.com"
+highlightjsLang = ["r", "yaml"]
+highlightjsTheme = "hybrid"
+
 [Author]
   name = "F.Vilber"
   bio = "F.VilBer true identity is unknown. Maybe he is a successful blogger or writer. Nobody knows it."
