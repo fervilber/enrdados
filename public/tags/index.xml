@@ -6,19 +6,10 @@
     <description>Recent content in Tags on En_R_dados</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>es</language>
-    <lastBuildDate>Mon, 16 Apr 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 08 Jan 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
     
-    
-    <item>
-      <title>Basic Elements</title>
-      <link>/tags/basic-elements/</link>
-      <pubDate>Mon, 16 Apr 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/basic-elements/</guid>
-      <description></description>
-    </item>
     
     <item>
       <title>Blogdown</title>
@@ -26,6 +17,24 @@
       <pubDate>Tue, 08 Jan 2019 00:00:00 +0000</pubDate>
       
       <guid>/tags/blogdown/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Bookdown</title>
+      <link>/tags/bookdown/</link>
+      <pubDate>Fri, 04 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/bookdown/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Columna</title>
+      <link>/tags/columna/</link>
+      <pubDate>Fri, 04 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/columna/</guid>
       <description></description>
     </item>
     
@@ -39,11 +48,29 @@
     </item>
     
     <item>
-      <title>Html</title>
-      <link>/tags/html/</link>
-      <pubDate>Mon, 16 Apr 2018 00:00:00 +0000</pubDate>
+      <title>Formato</title>
+      <link>/tags/formato/</link>
+      <pubDate>Thu, 06 Dec 2018 00:00:00 +0000</pubDate>
       
-      <guid>/tags/html/</guid>
+      <guid>/tags/formato/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Markdown</title>
+      <link>/tags/markdown/</link>
+      <pubDate>Thu, 06 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/markdown/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Matemáticas</title>
+      <link>/tags/matem%C3%A1ticas/</link>
+      <pubDate>Sat, 14 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/matem%C3%A1ticas/</guid>
       <description></description>
     </item>
     
@@ -57,11 +84,11 @@
     </item>
     
     <item>
-      <title>Pdf Columna R Bookdown</title>
-      <link>/tags/pdf-columna-r-bookdown/</link>
+      <title>Pdf</title>
+      <link>/tags/pdf/</link>
       <pubDate>Fri, 04 Jan 2019 00:00:00 +0000</pubDate>
       
-      <guid>/tags/pdf-columna-r-bookdown/</guid>
+      <guid>/tags/pdf/</guid>
       <description></description>
     </item>
     

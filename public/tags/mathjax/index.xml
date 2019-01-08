@@ -17,7 +17,8 @@
       <pubDate>Sat, 14 Apr 2018 00:00:00 +0000</pubDate>
       
       <guid>/post/mathjax/</guid>
-      <description>&lt;p&gt;MathJax es una librería JavaScript que permite ver ecuaciones y notación matimática en casi cualquier navegador moderno.&lt;/p&gt;</description>
+      <description>&lt;p&gt;&lt;em&gt;MathJax&lt;/em&gt; es una librería JavaScript que permite ver ecuaciones y notación matemática en casi cualquier navegador moderno.
+Podemos usarla directamente en nuestros post de blogdown sin necesidad de acudir al formato Rmd, es decir con markdown puro de la siguiente forma:&lt;/p&gt;</description>
     </item>
     
   </channel>

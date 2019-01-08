@@ -1,15 +1,16 @@
 ---
-title: Doc a 2 columnas
-author: FVB
+title: Documento a dos columnas
+author: F.VilBer
 date: '2019-01-04'
-slug: editar-pdf-a-dos-columnas
+slug: editar-a-dos-columnas
 categories:
   - edicion
   - bookdown
 tags:
-  - pdf columna R bookdown
-description: ''
-thumbnail: ''
+  - pdf
+  - columna
+  - bookdown
+toc: true
 ---
 
 ## Antecedentes
@@ -17,9 +18,11 @@ Trabajo con unos modelos de proyectos tipos para generar documentos. Cuando inic
 
 Hoy quería hacer un documento en formato pdf con salida en **dos columnas**. Es algo que ya había necesitado antes, así que me puse a buscar.
 
+<!--more-->
+
 Recuerdo que me costó unas horas de investigación en su día, pero di con la tecla y por eso lo pongo en el blog, para que a otros les sea más facil.
 
-## BOOKDOWN
+## Bookdown
 Casi todos los documentos que hago en RSTUDIO que requieren salida en papel o pdf los hago con la plantilla de bookdown a la que añado algunas cosas en $LaTeX$  si necesito configurar encabezados o pies de página.
 
 ## 2 columnas
@@ -28,7 +31,7 @@ Para hacer un documento a dos columnas hay que añadir simplemente dos líneas a
  * una para incluir el paquete de $LaTeX$ lipsum `- \usepackage{lipsum}` y
  * otra para especificar las dos columnas con la marca de YAML: `classoption: twocolumn`
 
-```{r eval=FALSE, echo=TRUE}
+```
 --- 
 title: "Informe tipo 2"
 author: "FVB (fervilber@gmail.com)"

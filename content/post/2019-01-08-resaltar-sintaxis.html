@@ -11,6 +11,9 @@ tags:
   - sintaxis
 description: 'Añadir resalto de sintaxis al blog - Adding Syntax Highlighting to Blogdown Posts'
 thumbnail: ''
+output: 
+  html_document: 
+    toc: yes
 ---
 
 
@@ -18,14 +21,14 @@ thumbnail: ''
 <div id="antecedentes" class="section level2">
 <h2>Antecedentes</h2>
 <p>Aunque conseguí que la plantilla de Hugo funcionase bien y crear un flujo correcto en el blog usando <code>blogdown</code>, he visto que la sintaxis que viene por defecto en los bloques de código es muy simple. Tan solo resalta en gris el bloque.</p>
-<p>Me gustaría, ya que esto es un blog de programación en R, que los bloques de código apareciesen con un resaltado más vivo, distinguendo incluso comandos y funciones.</p>
+<p>Me gustaría, ya que esto es un blog de programación en R, que los bloques de código apareciesen con un resaltado más vivo, con formato para comandos y funciones.</p>
 <p>Algunas plantillas de <a href="https://gohugo.io/functions/highlight/">Hugo</a> lo traen ya por defecto, pero la que uso <em>Mainroad</em>, no, o al menos no sé configurarlo hasta ahora.</p>
-<p>Tras un poco de investigación en internet lo he conseguido, os explico cómo:</p>
+<p>Tras un poco de investigación en Internet lo he conseguido, aquí os explico cómo:</p>
 </div>
 <div id="paso-1.-comprueba-tu-plantilla" class="section level2">
 <h2>Paso 1. Comprueba tu plantilla</h2>
-<p>Lo primero que he hecho es verificar que mi plantilla de <a href="https://themes.gohugo.io/">HUGO</a> tiene la funcionalidad de resaltado. Antes debe saber que los resaltados de código se hacen usando una librería <em>javascritp</em> llamada <a href="https://highlightjs.org">highlight.js</a>.</p>
-<p>Si la plantilla (o theme in english) lo tiene incluido lo podremos activar directamente en el fichero de configuración del blog, el <code>config.yaml</code> con paramestros como los siguientes:</p>
+<p>Lo primero que he hecho es verificar que mi plantilla de <a href="https://themes.gohugo.io/">HUGO</a> tiene la funcionalidad de resaltado. Antes debes saber que los resaltados de código o en inglés <em>sintax highlight</em> se hacen usando una librería <em>JavaScritp</em> llamada <a href="https://highlightjs.org">highlight.js</a>.</p>
+<p>Si la plantilla (o <code>theme</code> in english) lo tiene incluido lo podremos activar directamente en el fichero de configuración del blog, el <code>config.yaml</code> con parámetros como los siguientes:</p>
 <pre class="yaml"><code>[params]
     description = &quot;A website built through Hugo and blogdown.&quot;
 
@@ -44,20 +47,20 @@ thumbnail: ''
 <p>Los pasos que he hecho y han funcionado fueron:</p>
 <ol style="list-style-type: decimal">
 <li>Ir a la web de <a href="https://highlightjs.org/download/">highlight.js descargas</a></li>
-<li>bajar al final de esa pagina y descargar el zip, con la precaución de selecciobnar <strong>sólo</strong> ls lenguajes que realmente vamos a usar en nuestro blog para resaltado.</li>
+<li>bajar al final de esa pagina y descargar el zip, con la precaución de seleccionar <strong>sólo</strong> los lenguajes que realmente vamos a usar en nuestro blog para resaltado.</li>
 <li>Descargar el <code>*.zip</code>.</li>
 <li>Descomprimir el archivo que contendrá muchos ficheros, pero solo nos interesa el que se llama <code>highlight.pack.js</code> que copiaremos en el directorio local de nuestro theme de HUGO dentro de en mi caso: <em>/themes/mainroad/static/js</em>)</li>
 </ol>
 </div>
 <div id="paso-3.-cambiar-el-encabezado-por-defecto" class="section level2">
 <h2>Paso 3. Cambiar el encabezado por defecto</h2>
-<p>Para que el blog lea el fichero de estilo que hemos grabado debemos añadir en el encabezado por defecto alguna línea de código que ejecute el javascript.</p>
+<p>Para que el blog lea el fichero de estilo que hemos grabado debemos añadir en el encabezado por defecto alguna línea de código que ejecute el JavaScript.</p>
 <p>Nos vamos a la carpeta de nuestra plantilla local: <em>/themes/mainroad/layouts/partials/</em> y buscamos el fichero <code>header.html</code>.</p>
 <p>Lo abrimos y editamos para añadir las siguientes lineas después de <code>&lt;header class=&quot;header&quot;&gt;</code>:</p>
 <pre class="note"><code>&lt;link rel=&quot;stylesheet&quot; href=&quot;{{&quot;css/hybrid.css&quot; | absURL}}&quot; rel=&quot;stylesheet&quot; id=&quot;theme-stylesheet&quot;&gt;
 &lt;script src=&quot;{{ &quot;js/highlight.pack.js&quot; | absURL }}&quot;&gt;&lt;/script&gt;
 &lt;script&gt;hljs.initHighlightingOnLoad();&lt;/script&gt;</code></pre>
-<p>En la primera línea se hace referencia a un fichero <code>css/hybrid.css</code> que es un fichero de estilo que se encuentra en el zip que descargamos y que debemos tambien copiar en la carpeta de estilos localizada en mi caso en: <em>/themes/mainroad/static/css</em>.</p>
+<p>En la primera línea se hace referencia a un fichero <code>css/hybrid.css</code> que es un fichero de estilo que se encuentra en el zip que descargamos y que debemos también copiar en la carpeta de estilos localizada en mi caso en: <em>/themes/mainroad/static/css</em>.</p>
 <p>Si en lugar del estilo <em>hydrid</em> has elegido otro de los posibles (ver <a href="https://highlightjs.org/static/demo/">aquí</a>) debes acordarte de abrir el zip del paso 1 y buscar en la carpeta <em>styles/</em> el fichero que define tu estilo de resaltado y también de cambiar el nombre al que se refiere la línea 1 de este paso.</p>
 <p>Con estos pasos he conseguido que el resaltado de sintaxis aparezca reflejado en mi blog.</p>
 </div>

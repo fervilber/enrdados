@@ -11,21 +11,25 @@ tags:
   - sintaxis
 description: 'Añadir resalto de sintaxis al blog - Adding Syntax Highlighting to Blogdown Posts'
 thumbnail: ''
+output: 
+  html_document: 
+    toc: yes
 ---
+
 ## Antecedentes
 Aunque conseguí que la plantilla de Hugo funcionase bien y crear un flujo correcto en el blog usando `blogdown`, he visto que la sintaxis que viene por defecto en los bloques de código es muy simple. Tan solo resalta en gris el bloque.
 
-Me gustaría, ya que esto es un blog de programación en R, que los bloques de código apareciesen con un resaltado más vivo, distinguendo incluso comandos y funciones.
+Me gustaría, ya que esto es un blog de programación en R, que los bloques de código apareciesen con un resaltado más vivo, con formato para comandos y funciones.
 
 Algunas plantillas de [Hugo](https://gohugo.io/functions/highlight/) lo traen ya por defecto, pero la que uso *Mainroad*, no, o al menos no sé configurarlo hasta ahora.
 
-Tras un poco de investigación en internet lo he conseguido, os explico cómo:
+Tras un poco de investigación en Internet lo he conseguido, aquí os explico cómo:
 
 ## Paso 1. Comprueba tu plantilla
 
-Lo primero que he hecho es verificar que mi plantilla de [HUGO](https://themes.gohugo.io/) tiene la funcionalidad de resaltado. Antes debe saber que los resaltados de código se hacen usando una librería *javascritp* llamada [highlight.js](https://highlightjs.org).
+Lo primero que he hecho es verificar que mi plantilla de [HUGO](https://themes.gohugo.io/) tiene la funcionalidad de resaltado. Antes debes saber que los resaltados de código o en inglés *sintax highlight* se hacen usando una librería *JavaScritp* llamada [highlight.js](https://highlightjs.org).
 
-Si la plantilla (o theme in english) lo tiene incluido lo podremos activar directamente en el fichero de configuración del blog, el `config.yaml` con paramestros como los siguientes:
+Si la plantilla (o `theme` in english) lo tiene incluido lo podremos activar directamente en el fichero de configuración del blog, el `config.yaml` con parámetros como los siguientes:
 
 ```{yaml}
 [params]
@@ -48,12 +52,12 @@ Si tu caso es como el mio, y la plantilla que has elegido y que te gusta no tien
 Los pasos que he hecho y han funcionado fueron:
 
  1. Ir a la web de [highlight.js descargas](https://highlightjs.org/download/)
- 2. bajar al final de esa pagina y descargar el zip, con la precaución de selecciobnar **sólo** ls lenguajes que realmente vamos a usar en nuestro blog para resaltado.
+ 2. bajar al final de esa pagina y descargar el zip, con la precaución de seleccionar **sólo** los lenguajes que realmente vamos a usar en nuestro blog para resaltado.
  3. Descargar el `*.zip`.
  4. Descomprimir el archivo que contendrá muchos ficheros, pero solo nos interesa el que se llama `highlight.pack.js` que copiaremos en el directorio local de nuestro theme de HUGO dentro de en mi caso: */themes/mainroad/static/js*)
 
 ## Paso 3. Cambiar el encabezado por defecto
-Para que el blog lea el fichero de estilo que hemos grabado debemos añadir en el encabezado por defecto alguna línea de código que ejecute el javascript.
+Para que el blog lea el fichero de estilo que hemos grabado debemos añadir en el encabezado por defecto alguna línea de código que ejecute el JavaScript.
 
 Nos vamos a la carpeta de nuestra plantilla local: */themes/mainroad/layouts/partials/* y buscamos el fichero `header.html`.
 
@@ -67,7 +71,7 @@ Lo abrimos y editamos para añadir las siguientes lineas después de `<header cl
 <script>hljs.initHighlightingOnLoad();</script>
 ```
 
-En la primera línea se hace referencia a un fichero `css/hybrid.css` que es un fichero de estilo que se encuentra en el zip que descargamos y que debemos tambien copiar en la carpeta de estilos localizada en mi caso en: */themes/mainroad/static/css*.
+En la primera línea se hace referencia a un fichero `css/hybrid.css` que es un fichero de estilo que se encuentra en el zip que descargamos y que debemos también copiar en la carpeta de estilos localizada en mi caso en: */themes/mainroad/static/css*.
 
 Si en lugar del estilo *hydrid* has elegido otro de los posibles (ver [aquí](https://highlightjs.org/static/demo/)) debes acordarte de abrir el zip del paso 1 y buscar en la carpeta *styles/* el fichero que define tu estilo de resaltado y también de cambiar el nombre al que se refiere la línea 1 de este paso.
 

@@ -1,11 +1,12 @@
 ---
 title: Crear un blog con blogdown (1)
-author: FVB
+author: F.VilBer
 date: '2019-01-01'
 categories:
   - blog
   - R
 slug: crear-un-blog-con-blogdown-1
+toc: true
 ---
 
 # Antes
@@ -31,7 +32,7 @@ Doy por hecho que usas RSTUDIO o R.
 ## instalar librerías
 Primeor bajamos blogdown y lo instalamos, quizás tengamos problemas, yo tuve que actualizar tanto R como RSTUDIo para que esto funcionase.
 
-```{r eval=FALSE}
+```
 install.packages(“blogdown”)
 blogdown::install_hugo()
 ```
@@ -41,7 +42,7 @@ blogdown::install_hugo()
  
 Una vez que has seleccionado un tema, (theme) puedes probar a instalarlo en local y ver si funciona con blogdown copn el siguiente comando. fijate que escribo el usuario y theme de la web github del desarrollador en este caso Vimux y el theme mainroad
 
-```{r eval=FALSE}
+```
 blogdown::install_theme("htr3n/hyde-hyde", theme_example = TRUE)
 ```
 
@@ -49,7 +50,7 @@ blogdown::install_theme("htr3n/hyde-hyde", theme_example = TRUE)
 Una vez descargado el theme, si tenemos el RSTUDIO actualizado nos sale un menu de Addins en el que se encuentra un listado de comandos. Entre ellos `server-site`. En todo caso podemos ejecutarlo desde la ventana de comandos:
 
 
-```{r eval=FALSE}
+```
 blogdown:::serve_site()
 ```
 
@@ -57,11 +58,11 @@ Y nos arranca el servidor de prueba local del blog. que podemos ver en la ventan
 
 # Personalizar
 
-Si todo ha ido bien, veremos un ejemplo de web, con las paginas por defecto del theme seleccionado, que nos toca personalizar. Esto ya dependerá de cada theme, pero en lineas generales existe siempre un fichero en el raiz de nuestro proyecto actual que será `config.toml`. En este fichero están lo prarmetros de configuración del theme, como el idioma, el titulo, subtitulos, menus, enlaces.
+Si todo ha ido bien, veremos un ejemplo de web, con las páginas por defecto del `theme` seleccionado, que nos toca personalizar. Esto ya dependerá de cada plantilla, pero en lineas generales existe siempre un fichero en el raiz de nuestro proyecto actual que será `config.toml`. En este fichero están lo parámetros de configuración de la plantilla (theme), como el idioma, el título del blog, subtitulos, menús, enlaces principales, activar o no el resaltado de sintaxis etc.
 
-Por ejemplo si usamos una plantilla sencilla como la Amnix la el fichero `config.toml` inicial es:
+Por ejemplo si usamos una plantilla sencilla como *Amnix* el fichero `config.toml` inicial es:
 
-```{}
+```
 baseURL = "/"
 languageCode = "es"
 title = "RqR"
@@ -90,39 +91,46 @@ defaultContentLanguage = "es"
 
 ```
 
+Si hemos descargado la plantilla desde R con blogdown con la opcion descargar ejemplo (`blogdown::install_theme("htr3n/hyde-hyde", theme_example = TRUE`), además se nos habrá creado una carpeta como esta `/themes/nombretheme/exampleSite/` donde están todos los ficheros que conforman una web de ejemplo.
 
+# Crear una cuenta en Netlify
+Para publicar el blog automáticamente lo más sencillo es usar la web de [Netlify](https://www.netlify.com/). En ella podemos conectar a gitHub y automaticamente nos desarrollará los ficheros deploy cada vez que actualicemos la carpeta de gitHub origen.
 
+Veamos los pasos, que son relativamente sencillos, primero:
 
-#Crear una cuenta en Netlify
+ 1. Crea un usuario.. sigue las instrucciones en su web
+ 2. Elige el método para actualizar tu página **deploy method** entre manual o Git
 
-Estos pasos son relativamente sencillos, para ello:
+La manera más eficiente de actualizar la página web es haciendo uso de GitHub. Esta es la razón por la que hemos empezado creando el proyecto primero en git. 
 
-    Crea un usuario
-    Elige el método para actualizar tu página deploy method: manual o Git
+No obstante tambien lo podrías hacer volcando la carpeta *public* que se creará cada vez que renderices el blog en local y llevarla manualmente a [Netlify](https://www.netlify.com/).
 
-La manera más eficiente de actualizar la página web es haciendo uso de GitHub. Esta es la razón por la que hemos empezado creando el proyecto primero en git. No obstante algo más sencillo es volcar la carpeta public que se creará cada vez aue renderices el blog en local y llevarla manualmente a Netlify.
-Credits to: Amber
+Una vez que estás logeado en [Netlify](https://www.netlify.com/) accede al menú deploy y marca dentro de `Build & Deploy` tu repository origen de gitHub. Es decir la carpeta de origen de los ficheros como esta: `github.com/tu_user/tu_proyecto`.
 
-Credits to: Amber
-
-Para usar Git (lo recomendado): Credits to: Amber
-
-Cambia el dominio a: foodomin.netlify.com
 
 ## cambiar la versión de Hugo
-El último paso es modificar la configuración para el deploy, para que todo funcione correctamente asegúrate que la versión de hugo coincide con la que tienes instalada en tu ordenador:
+En mi caso al usar una plantilla de HUGO no muy conocida he tenido que pelearme con otras cosas, principalmente que no funciona con versiones de HUGO antigüas, por lo que tuve que crear unas variables en la misma web de Netlify para que funcionase.
 
-¡Listo! Ya has publicado por primera vez tu blog. Para añadir nuevos post y configurar a tu gusto todas las características lee el manual de Blogdown.
+En mi caso para obligar a Netlify a usar HUGO 0.43 creé las siguientes variables, dentro de la misma página de configuración Deploy hay un apartado que dice :*Build environment variables*. Ahí pones lo siguiente:
+
+
+![hugo config variables](/post/2019-01-01-crear-un-blog-con-blogdown-1_files/configHUGO.png)
+
+
+¡Listo! con esto ya me funcionó bastante bien
+
+Para añadir nuevos post y configurar a tu gusto todas las características lee el manual de Blogdown.
 
 ## themes
-algunos themes que he probado:
+ Algunos themes que he probado y funcionan son:
 
-*hyde-hyde
-*mainroad
-*amnix
+ * [hyde-hyde](https://themes.gohugo.io/hyde-hyde/)
+ * [mainroad](https://themes.gohugo.io/mainroad/)
+ * [amnix](https://github.com/Vimux/Amnix)
 
 
 # Enlaces
 
-*<https://bookdown.org/yihui/blogdown/netlify.html>
-* https://notes.peter-baumgartner.net/tutorial/blogdown-tutorial-part-3/
+* <https://bookdown.org/yihui/blogdown/netlify.html>
+* <https://notes.peter-baumgartner.net/tutorial/blogdown-tutorial-part-3/>
+* <https://alison.rbind.io/post/up-and-running-with-blogdown/>

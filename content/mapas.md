@@ -2,11 +2,11 @@
 title: R Mapas
 date: 2018-04-09
 menu: main
+toc: true
 ---
 
-# Chuleta rápida para hacer mapas con R
-
-Olga está conmigo
+***
+Chuleta rápida para hacer mapas con R
 
 ## enlaces recomendados para mapeo con R
 

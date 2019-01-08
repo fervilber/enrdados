@@ -21,6 +21,15 @@
     </item>
     
     <item>
+      <title>Blogdown</title>
+      <link>/categories/blogdown/</link>
+      <pubDate>Thu, 03 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/categories/blogdown/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Bookdown</title>
       <link>/categories/bookdown/</link>
       <pubDate>Tue, 08 Jan 2019 00:00:00 +0000</pubDate>
@@ -30,20 +39,20 @@
     </item>
     
     <item>
-      <title>Development</title>
-      <link>/categories/development/</link>
-      <pubDate>Mon, 16 Apr 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/categories/development/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>Edicion</title>
       <link>/categories/edicion/</link>
       <pubDate>Fri, 04 Jan 2019 00:00:00 +0000</pubDate>
       
       <guid>/categories/edicion/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Markdown</title>
+      <link>/categories/markdown/</link>
+      <pubDate>Thu, 06 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/categories/markdown/</guid>
       <description></description>
     </item>
     

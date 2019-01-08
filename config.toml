@@ -7,7 +7,6 @@ theme = "Mainroad"
 disqusShortname = "" # Enable comments by entering your Disqus shortname
 googleAnalytics = "" # Enable Google Analytics by entering your tracking id
 ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
-
 highlightjsCDN = "//cdn.bootcss.com"
 highlightjsLang = ["r", "yaml"]
 highlightjsTheme = "hybrid"
@@ -27,7 +26,6 @@ highlightjsTheme = "hybrid"
   post_navigation = true
   postSections = ["post"]
   dateformat = "2006-01-02" # change the format of dates
-  toc = true
   
 [Params.sidebar]
   home = "right"   # Configure layout for home page
@@ -38,4 +36,4 @@ highlightjsTheme = "hybrid"
 
 [Params.widgets]
   recent_num = 5 # Set the number of articles in the "Recent articles" widget
-  tags_counter = false # Enable counter for each tag in "Tags" widget (disabled by default)
+  tags_counter = true # Enable counter for each tag in "Tags" widget (disabled by default)

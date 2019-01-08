@@ -9,10 +9,9 @@
 	<meta name="description" content="">
 	<meta name="generator" content="Hugo 0.53" />
 	<meta property="og:title" content="Crear un blog con blogdown (2)" />
-<meta property="og:description" content="Parte 2Sigo tieniendo problemas en el deploy de la web, hasta que no me fuencione esto no puedo seguir con la planificación prevista.
-enlacesAquí irán los enlaces a la documentación que voy a poner
-para subir las cosas a gitHUbestoy probando y RSTUDIO se colapsa muchas veces al hacer un commit.
-Sin embargo es mucho más sencillo y rápido hacerlo desde el terminal de RSTUYDIO con:" />
+<meta property="og:description" content="Problemas He sufrido bastante hasta que la web del blog ha funcionado de manera fluída. Primero por la instalacion de HUGO en Netlify, y después con otros aspectos pequeños que provocaban errores.
+Voy a air poniendo los errores que hacían petar el sistema:
+Errores con Git Para subir las cosas desde mi PC a gitHub en RSTUDIO, he usado siempre el entorno git que tiene por defecto, pero con blogdown he tenido muchos problemas y acabo haciendolo de manera manual desde Terminal." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/post/crear-un-blog-con-blogdown-2/" /><meta property="article:published_time" content="2019-01-03T00:00:00&#43;00:00"/>
 <meta property="article:modified_time" content="2019-01-03T00:00:00&#43;00:00"/>
@@ -50,6 +49,9 @@ Sin embargo es mucho más sencillo y rápido hacerlo desde el terminal de RSTUYD
 		<li class="menu__item">
 			<a class="menu__link" href="/about/">Sobre mi</a>
 		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/post/mdbasic/">markdown básico</a>
+		</li>
 	</ul>
 </nav>
 
@@ -67,37 +69,74 @@ Sin embargo es mucho más sencillo y rápido hacerlo desde el terminal de RSTUYD
 	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 16 16"><path d="m8-.0000003c-4.4 0-8 3.6-8 8 0 4.4000003 3.6 8.0000003 8 8.0000003 4.4 0 8-3.6 8-8.0000003 0-4.4-3.6-8-8-8zm0 14.4000003c-3.52 0-6.4-2.88-6.4-6.4000003 0-3.52 2.88-6.4 6.4-6.4 3.52 0 6.4 2.88 6.4 6.4 0 3.5200003-2.88 6.4000003-6.4 6.4000003zm.4-10.4000003h-1.2v4.8l4.16 2.5600003.64-1.04-3.6-2.1600003z"/></svg>
 	<time class="meta__text" datetime="2019-01-03T00:00:00">2019-01-03</time>
 </div>
+
+<div class="meta__item-categories meta__item">
+	<svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg>
+	<span class="meta__text"><a class="meta__link" href="/categories/blogdown" rel="category">blogdown</a></span>
+</div>
 </div>
 		</header>
 <div class="post__toc toc">
 	<div class="toc__title">Índice</div>
 	<div class="toc__menu">
-		
+		<nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#problemas">Problemas</a></li>
+<li><a href="#errores-con-git">Errores con Git</a></li>
+<li><a href="#problemas-en-los-cambios-de-plantilla">Problemas en los cambios de plantilla</a></li>
+<li><a href="#netlify-variables">netlify variables</a></li>
+</ul></li>
+</ul>
+</nav>
 	</div>
 </div>
 <div class="content post__content clearfix">
 			
 
+<h2 id="problemas">Problemas</h2>
 
-<div id="parte-2" class="section level1">
-<h1>Parte 2</h1>
-<p>Sigo tieniendo problemas en el deploy de la web, hasta que no me fuencione esto no puedo seguir con la planificación prevista.</p>
-</div>
-<div id="enlaces" class="section level1">
-<h1>enlaces</h1>
-<p>Aquí irán los enlaces a la documentación que voy a poner</p>
-</div>
-<div id="para-subir-las-cosas-a-github" class="section level1">
-<h1>para subir las cosas a gitHUb</h1>
-<p>estoy probando y RSTUDIO se colapsa muchas veces al hacer un commit.</p>
-<p>Sin embargo es mucho más sencillo y rápido hacerlo desde el terminal de RSTUYDIO con:</p>
+<p>He sufrido bastante hasta que la web del blog ha funcionado de manera fluída. Primero por la instalacion de HUGO en <a href="https://www.netlify.com/">Netlify</a>, y después con otros aspectos pequeños que provocaban errores.</p>
+
+<p>Voy a air poniendo los errores que hacían petar el sistema:</p>
+
+<h2 id="errores-con-git">Errores con Git</h2>
+
+<p>Para subir las cosas desde mi PC a gitHub en RSTUDIO, he usado siempre el entorno git que tiene por defecto, pero con blogdown he tenido muchos problemas y acabo haciendolo de manera manual desde <code>Terminal</code>.</p>
+
+<p>Junto a la ventana de la consola de RSTUDIO se abre una pestaña nueva que dice <em>Terminal</em>. Es una terminal de línea de comandos de toda la vida, y podemos usarlo particularmente para todo el tema de git o versionado de los documentos del proyecto.</p>
+
+<p>Si no has actualizado el origen git desde los menus de RSTUDIO, lo puedes hacer también desde este Terminal con el siguiente código:</p>
+
+<pre><code>git init
+git remote add origin https://github.com/&lt;NOMRE_USUARIO/&lt;PROYECTO&gt;.git
+</code></pre>
+
+<p>He comprobado que va mucho más rápido que hacerlo con Terminal que con la interface de RSTUDIO pues en mi caso se colapsa y da errores muchas veces al hacer un commit.</p>
+
+<p>Cuando tengo un post nuevo o quiero actualizar la web de gitHub me pongo en Terminal y escribo lo siguiente:</p>
+
 <pre><code>git init
 git add .
-git commit -m &quot;first commit&quot;
-git remote add origin https://github.com/&lt;NOMRE_USUARIO/&lt;PROYECTO&gt;.git
-git push -u origin master
+git commit -m &quot;cambios de 4 de enero&quot;
+git push 
 </code></pre>
-</div>
+
+<p>De esta forma me pide las contraseñas directamente en terminal en la conexión y va muy rápido.</p>
+
+<h2 id="problemas-en-los-cambios-de-plantilla">Problemas en los cambios de plantilla</h2>
+
+<p>Como he probado muchas plantillas, y algunas no funcionaban he tenido multiples problemas y descubrí que muchos se debían a que algunasplantillas añaden carpetas innecesarias que despues hay que borrar.</p>
+
+<p>Al ejecutar el comando <code>blogdown::serve_site()</code> se crea siempre una nueva imagen completa del blog en la carpeta <code>public/</code>.
+PAra evitar problemas cuando cambies de plantilla debes borrar completamente la carpeta public y revisar el resto de carpetas como <em>content</em> o <em>static</em> pues seguramente se habrán creado ficheros que eran específicos de la plantilla (theme) anterior y que provocan el fallo de renderizado.</p>
+
+<h2 id="netlify-variables">netlify variables</h2>
+
+<p>Ya expliqué en <a href="../crear-un-blog-con-blogdown-1">Crear un blog con blogdown (1)</a> el problema con las versiones de HUGO que usa netlify, pues por defecto carga la versión 0.2 bastante antigüa.</p>
+
+<p>Aunque dí pronto con la solución, resulta que no me funcionaba porque al escribirla en netlify la ponía entr comillas, &ldquo;0.43&rdquo; en lugar de 0.43. Ese cambio hacía que no se ejecutase y direa un error en el deploy que tardé mucho en identificar.</p>
 
 		</div>
 		
@@ -128,7 +167,7 @@ git push -u origin master
 		<a class="post-nav__link" href="/post/crear-un-blog-con-blogdown-1/" rel="prev"><span class="post-nav__caption">«&thinsp;Anterior</span><p class="post-nav__post-title">Crear un blog con blogdown (1)</p></a>
 	</div>
 	<div class="post-nav__item post-nav__item--next">
-		<a class="post-nav__link" href="/post/editar-pdf-a-dos-columnas/" rel="next"><span class="post-nav__caption">Siguiente&thinsp;»</span><p class="post-nav__post-title">Doc a 2 columnas</p></a>
+		<a class="post-nav__link" href="/post/editar-a-dos-columnas/" rel="next"><span class="post-nav__caption">Siguiente&thinsp;»</span><p class="post-nav__post-title">Documento a dos columnas</p></a>
 	</div>
 </nav>
 
@@ -148,10 +187,10 @@ git push -u origin master
 	<div class="widget__content">
 		<ul class="widget__list">
 			<li class="widget__item"><a class="widget__link" href="/post/resaltar-sintaxis/">Resaltar sintaxis</a></li>
-			<li class="widget__item"><a class="widget__link" href="/post/editar-pdf-a-dos-columnas/">Doc a 2 columnas</a></li>
+			<li class="widget__item"><a class="widget__link" href="/post/editar-a-dos-columnas/">Documento a dos columnas</a></li>
 			<li class="widget__item"><a class="widget__link" href="/post/crear-un-blog-con-blogdown-2/">Crear un blog con blogdown (2)</a></li>
 			<li class="widget__item"><a class="widget__link" href="/post/crear-un-blog-con-blogdown-1/">Crear un blog con blogdown (1)</a></li>
-			<li class="widget__item"><a class="widget__link" href="/post/basic-elements/">Basic HTML Elements</a></li>
+			<li class="widget__item"><a class="widget__link" href="/post/mdbasic/">markdown básico</a></li>
 		</ul>
 	</div>
 </div>
@@ -160,9 +199,10 @@ git push -u origin master
 	<div class="widget__content">
 		<ul class="widget__list">
 			<li class="widget__item"><a class="widget__link" href="/categories/blog">Blog</a></li>
+			<li class="widget__item"><a class="widget__link" href="/categories/blogdown">Blogdown</a></li>
 			<li class="widget__item"><a class="widget__link" href="/categories/bookdown">Bookdown</a></li>
-			<li class="widget__item"><a class="widget__link" href="/categories/development">Development</a></li>
 			<li class="widget__item"><a class="widget__link" href="/categories/edicion">Edicion</a></li>
+			<li class="widget__item"><a class="widget__link" href="/categories/markdown">Markdown</a></li>
 			<li class="widget__item"><a class="widget__link" href="/categories/r">R</a></li>
 		</ul>
 	</div>
@@ -170,14 +210,17 @@ git push -u origin master
 <div class="widget-taglist widget">
 	<h4 class="widget__title">Etiquetas</h4>
 	<div class="widget__content">
-		<a class="widget-taglist__link widget__link btn" href="/tags/basic-elements" title="Basic elements">Basic elements</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/blogdown" title="Blogdown">Blogdown</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/css" title="Css">Css</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/html" title="Html">Html</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/mathjax" title="Mathjax">Mathjax</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/pdf-columna-r-bookdown" title="Pdf columna r bookdown">Pdf columna r bookdown</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/r" title="R">R</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/sintaxis" title="Sintaxis">Sintaxis</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/blogdown" title="Blogdown">Blogdown (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/bookdown" title="Bookdown">Bookdown (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/columna" title="Columna">Columna (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/css" title="Css">Css (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/formato" title="Formato">Formato (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/markdown" title="Markdown">Markdown (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/matem%c3%a1ticas" title="Matemáticas">Matemáticas (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/mathjax" title="Mathjax">Mathjax (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/pdf" title="Pdf">Pdf (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/r" title="R">R (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/sintaxis" title="Sintaxis">Sintaxis (3)</a>
 	</div>
 </div>
 </aside>
