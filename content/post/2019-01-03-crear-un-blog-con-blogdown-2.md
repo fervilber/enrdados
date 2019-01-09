@@ -2,7 +2,7 @@
 title: Crear un blog con blogdown (2)
 author: F.VilBer
 date: '2019-01-03'
-categories: [blogdown]
+categories: [editar documentos]
 tags:
   - blogdown
   - R

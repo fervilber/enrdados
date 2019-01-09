@@ -1,102 +1,319 @@
 ---
-title: pintar una ciudad con R
+title: Pintar una ciudad con R
 author: F.Vilber
-date: '2019-01-08'
+date: '2019-01-09'
 slug: pintar-un-edificio-con-r
 categories:
-  - gráficos
+  - educación
 tags:
   - dibujo
-  - gráficas
-description: ''
+  - gráficos
+  - modelos
+  - divertido
+  - processing
+  - R
+description: 'ejemplo de programación sencillo para educación. Se crea una función de skyline de ciudad.'
 thumbnail: ''
 editor_options: 
   chunk_output_type: console
 ---
 
+## Como empezó todo
+Llevo tiempo pensando cómo enseñar a programar a un niño. Mis hijos va a clases de robótica en la que usan Lego para crear objetos a los que programan movimientos. Son unas clases divertidas, se lo pasan muy bien al tiempo que aprenden.
+
+Quiero hacer algo parecido con *R*, talleres sencillos, y que llamen la atención de un niño, vamos, que aguante un rato atento y sin distraerse. 
+
+Con este simple objetivo voy a desarrollar una serie de ejemplos de programación y modelización de la realidad. Este primero es una copia de un ejemplo que vi en [Processing](https://processing.org/processing), un lenguaje gráfico fantástico, y que me encantó.  Processing es un lenguaje de programación gráfico orientado más hacia el mundo de la creación artística. Está genial, pero [aquí](https://enrdados.netlify.com/) somos de R.
+
 ## Objetivo
+Vamos a programar un gráfico de R, que nos pinte una ciudad de rascacielos altos al estilo de un *skyline* de Nueva York. Para ello partiremos de cero, y usaremos funciones muy simples.
 
-Hace poco me acordé de un programa escrito en processing, un lenguaje gráfico fantástico en el que conseguían hacer el sky line de una ciudad completamente aleatori mediante programación.
+El resultado final será algo así:
 
-Siempre he querido trasladarlo a R, pero hace tanto tiempo que no veo nada de processing que hasta he perdido el enlace. Empezaremos de cero.
+![ciudad de R](/post/2019-01-04-pintar-un-edificio-con-r_files/ciudad de R.png)
 
-# Pintar un rectángulo
-Empezaremos creando un simple rectangulo en una gráfica.
+## Primer paso. Pintar rectángulo y línea
+Empezaremos creando un simple rectángulo en una gráfica de R. En R ya existe una función que pinta un rectángulo en una gráfica se llama `rect()`. 
+Para que lo pinte hay que pasar las coordenadas *x* e *y* de los vértices de esta forma: 
+
+  * rect(xleft, ybottom, xright, ytop)  
+
+También podemos pasarle otros parámetros gráficos en la misma llamada a la función `rect()`, como  por ejemplo el color de fondo añadiendo tras una coma: `col="red"`
+La función rect() necesita que haya un gráfico sobre el que pintar, por eso antes de llamarla debemos crear un gráfico en R con la función más simple `plot()` al que le pasamos una serie de datos, por ejemplo la serie del 0 al 10 y le decimos que no la pinte con `type = "n"`.
 
 ```{r}
-dibu_rectangulo<-function (npisos,nvent){
-          h<-3.5
-          altura<-h*npisos
-          ancho<-nvent*3
-          x_ver<-c(0,ancho,ancho,0,0)
-          y_ver<-c(0,0,altura,altura,0)
-          plot(x_ver,y_ver,type="l", xlim = c(0,max(altura,ancho)))
-          lines(x_ver,y_ver,lwd=2)
-          margen=1
-          for (i in 2:npisos-1){
-            x1<-c(0,ancho)
-            y0<-i*h
-            y1<-c(y0,y0)
-            lines(x1,y1,col="grey")
-            for (k in 0:(nvent-1)){
-              vx<-c(0+margen,1+margen,1+margen,0+margen,0+margen)
-              y0v<-y0+margen
-              vy<-c(y0v,y0v,y0v+1,y0v+1,y0v)
-              vx<-vx+3*k
-              lines(vx,vy,lwd=2,bg="wheat")
-            }
-          }
-          
-}
+  plot(0:10,type = "n", main="Pintar un rectángulo")
+  rect(1,1,10,8, col="grey")
 
-dibu_rectangulo(10,3)
+  # Pintar linea
+  x0<-c(2,8)
+  y0<-c(4,4)
+  lines(x0,y0,col="blue", lwd=3)
 ```
 
-## Crear una funcion para dibujar un edificio
-Vamos a complicar la cosaun poco. Empezaremos por cambiar la función de pintado de `lines` a `rect`, esto nos ahorrará código. La función rect pinta un rectangulo a partir de los 4 vertices `rect(xleft, ybottom, xright, ytop)`
+Para pintar una linea en la gráfica está la función `lines()` a la que le pasamos como argumentos las coordenadas de los puntos inicio y final de la linea.
 
-También vamos a introducir algunas opciones nuevas como trasladar el rectangolo principal o edificio a un origen distinto de (0,0), que llamaremos (x0,y0).
+También existen otras funciones para pintar formas como `polygon()` que pinta un polígono a partir de las coordenadas.
 
+## Paso 2. Crear función edificio
+Ahora que conocemos las funciones de pintar vamos a crear una función personalizada que nos pinte un edificio que en el fondo es un simple rectángulo sobre el suelo, en el que pintaremos los pisos y las ventanas.
+
+Para definir un edificio necesitaremos antes aportar el número de pisos que va a tener y el ancho del edificio la definiremos por el número de ventanas, ya que las pondremos equidistantes. 
+
+Como somos buenos arquitectos hay cosas que damos por sentadas, por ejemplo que la altura de un piso es de 3,5 m. o que las ventanas van a ser todas iguales de 1x1m. También damos por supuesto que cada ventana es de una habitación que tiene 4 metros de ancho de fachada. 
+
+Con esta información ya podemos crear un modelo que genere y pinte un edificio al pasar los argumentos de número de pisos (`npisos`) y número de ventanas en fachada (`nvent`). Vamos a suponer que el vértice inicial del edificio está en las coordenadas (0,0).
+
+```{r edificio_definicion}
+# funcion edificio
+edificio<-function (npisos,nvent){
+          h<-3.5 # altura de un piso
+          a<- 4 #ancho de la habitación de fachada
+          altura<-h*npisos # altura total del edificio
+          ancho<-a*nvent # ancho total del edificio 
+          
+          #pintamos una grafica vacía que contenga la escala de maximos
+          plot(1:max(altura,ancho),type="n", xlim = c(0,max(altura,ancho)))
+          # pintamos el edificio de color gris
+          rect(0, 0, ancho,altura, col = "grey")
+}
+# llamamos a la función y creamos el primer edificio
+edificio(34,5)
+```
+
+Vamos a añadir a esta función unas líneas que marquen cada piso y las ventanas.
 
 ```{r}
-# usaremos la funcion rect
-# rect(xleft, ybottom, xright, ytop, density = NULL, angle = 45,
-#     col = NA, border = NULL, lty = par("lty"), lwd = par("lwd"),
-
-edificio2<-function (npisos,nvent,x0=0,y0=0,add=T){
-          h<-3.5
-          altura<-h*npisos
-          ancho<-nvent*3
-          x_ver<-c(x0,ancho+x0,ancho+x0,x0)
-          y_ver<-c(y0,y0,altura+y0,altura+y0)
-          if(add == T){
-            plot(x_ver,y_ver,type="l", xlim = c(x0,max(x0+altura,x0+ancho)))
-                  }
-          rect(x0, y0, ancho+x0,altura+y0, col = "grey")
-          margen=1
-          for (i in 2:npisos-1){
+edificio1<-function (npisos,nvent){
+          h<-3.5 # altura de un piso
+          a<- 4 #ancho de la habitación de fachada
+          ancho_ventana<-1
+          altura<-h*npisos # altura total del edificio
+          ancho<-a*nvent # ancho total del edificio 
+          
+          #pintamos una grafica vacía que contenga la escala de maximos
+          plot(1:max(altura,ancho),type="n", xlim = c(0,max(altura,ancho)))
+          # pintamos el edificio de color gris
+          rect(0, 0, ancho,altura, col = "grey")
+          # bucle para los pisos
+          x0=0
+          y0=0
+          # pintamos lineas horizontales
+          for (i in 2:npisos-1){# no incluye el piso bajo
             x1<-c(x0,x0+ancho)
-            y_0<-i*h+y0
-            y1<-c(y_0,y_0)
+            y_piso<-i*h+y0 # altura del piso
+            y1<-c(y_piso,y_piso)
             lines(x1,y1)
+            # por cada piso hacemos las ventanas
+            altura_ventana_suelo<-1
             for (k in 0:(nvent-1)){
-              #vx<-c(0+margen,1+margen,1+margen,0+margen)
-              y0v<-y_0+margen
-              rect(margen+3*k+x0,y0v,x0+1+margen+3*k,y0v+1, col = "black")
-              #lines(vx,vy,lwd=2,bg="wheat")
+              # vertice x bajo de la ventana
+              xv<-a/2-ancho_ventana/2+a*k
+              # vertice y bajo de la ventana
+              yv<-y_piso+altura_ventana_suelo
+              # pintamos ventana
+              rect(xv,yv,xv+ancho_ventana,yv+ancho_ventana, col = "black")
+              #rect(xleft, ybottom, xright, ytop) 
             }
-          }
-          
+          }          
 }
-# creamos el primer edificio
-edificio2(34,5)
-# añadimos varios más
-edificio2(15,3,13,0,add=F)
-edificio2(22,2,23,0,add=F)
-edificio2(15,6,34,0,add=F)
-edificio2(23,3,55,0,add=F)
-edificio2(4,6,60,0,add=F)
+
+edificio1(14,3)
+```
+
+## Paso 3. Añadir desplazamiento 
+La función está muy avanzada. Podríamos añadir como argumentos los parámetros que se introducen por defecto y generar una función más compleja de dibujo, pero vamos a continuar añadiendo la posibilidad de crear el edificio en otro punto de coordenadas diferente, para así poder generar muchos edificios y crear una ciudad.
+
+Hasta ahora el edificio se genera en el vértice (0,0) de coordenadas. Vamos a añadir la opción de que se genere en otro punto del eje x cualquiera y también la opción de que no se borre en cada repintado permitiendo añadir más edificios a la gráfica.
+
+```{r}
+
+edificio2<-function(npisos=10,nvent=3,x0=0,borrar=T){
+          y0 <- 0
+          h <-3.5 # altura de un piso
+          a <- 4 #ancho de la habitación de fachada
+          ancho_ventana <-1.5
+          altura <-h*npisos # altura total del edificio
+          ancho <-a*nvent # ancho total del edificio 
+          # pintamos una grafica vacía que contenga la escala de maximos
+          # si borrar=T vacía el lienzo
+          if(borrar==T){
+                plot(1:max(altura,ancho),type="n",
+                     xlim = c(0,max(altura,ancho)),
+                     xlab = " ",ylab=" ")
+                lines(c(0,max(altura,ancho)),c(0,0))
+                }
+          # pintamos el edificio de color gris
+          rect(x0, y0, ancho+x0,altura+y0, col = "grey")
+          # bucle para los pisos
+          # pintamos lineas horizontales
+          for (i in 2:npisos-1){# no incluye el piso bajo
+            x1<-c(x0,x0+ancho)
+            y_piso<-i*h+y0 # altura del piso
+            y1<-c(y_piso,y_piso)
+            lines(x1,y1,lty=2)
+            # por cada piso hacemos las ventanas
+            altura_ventana_suelo<-1
+              for (k in 0:(nvent-1)){
+                # vertice x bajo de la ventana
+                xv<-a/2-ancho_ventana/2+a*k
+                # vertice y bajo de la ventana
+                yv<-y_piso+altura_ventana_suelo
+                # pintamos ventana
+                rect(x0+xv,yv,x0+xv+ancho_ventana,yv+ancho_ventana, col = "black")
+                }
+          }          
+    }
+
+edificio2(26,3,15)
+edificio2(12,2,5,borrar=F)
+edificio2(22,7,45,borrar=F)
 
 ```
-Bueno la cosa ya mola más.
 
+## Paso 4. Generar un skyline
+Una vez tenemos la función generadora de edificios vamos a crear otra función que la llame varias veces hasta crear una ciudad.
+
+Los argumentos de entrada serán el ancho de la ciudad en m (M), la altura máxima del mayor rascacielos (H).
+
+
+```{r}
+ciudad<-function(M=200,H=140){
+  # Pinta el lienzo de la ciudad
+    plot(1:H,type="n",
+            xlim = c(0,M),
+            xlab = " ",ylab=" ")
+            lines(c(0,M),c(0,0))
+            
+    nedif<-as.integer(M/12)
+    # de 2 a 8 ventanas
+    v_en_fachadas<-2:7
+    alturas<-5:as.integer(H/3.5)
+    vector_v<- sample(v_en_fachadas,nedif,replace = TRUE)
+    print("ventanas:")
+    print(vector_v)
+    vector_y<- sample(alturas,nedif)
+    print("pisos:")
+    print( vector_y)
+    x0<-0
+    for(i in seq_along(vector_v)){
+      edificio2(vector_y[i],vector_v[i],x0,borrar=F)  
+      x0<-vector_v[i]*4+x0
+      #edificio2(npisos,nvent=3,x0=0,borrar=T){
+    }
+    
+}
+
+ciudad()
+
+```
+
+## Paso 5. Mejoras
+Una vez que tenemos la función generadora de edificios y la de ciudades, vamos a personalizar las funciones para mejorar la apariencia, por ejemplo, cambiando el color de los edificios y de las ventanas para que parezcan encendidas o apagadas.
+
+```{r warning=FALSE}
+
+edificio3<-function(npisos=10,nvent=3,x0=0,y0=0,borrar=T,alfa=1,col="grey"){
+          #y0 <- 0
+          h <-3.5 # altura de un piso
+          a <- 4 #ancho de la habitación de fachada
+          ancho_ventana <-1.5
+          altura <-h*npisos # altura total del edificio
+          ancho <-a*nvent # ancho total del edificio 
+          # pintamos una grafica vacía que contenga la escala de maximos
+          # si borrar=T vacía el lienzo
+          if(borrar==T){
+                plot(1:max(altura,ancho),type="n",
+                     xlim = c(0,max(altura,ancho)),
+                     xlab = " ",ylab=" ")
+                lines(c(0,max(altura,ancho)),c(0,0))
+                }
+          # pintamos el edificio de color gris
+          #alfa<-runif(1,0.4,1)
+          color_edificio<-adjustcolor(col, alpha.f = alfa)
+          col_border<-adjustcolor(par("fg"), alpha.f = alfa)
+          
+          rect(x0, y0, ancho+x0,altura+y0, col = color_edificio, border = col_border)
+          # bucle para los pisos
+          # pintamos lineas horizontales
+          for (i in 2:npisos-1){# no incluye el piso bajo
+            x1<-c(x0,x0+ancho)
+            y_piso<-i*h+y0 # altura del piso
+            y1<-c(y_piso,y_piso)
+            lines(x1,y1,lty=2,col = col_border)
+            # por cada piso hacemos las ventanas
+            altura_ventana_suelo<-1
+              for (k in 0:(nvent-1)){
+                # vertice x bajo de la ventana
+                xv<-a/2-ancho_ventana/2+a*k
+                # vertice y bajo de la ventana
+                yv<-y_piso+altura_ventana_suelo
+                # pintamos ventana
+                #color encendido apagado de luz
+                color_ventana<-ifelse(runif(1)>0.7,"yellow","black")
+                color_ventana<-adjustcolor(color_ventana, alpha.f = alfa) 
+                rect(x0+xv,yv,x0+xv+ancho_ventana,yv+ancho_ventana,
+                     col = color_ventana,border = col_border)
+                }
+          }          
+    }
+
+edificio3(26,3,15,alfa=0.3,col="wheat")
+edificio3(12,2,5,10,borrar=F)
+edificio3(22,7,45,23,borrar=F)
+edificio3(10,3,50,10,borrar=F,alfa=0.1)
+
+```
+
+##Resultados
+
+Con estos cambios podemos hacer ya muchas cosas chulas, por ejemplo vamos a personalizar la función de ciudad, añadiendo 3 argumentos:
+
+ - y0= para subir la linea de suelo
+ - alfa= para controlar la transparencia del color
+ - col= para definir el color general de los edificios
+ 
+La idea es llamar varias veces a la funcion `ciudad()` empezando por el fondo claro y tramsparente y termnar en el primer plano con alfa=1 y color vivo.
+
+Veamos el resultado:
+
+```{r}
+# Version personalizada de la funcion ciudad
+ciudad2<-function(M=200,H=140, y0=0, alfa=1,col="grey",borrar=T){
+  # Pinta el lienzo de la ciudad o borra lo que haya
+  if(borrar==T){
+    plot(1:H,type="n",
+            xlim = c(0,M),
+            xlab = " ",ylab=" ",axes=FALSE)
+            lines(c(0,M),c(0,0))
+    }        
+    nedif<-as.integer(M/12)# un calculo rápido del nummero de edificios
+    # ventanas en cada fachada de 2 a 7 ventanas
+    v_en_fachadas<-2:7
+    alturas<-5:as.integer(H/3.5) # alturas de los rascacielos posibles
+    # toma una muestra aleatoria de ventanas y alturas
+    vector_v<- sample(v_en_fachadas,nedif,replace = TRUE)
+    vector_y<- sample(alturas,nedif)
+    x0<-0
+    for(i in seq_along(vector_v)){
+      # por orden, npisos, nventanas, x0,y0...
+      edificio3(vector_y[i],vector_v[i],x0,y0,borrar=F,alfa=alfa,col=col)  
+      x0<-vector_v[i]*4+x0 # posicion x del siguiente edificio
+    }
+}
+
+# Ahora Creamos una ciudad
+  ciudad2(alfa=0.2,col="blue", y0=20)
+  ciudad2(alfa=0.5,col="red", y0=0,borrar=FALSE)
+  ciudad2(H=100,alfa=1,col="grey", y0=0,borrar=FALSE)
+
+```
+
+## Conclusión
+
+Ha sido muy divertido, en breve continuaremos la saga educativa haciendo más modelos por ejemplo:
+
+ - generador de bosques
+ - creador de mapas del tesoro
+ - ...
+ 

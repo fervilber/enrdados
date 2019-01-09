@@ -6,7 +6,7 @@
     <description>Recent content in Tags on En_R_dados</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>es</language>
-    <lastBuildDate>Tue, 08 Jan 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 07 Jan 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,7 +14,7 @@
     <item>
       <title>Blogdown</title>
       <link>/tags/blogdown/</link>
-      <pubDate>Tue, 08 Jan 2019 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 07 Jan 2019 00:00:00 +0000</pubDate>
       
       <guid>/tags/blogdown/</guid>
       <description></description>
@@ -23,7 +23,7 @@
     <item>
       <title>Bookdown</title>
       <link>/tags/bookdown/</link>
-      <pubDate>Fri, 04 Jan 2019 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 07 Jan 2019 00:00:00 +0000</pubDate>
       
       <guid>/tags/bookdown/</guid>
       <description></description>
@@ -41,7 +41,7 @@
     <item>
       <title>Css</title>
       <link>/tags/css/</link>
-      <pubDate>Tue, 08 Jan 2019 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 07 Jan 2019 00:00:00 +0000</pubDate>
       
       <guid>/tags/css/</guid>
       <description></description>
@@ -50,9 +50,18 @@
     <item>
       <title>Dibujo</title>
       <link>/tags/dibujo/</link>
-      <pubDate>Tue, 08 Jan 2019 00:00:00 +0000</pubDate>
+      <pubDate>Wed, 09 Jan 2019 00:00:00 +0000</pubDate>
       
       <guid>/tags/dibujo/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Divertido</title>
+      <link>/tags/divertido/</link>
+      <pubDate>Wed, 09 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/divertido/</guid>
       <description></description>
     </item>
     
@@ -66,11 +75,11 @@
     </item>
     
     <item>
-      <title>Gráficas</title>
-      <link>/tags/gr%C3%A1ficas/</link>
-      <pubDate>Tue, 08 Jan 2019 00:00:00 +0000</pubDate>
+      <title>Gráficos</title>
+      <link>/tags/gr%C3%A1ficos/</link>
+      <pubDate>Wed, 09 Jan 2019 00:00:00 +0000</pubDate>
       
-      <guid>/tags/gr%C3%A1ficas/</guid>
+      <guid>/tags/gr%C3%A1ficos/</guid>
       <description></description>
     </item>
     
@@ -102,6 +111,15 @@
     </item>
     
     <item>
+      <title>Modelos</title>
+      <link>/tags/modelos/</link>
+      <pubDate>Wed, 09 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/modelos/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Pdf</title>
       <link>/tags/pdf/</link>
       <pubDate>Fri, 04 Jan 2019 00:00:00 +0000</pubDate>
@@ -111,9 +129,18 @@
     </item>
     
     <item>
+      <title>Processing</title>
+      <link>/tags/processing/</link>
+      <pubDate>Wed, 09 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/processing/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>R</title>
       <link>/tags/r/</link>
-      <pubDate>Thu, 03 Jan 2019 00:00:00 +0000</pubDate>
+      <pubDate>Wed, 09 Jan 2019 00:00:00 +0000</pubDate>
       
       <guid>/tags/r/</guid>
       <description></description>
@@ -122,7 +149,7 @@
     <item>
       <title>Sintaxis</title>
       <link>/tags/sintaxis/</link>
-      <pubDate>Tue, 08 Jan 2019 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 07 Jan 2019 00:00:00 +0000</pubDate>
       
       <guid>/tags/sintaxis/</guid>
       <description></description>

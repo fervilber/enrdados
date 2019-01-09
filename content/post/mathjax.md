@@ -5,6 +5,8 @@ date: 2018-04-14
 lastmod: 2018-04-15
 mathjax: true
 toc: true
+categories:
+  - "markdown"
 tags:
   - "MathJax"
   - "markdown"

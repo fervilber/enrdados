@@ -4,8 +4,7 @@ author: F.VilBer
 date: '2019-01-04'
 slug: editar-a-dos-columnas
 categories:
-  - edicion
-  - bookdown
+  - editar documentos
 tags:
   - pdf
   - columna

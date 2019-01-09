@@ -6,53 +6,25 @@
     <description>Recent content in Categories on En_R_dados</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>es</language>
-    <lastBuildDate>Tue, 01 Jan 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/categories/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Blog</title>
-      <link>/categories/blog/</link>
-      <pubDate>Tue, 01 Jan 2019 00:00:00 +0000</pubDate>
+      <title>Editar Documentos</title>
+      <link>/categories/editar-documentos/</link>
+      <pubDate>Mon, 07 Jan 2019 00:00:00 +0000</pubDate>
       
-      <guid>/categories/blog/</guid>
+      <guid>/categories/editar-documentos/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Blogdown</title>
-      <link>/categories/blogdown/</link>
-      <pubDate>Thu, 03 Jan 2019 00:00:00 +0000</pubDate>
+      <title>Educación</title>
+      <link>/categories/educaci%C3%B3n/</link>
+      <pubDate>Wed, 09 Jan 2019 00:00:00 +0000</pubDate>
       
-      <guid>/categories/blogdown/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Bookdown</title>
-      <link>/categories/bookdown/</link>
-      <pubDate>Tue, 08 Jan 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/categories/bookdown/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Edicion</title>
-      <link>/categories/edicion/</link>
-      <pubDate>Fri, 04 Jan 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/categories/edicion/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Gráficos</title>
-      <link>/categories/gr%C3%A1ficos/</link>
-      <pubDate>Tue, 08 Jan 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/categories/gr%C3%A1ficos/</guid>
+      <guid>/categories/educaci%C3%B3n/</guid>
       <description></description>
     </item>
     
@@ -62,15 +34,6 @@
       <pubDate>Thu, 06 Dec 2018 00:00:00 +0000</pubDate>
       
       <guid>/categories/markdown/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>R</title>
-      <link>/categories/r/</link>
-      <pubDate>Tue, 01 Jan 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/categories/r/</guid>
       <description></description>
     </item>
     

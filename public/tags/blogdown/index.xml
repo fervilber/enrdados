@@ -6,7 +6,7 @@
     <description>Recent content in Blogdown on En_R_dados</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>es</language>
-    <lastBuildDate>Tue, 08 Jan 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 07 Jan 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/blogdown/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,7 +14,7 @@
     <item>
       <title>Resaltar sintaxis</title>
       <link>/post/resaltar-sintaxis/</link>
-      <pubDate>Tue, 08 Jan 2019 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 07 Jan 2019 00:00:00 +0000</pubDate>
       
       <guid>/post/resaltar-sintaxis/</guid>
       <description>AntecedentesAunque conseguí que la plantilla de Hugo funcionase bien y crear un flujo correcto en el blog usando blogdown, he visto que la sintaxis que viene por defecto en los bloques de código es muy simple. Tan solo resalta en gris el bloque.
@@ -30,6 +30,15 @@ Me gustaría, ya que esto es un blog de programación en R, que los bloques de c
       <description>Problemas He sufrido bastante hasta que la web del blog ha funcionado de manera fluída. Primero por la instalacion de HUGO en Netlify, y después con otros aspectos pequeños que provocaban errores.
 Voy a air poniendo los errores que hacían petar el sistema:
 Errores con Git Para subir las cosas desde mi PC a gitHub en RSTUDIO, he usado siempre el entorno git que tiene por defecto, pero con blogdown he tenido muchos problemas y acabo haciendolo de manera manual desde Terminal.</description>
+    </item>
+    
+    <item>
+      <title>Crear un blog con blogdown (1)</title>
+      <link>/post/crear-un-blog-con-blogdown-1/</link>
+      <pubDate>Tue, 01 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/crear-un-blog-con-blogdown-1/</guid>
+      <description>Antes Llevo ya varias semanas con la idea de crear un blog con la herramienta blogdown de Yihue Xie, la cuestión de si cambiar a blogdown no es simple, aunque tienen muchas cosas buenas, yo me apaño bastante bien con otras herramientas como docuwiki que me gustan mucho, me aportasn flexibilidad y puedo editar desde cualquier sitio, pero el problema es que para usar especificamente con R hay que pasar las gráficas, tablas y datos a estilos diferentes y eso con blogdown lo tienes de inmediato.</description>
     </item>
     
   </channel>
