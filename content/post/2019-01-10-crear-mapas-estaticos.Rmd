@@ -99,14 +99,16 @@ Preattymap es una librería para pintar mapas "bonitos", como su nombre indica. 
 
 Además de pintar buenos mapas tiene funciones de busqueda geográfica para obtener coordenadas de direcciones y lugares a partir del nombre con la función `searchbbox()`, así como muchas opciones de hacer cajas de coordenadas (`makebbox`) a partir de puntos, direcciones, etc.. y zoom (`zoombbox`) y uniones (`mergebbox` ) de dichas cajas lo que es muy útil. 
 
-```{r pretty_1, warning=FALSE}
+```{r pretty_1, eval=FALSE, warning=FALSE}
   #install.packages("prettymapr")
   library(prettymapr)
   library(rosm)
   # source="dsk" es para entrar como Data Science Toolkit que evita tener que darse de alta en las APIs
   prettymap(osm.plot(searchbbox("Murcia")))
- 
+
 ```
+
+![Murcia](/post/2019-01-10-crear-mapas-estaticos_files/pretty_1-1.png)
 
 También podemos añadir otras capas a un mapa de `prettymapr` añadiendo una expresion de mapa o algo que dé como resultado una capa dentro de llaves como primer argumento de la función. despues de este argumento se le añaden las decoraciones al mapa, esto es las flecha de norte, escala etc..
 
