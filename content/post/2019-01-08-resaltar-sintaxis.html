@@ -30,7 +30,7 @@ output:
 <h2>Paso 1. Comprueba tu plantilla</h2>
 <p>Lo primero que he hecho es verificar que mi plantilla de <a href="https://themes.gohugo.io/">HUGO</a> tiene la funcionalidad de resaltado. Antes debes saber que los resaltados de código o en inglés <em>sintax highlight</em> se hacen usando una librería <em>JavaScritp</em> llamada <a href="https://highlightjs.org">highlight.js</a>.</p>
 <p>Si la plantilla (o <code>theme</code> in english) lo tiene incluido lo podremos activar directamente en el fichero de configuración del blog, el <code>config.yaml</code> con parámetros como los siguientes:</p>
-<pre class="yaml"><code>[params]
+<pre><code>[params]
     description = &quot;A website built through Hugo and blogdown.&quot;
 
     highlightjsVersion = &quot;9.11.0&quot;
@@ -58,7 +58,7 @@ output:
 <p>Para que el blog lea el fichero de estilo que hemos grabado debemos añadir en el encabezado por defecto alguna línea de código que ejecute el JavaScript.</p>
 <p>Nos vamos a la carpeta de nuestra plantilla local: <em>/themes/mainroad/layouts/partials/</em> y buscamos el fichero <code>header.html</code>.</p>
 <p>Lo abrimos y editamos para añadir las siguientes lineas después de <code>&lt;header class=&quot;header&quot;&gt;</code>:</p>
-<pre class="note"><code>&lt;link rel=&quot;stylesheet&quot; href=&quot;{{&quot;css/hybrid.css&quot; | absURL}}&quot; rel=&quot;stylesheet&quot; id=&quot;theme-stylesheet&quot;&gt;
+<pre><code>&lt;link rel=&quot;stylesheet&quot; href=&quot;{{&quot;css/hybrid.css&quot; | absURL}}&quot; rel=&quot;stylesheet&quot; id=&quot;theme-stylesheet&quot;&gt;
 &lt;script src=&quot;{{ &quot;js/highlight.pack.js&quot; | absURL }}&quot;&gt;&lt;/script&gt;
 &lt;script&gt;hljs.initHighlightingOnLoad();&lt;/script&gt;</code></pre>
 <p>En la primera línea se hace referencia a un fichero <code>css/hybrid.css</code> que es un fichero de estilo que se encuentra en el zip que descargamos y que debemos también copiar en la carpeta de estilos localizada en mi caso en: <em>/themes/mainroad/static/css</em>.</p>

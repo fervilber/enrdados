@@ -6,10 +6,20 @@
     <description>Recent content in Posts on En_R_dados</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>es</language>
-    <lastBuildDate>Wed, 09 Jan 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 10 Jan 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Crear mapas estaticos con R</title>
+      <link>/post/crear-mapas-estaticos/</link>
+      <pubDate>Thu, 10 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/crear-mapas-estaticos/</guid>
+      <description>¿qué son los mapas estáticos?Los mapas fijos o estáticos son los de siempre, que se contraponen a los nuevos o dinámicos en los que se permite interactuar. Estos mapas fijos son solo imágenes de unarepresentación geográfica.
+Estos mapas tienen cada vez menos uso, pero siguen siendo útiles para insertar en documentos y libros. Estamos tan acostumbrados a interactuar con los mapas,a hacer zoom o localizar poblaciones de forma dinámica que es hasta raro querer un simple mapa como imagen.</description>
+    </item>
     
     <item>
       <title>Pintar una ciudad con R</title>
@@ -81,15 +91,6 @@ Errores con Git Para subir las cosas desde mi PC a gitHub en RSTUDIO, he usado s
       <guid>/post/mathjax/</guid>
       <description>&lt;p&gt;&lt;em&gt;MathJax&lt;/em&gt; es una librería JavaScript que permite ver ecuaciones y notación matemática en casi cualquier navegador moderno.
 Podemos usarla directamente en nuestros post de blogdown sin necesidad de acudir al formato Rmd, es decir con markdown puro de la siguiente forma:&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>Featured Image</title>
-      <link>/post/featured-image/</link>
-      <pubDate>Fri, 13 Apr 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/post/featured-image/</guid>
-      <description>&lt;p&gt;Featured images can definitely be useful in making your site pages more attractive. You can add featured image to any part of the website, on each individual content page.&lt;/p&gt;</description>
     </item>
     
   </channel>

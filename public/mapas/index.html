@@ -9,9 +9,9 @@
 	<meta name="description" content="">
 	<meta name="generator" content="Hugo 0.53" />
 	<meta property="og:title" content="R Mapas" />
-<meta property="og:description" content="Chuleta rápida para hacer mapas con R
-Crear mapa estático El objetivo es crear un mapa estático, en imagen, y representar varios puntos de coordenadas. Usaremos la librería ggspatial que es una versión de ggplot especial para hacer mapas con base de mapas libres, como los osm de openlayer.
-Los datos que usaremos de entrada son coordenadas de dos puntos de la ciudad de Torrevieja, Alicante. Las funciones de ggspatial son dos una ggosm() pinta mapas con base, pero es más interesante usar la funcion ggplot habitual y añadir como una geometría más el tipo de fondo mediante la fucnión geom_osm que se usa siempre dentro de ggplot ." />
+<meta property="og:description" content="Acceso rápido a enlaces para crear mapas
+¡¡¡ PÁGINA BORRADOR!!
+Crear mapa estático ggspatial y rosm preattymap #install.packages(&quot;prettymapr&quot;) library(prettymapr) library(rosm) # source=&quot;dsk&quot; to use the Data Science Toolkit que evita tener que darse de alta en las APIs prettymap(osm.plot(searchbbox(&quot;Murcia&quot;)),source=&quot;dsk&quot;) # plano con puntos a mano torrevieja &lt;- data.frame(lon = c(-0.69,-0.67), lat = c(37.98,37.97)) prettymap({ osm.plot(searchbbox(&quot;Torrevieja&quot;),zoom=13) osm.points(torrevieja$lon, torrevieja$lat, pch=18, cex=2) },scale.pos = &quot;topleft&quot;, arrow.pos=&quot;topright&quot;, drawarrow=T,arrow.scale=0.5, source=&quot;dsk&quot;)  pintar posicion de fotografías Vamos a leer los datos EFIX de unas fotos y pinta la posición de las mismas en una mapa estático." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/mapas/" /><meta property="article:published_time" content="2018-04-09T00:00:00&#43;00:00"/>
 <meta property="article:modified_time" content="2018-04-09T00:00:00&#43;00:00"/>
@@ -78,9 +78,11 @@ Los datos que usaremos de entrada son coordenadas de dos puntos de la ciudad de 
 <ul>
 <li>
 <ul>
-<li><a href="#crear-mapa-estático">Crear mapa estático</a></li>
+<li><a href="#crear-mapa-estático">Crear mapa estático</a>
+<ul>
+<li><a href="#ggspatial-y-rosm">ggspatial y rosm</a></li>
 <li><a href="#preattymap">preattymap</a></li>
-<li><a href="#ejemplo-sencillo-de-mapa-fondo-con-plot">Ejemplo sencillo de mapa fondo con plot</a></li>
+</ul></li>
 <li><a href="#pintar-posicion-de-fotografías">pintar posicion de fotografías</a></li>
 <li><a href="#enlaces-recomendados-para-mapeo-con-r">enlaces recomendados para mapeo con R</a></li>
 </ul></li>
@@ -93,69 +95,15 @@ Los datos que usaremos de entrada son coordenadas de dos puntos de la ciudad de 
 
 <hr />
 
-<p>Chuleta rápida para hacer mapas con R</p>
+<p>Acceso rápido a enlaces para crear mapas</p>
+
+<p>¡¡¡ PÁGINA BORRADOR!!</p>
 
 <h2 id="crear-mapa-estático">Crear mapa estático</h2>
 
-<p>El objetivo es crear un mapa estático, en imagen, y representar varios puntos de coordenadas.
-Usaremos la librería <em>ggspatial</em> que es una versión de ggplot especial para hacer mapas con base de mapas libres, como los osm de openlayer.</p>
+<h3 id="ggspatial-y-rosm">ggspatial y rosm</h3>
 
-<p>Los datos que usaremos de entrada son coordenadas de dos puntos de la ciudad de Torrevieja, Alicante.
-Las funciones de ggspatial son dos una <code>ggosm()</code> pinta mapas con base, pero es más interesante usar la funcion <code>ggplot</code> habitual y añadir como una geometría más el tipo de fondo mediante la fucnión <code>geom_osm</code> que se usa siempre dentro de <code>ggplot</code> .</p>
-
-<p>Fondos libres o bases cartográficas que podemos usar son la mismas que las definidas en la función <code>osm.types()</code> de la librería <code>rosm</code>:</p>
-
-<ul>
-<li>&ldquo;osm&rdquo;</li>
-<li>&ldquo;opencycle&rdquo;</li>
-<li>&ldquo;hotstyle&rdquo;</li>
-<li>&ldquo;loviniahike&rdquo;</li>
-<li>&ldquo;loviniacycle&rdquo;</li>
-<li>&ldquo;hikebike&rdquo;</li>
-<li>&ldquo;osmgrayscale&rdquo;</li>
-<li>&ldquo;stamenbw&rdquo;</li>
-<li>&ldquo;stamenwatercolor&rdquo;</li>
-<li>&ldquo;osmtransport&rdquo;</li>
-<li>&ldquo;thunderforestlandscape&rdquo;</li>
-<li>&ldquo;thunderforestoutdoors&rdquo;</li>
-<li>&ldquo;cartodark&rdquo;</li>
-<li>&ldquo;cartolight&rdquo;</li>
-</ul>
-
-<p>Veamos un ejemplo</p>
-
-<pre><code class="language-r">suppressPackageStartupMessages(library(sp))
-#library(sp)
-library(ggplot2)
-library(ggspatial)
-
-
-## Creamos capa de puntos como data frame
-torrevieja &lt;- data.frame(lon = c(-0.69,-0.67), lat = c(37.98,37.97))
-# Convertimos la  tabla de puntos en capa espacial con sp
-capa_puntos&lt;-SpatialPoints(torrevieja)
-str(capa_puntos)
-# Pintamos el mapa generico que se define con las coordenadas anteriroes
-# pero no pinta los puntos
-ggosm(capa_puntos) + ggtitle(&quot;Plano Torrevieja&quot;)
-
-# Pintamos el mapa con los puntos
-
-ggosm(type = &quot;osm&quot;) +  # pinta el mapa base
-    ggtitle(&quot;Plano Torrevieja con puntos de interés&quot;)+
-    geom_spatial(capa_puntos,size = 4, col=&quot;red&quot;,alpha = 0.6,lty = 2)+# pinta los puntos
-    coord_map() # pinta leyenda 
-
-# la funcion ggosm es igual a geom_osm
-ggplot(capa_puntos)+
-    geom_osm(type = &quot;stamenwatercolor&quot;)+  # pinta el mapa base
-    ggtitle(&quot;Plano Torrevieja con puntos de interés y escala&quot;)+
-    geom_spatial(capa_puntos,size = 5, col=&quot;blue&quot;,alpha = 0.3)+# pinta los puntos
-    annotation_scale() # pinta leyenda 
-
-</code></pre>
-
-<h2 id="preattymap">preattymap</h2>
+<h3 id="preattymap">preattymap</h3>
 
 <pre><code class="language-r">#install.packages(&quot;prettymapr&quot;)
 library(prettymapr)
@@ -173,22 +121,6 @@ prettymap({
  arrow.pos=&quot;topright&quot;,
  drawarrow=T,arrow.scale=0.5,
  source=&quot;dsk&quot;)
-
-</code></pre>
-
-<h2 id="ejemplo-sencillo-de-mapa-fondo-con-plot">Ejemplo sencillo de mapa fondo con plot</h2>
-
-<p>Mapa sencillo con prettymapr</p>
-
-<pre><code class="language-r">
-library(prettymapr)
-torrevieja &lt;- data.frame(lon = c(-0.69,-0.67), lat = c(37.98,37.97))
-# crea una caja de pintar makebbox(norte lat, este lon, sur lat, west lon)
-#cajamapa &lt;- makebbox(max(torrevieja$lat),max(torrevieja$lon),min(torrevieja$lat),min(torrevieja$lon))
-cajamapa &lt;- makebbox(37.98,-0.67,37.97,-0.69)
-
-osm.plot(cajamapa, type=&quot;stamenbw&quot;)
-prettymap(osm.plot(cajamapa, type=&quot;osmtransport&quot;), scale.style=&quot;ticks&quot;, scale.tick.cex=0)
 
 </code></pre>
 
@@ -297,11 +229,11 @@ prettymap({
 	<h4 class="widget__title">Más Recientes</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/post/crear-mapas-estaticos/">Crear mapas estaticos con R</a></li>
 			<li class="widget__item"><a class="widget__link" href="/post/pintar-un-edificio-con-r/">Pintar una ciudad con R</a></li>
 			<li class="widget__item"><a class="widget__link" href="/post/resaltar-sintaxis/">Resaltar sintaxis</a></li>
 			<li class="widget__item"><a class="widget__link" href="/post/editar-a-dos-columnas/">Documento a dos columnas</a></li>
 			<li class="widget__item"><a class="widget__link" href="/post/crear-un-blog-con-blogdown-2/">Crear un blog con blogdown (2)</a></li>
-			<li class="widget__item"><a class="widget__link" href="/post/crear-un-blog-con-blogdown-1/">Crear un blog con blogdown (1)</a></li>
 		</ul>
 	</div>
 </div>
@@ -311,6 +243,7 @@ prettymap({
 		<ul class="widget__list">
 			<li class="widget__item"><a class="widget__link" href="/categories/editar-documentos">Editar documentos</a></li>
 			<li class="widget__item"><a class="widget__link" href="/categories/educaci%c3%b3n">Educación</a></li>
+			<li class="widget__item"><a class="widget__link" href="/categories/mapas">Mapas</a></li>
 			<li class="widget__item"><a class="widget__link" href="/categories/markdown">Markdown</a></li>
 		</ul>
 	</div>
@@ -325,14 +258,16 @@ prettymap({
 		<a class="widget-taglist__link widget__link btn" href="/tags/dibujo" title="Dibujo">Dibujo (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/divertido" title="Divertido">Divertido (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/formato" title="Formato">Formato (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/gr%c3%a1ficos" title="Gráficos">Gráficos (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/gr%c3%a1ficos" title="Gráficos">Gráficos (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/mapas" title="Mapas">Mapas (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/markdown" title="Markdown">Markdown (2)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/matem%c3%a1ticas" title="Matemáticas">Matemáticas (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/mathjax" title="Mathjax">Mathjax (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/modelos" title="Modelos">Modelos (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/pdf" title="Pdf">Pdf (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/processing" title="Processing">Processing (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/r" title="R">R (3)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/r" title="R">R (4)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/sig" title="Sig">Sig (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/sintaxis" title="Sintaxis">Sintaxis (3)</a>
 	</div>
 </div>

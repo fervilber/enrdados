@@ -6,10 +6,20 @@
     <description>Recent content on En_R_dados</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>es</language>
-    <lastBuildDate>Wed, 09 Jan 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 10 Jan 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Crear mapas estaticos con R</title>
+      <link>/post/crear-mapas-estaticos/</link>
+      <pubDate>Thu, 10 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/crear-mapas-estaticos/</guid>
+      <description>¿qué son los mapas estáticos?Los mapas fijos o estáticos son los de siempre, que se contraponen a los nuevos o dinámicos en los que se permite interactuar. Estos mapas fijos son solo imágenes de unarepresentación geográfica.
+Estos mapas tienen cada vez menos uso, pero siguen siendo útiles para insertar en documentos y libros. Estamos tan acostumbrados a interactuar con los mapas,a hacer zoom o localizar poblaciones de forma dinámica que es hasta raro querer un simple mapa como imagen.</description>
+    </item>
     
     <item>
       <title>Pintar una ciudad con R</title>
@@ -94,23 +104,14 @@ Podemos usarla directamente en nuestros post de blogdown sin necesidad de acudir
     </item>
     
     <item>
-      <title>Featured Image</title>
-      <link>/post/featured-image/</link>
-      <pubDate>Fri, 13 Apr 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/post/featured-image/</guid>
-      <description>&lt;p&gt;Featured images can definitely be useful in making your site pages more attractive. You can add featured image to any part of the website, on each individual content page.&lt;/p&gt;</description>
-    </item>
-    
-    <item>
       <title>R Mapas</title>
       <link>/mapas/</link>
       <pubDate>Mon, 09 Apr 2018 00:00:00 +0000</pubDate>
       
       <guid>/mapas/</guid>
-      <description>Chuleta rápida para hacer mapas con R
-Crear mapa estático El objetivo es crear un mapa estático, en imagen, y representar varios puntos de coordenadas. Usaremos la librería ggspatial que es una versión de ggplot especial para hacer mapas con base de mapas libres, como los osm de openlayer.
-Los datos que usaremos de entrada son coordenadas de dos puntos de la ciudad de Torrevieja, Alicante. Las funciones de ggspatial son dos una ggosm() pinta mapas con base, pero es más interesante usar la funcion ggplot habitual y añadir como una geometría más el tipo de fondo mediante la fucnión geom_osm que se usa siempre dentro de ggplot .</description>
+      <description>Acceso rápido a enlaces para crear mapas
+¡¡¡ PÁGINA BORRADOR!!
+Crear mapa estático ggspatial y rosm preattymap #install.packages(&amp;quot;prettymapr&amp;quot;) library(prettymapr) library(rosm) # source=&amp;quot;dsk&amp;quot; to use the Data Science Toolkit que evita tener que darse de alta en las APIs prettymap(osm.plot(searchbbox(&amp;quot;Murcia&amp;quot;)),source=&amp;quot;dsk&amp;quot;) # plano con puntos a mano torrevieja &amp;lt;- data.frame(lon = c(-0.69,-0.67), lat = c(37.98,37.97)) prettymap({ osm.plot(searchbbox(&amp;quot;Torrevieja&amp;quot;),zoom=13) osm.points(torrevieja$lon, torrevieja$lat, pch=18, cex=2) },scale.pos = &amp;quot;topleft&amp;quot;, arrow.pos=&amp;quot;topright&amp;quot;, drawarrow=T,arrow.scale=0.5, source=&amp;quot;dsk&amp;quot;)  pintar posicion de fotografías Vamos a leer los datos EFIX de unas fotos y pinta la posición de las mismas en una mapa estático.</description>
     </item>
     
   </channel>
