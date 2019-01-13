@@ -34,9 +34,12 @@ Vamos a exponer algunas soluciones.
 Las funciones de trazado más habituales como `plot()`, `ggplot()` o `autoplot()` , pintan datos geográficos y puede servirnos para hacer mapas de contornos de capas y representación de puntos, pero adolecen de falta de fondos.  
 
 
-```{r plot_simple}
+```{r plot_simple, warning=FALSE, message=FALSE}
   # cargamos maptools para datos de ejemplo
-  library(maptools)
+  # library(maptools)
+# hacemos esto para cargar sin mensajes
+  suppressMessages(library(maptools, warn.conflicts = F))
+
   # cargamos los contornos mundiales
   data("wrld_simpl")
   # pintamos la zona de España y mediterráneo
@@ -56,7 +59,7 @@ Lo que hace este paquete es ampliar las opciones de la función `ggplot()` de la
 
 Por ejemplo, pintamos unos puntos sobre Torrevieja (ciudad de Alicante , España) con un fondo:
 
-```{r mapa_Murcia}
+```{r mapa_Murcia,warning=FALSE, message=FALSE}
   library(ggplot2)
   library(ggspatial)
   library(sp)
@@ -114,6 +117,7 @@ También podemos añadir otras capas a un mapa de `prettymapr` añadiendo una ex
 
 ```{r pretty_2, warning=FALSE}
 require(prettymapr)
+require(rosm)
   # plano con puntos a mano
   lon = c(-1.5058806338,-1.4055545377,-1.1244527259)
   lat = c(38.5723968325393,39.1989447389502,38.8332362700093)
@@ -145,9 +149,11 @@ El manual de uso puedes verlo [aquí](https://cran.r-project.org/web/packages/pr
 ## OpenStreetMap
 
 Otra librería de mapas fijos es `OpenStreetMap`.
-Los estilos disponibles y uso son parecidos, pero con esta podemos usar directamente plot().
+Los estilos disponibles y uso son parecidos, pero con esta podemos usar directamente `plot()`.
 
-```{r mapa_osm, warning=FALSE}
+Para usar `OpenStreetMap` debemos tener instalado rJava y naturalmente Java en nuestro Ordenador.
+
+```{r mapa_osm, eval=TRUE, warning=FALSE}
     #Mapa de España
     library(OpenStreetMap)
     nm <- c("osm", "maptoolkit-topo", "bing", "stamen-toner", 
@@ -159,7 +165,6 @@ Los estilos disponibles y uso son parecidos, pero con esta podemos usar directam
     plot(map)
     # otra forma con autoplot
    # ggplot2::autoplot(map)
-
 ```
 
 

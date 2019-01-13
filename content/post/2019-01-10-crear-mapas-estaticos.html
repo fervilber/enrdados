@@ -32,23 +32,19 @@ output:
 <h2>Lo más simple</h2>
 <p>Las funciones de trazado más habituales como <code>plot()</code>, <code>ggplot()</code> o <code>autoplot()</code> , pintan datos geográficos y puede servirnos para hacer mapas de contornos de capas y representación de puntos, pero adolecen de falta de fondos.</p>
 <pre class="r"><code>  # cargamos maptools para datos de ejemplo
-  library(maptools)</code></pre>
-<pre><code>## Loading required package: sp</code></pre>
-<pre><code>## Checking rgeos availability: FALSE
-##      Note: when rgeos is not available, polygon geometry     computations in maptools depend on gpclib,
-##      which has a restricted licence. It is disabled by default;
-##      to enable gpclib, type gpclibPermit()</code></pre>
-<pre class="r"><code>  # cargamos los contornos mundiales
+  # library(maptools)
+# hacemos esto para cargar sin mensajes
+  suppressMessages(library(maptools, warn.conflicts = F))
+
+  # cargamos los contornos mundiales
   data(&quot;wrld_simpl&quot;)
   # pintamos la zona de España y mediterráneo
   plot(wrld_simpl, xlim=c(-4,2), ylim=c(30, 47))
   
   # Usando prettymapr odemos añadir mas cosa al plot
   library(prettymapr)
-  addscalebar()</code></pre>
-<pre><code>## Autodetect projection: assuming lat/lon (epsg 4326)</code></pre>
-<pre><code>## Scale on map varies by more than 5%, scalebar may be inaccurate</code></pre>
-<pre class="r"><code>  addnortharrow(pos = &quot;topleft&quot;)</code></pre>
+  addscalebar()
+  addnortharrow(pos = &quot;topleft&quot;)</code></pre>
 <p><img src="/post/2019-01-10-crear-mapas-estaticos_files/figure-html/plot_simple-1.png" width="672" /></p>
 </div>
 <div id="ggspatial" class="section level2">
@@ -78,7 +74,6 @@ output:
                            style = north_arrow_fancy_orienteering, 
                            height = unit(1.5, &quot;cm&quot;),
                            width = unit(1.5, &quot;cm&quot;))</code></pre>
-<pre><code>## Zoom: 15</code></pre>
 <p><img src="/post/2019-01-10-crear-mapas-estaticos_files/figure-html/mapa_Murcia-1.png" width="672" /></p>
 <p>Cualquier <em>capa espacial</em> (cualquier objeto de los paquetes <code>sf</code>, <code>sp</code>, o <code>raster</code>) se puede agregar a un gráfico <code>ggplot()</code> usando una de las siguientes funciones de <code>ggspatial</code>:</p>
 <ul>
@@ -109,11 +104,15 @@ output:
   library(rosm)
   # source=&quot;dsk&quot; es para entrar como Data Science Toolkit que evita tener que darse de alta en las APIs
   prettymap(osm.plot(searchbbox(&quot;Murcia&quot;)))</code></pre>
-<pre><code>## Using default API key for pickpoint.io. If batch geocoding, please get your own (free) API key at https://app.pickpoint.io/sign-up</code></pre>
-<pre><code>## Error occured while plotting:  Error: $ operator is invalid for atomic vectors</code></pre>
+<div class="figure">
+<img src="/post/2019-01-10-crear-mapas-estaticos_files/pretty_1-1.png" alt="Murcia" />
+<p class="caption">Murcia</p>
+</div>
 <p>También podemos añadir otras capas a un mapa de <code>prettymapr</code> añadiendo una expresion de mapa o algo que dé como resultado una capa dentro de llaves como primer argumento de la función. despues de este argumento se le añaden las decoraciones al mapa, esto es las flecha de norte, escala etc..</p>
 <pre class="r"><code>require(prettymapr)
-  # plano con puntos a mano
+require(rosm)</code></pre>
+<pre><code>## Loading required package: rosm</code></pre>
+<pre class="r"><code>  # plano con puntos a mano
   lon = c(-1.5058806338,-1.4055545377,-1.1244527259)
   lat = c(38.5723968325393,39.1989447389502,38.8332362700093)
   nom = c(&quot;Albatana&quot;,&quot;Alcalá del Jucar&quot;,&quot;Almansa&quot;)
@@ -144,7 +143,8 @@ output:
 </div>
 <div id="openstreetmap" class="section level2">
 <h2>OpenStreetMap</h2>
-<p>Otra librería de mapas fijos es <code>OpenStreetMap</code>. Los estilos disponibles y uso son parecidos, pero con esta podemos usar directamente plot().</p>
+<p>Otra librería de mapas fijos es <code>OpenStreetMap</code>. Los estilos disponibles y uso son parecidos, pero con esta podemos usar directamente <code>plot()</code>.</p>
+<p>Para usar <code>OpenStreetMap</code> debemos tener instalado rJava y naturalmente Java en nuestro Ordenador.</p>
 <pre class="r"><code>    #Mapa de España
     library(OpenStreetMap)
     nm &lt;- c(&quot;osm&quot;, &quot;maptoolkit-topo&quot;, &quot;bing&quot;, &quot;stamen-toner&quot;, 
