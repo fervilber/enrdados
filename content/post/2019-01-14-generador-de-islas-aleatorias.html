@@ -1,0 +1,183 @@
+---
+title: Generador de islas aleatorias
+author: F.Vilber
+date: '2019-01-14'
+slug: generador-de-islas-aleatorias
+categories:
+  - mapas
+  - educación
+tags:
+  - dibujo
+  - mapas
+  - divertido
+  - matemáticas
+description: ''
+thumbnail: ''
+toc: yes
+editor_options: 
+  chunk_output_type: console
+---
+
+
+<div id="TOC">
+true
+</div>
+
+<p>Tras hacer el generador de ciudades me entró el gusanillo y he pensado otros talleres de programación para niños, como introducción a la programación algoritmos y uso de R. Creo que otro tema interesante es la generaciónd de mapas y entre estos vamos a empezar por algo sencillo como hacer islas aleatorias.</p>
+<div id="metodo-muy-simple" class="section level2">
+<h2>metodo muy simple</h2>
+<p>El método más simple que se me ha ocurrido es crear un circulo y darle algo de irregularidad en el perímetro. Está claro que van a salir islas redondeadas, pero vamos a empezar po lo sencillo.</p>
+<pre class="r"><code>R=3000 # m de dario
+I= 1000 # esto marca el factor de irregularidad de la cirunferecia
+
+N=16 # el numero de puntos en que dividimos la circunferencia para representar
+
+paso&lt;-2*pi/N
+
+coord&lt;-data.frame(x=NA,y=NA)
+for(i in 0:N-1){
+    x&lt;-(R+rnorm(1,I,I))*cos(paso*i)
+    y&lt;-(R+rnorm(1,I,I))*sin(paso*i)
+    coord&lt;-rbind(coord,c(x,y))
+    }
+coord&lt;-na.omit(coord)
+coord&lt;-rbind(coord,c(coord[1,1],coord[1,2]))
+plot(coord,col=&quot;darkslategray&quot;,lwd=3, main=&quot;Isla aleatoria&quot;)
+polygon(coord[,1],coord[,2],border = &quot;burlywood4&quot;,col=&quot;bisque4&quot;)</code></pre>
+<p><img src="/post/2019-01-14-generador-de-islas-aleatorias_files/figure-html/modelos-1.png" width="672" /></p>
+<pre class="r"><code># colores sacados de : http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf</code></pre>
+<p>Este algoritmo genera islas con apariencia muy real siempre que usemos un valor de N bajo (&lt;20), pues si es alto la irregularidad que buscamos se neutraliza al generar muchos bordes aleatorios continuos.</p>
+<p>Por lo tanto nos vale para crear la isla base, sobre la que alplicar algún al procedimiento posterior recursivo de caos sobre el contorno.</p>
+</div>
+<div id="generador-de-caos" class="section level2">
+<h2>generador de caos</h2>
+<p>Sobre la base anterior vamos a aplicar un procedimiento de generación de caos, que nos aumente la irregularidad para un mayor realismo. Las costas suelen comportarse como líneas fractales, como expuso en su libro <a href="https://en.wikipedia.org/wiki/The_Fractal_Geometry_of_Nature">La geometría fractal de la naturaleza</a> el matemático <a href="https://es.wikipedia.org/wiki/Beno%C3%AEt_Mandelbrot">Mandelbrot</a>.</p>
+<p>La cuestión es que vamos a crear una función que calcule el punto medio de cada lado del polígono isla. A ese punto medio lo desplazamos una distancia perpendicular aleatoria y con esto generamos un nuevo poligono. Este proceso iterativo lo repetimos N veces hasta que salga una geometría singular de costa.</p>
+<pre class="r"><code>    puntomedio&lt;-function(x1,y1,x2,y2){
+     # calcula el punto medio y lo mueve
+     # un porcentaje aleatorio sobre al perpendicular del lado
+        xmed&lt;-(x1+x2)/2
+        ymed&lt;-(y1+y2)/2
+    
+        # calculamos punto perpendicular aleatorio
+        vx&lt;- -(y2-y1) # por anlgulos es el eje opuesto
+        vy&lt;-(x2-x1)
+        d&lt;-0.5*runif(1)
+        # punto final
+        x0&lt;-xmed+d*vx
+        y0&lt;-ymed+d*vy
+    
+        return(c(x0,y0))
+    }
+    # creamos un poligono nuevo 
+    n_pol&lt;-data.frame(x=NA,y=NA)
+    # aplicamos la funión de punto medio
+    for (i in 1:nrow(coord)-1){
+        n_pol&lt;-rbind(n_pol,c(coord[i,1],coord[i,2]))
+        n_pol&lt;-rbind(n_pol,puntomedio(coord[i,1],coord[i,2],coord[i+1,1],coord[i+1,2]))
+        n_pol&lt;-rbind(n_pol,c(coord[i+1,1],coord[i+1,2]))
+    }
+    n_pol&lt;-na.omit(n_pol)
+    plot(n_pol,col=&quot;darkslategray&quot;,lwd=3, main=&quot;Isla aleatoria&quot;)
+    polygon(n_pol[,1],n_pol[,2],border = &quot;burlywood4&quot;,col=&quot;bisque4&quot;)</code></pre>
+<p><img src="/post/2019-01-14-generador-de-islas-aleatorias_files/figure-html/algo-1.png" width="672" /></p>
+</div>
+<div id="organizar-y-programar-el-algoritmo" class="section level2">
+<h2>Organizar y programar el algoritmo</h2>
+<div id="crear-funciones" class="section level3">
+<h3>Crear funciones</h3>
+<p>Con esta idea vamos a crear las funciones para automatizar el algoritmo,antes de nada vamos a crear la función que genera el poligono inicial de isla a partir del circulo como vimos en el punto uno. Llamaremos a esa función <code>pol_cero()</code>.</p>
+<p>Después una función que subdivida recursivamente cada lado del poligono en dos y haga el punto medio desplazdo (aleatoriamente en la perpendicular al lado) de cada lado. Llamaremos a esta función <code>div_pol()</code>.</p>
+<p>Luego otra función que ejecute la división del poligono anterior de manera recursiva, esto es, llamando a la función anterior N veces. Esta fucción la llamaremos <code>div_pol_n()</code>.</p>
+<p>Estas tres funciones las uniremos en una función final llamada <code>crea_isla()</code>.</p>
+<pre class="r"><code># función que genera un primer poligono aleatorio de isla
+pol_cero&lt;-function(R=3000,N=10){
+    # R= diametro medio de la isla en m 
+    I&lt;- R/3 # desviación media de irregularidades
+    #N&lt;-N # número de puntos base del boceto siempre &lt;20
+
+    paso&lt;-2*pi/N
+    # creamos poligono inicial como data.frame
+    pol_coord&lt;-data.frame(x=NA,y=NA)
+    
+    for(i in 0:N-1){
+        x&lt;-(R+rnorm(1,I,I/2))*cos(paso*i)
+        y&lt;-(R+rnorm(1,I,I*2))*sin(paso*i)
+        pol_coord&lt;-rbind(pol_coord,c(x,y))
+    }
+    pol_coord&lt;-na.omit(pol_coord)
+    # Añadimos al final el punto origen para cerrar el poligono
+    pol_coord&lt;-rbind(pol_coord,c(pol_coord[1,1],pol_coord[1,2]))
+    return(pol_coord)
+}
+  
+
+# función que divide en 2 cada lado del poligono
+# los datos de entrada deben ser un data.frame
+div_pol&lt;-function(poligon){
+           n_pol&lt;-data.frame(x=NA,y=NA)
+    # aplicamos la funión de punto medio
+        for (i in 1:nrow(poligon)-1){
+            n_pol&lt;-rbind(n_pol,c(poligon[i,1],poligon[i,2]))
+            n_pol&lt;-rbind(n_pol,puntomedio(poligon[i,1],poligon[i,2],poligon[i+1,1],poligon[i+1,2]))
+            n_pol&lt;-rbind(n_pol,c(poligon[i+1,1],poligon[i+1,2]))
+        }
+           n_pol&lt;-na.omit(n_pol)
+           return(n_pol)
+}
+
+# funcion recursiva     
+div_pol_n&lt;-function(poligon, N){
+    z&lt;-poligon
+    for(i in 1:N){
+        z&lt;- div_pol(z)        
+    }
+    return(z)
+}
+
+# funcion final que crea y pinta una isla
+crea_isla&lt;-function(R=3000,N=6){
+    #N=4
+    z&lt;-pol_cero(5000,N)    
+    z&lt;-div_pol_n(z,4)
+    plot(z,col=&quot;darkslategray&quot;, cex=0.2,main=paste(&quot;Isla aleatoria: R=&quot;,R,&quot; N=&quot;,N))
+    polygon(z[,1],z[,2],border = &quot;black&quot;,col=&quot;bisque4&quot;, lwd = 3)
+}
+
+crea_isla(3000,6)</code></pre>
+<p><img src="/post/2019-01-14-generador-de-islas-aleatorias_files/figure-html/funciones-1.png" width="672" /></p>
+</div>
+<div id="ejemplos" class="section level3">
+<h3>Ejemplos</h3>
+<p>Como ya hemos visto que funciona vamos a generar uns cuantos ejemplos:</p>
+<pre class="r"><code>    # ajusta la grafica para 6 dibujos
+    par(mfrow=c(3,2))
+    par(mar=c(0,0,0,01)+.4)
+    # genera 6 radios aleatorios
+    radio&lt;-as.integer(rnorm(6,8000,3000))
+    n_pun&lt;-as.integer(runif(6,3,15))
+    # llama a la funcion 6 veces
+    #sapply(radio,crea_isla,N=14) 
+    mapply(crea_isla,radio,n_pun)</code></pre>
+<p><img src="/post/2019-01-14-generador-de-islas-aleatorias_files/figure-html/pinta_ejemplo-1.png" width="672" /></p>
+<pre><code>## [[1]]
+## NULL
+## 
+## [[2]]
+## NULL
+## 
+## [[3]]
+## NULL
+## 
+## [[4]]
+## NULL
+## 
+## [[5]]
+## NULL
+## 
+## [[6]]
+## NULL</code></pre>
+<pre class="r"><code>    # vuelve al modo una
+    par(mfrow=c(1,1))</code></pre>
+</div>
+</div>

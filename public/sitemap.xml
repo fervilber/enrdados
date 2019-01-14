@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>/post/generador-de-islas-aleatorias/</loc>
+    <lastmod>2019-01-14T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/post/crear-mapas-estaticos/</loc>
     <lastmod>2019-01-10T00:00:00+00:00</lastmod>
   </url>
@@ -83,13 +88,13 @@
   
   <url>
     <loc>/tags/dibujo/</loc>
-    <lastmod>2019-01-09T00:00:00+00:00</lastmod>
+    <lastmod>2019-01-14T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/divertido/</loc>
-    <lastmod>2019-01-09T00:00:00+00:00</lastmod>
+    <lastmod>2019-01-14T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -101,13 +106,13 @@
   
   <url>
     <loc>/categories/educaci%C3%B3n/</loc>
-    <lastmod>2019-01-09T00:00:00+00:00</lastmod>
+    <lastmod>2019-01-14T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/</loc>
-    <lastmod>2019-01-10T00:00:00+00:00</lastmod>
+    <lastmod>2019-01-14T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -125,13 +130,13 @@
   
   <url>
     <loc>/tags/mapas/</loc>
-    <lastmod>2019-01-10T00:00:00+00:00</lastmod>
+    <lastmod>2019-01-14T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/categories/mapas/</loc>
-    <lastmod>2019-01-10T00:00:00+00:00</lastmod>
+    <lastmod>2019-01-14T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -149,7 +154,7 @@
   
   <url>
     <loc>/tags/matem%C3%A1ticas/</loc>
-    <lastmod>2018-04-15T00:00:00+00:00</lastmod>
+    <lastmod>2019-01-14T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -173,7 +178,7 @@
   
   <url>
     <loc>/post/</loc>
-    <lastmod>2019-01-10T00:00:00+00:00</lastmod>
+    <lastmod>2019-01-14T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   

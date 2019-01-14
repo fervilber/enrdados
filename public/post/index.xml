@@ -6,10 +6,20 @@
     <description>Recent content in Posts on En_R_dados</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>es</language>
-    <lastBuildDate>Thu, 10 Jan 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 14 Jan 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Generador de islas aleatorias</title>
+      <link>/post/generador-de-islas-aleatorias/</link>
+      <pubDate>Mon, 14 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/generador-de-islas-aleatorias/</guid>
+      <description>trueTras hacer el generador de ciudades me entró el gusanillo y he pensado otros talleres de programación para niños, como introducción a la programación algoritmos y uso de R. Creo que otro tema interesante es la generaciónd de mapas y entre estos vamos a empezar por algo sencillo como hacer islas aleatorias.
+metodo muy simpleEl método más simple que se me ha ocurrido es crear un circulo y darle algo de irregularidad en el perímetro.</description>
+    </item>
     
     <item>
       <title>Crear mapas estaticos con R</title>
