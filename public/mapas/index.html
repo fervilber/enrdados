@@ -9,9 +9,8 @@
 	<meta name="description" content="">
 	<meta name="generator" content="Hugo 0.53" />
 	<meta property="og:title" content="R Mapas" />
-<meta property="og:description" content="Acceso rápido a enlaces para crear mapas
-¡¡¡ PÁGINA BORRADOR!!
-Crear mapa estático ggspatial y rosm preattymap #install.packages(&quot;prettymapr&quot;) library(prettymapr) library(rosm) # source=&quot;dsk&quot; to use the Data Science Toolkit que evita tener que darse de alta en las APIs prettymap(osm.plot(searchbbox(&quot;Murcia&quot;)),source=&quot;dsk&quot;) # plano con puntos a mano torrevieja &lt;- data.frame(lon = c(-0.69,-0.67), lat = c(37.98,37.97)) prettymap({ osm.plot(searchbbox(&quot;Torrevieja&quot;),zoom=13) osm.points(torrevieja$lon, torrevieja$lat, pch=18, cex=2) },scale.pos = &quot;topleft&quot;, arrow.pos=&quot;topright&quot;, drawarrow=T,arrow.scale=0.5, source=&quot;dsk&quot;)  pintar posicion de fotografías Vamos a leer los datos EFIX de unas fotos y pinta la posición de las mismas en una mapa estático." />
+<meta property="og:description" content=" Enlaces a paginas de interes para SIG mapas en R.
+Enlaces recomendados para mapeo con R  https://geocompr.robinlovelace.net/intro.html hoja resumen a imprimirse siempre ejemplos devarias librerias paleolimbot.github - ggspatial Sistemas de coordenadas en R pdf Libro de GIS en R, bueno y caro Libro de un español de SIG algo simple  " />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/mapas/" /><meta property="article:published_time" content="2018-04-09T00:00:00&#43;00:00"/>
 <meta property="article:modified_time" content="2018-04-09T00:00:00&#43;00:00"/>
@@ -78,13 +77,7 @@ Crear mapa estático ggspatial y rosm preattymap #install.packages(&quot;prettym
 <ul>
 <li>
 <ul>
-<li><a href="#crear-mapa-estático">Crear mapa estático</a>
-<ul>
-<li><a href="#ggspatial-y-rosm">ggspatial y rosm</a></li>
-<li><a href="#preattymap">preattymap</a></li>
-</ul></li>
-<li><a href="#pintar-posicion-de-fotografías">pintar posicion de fotografías</a></li>
-<li><a href="#enlaces-recomendados-para-mapeo-con-r">enlaces recomendados para mapeo con R</a></li>
+<li><a href="#enlaces-recomendados-para-mapeo-con-r">Enlaces recomendados para mapeo con R</a></li>
 </ul></li>
 </ul>
 </nav>
@@ -95,105 +88,18 @@ Crear mapa estático ggspatial y rosm preattymap #install.packages(&quot;prettym
 
 <hr />
 
-<p>Acceso rápido a enlaces para crear mapas</p>
+<p>Enlaces a paginas de interes para SIG mapas en R.</p>
 
-<p>¡¡¡ PÁGINA BORRADOR!!</p>
-
-<h2 id="crear-mapa-estático">Crear mapa estático</h2>
-
-<h3 id="ggspatial-y-rosm">ggspatial y rosm</h3>
-
-<h3 id="preattymap">preattymap</h3>
-
-<pre><code class="language-r">#install.packages(&quot;prettymapr&quot;)
-library(prettymapr)
-library(rosm)
-# source=&quot;dsk&quot; to use the Data Science Toolkit que evita tener que darse de alta en las APIs
-prettymap(osm.plot(searchbbox(&quot;Murcia&quot;)),source=&quot;dsk&quot;)
-
-# plano con puntos a mano
-torrevieja &lt;- data.frame(lon = c(-0.69,-0.67), lat = c(37.98,37.97))
-
-prettymap({
-  osm.plot(searchbbox(&quot;Torrevieja&quot;),zoom=13)
-  osm.points(torrevieja$lon, torrevieja$lat, pch=18, cex=2)
-},scale.pos = &quot;topleft&quot;,
- arrow.pos=&quot;topright&quot;,
- drawarrow=T,arrow.scale=0.5,
- source=&quot;dsk&quot;)
-
-</code></pre>
-
-<h2 id="pintar-posicion-de-fotografías">pintar posicion de fotografías</h2>
-
-<p>Vamos a leer los datos EFIX de unas fotos y pinta la posición de las mismas en una mapa estático.</p>
-
-<pre><code class="language-r"># cargamos librería que leer exif
-library(exifr)
-
-# cargamos una lista con las imagenes
-# ojo que es sensible a mayusculas o minusculas
-imagenes &lt;- list.files(&quot;imag/&quot;, pattern = &quot;*.jpg&quot;,full.names=TRUE,ignore.case = T)
-dat &lt;- exifr(imagenes)
-str(dat)
-
-library(dplyr)
-# seleccionamos la columnas justas
-dat2 &lt;- select(dat,
-    GPSLongitude, GPSLatitude)
-# pintamos los puntos de posicion de las fotos
-plot(dat2$GPSLongitude, dat2$GPSLatitude)
-
-# pintamos con fondo
-#capap&lt;-SpatialPointsDataFrame(dat2, dat[,&quot;ModifyDate&quot;])
-
-require(sf)
-capap &lt;- st_as_sf(x = dat2, 
-                        coords = c(&quot;GPSLongitude&quot;, &quot;GPSLatitude&quot;),
-                        crs = &quot;+proj=longlat +datum=WGS84&quot;)
-#plot(capap)
-#str(capap@data)
-# esto es porque da problemas con otros nombres
-#names(capap@data)&lt;-c(&quot;x&quot;,&quot;y&quot;)
-
-library(ggplot2)
-library(ggspatial)
-# la funcion ggosm es igual a geom_osm
-ggplot(capap)+
-    geom_osm(type = &quot;stamenwatercolor&quot;)+  # pinta el mapa base
-    ggtitle(&quot;Plano Torrevieja con puntos de interés y escala&quot;)+
-    geom_spatial(capap,size = 5, col=&quot;blue&quot;,alpha = 0.3)+
-geom_text(aes(x=dat2$GPSLongitude, y=dat2$GPSLatitude, label = dat[,&quot;FileName&quot;]), size=3, col=&quot;blue&quot;)+ 
-    annotation_scale()
-
-# pinta los puntos
-    geom_text(aes(x=capap$GPSLongitude+0.002, y = capap$GPSLatitude, label = dat[,&quot;FileName&quot;]), size=3, col=&quot;blue&quot;)+ 
-    annotation_scale() # pinta leyenda 
-str(capap)
-# otros graficos
-#caja&lt;-bbox(capap) # no funciona no se por qué
-caja&lt;-sp::bbox(cbind(dat2$GPSLongitude, dat2$GPSLatitude))
-
-#osm.plot(caja)
-
-prettymap({
-  osm.plot(caja, type=&quot;osm&quot;)
-  osm.points(dat2$GPSLongitude, dat2$GPSLatitude, pch=18, cex=2)
-},scale.pos = &quot;topleft&quot;,
- arrow.pos=&quot;topright&quot;,
- drawarrow=T,arrow.scale=0.5,
- source=&quot;dsk&quot;)
-
-
-</code></pre>
-
-<h2 id="enlaces-recomendados-para-mapeo-con-r">enlaces recomendados para mapeo con R</h2>
+<h2 id="enlaces-recomendados-para-mapeo-con-r">Enlaces recomendados para mapeo con R</h2>
 
 <ul>
 <li><a href="https://geocompr.robinlovelace.net/intro.html">https://geocompr.robinlovelace.net/intro.html</a></li>
 <li><a href="https://www.maths.lancs.ac.uk/~rowlings/Teaching/UseR2012/cheatsheet.html">hoja resumen a imprimirse siempre</a></li>
 <li><a href="https://bhaskarvk.github.io/user2017.geodataviz/notebooks/02-Static-Maps.nb.html">ejemplos devarias librerias</a></li>
-<li><a href="https://paleolimbot.github.io/ggspatial/">https://paleolimbot.github.io/ggspatial/</a></li>
+<li><a href="https://paleolimbot.github.io/ggspatial/">paleolimbot.github - ggspatial</a></li>
+<li><a href="https://www.nceas.ucsb.edu/~frazier/RSpatialGuides/OverviewCoordinateReferenceSystems.pdf">Sistemas de coordenadas en R pdf</a></li>
+<li><a href="https://geocompr.robinlovelace.net/spatial-operations.html">Libro de GIS en R, bueno y caro</a></li>
+<li><a href="https://books.google.es/books?id=-whpDwAAQBAJ&amp;pg=SA5-PA43&amp;lpg=SA5-PA43&amp;dq=openmap+R+kml&amp;source=bl&amp;ots=_o79gmCbes&amp;sig=QIWqgOTAY7N2Wno0jGdLafJ_0hM&amp;hl=es&amp;sa=X&amp;ved=2ahUKEwjniJKB35zfAhWNK1AKHXgQDzgQ6AEwDnoECAkQAQ#v=onepage&amp;q=openmap%20R%20kml&amp;f=false">Libro de un español de SIG algo simple</a></li>
 </ul>
 
 		</div>
@@ -229,11 +135,11 @@ prettymap({
 	<h4 class="widget__title">Más Recientes</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/post/geoposicionar-fotograf%C3%ADas/">Geoposicionar fotografias</a></li>
 			<li class="widget__item"><a class="widget__link" href="/post/generador-de-islas-aleatorias/">Generador de islas aleatorias</a></li>
 			<li class="widget__item"><a class="widget__link" href="/post/crear-mapas-estaticos/">Crear mapas estaticos con R</a></li>
 			<li class="widget__item"><a class="widget__link" href="/post/pintar-un-edificio-con-r/">Pintar una ciudad con R</a></li>
 			<li class="widget__item"><a class="widget__link" href="/post/resaltar-sintaxis/">Resaltar sintaxis</a></li>
-			<li class="widget__item"><a class="widget__link" href="/post/editar-a-dos-columnas/">Documento a dos columnas</a></li>
 		</ul>
 	</div>
 </div>
@@ -254,20 +160,21 @@ prettymap({
 		<a class="widget-taglist__link widget__link btn" href="/tags/blogdown" title="Blogdown">Blogdown (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/bookdown" title="Bookdown">Bookdown (2)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/columna" title="Columna">Columna (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/crs" title="Crs">Crs (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/css" title="Css">Css (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/dibujo" title="Dibujo">Dibujo (2)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/divertido" title="Divertido">Divertido (2)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/formato" title="Formato">Formato (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/gr%c3%a1ficos" title="Gráficos">Gráficos (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/mapas" title="Mapas">Mapas (2)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/markdown" title="Markdown">Markdown (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/mapas" title="Mapas">Mapas (3)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/markdown" title="Markdown">Markdown (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/matem%c3%a1ticas" title="Matemáticas">Matemáticas (2)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/mathjax" title="Mathjax">Mathjax (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/modelos" title="Modelos">Modelos (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/pdf" title="Pdf">Pdf (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/processing" title="Processing">Processing (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/r" title="R">R (4)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/sig" title="Sig">Sig (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/r" title="R">R (5)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/sig" title="Sig">Sig (2)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/sintaxis" title="Sintaxis">Sintaxis (3)</a>
 	</div>
 </div>

@@ -6,106 +6,16 @@ toc: true
 ---
 
 ***
-Acceso rápido a enlaces para crear mapas
-
-¡¡¡ PÁGINA BORRADOR!!
-
-## Crear mapa estático
+Enlaces a paginas de interes para SIG mapas en R.
 
 
-### ggspatial y rosm
-
-### preattymap
-
-
-```{r}
-#install.packages("prettymapr")
-library(prettymapr)
-library(rosm)
-# source="dsk" to use the Data Science Toolkit que evita tener que darse de alta en las APIs
-prettymap(osm.plot(searchbbox("Murcia")),source="dsk")
-
-# plano con puntos a mano
-torrevieja <- data.frame(lon = c(-0.69,-0.67), lat = c(37.98,37.97))
-
-prettymap({
-  osm.plot(searchbbox("Torrevieja"),zoom=13)
-  osm.points(torrevieja$lon, torrevieja$lat, pch=18, cex=2)
-},scale.pos = "topleft",
- arrow.pos="topright",
- drawarrow=T,arrow.scale=0.5,
- source="dsk")
-
-```
-
-
-## pintar posicion de fotografías
-Vamos a leer los datos EFIX de unas fotos y pinta la posición de las mismas en una mapa estático.
-
-```{r}
-# cargamos librería que leer exif
-library(exifr)
-
-# cargamos una lista con las imagenes
-# ojo que es sensible a mayusculas o minusculas
-imagenes <- list.files("imag/", pattern = "*.jpg",full.names=TRUE,ignore.case = T)
-dat <- exifr(imagenes)
-str(dat)
-
-library(dplyr)
-# seleccionamos la columnas justas
-dat2 <- select(dat,
-	GPSLongitude, GPSLatitude)
-# pintamos los puntos de posicion de las fotos
-plot(dat2$GPSLongitude, dat2$GPSLatitude)
-
-# pintamos con fondo
-#capap<-SpatialPointsDataFrame(dat2, dat[,"ModifyDate"])
-
-require(sf)
-capap <- st_as_sf(x = dat2, 
-                        coords = c("GPSLongitude", "GPSLatitude"),
-                        crs = "+proj=longlat +datum=WGS84")
-#plot(capap)
-#str(capap@data)
-# esto es porque da problemas con otros nombres
-#names(capap@data)<-c("x","y")
-
-library(ggplot2)
-library(ggspatial)
-# la funcion ggosm es igual a geom_osm
-ggplot(capap)+
-    geom_osm(type = "stamenwatercolor")+  # pinta el mapa base
-    ggtitle("Plano Torrevieja con puntos de interés y escala")+
-    geom_spatial(capap,size = 5, col="blue",alpha = 0.3)+
-geom_text(aes(x=dat2$GPSLongitude, y=dat2$GPSLatitude, label = dat[,"FileName"]), size=3, col="blue")+ 
-    annotation_scale()
-
-# pinta los puntos
-    geom_text(aes(x=capap$GPSLongitude+0.002, y = capap$GPSLatitude, label = dat[,"FileName"]), size=3, col="blue")+ 
-    annotation_scale() # pinta leyenda 
-str(capap)
-# otros graficos
-#caja<-bbox(capap) # no funciona no se por qué
-caja<-sp::bbox(cbind(dat2$GPSLongitude, dat2$GPSLatitude))
-
-#osm.plot(caja)
-
-prettymap({
-  osm.plot(caja, type="osm")
-  osm.points(dat2$GPSLongitude, dat2$GPSLatitude, pch=18, cex=2)
-},scale.pos = "topleft",
- arrow.pos="topright",
- drawarrow=T,arrow.scale=0.5,
- source="dsk")
-
-
-```
-
-## enlaces recomendados para mapeo con R
+## Enlaces recomendados para mapeo con R
 
  - [https://geocompr.robinlovelace.net/intro.html](https://geocompr.robinlovelace.net/intro.html)
  - [hoja resumen a imprimirse siempre](https://www.maths.lancs.ac.uk/~rowlings/Teaching/UseR2012/cheatsheet.html)
  - [ejemplos devarias librerias](https://bhaskarvk.github.io/user2017.geodataviz/notebooks/02-Static-Maps.nb.html)
- - [https://paleolimbot.github.io/ggspatial/](https://paleolimbot.github.io/ggspatial/)
- 
+ - [paleolimbot.github - ggspatial](https://paleolimbot.github.io/ggspatial/)
+ -  [Sistemas de coordenadas en R pdf](https://www.nceas.ucsb.edu/~frazier/RSpatialGuides/OverviewCoordinateReferenceSystems.pdf)
+ - [Libro de GIS en R, bueno y caro](https://geocompr.robinlovelace.net/spatial-operations.html)
+- [Libro de un español de SIG algo simple](https://books.google.es/books?id=-whpDwAAQBAJ&pg=SA5-PA43&lpg=SA5-PA43&dq=openmap+R+kml&source=bl&ots=_o79gmCbes&sig=QIWqgOTAY7N2Wno0jGdLafJ_0hM&hl=es&sa=X&ved=2ahUKEwjniJKB35zfAhWNK1AKHXgQDzgQ6AEwDnoECAkQAQ#v=onepage&q=openmap%20R%20kml&f=false)
+

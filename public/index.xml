@@ -6,10 +6,21 @@
     <description>Recent content on En_R_dados</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>es</language>
-    <lastBuildDate>Mon, 14 Jan 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 16 Jan 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Geoposicionar fotografias</title>
+      <link>/post/geoposicionar-fotograf%C3%ADas/</link>
+      <pubDate>Wed, 16 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/geoposicionar-fotograf%C3%ADas/</guid>
+      <description>Objetivo Crear un mapa en R en el que esté marcada la geo localización de cada una de las fotos que hemos hecho.
+Antecedentes En mi trabajo hacemos muchas visitas a campo en las que recabar información, anotar, medir y sobre todo, hacer muchas fotografías.
+Las fotos se seleccionan y editan para los informes. Si se trata de un par de fotos es poco trabajo, pero cuando hay que insertar 20, 50 o más la cosa se complica.</description>
+    </item>
     
     <item>
       <title>Generador de islas aleatorias</title>
@@ -119,9 +130,8 @@ Podemos usarla directamente en nuestros post de blogdown sin necesidad de acudir
       <pubDate>Mon, 09 Apr 2018 00:00:00 +0000</pubDate>
       
       <guid>/mapas/</guid>
-      <description>Acceso rápido a enlaces para crear mapas
-¡¡¡ PÁGINA BORRADOR!!
-Crear mapa estático ggspatial y rosm preattymap #install.packages(&amp;quot;prettymapr&amp;quot;) library(prettymapr) library(rosm) # source=&amp;quot;dsk&amp;quot; to use the Data Science Toolkit que evita tener que darse de alta en las APIs prettymap(osm.plot(searchbbox(&amp;quot;Murcia&amp;quot;)),source=&amp;quot;dsk&amp;quot;) # plano con puntos a mano torrevieja &amp;lt;- data.frame(lon = c(-0.69,-0.67), lat = c(37.98,37.97)) prettymap({ osm.plot(searchbbox(&amp;quot;Torrevieja&amp;quot;),zoom=13) osm.points(torrevieja$lon, torrevieja$lat, pch=18, cex=2) },scale.pos = &amp;quot;topleft&amp;quot;, arrow.pos=&amp;quot;topright&amp;quot;, drawarrow=T,arrow.scale=0.5, source=&amp;quot;dsk&amp;quot;)  pintar posicion de fotografías Vamos a leer los datos EFIX de unas fotos y pinta la posición de las mismas en una mapa estático.</description>
+      <description> Enlaces a paginas de interes para SIG mapas en R.
+Enlaces recomendados para mapeo con R  https://geocompr.robinlovelace.net/intro.html hoja resumen a imprimirse siempre ejemplos devarias librerias paleolimbot.github - ggspatial Sistemas de coordenadas en R pdf Libro de GIS en R, bueno y caro Libro de un español de SIG algo simple  </description>
     </item>
     
   </channel>
