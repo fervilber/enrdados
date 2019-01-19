@@ -6,10 +6,22 @@
     <description>Recent content on En_R_dados</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>es</language>
-    <lastBuildDate>Wed, 16 Jan 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 19 Jan 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>hacer un bosque con R</title>
+      <link>/post/hacer-un-bosque-con-r/</link>
+      <pubDate>Sat, 19 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/hacer-un-bosque-con-r/</guid>
+      <description>trueSeguimos con los modelos sencillos para talleres de programación, y este es bastante interesante.
+Se trata de, a partir de modelos muy simples generar un árbol,pintándolo en el tablero de r, y después generar muchos de estos árboles de forma aleatoria para formar un bosque.
+bosque creado con grafias simples de R
+Crear un árbolLa idea es pintar una linea como tronco (de altura h), y en la punta de arriba un circulo (de radio r) que será la copa del árbol.</description>
+    </item>
     
     <item>
       <title>Geoposicionar fotografias</title>

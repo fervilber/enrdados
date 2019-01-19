@@ -1,0 +1,225 @@
+---
+title: hacer un bosque con R
+author: F.Vilber
+date: '2019-01-19'
+slug: hacer-un-bosque-con-r
+categories:
+  - educación
+tags:
+  - dibujo
+  - divertido
+  - modelos
+description: ''
+thumbnail: ''
+toc: yes
+editor_options: 
+  chunk_output_type: console
+---
+
+
+<div id="TOC">
+true
+</div>
+
+<p>Seguimos con los modelos sencillos para talleres de programación, y este es bastante interesante.</p>
+<p>Se trata de, a partir de modelos muy simples generar un árbol,pintándolo en el tablero de r, y después generar muchos de estos árboles de forma aleatoria para formar un bosque.</p>
+<div class="figure">
+<img src="img/bosque3.png" alt="bosque creado con grafias simples de R" />
+<p class="caption">bosque creado con grafias simples de R</p>
+</div>
+<div id="crear-un-arbol" class="section level2">
+<h2>Crear un árbol</h2>
+<p>La idea es pintar una linea como tronco (de altura h), y en la punta de arriba un circulo (de radio r) que será la copa del árbol. Además para dar.le algo más de gracia, pintamos dos ramas a una altura aleatoria a partir de 0,7h.</p>
+<p>Usaremos las funciones <code>lines()</code> para pintar las lineas del tronco y ramas, y la función <code>symbols()</code> para dibujar el círculo. Esta función sirve también para otras formas como rectángulos, estrellas etc. pero hay que acordarse de poner <code>inches = FALSE</code>, pues de otra forma la dimensión de todos los elementos generados será la misma.</p>
+<p>Vamos a crear la función generadora de un simple árbol con estas premisas:</p>
+<pre class="r"><code># funcion para pintar un arbol
+arbol&lt;-function(h,x0){
+  plot(1:h,type=&quot;n&quot;,
+            xlim = c(0,30),
+            ylim = c(0,h*1.4),
+            xlab = &quot; &quot;,ylab=&quot; &quot;)
+  color_copa&lt;-adjustcolor(&quot;green&quot;,alpha.f = 0.5)
+  #pintamos la copa del arbol
+    r&lt;-h/runif(1,1.5,4) # rádio de la copa en funion de la altura
+  # pinta e circulo
+    symbols(x0, y=h, circles=r,add = TRUE,bg=color_copa, inches = FALSE)
+  
+  # pintamos el tronco
+    lines(c(x0,x0),c(0,h),lwd=5)
+  # pintamos 2 ramas
+    rama&lt;-abs(rnorm(1)*r/2)
+    lines(c(x0,x0+rama*cos(pi/4)),c(h*0.9,h*0.9+rama*sin(pi/4)),lwd=3)
+    lines(c(x0,x0-rama/2*cos(pi/4)),c(h*0.85,h*0.85+rama/2*sin(pi/4)),lwd=2)
+}
+
+#arbol(10,3)
+arbol(6,14)</code></pre>
+<p><img src="/post/2019-01-19-hacer-un-bosque-con-r_files/figure-html/unnamed-chunk-1-1.png" width="672" /> Hemos usado solo el paquete base, pero existen otras funciones y librerías que permiten pintar círculos, como <code>draw.circle(x0, h, r)#, nv = 1000, border = NULL, col = NA, lty = 1, lwd = 1)</code> de la librería plotyR</p>
+</div>
+<div id="crear-un-bosque" class="section level2">
+<h2>Crear un bosque</h2>
+<p>Vamos a crear el bosque simplemente repitiendo la función árbol en un ancho determinado. Como parámetros de la función bosque daremos la altura media esperada de los árboles, la posición del árbol en el eje x y un parámetro que nos indica si se borra o no el lienzo antes de pintar el bosque.</p>
+<p>También hemos transformado un poco la función árbol,para que de más juego. También debemos asumir ciertos parámetros que calculamos de forma simple, como el numero de árboles por metro, o la altura.</p>
+<pre class="r"><code># funcion para pintar un bosque
+arbol1&lt;-function(h,x0,borra=T){
+  # si es T borra el lienzo
+  if(borra==T){
+    plot(1:h,type=&quot;n&quot;,
+              xlim = c(0,30),
+              ylim = c(0,h*1.4),
+              xlab = &quot; &quot;,ylab=&quot; &quot;)
+  }
+  # calculamos 10 colores verdes para las copas
+  color_copa&lt;-colorRampPalette(c(&quot;yellow&quot;, &quot;wheat&quot;,&quot;green&quot;, &quot;darkgreen&quot;))( 10 )
+  color_copa&lt;-adjustcolor(sample(color_copa,1),alpha.f = 0.6) # ajustamos la transparencia
+  
+  #calulamos el radio de la copa
+  r&lt;-h/runif(1,2,5)
+  #pintamos la copa del arbol
+  symbols(x0,h, r,add = TRUE,bg=color_copa,fg=color_copa,inches=FALSE)
+  #colores 
+  color_tronco&lt;-colorRampPalette(c(&quot;brown&quot;, &quot;darkgreen&quot;, &quot;wheat&quot;))( 10 )
+  color_tronco&lt;-adjustcolor(sample(color_tronco,1),alpha.f = 0.8)
+  # pintamos el tronco
+  lines(c(x0,x0),c(0,h),lwd=runif(1,1,3),col=color_tronco)
+  # pintamos 2 ramas
+  rama&lt;-runif(1)*r
+    h1&lt;-runif(1,0.7,1)*h
+  lines(c(x0,x0+rama*cos(pi/4)),c(h*0.9,h*0.9+rama*sin(pi/4)),lwd=1,col=color_tronco)
+  lines(c(x0,x0-rama*cos(pi/4)),c(h1,h1+rama/2*sin(pi/4)),lwd=1,col=color_tronco)
+}
+
+
+arbol1(10,3)
+arbol1(6,14,borra=FALSE)
+arbol1(8,8,borra=FALSE)
+arbol1(8,18,borra=FALSE)</code></pre>
+<p><img src="/post/2019-01-19-hacer-un-bosque-con-r_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<pre class="r"><code># Version personalizada de la funcion ciudad
+bosque&lt;-function(ancho=100,h=20){
+  # Pinta el lienzo del bosque
+    plot(1:ancho,type=&quot;n&quot;,
+            xlim = c(0,ancho),
+            ylim = c(0,h*2),
+            xlab = &quot; &quot;,ylab=&quot; &quot;)
+    # pinta la linea de suelo
+    lines(c(0,ancho),c(0,0))
+  
+    # calculamos el numero de arboles en el ancho        
+    n_arboles&lt;-as.integer(ancho/runif(1,1,3))
+    # calculamos las alturas de los arboles
+    alturas&lt;-sample(5:as.integer(h*1.5),n_arboles,replace = TRUE)
+    #calculamos el punto X0 de cada arbol
+    x0_arbol&lt;- sort(sample(1:ancho,n_arboles,replace = TRUE))
+
+    #pinta cada arbol en su sitio
+    for(i in seq_along(x0_arbol)){
+      arbol1(alturas[i],x0_arbol[i],borra=FALSE)  
+    }
+}
+
+bosque(50,15)</code></pre>
+<p><img src="/post/2019-01-19-hacer-un-bosque-con-r_files/figure-html/unnamed-chunk-2-2.png" width="672" /></p>
+<p>Ya está, la verdad que ha quedado chulo y divertido, tenemos un generador de bosques en un santiamén.</p>
+</div>
+<div id="un-vuelta-sobre-las-formas" class="section level2">
+<h2>Un vuelta sobre las formas</h2>
+<p>Viendo los resultados con los niños, me dicen que los arboles circulares son sosos, que hay que darles más forma de árbol. Se nos ocurrió que habría que dar a las copas una forma más irregular como una nube, eso lo podemos conseguir sumando a la función del radio una función seno o coseno.</p>
+<p>Haremos una función generadora de formas de nube, y sustituiremos la función <code>symbols</code> del programa inicial, para que los árboles sean más irregulares.</p>
+<pre class="r"><code>nube1&lt;-function(R=10,multi=2,x0=0,y0=0){
+  rp&lt;-R/10
+  n_puntos&lt;-100 # puntos de division de la circulo
+  phi&lt;-2*pi/n_puntos
+  dat&lt;-data.frame(x=NULL,y=NULL)
+  
+  for(i in 1:n_puntos){
+    ang&lt;-phi*i
+    x&lt;-R*cos(ang)+rp*cos(ang*multi+phi*multi)
+    y&lt;-R*sin(ang)+rp*sin(ang*multi+phi*multi)
+    dat&lt;-rbind(dat,c(x,y))
+  }
+
+   #dat&lt;-rbind(dat,c(dat[1,1],dat[1,2]))
+   #dat&lt;-na.omit(dat)
+   dat[,1]&lt;-dat[,1]+x0
+   dat[,2]&lt;-dat[,2]+y0
+   #plot(dat,type = &quot;n&quot;, add=TRUE)
+   return(dat)
+  #polygon(x=dat[,1], y=dat[,2], col = col, lwd = 1, border = col)
+}
+#plot(-50:50,type=&quot;n&quot;)
+#nube1(multi=7)
+
+
+
+# funcion para pintar un arbol con forma de nube1
+arbol2&lt;-function(h,x0,borra=T,color=&quot;green&quot;){
+  if(borra==T){
+  plot(1:h,type=&quot;n&quot;,
+            xlim = c(0,30),
+            ylim = c(0,h*1.4),
+            xlab = &quot; &quot;,ylab=&quot; &quot;)
+  }
+#  col&lt;-colorRamp(c(&quot;red&quot;, &quot;white&quot;))
+  #if( is.null(color_copa)){
+    color_copa&lt;-colorRampPalette(c(&quot;yellow&quot;, &quot;wheat&quot;,color, &quot;darkgreen&quot;))( 10 )
+  #}
+  color_copa&lt;-adjustcolor(sample(color_copa,1),alpha.f = 0.6)
+  #pintamos la copa del arbol
+  r&lt;-h/runif(1,2,5)
+  #draw.circle(x0, h, r)#, nv = 1000, border = NULL, col = NA, lty = 1, lwd = 1)
+  
+  dat&lt;-nube1(r,multi=runif(1,2,9),x0,h)
+  polygon(x=dat[,1], y=dat[,2], col = color_copa, lwd = 1, border = color_copa)
+  #symbols(x0,h, r,add = TRUE,bg=color_copa,fg=color_copa,inches=FALSE)
+  # pintamos el tronco
+  color_tronco&lt;-colorRampPalette(c(&quot;brown&quot;, &quot;darkgreen&quot;, &quot;wheat&quot;))( 10 )
+  color_tronco&lt;-adjustcolor(sample(color_tronco,1),alpha.f = 0.8)
+  lines(c(x0,x0),c(0,h),lwd=runif(1,1,3),col=color_tronco)
+  # pintamos 2 ramas
+  rama&lt;-runif(1)*r
+  h1&lt;-runif(1,0.7,1)*h
+  lines(c(x0,x0+rama*cos(pi/4)),c(h*0.9,h*0.9+rama*sin(pi/4)),lwd=1,col=color_tronco)
+  lines(c(x0,x0-rama*cos(pi/4)),c(h1,h1+rama/2*sin(pi/4)),lwd=1,col=color_tronco)
+}
+
+
+arbol2(10,3)
+arbol2(6,14,borra=FALSE)</code></pre>
+<p><img src="/post/2019-01-19-hacer-un-bosque-con-r_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<pre class="r"><code>bosque2&lt;-function(ancho=100,h=20, borra=T,color=&quot;green&quot;){
+  # Pinta el lienzo de la ciudad
+    if(borra==T){
+    plot(1:ancho,type=&quot;n&quot;,
+            xlim = c(0,ancho),
+            ylim = c(0,h*2),
+            xlab = &quot; &quot;,ylab=&quot; &quot;,main=&quot;el bosque aleatorio&quot;)
+
+    lines(c(0,ancho),c(0,0))
+  }
+    # calculamos el numero de arboles en el ancho        
+    n_arboles&lt;-as.integer(ancho/runif(1,1,3))
+    # calculamos las alturas de los arboles
+    alturas&lt;-sample(5:as.integer(h*1.5),n_arboles,replace = TRUE)
+    #calculamos el punto X0 de cada arbol
+    x0_arbol&lt;- sort(sample(1:ancho,n_arboles,replace = TRUE))
+
+    x0&lt;-0
+    #pinta cada arbol en su sitio
+    for(i in seq_along(x0_arbol)){
+      arbol2(alturas[i],x0_arbol[i],borra=FALSE,color=color)  
+    }
+}
+
+
+bosque2(50,15)
+
+bosque2(50,8,borra = FALSE,color = &quot;red&quot;)
+bosque2(50,3,borra = FALSE,color = &quot;blue&quot;)</code></pre>
+<p><img src="/post/2019-01-19-hacer-un-bosque-con-r_files/figure-html/unnamed-chunk-3-2.png" width="672" /></p>
+<pre class="r"><code>## otro
+bosque2(100,15)
+bosque2(80,10,borra = FALSE,color=&quot;red&quot;)</code></pre>
+<p><img src="/post/2019-01-19-hacer-un-bosque-con-r_files/figure-html/unnamed-chunk-3-3.png" width="672" /> Las funciones que hemos programado permite formar una imagen de bosque bastante creíble, al menos a un dibujo animado.</p>
+<p>Espero que os haya gustado este taller, creo que ha sido muy divertido.</p>
+</div>
