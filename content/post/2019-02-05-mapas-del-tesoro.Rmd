@@ -13,7 +13,7 @@ tags:
   - SIG
   - sf
 description: 'mapa del tesoro avanzado. Taller de sistemas de información geográfica'
-thumbnail: '/post/2019-01-24-mapa-del-tesoro_files/isla03.png'
+thumbnail: '/post/2019-02-05-mapas-del-tesoro_files/isla03.png'
 toc: yes
 editor_options: 
   chunk_output_type: console
@@ -24,7 +24,7 @@ Hace unas semanas publiqué un artículo dedicado a generar [islas aeatorias](..
 
 También he visto que se puede aprovechar y darle alguna vuelta más profesional al asunto, en concreto para aprender de *SIG* (Sistemas de Información Geográfica), así que, manos a la obra que vamos a hacer mapas con R, vamos a crear **Mapas del Tesoro**.
 
-![Mapa del tesoro](/post/2019-01-24-mapa-del-tesoro_files/mapa55.png)
+![Mapa del tesoro](/post/2019-02-05-mapas-del-tesoro_files/mapa55.png)
 
 ## Simple features
 Las islas que generaba en el [artículo anterior](./2019-01-14-generador-de-islas-aleatorias.html) no tienen base geográfica, simplemente se pintan en un lienzo como polígonos. Usaremos las funciones de ese articulo y las representaremos como objetos espaciales con la librería más avanzada de SIG en R , con `sf`.

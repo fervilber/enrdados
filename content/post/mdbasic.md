@@ -23,6 +23,15 @@ RSTUDIO pone a disposición de los usuarios una chuleta resumida muy bueno con g
 
 Los encabezados se forman con con el símbolo almohadilla `#`. Repitiendo este símbolo sucesivamente hacemos los encabezados o títulos cada vez más pequeños.
 
+```
+# Título 1
+## Título 2
+### Título 3
+#### Título 4
+##### Título 5
+###### Título 6
+```
+
 # Título 1
 ## Título 2
 ### Título 3
@@ -35,12 +44,25 @@ Los encabezados se forman con con el símbolo almohadilla `#`. Repitiendo este s
 ## Listas
 
 ### Ordered List
+```
+1. Elemento 1
+2. Elemento 2
+3. Elemento 3
+```
 
 1. Elemento 1
 2. Elemento 2
 3. Elemento 3
 
 ### Unordered List
+
+```
+* Elemento 1
+* Elemento 2
+ * Subelemento 2.1
+* Elemento 3
+ * Subelemento 3.1
+```
 
 * Elemento 1
 * Elemento 2
@@ -60,6 +82,7 @@ En md para meter un bloque de código lo podemos hacer encerrando la escritura e
 \`\`\`
 
 Cuya salida es:
+
 ```
 esto es un bloque de código
 ```
@@ -91,7 +114,15 @@ Las tablas que no se generan dentro de código R, pueden hacerse directamente co
 | 2   | Toyota    | Camry   | 2012 |
 | 3   | Hyundai   | Elantra | 2010 |
 ```
-Con esto:
+resultado:
+
+| ID  | Make      | Model   | Year |
+| --- | --------- | ------- | ---- |
+| 1   | Honda     | Accord  | 2009 |
+| 2   | Toyota    | Camry   | 2012 |
+| 3   | Hyundai   | Elantra | 2010 |
+
+Otro ejemplo
 
 ```
 | Tables      | Are           | Cool         |
