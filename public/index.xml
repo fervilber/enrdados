@@ -1,15 +1,25 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>En_R_dados</title>
+    <title>EnRdados</title>
     <link>/</link>
-    <description>Recent content on En_R_dados</description>
+    <description>Recent content on EnRdados</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>es</language>
-    <lastBuildDate>Sat, 19 Jan 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 24 Jan 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Mapas del tesoro</title>
+      <link>/post/mapa-del-tesoro/</link>
+      <pubDate>Thu, 24 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/mapa-del-tesoro/</guid>
+      <description>trueUna vuelta más sobre el generador de islas aleatoriasHace unas semanas publiqué un artículo dedicado a generar islas aeatorias. Fue un tema que gustó mucho y también a mis hijos, por lo que estoy realizando una versión en Shiny que permita ejecutar en línea el código y estará disponible para todos.
+También he visto que se puede aprovechar y darle alguna vuelta más profesional al asunto, en concreto para aprender de SIG (Sistemas de Información Geográfica), así que, manos a la obra que vamos a hacer mapas con R, vamos a crear Mapas del Tesoro.</description>
+    </item>
     
     <item>
       <title>Hacer un bosque con R</title>
@@ -17,10 +27,9 @@
       <pubDate>Sat, 19 Jan 2019 00:00:00 +0000</pubDate>
       
       <guid>/post/hacer-un-bosque-con-r/</guid>
-      <description>trueSeguimos con los modelos sencillos para talleres de programación, y este es bastante interesante.
+      <description>Seguimos con los modelos sencillos para talleres de programación, y este es bastante interesante.
 Se trata de, a partir de modelos muy simples generar un árbol,pintándolo en el tablero de r, y después generar muchos de estos árboles de forma aleatoria para formar un bosque.
-bosque creado con grafias simples de R
-Crear un árbolLa idea es pintar una linea como tronco (de altura h), y en la punta de arriba un circulo (de radio r) que será la copa del árbol.</description>
+Crear un árbolLa idea es pintar una linea como tronco (de altura h), y en la punta de arriba un circulo (de radio r) que será la copa del árbol.</description>
     </item>
     
     <item>
@@ -111,8 +120,9 @@ Errores con Git Para subir las cosas desde mi PC a gitHub en RSTUDIO, he usado s
       <pubDate>Mon, 10 Dec 2018 00:00:00 +0000</pubDate>
       
       <guid>/about/</guid>
-      <description>Por qué un blog de R Aunque llevo varios años usando R, ha sido este 2018, después de acudir a un congreso de entusiastas usuarios de R en Murcia cuando me he decidido a iniciar este blog.
-Me animó mucho conocer a otras personas que comparten la inquietud por R, que ven en este lenguaje un elemento prometedor para realizar su trabajo, sus investigaciones, sus documentos. Y sobre todo de ver que se trata de gente maja, agradable y con ganas muchas ganas de compartir conocimiento.</description>
+      <description>Por qué un blog de R Hola, soy Fernando Villalba Bergado, ingeniero, padre&amp;hellip;. y muchas otras cosas.
+Llevo varios años usando R, pero ha sido este 2018, después de acudir al Congreso de entusiastas usuarios de R en Murcia 2018 cuando he decidido iniciar este blog y colaborar así en su difusión.
+Me animó mucho conocer a otras personas que comparten la inquietud por este lenguaje, que ven en él un elemento prometedor para realizar su trabajo, sus investigaciones, sus documentos.</description>
     </item>
     
     <item>

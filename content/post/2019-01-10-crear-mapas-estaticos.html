@@ -11,10 +11,12 @@ tags:
   - mapas
   - R
 description: 'como crear un mapa fijo simple con R'
-thumbnail: ''
+thumbnail: '/post/2019-01-10-crear-mapas-estaticos_files/mapa_ue1.png'
 output: 
   html_document: 
     toc: yes
+editor_options: 
+  chunk_output_type: console
 ---
 
 
@@ -31,7 +33,8 @@ output:
 <div id="lo-mas-simple" class="section level2">
 <h2>Lo más simple</h2>
 <p>Las funciones de trazado más habituales como <code>plot()</code>, <code>ggplot()</code> o <code>autoplot()</code> , pintan datos geográficos y puede servirnos para hacer mapas de contornos de capas y representación de puntos, pero adolecen de falta de fondos.</p>
-<pre class="r"><code>  # cargamos maptools para datos de ejemplo
+<pre class="r"><code>  library(prettymapr)
+  # cargamos maptools para datos de ejemplo
   # library(maptools)
 # hacemos esto para cargar sin mensajes
   suppressMessages(library(maptools, warn.conflicts = F))
@@ -39,10 +42,10 @@ output:
   # cargamos los contornos mundiales
   data(&quot;wrld_simpl&quot;)
   # pintamos la zona de España y mediterráneo
-  plot(wrld_simpl, xlim=c(-4,2), ylim=c(30, 47))
+  plot(wrld_simpl, xlim=c(-4,2), ylim=c(30, 47),col=rainbow(12))
   
   # Usando prettymapr odemos añadir mas cosa al plot
-  library(prettymapr)
+
   addscalebar()
   addnortharrow(pos = &quot;topleft&quot;)</code></pre>
 <p><img src="/post/2019-01-10-crear-mapas-estaticos_files/figure-html/plot_simple-1.png" width="672" /></p>

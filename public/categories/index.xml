@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Categories on En_R_dados</title>
+    <title>Categories on EnRdados</title>
     <link>/categories/</link>
-    <description>Recent content in Categories on En_R_dados</description>
+    <description>Recent content in Categories on EnRdados</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>es</language>
     
@@ -22,7 +22,7 @@
     <item>
       <title>Educación</title>
       <link>/categories/educaci%C3%B3n/</link>
-      <pubDate>Sat, 19 Jan 2019 00:00:00 +0000</pubDate>
+      <pubDate>Thu, 24 Jan 2019 00:00:00 +0000</pubDate>
       
       <guid>/categories/educaci%C3%B3n/</guid>
       <description></description>
@@ -31,7 +31,7 @@
     <item>
       <title>Mapas</title>
       <link>/categories/mapas/</link>
-      <pubDate>Wed, 16 Jan 2019 00:00:00 +0000</pubDate>
+      <pubDate>Thu, 24 Jan 2019 00:00:00 +0000</pubDate>
       
       <guid>/categories/mapas/</guid>
       <description></description>

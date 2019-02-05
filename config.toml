@@ -1,10 +1,10 @@
-baseurl = "https://enrdados.netlify.com"
-title = "En_R_dados"
+baseurl = "http://enrdados.net"
+title = "EnRdados"
 languageCode = "es"
 defaultContentLanguage = "es"
 paginate = "10" # Number of posts per page
 theme = "Mainroad"
-disqusShortname = "" # Enable comments by entering your Disqus shortname
+disqusShortname = "www-enrdados-net" # Enable comments by entering your Disqus shortname
 googleAnalytics = "" # Enable Google Analytics by entering your tracking id
 ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
 highlightjsCDN = "//cdn.bootcss.com"
@@ -18,22 +18,27 @@ highlightjsTheme = "hybrid"
 
 [Params]
   subtitle = "Hablamos de R, programación y otras cosas..." # Subtitle of your site
-  description = "Web de usuarios de R, el lenguaje de la ciencia" # Description of your site
+  description = "Web personal sobre R, el lenguaje de la ciencia" # Description of your site
+  logo = "img/R_logo.svg.png"
   opengraph = true
   twitter_cards = false
   readmore = false # Show "Read more" button in list if true
   authorbox = true
   post_navigation = true
   postSections = ["post"]
-  dateformat = "2006-01-02" # change the format of dates
+  dateformat = "2006-01-02" # change the format of date
   
 [Params.sidebar]
   home = "right"   # Configure layout for home page
   list = "right"   # Configure layout for list pages
   single = "right" # Configure layout for single pages
   # Enable widgets in given order
-  widgets = ["search", "recent", "categories", "taglist"]
+  widgets = ["search", "recent", "categories", "taglist","sidemenu", "social"]
 
 [Params.widgets]
   recent_num = 5 # Set the number of articles in the "Recent articles" widget
   tags_counter = true # Enable counter for each tag in "Tags" widget (disabled by default)
+
+[Params.widgets.social]
+  # Enable parts of social widget
+  email = "fervilber@gmail.com"

@@ -13,7 +13,7 @@ tags:
   - processing
   - R
 description: 'ejemplo de programación sencillo para educación. Se crea una función de skyline de ciudad.'
-thumbnail: ''
+thumbnail: '/post/2019-01-04-pintar-un-edificio-con-r_files/ciudad de R.png'
 editor_options: 
   chunk_output_type: console
 ---
@@ -28,9 +28,7 @@ Con este simple objetivo voy a desarrollar una serie de ejemplos de programació
 ## Objetivo
 Vamos a programar un gráfico de R, que nos pinte una ciudad de rascacielos altos al estilo de un *skyline* de Nueva York. Para ello partiremos de cero, y usaremos funciones muy simples.
 
-El resultado final será algo así:
-
-![ciudad de R](/post/2019-01-04-pintar-un-edificio-con-r_files/ciudad de R.png)
+El resultado final será algo como la imagen inicial.
 
 ## Primer paso. Pintar rectángulo y línea
 Empezaremos creando un simple rectángulo en una gráfica de R. En R ya existe una función que pinta un rectángulo en una gráfica se llama `rect()`. 

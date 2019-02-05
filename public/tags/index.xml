@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Tags on En_R_dados</title>
+    <title>Tags on EnRdados</title>
     <link>/tags/</link>
-    <description>Recent content in Tags on En_R_dados</description>
+    <description>Recent content in Tags on EnRdados</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>es</language>
     <lastBuildDate>Mon, 07 Jan 2019 00:00:00 +0000</lastBuildDate>
@@ -59,7 +59,7 @@
     <item>
       <title>Dibujo</title>
       <link>/tags/dibujo/</link>
-      <pubDate>Sat, 19 Jan 2019 00:00:00 +0000</pubDate>
+      <pubDate>Thu, 24 Jan 2019 00:00:00 +0000</pubDate>
       
       <guid>/tags/dibujo/</guid>
       <description></description>
@@ -68,7 +68,7 @@
     <item>
       <title>Divertido</title>
       <link>/tags/divertido/</link>
-      <pubDate>Sat, 19 Jan 2019 00:00:00 +0000</pubDate>
+      <pubDate>Thu, 24 Jan 2019 00:00:00 +0000</pubDate>
       
       <guid>/tags/divertido/</guid>
       <description></description>
@@ -86,7 +86,7 @@
     <item>
       <title>Gráficos</title>
       <link>/tags/gr%C3%A1ficos/</link>
-      <pubDate>Thu, 10 Jan 2019 00:00:00 +0000</pubDate>
+      <pubDate>Thu, 24 Jan 2019 00:00:00 +0000</pubDate>
       
       <guid>/tags/gr%C3%A1ficos/</guid>
       <description></description>
@@ -165,9 +165,18 @@
     </item>
     
     <item>
+      <title>Sf</title>
+      <link>/tags/sf/</link>
+      <pubDate>Thu, 24 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/sf/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Sig</title>
       <link>/tags/sig/</link>
-      <pubDate>Wed, 16 Jan 2019 00:00:00 +0000</pubDate>
+      <pubDate>Thu, 24 Jan 2019 00:00:00 +0000</pubDate>
       
       <guid>/tags/sig/</guid>
       <description></description>

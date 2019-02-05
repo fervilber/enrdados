@@ -1,0 +1,389 @@
+---
+title: Mapas del tesoro
+author: F. VIlBer
+date: '2019-01-24'
+slug: mapa-del-tesoro
+categories:
+  - mapas
+  - educación
+tags:
+  - dibujo
+  - divertido
+  - gráficos
+  - SIG
+  - sf
+description: 'mapa del tesoro avanzado. Taller de sistemas de información geográfica'
+thumbnail: '/post/2019-01-24-mapa-del-tesoro_files/isla03.png'
+toc: yes
+editor_options: 
+  chunk_output_type: console
+---
+
+<script src="/rmarkdown-libs/htmlwidgets/htmlwidgets.js"></script>
+<script src="/rmarkdown-libs/d3/d3.min.js"></script>
+<script src="/rmarkdown-libs/dagre/dagre-d3.min.js"></script>
+<link href="/rmarkdown-libs/mermaid/dist/mermaid.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/mermaid/dist/mermaid.slim.min.js"></script>
+<link href="/rmarkdown-libs/DiagrammeR-styles/styles.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/chromatography/chromatography.js"></script>
+<script src="/rmarkdown-libs/DiagrammeR-binding/DiagrammeR.js"></script>
+
+<div id="TOC">
+true
+</div>
+
+<div id="una-vuelta-mas-sobre-el-generador-de-islas-aleatorias" class="section level2">
+<h2>Una vuelta más sobre el generador de islas aleatorias</h2>
+<p>Hace unas semanas publiqué un artículo dedicado a generar <a href="../Generador-de-islas-aleatorias">islas aeatorias</a>. Fue un tema que gustó mucho y también a mis hijos, por lo que estoy realizando una versión en <em>Shiny</em> que permita ejecutar en línea el código y estará disponible para todos.</p>
+<p>También he visto que se puede aprovechar y darle alguna vuelta más profesional al asunto, en concreto para aprender de <em>SIG</em> (Sistemas de Información Geográfica), así que, manos a la obra que vamos a hacer mapas con R, vamos a crear <strong>Mapas del Tesoro</strong>.</p>
+<div class="figure">
+<img src="/post/2019-01-24-mapa-del-tesoro_files/mapa55.png" alt="Mapa del tesoro" />
+<p class="caption">Mapa del tesoro</p>
+</div>
+</div>
+<div id="simple-features" class="section level2">
+<h2>Simple features</h2>
+<p>Las islas que generaba en el <a href="./2019-01-14-generador-de-islas-aleatorias.html">artículo anterior</a> no tienen base geográfica, simplemente se pintan en un lienzo como polígonos. Usaremos las funciones de ese articulo y las representaremos como objetos espaciales con la librería más avanzada de SIG en R , con <code>sf</code>.</p>
+<p>El paquete <code>sf</code> (simple features) que traducido es algo asi como <em>objetos simples</em> es el más avanzado y en él se integran de forma nativa los objetos geográficos en R. Las librerías que se usaban hasta ahora para representar mapas en R se basaban en otras librerías principalmente en <code>sp</code> (spatial), que era fantástica, pero adolece de muchos problemas que con <code>sf</code> se completo.</p>
+<p>En <code>sf</code> existen funciones para todo lo que suponga operaciones y matemática geográfica vectorial, es decir para el manejo de objetos simples en intersecciones, uniones, buffer, transformaciones afines, simplificación, corte, transformación de tipo….</p>
+<p>El problema es que <code>sf</code> es una librería compleja, que requiere de práctica y tiempo para comprender y no es sencillo de comprender al principio. Pero para eso estamos aquí, para poner ejemplos y práctica que nos ayuden.</p>
+</div>
+<div id="objetivo" class="section level2">
+<h2>Objetivo</h2>
+<p>El objetivo de este taller será obtener un <strong>Mapa del Tesoro</strong> de esos típicos de libro de aventuras, con una gran isla principal y alguna más pequeña en la costa cercana.</p>
+<p>El mapa, para ser completo, debe tener tambien los nombres de algunos accidentes geográficos o puntos singulares como cabos, playas y por supuesto el punto donde está enterrado el <em>tesoro</em>.</p>
+</div>
+<div id="rescatamos-el-codigo-de-crear_isla" class="section level2">
+<h2>Rescatamos el código de crear_isla</h2>
+<p>En el articulo anterior <a href="../Generador-de-islas-aleatorias">islas aeatorias</a> programamos estas 5 funciones:</p>
+<ul>
+<li><code>puntomedio</code>, que calcula el punto medio entre dos puntos dados.</li>
+<li><code>pol_cero</code>, que crea un polígono aletorio a partir de los valores de diámetro medio y número de lados.</li>
+<li><code>div_pol</code>, función que divide cada lado del polígono de entrada en dos y genera distorsiones caóticas aleatorias distanciando el punto medio sobre la perpendicular al lado.</li>
+<li><code>div_pol_n</code> función recursiva que hace n veces la función anterior <code>div_pol</code></li>
+<li><code>crea_isla</code> función que llama a las anteriores y crea el polígono de una isla aleatoria y lo pinta.</li>
+</ul>
+<p>El esquema que tenemos en mente es el siguiente:</p>
+<pre><code>## Warning: package &#39;DiagrammeR&#39; was built under R version 3.5.2</code></pre>
+<div id="htmlwidget-1" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-1">{"x":{"diagram":"graph TD;\n    A(pol_cero)-->B[div_pol];\n    C(puntomedio)-->B;\n    B-->E[crea_isla];\n    style C fill:cyan;"},"evals":[],"jsHooks":[]}</script>
+<p>Tenemos que hacer algún retoque de la función <code>crea_isla()</code>, para que en lugar de pintar el resultado, devuelva un polígono en formato <code>data.frame</code>, eso os lo dejamos de tarea.</p>
+<p>Por cierto que revisando el código he descubierto un fallo en la función <code>div_pol</code>, pues se duplicaban los puntos de coordenadas en cada división del poligono, ahora ya está corregido, ¡cosas de la programación rápida!.</p>
+</div>
+<div id="esquema-de-programacion" class="section level2">
+<h2>Esquema de programación</h2>
+<p>Os muestro un esquema final con las funciones para hacer el mapa del tesoro. He tenido que meter bastantes funciones que no pensé al inicio por los problemas que surgen en la programación y cosas inesperadas que hay que ir solucionando.</p>
+<div id="htmlwidget-2" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-2">{"x":{"diagram":"graph LR;\n    A(pol_cero)-->B[div_pol];\n    C(puntomedio)-->B;\n    B-->E1((crea_isla));\n    E1-->E2[pol_to_sf];\n    E2-->E[validar_contorno];\n    H[multipol_a_uno]-->E;\n    I[isla_chica]-->B1;\n    E-->I;\n    I-->E1;\n    B1[archipielago]-->I;\n    B1-->B2(junta_igran_archi);\n    B2-->F;\n    B1-->C1;\n    C1[nom_islas]-->F;\n    E11[p_interes]-->F((pinta_mapa));\n    E-->E11;\n    style E1 fill:cyan;\n    style F fill:Lime;\n    style B1 fill:orange;\n    style I fill:pink"},"evals":[],"jsHooks":[]}</script>
+<p>He añadido una librería para manejar fuentes de texto ampliadas, lo que me permitirá que el mapa use tipografías de apariencia antigua…. es <code>extrafont</code>.</p>
+<pre class="r"><code>  # para usar otras caligrafias
+  library(extrafont)
+  #font_import() solo una vez tras instalar
+  loadfonts() # carga llas fuentes</code></pre>
+<p>Como dije, he usado solamente la librería <code>sf</code>, pues tenemos en ella todas las funciones necesarias. Los objetos espaciales se almacenan en sf como en listas, dentro de la parte de geometría <code>sfc</code>, y como datos en el sf. Haré un articulo especifico para desentrañar esto más adelante.</p>
+<p><code>sf</code> tiene también la ventaja de usar el código enlazado con <code>pipe</code> (de tubo), usando la librería <code>tidyverse</code>.</p>
+<p>Las principales funciones que usaremos sobre geometrias <code>sf</code> en este taller son: st_cast, st_centroid,st_buffer, st_combine, st_union, st_difference…</p>
+</div>
+<div id="funciones-mapa-tesoro-1" class="section level2">
+<h2>Funciones mapa tesoro 1</h2>
+<p>Siguiendo el esquema, las funciones que programamos para hacer el mapa del tesoro son las siguientes:</p>
+<ul>
+<li><code>pol_to_sf()</code>–&gt; que devuelve un objeto <code>sf</code> a partir de un data.frame del polígono.</li>
+<li><code>validar_contorno()</code>–&gt; esta función es muy importante, y es el resultado de muchos dolores de cabeza, pues los poligonos aleatorios son muchas veces extraños y tienen lados que se cruzan, lo que genera un <em>MULTIPOLYGON</em> o directamente geometrías no válidas. Con esta función nos quedamos unicamente un un polígono simple en fomrato <code>sf</code>.</li>
+<li><code>multipol_a_uno()</code>–&gt; que coge el poligono mas grande de un MULTIPOLYGON</li>
+</ul>
+<p>El código hasta aquí, es el siguiente:</p>
+<pre class="r"><code>################################################
+# Funciones para hacer un mapa del tesoro con R
+# Autor: Fernando Villalba Bergado
+# Fecha: 2018-2019
+################################################
+  require(extrafont)
+  library(tidyverse)
+  library(sf)
+
+  # Funcion pol_to_sf:
+  # para transformar el poligono en objeto o capa espacial sf
+  # por defecto coge el CRS epsg 25831 
+    pol_to_sf&lt;-function(pol,epsg=25831){
+      capa &lt;- pol %&gt;%
+        st_as_sf(coords = c(&quot;x&quot;, &quot;y&quot;), crs = epsg) %&gt;%
+        summarise(geometry = st_combine(geometry)) %&gt;%
+        st_cast(&quot;POLYGON&quot;)
+      st_crs(capa)&lt;-epsg
+      return(capa)
+    }
+
+  # Funcion validar_contorno: 
+  # sirve para corregir fallos en los poligonos en los que cruzan lados
+    validar_contorno&lt;-function(pol){
+      str1&lt;-st_crs(pol)
+      if(is.na(str1)){str1=25831}
+  #    pol&lt;-st_cast(pol,&quot;POLYGON&quot;)
+      if(!st_is_valid(pol)){
+        pol&lt;-st_buffer(pol, 10)# crea un buffer
+        pol&lt;-st_combine(pol)
+        st_crs(pol)&lt;-str1#25831
+      }
+      # comprueba que no es multipol
+      if(class(pol)[[1]]==&quot;sfc_MULTIPOLYGON&quot;){
+        pol&lt;-multipol_a_uno(pol)
+        st_crs(pol)&lt;-str1
+      }  
+      return(pol)
+    }
+
+      
+  ## Función que coje solo el poligono de mayor área de un multipol
+    multipol_a_uno&lt;-function(mpol){
+       aux1&lt;-st_cast(mpol,&quot;POLYGON&quot;)
+    #  aux1&lt;-st_cast(aq,&quot;POLYGON&quot;)
+        areas&lt;-st_area(aux1)
+        aux2&lt;-data.frame(area=areas,id=1:length(areas))
+        #selecciona la de mayor area
+        solo1&lt;-head(aux2[order(aux2$area,decreasing = T),2],1)
+        # selecciona solo la de mayor area
+        aux3&lt;-st_sf(st_geometry(aux1)[solo1])
+        return(aux3)
+    }
+
+# prueba de las funciones
+isla_prueba&lt;-crea_isla(R=5000)%&gt;% pol_to_sf()%&gt;%validar_contorno()
+plot(isla_prueba,axes=T,
+     main=&quot;Polígono-isla generada aleatoriamente&quot;,
+     graticule=T,bg=&quot;aliceblue&quot;,col=&quot;antiquewhite4&quot;,
+     family=&quot;Calibri&quot;) </code></pre>
+<p><img src="/post/2019-02-05-mapas-del-tesoro_files/figure-html/mapa_tesoro-1.png" width="672" /></p>
+<div id="funciones-mapa-tesoro-2" class="section level3">
+<h3>Funciones mapa tesoro 2</h3>
+<p>Con las funciones anteriores generamos un polígono con forma de isla y lo convertimos en un objeto geográfico con caracteristicas SIG, pero para crear un mapa del tesoro tenemos que currar un poco mas.</p>
+<p>Así que creamos más funciones siguendo el esquema inicial:</p>
+<ul>
+<li><code>isla_chica()</code> que genera una isla en el contorno de una isla mayor, para esto usaremos la función buffer de sf.</li>
+<li><code>archipielago()</code> que genera varias islas chicas, llamando a la funcion anterior varias veces.</li>
+<li><code>junta_igran_archi()</code> que une la isla grande y las islas del archipielago</li>
+<li><code>nom_islas()</code> que da nombre a las islas generadas</li>
+<li><code>p_interes()</code>que genera puntos aleatorios de caracteristicas concretas para la geografia de las islas</li>
+<li><code>pinta_mapa_negro()</code> función que pinta el mapa en tonos negros</li>
+</ul>
+<p>El código detallado es el siguiente:</p>
+<pre class="r"><code>################################################
+# Funciones para hacer un mapa del tesoro con R
+# Autor: Fernando Villalba Bergado
+# Fecha: 2018-2019
+################################################
+  require(extrafont)
+  require(prettymapr) 
+  require(tidyverse)
+  require(sf)
+
+  # 2. Función que crear una isla chica de radio r 
+  #  y la posiciona en la costa de la isla grande
+    isla_chica&lt;-function(islagrande,r){
+        ichi&lt;-crea_isla(R=r)%&gt;% pol_to_sf()%&gt;%validar_contorno()
+        # Posicion de la isla en el bufer
+        posi_ichi &lt;- st_buffer(st_geometry(islagrande),r*2)
+        # Mueve la isla peq a un punto aleatorio del buffer
+        n&lt;-dim(st_coordinates(posi_ichi))  
+        dado&lt;-as.integer(runif(1,1,n))# num aleatorio entre la dim de dado
+        # vector desplazamiento
+        x_chica&lt;-st_coordinates(posi_ichi)[dado,1]
+        y_chica&lt;-st_coordinates(posi_ichi)[dado,2]
+        # nuevo punto donde mover la isla chica
+        p = st_point(c(x_chica,y_chica))
+        #convierto el punto en geometria sfc
+        p&lt;-st_sfc(p, crs = 25831)
+        #convierto la geometria en sf
+        p&lt;-st_sf(p)
+        #sumo las geometrias sf es decir, 
+        # desplazamos el poligono al punto
+        aux&lt;-ichi+p
+        # por si acaso convierto en sf
+        aux&lt;-st_sf(aux,crs = 25831)
+        return(aux)
+    }  
+  
+
+  # 3. funcion que generea varias islas, un archipielago
+  # devuelve una lista con las islas y el numero de estas  
+    archipielago&lt;-function(zona,radio=5000,n_islas=NA){ 
+    # generamos unas islas chicas 
+     n_islas&lt;-ifelse(is.na(n_islas),as.integer(runif(1,2,5)),n_islas )
+     archi&lt;-list()# vacia la lista
+        # crea el poligono de buffer al que va sumando islas
+        todas_las_islas&lt;-zona # el primero con la isla grande
+        #todas_las_islas&lt;-validar_contorno(todas_las_islas)
+        # bucle que crea las islas
+        for(i in 1:n_islas){
+          # calucla un radio aleatorio de la isla chica
+          # como media 1/10 de la grande
+          r_isla&lt;-radio/(runif(1,8,11))
+          # calcula el bufer del contorno
+          contorno&lt;-st_buffer(todas_las_islas,(r_isla+500))
+          # Llama a la función isla_chica
+          archi[[i]]&lt;-isla_chica(contorno,r_isla) %&gt;% st_sf()
+          #valida el contorno
+          archi[[i]]&lt;-validar_contorno(archi[[i]])          
+          #une las islas para crear el nuevo contorno
+          todas_las_islas&lt;-st_union(todas_las_islas,archi[[i]])
+        }
+        # devuelve una lista de 2
+        #aux&lt;-list(archi,n_islas)
+        return(archi)
+    }  
+  
+
+    # Funcion junta_igran_archi
+    # junta la isla principal y el archipielago de islas chicas
+     junta_igran_archi&lt;-function(igrande, archi){
+       #archi&lt;-a
+       #igrande&lt;-islagrande
+       n_islas&lt;-length(archi)
+          # añado a la lista la islagrade
+            archi[[n_islas+1]]&lt;-igrande
+            # unimos todas las islas de la lista archi 
+            islas &lt;-purrr::reduce(archi,st_union)
+            # Dividimos en poligonos cerrados
+            islas&lt;-st_cast(islas,&quot;POLYGON&quot;)
+      return(islas)
+     }
+
+   
+   # Funcion nom_islas:
+   # da nombre a las islas aleatorias de entre los de la lista de la funcion
+   nom_islas&lt;-function(n_islas){
+      nombres_islas&lt;-c(&quot;Cabeza Rota&quot;,&quot;I. Pájaros&quot;,
+                       &quot;Isla Chica&quot;, &quot;Islote de los Naúfragos&quot;,
+                       &quot;I. Esperanza&quot;, &quot;I. Capitán Vilber&quot;,
+                       &quot;Isla Soledad&quot;,&quot;Peñón de la Negra&quot;,
+                       &quot;Punta del Moro&quot;)
+      # seleccion de los nombres anteriores unos aleatorios
+      # según el número de islitas
+      nom_I&lt;-sample(nombres_islas,n_islas)
+      # Añadimos el nombre de la isla grande
+      nom_I&lt;-c(nom_I,&quot;Isla Perdida&quot; )  
+      return(nom_I)
+   }  
+   
+    # Funcion  p_interes:
+    # Crea una capa de puntos de interes en la isla.
+       # 2 puntos vip
+       # 1 playa
+       # 2 cabos
+    # la funcion devuelve una lista con 3 objetos:
+    #   puntos_vip,puntos_cabo,ruta_pirata
+    p_interes&lt;-function(islagrande){
+      # calculo la linea de costa isla grande
+      lin_costa&lt;-st_cast(islagrande,&quot;LINESTRING&quot;)
+      #borra los puntos
+      puntos_vip&lt;-NULL
+      puntos_cabo&lt;-NULL
+      punto_1&lt;-NULL
+      # Puntos interiores 
+          npuntos&lt;-2
+          # ojo que esta funcion st_sample muchas veces no devuelve el num especificado en size,
+          # por eso voy a calcular 2 mas y me quedo con los 2 primeros.
+          puntos_vip&lt;-st_sample(st_buffer(islagrande,-200),size=npuntos+3)
+          puntos_vip&lt;-st_sf(puntos_vip)
+          puntos_vip&lt;-puntos_vip[1:npuntos,]
+      # Punto enlinea de costa para playa
+          npuntos&lt;-1
+          punto_1&lt;-st_sample(lin_costa,size=npuntos+2,type=&quot;random&quot;)
+          punto_1&lt;-st_sf(punto_1)
+          punto_1&lt;-st_cast(punto_1,&quot;POINT&quot;)
+          punto_1&lt;-punto_1[1,] # por quedarme solo con 1
+      # Unimos los 3
+          puntos_vip&lt;-st_union(punto_1,puntos_vip)
+          puntos_vip&lt;-st_difference(st_cast(puntos_vip,&quot;POINT&quot;))
+      # Asignamos los nombres de los puntos      
+          puntos_vip$nombre&lt;-c(&quot;Playa Mosquito&quot;,&quot;Palmera Alta&quot;,&quot;Tesoro&quot;)
+          
+      # Cabos
+          # simplificamos el contorno mucho para identificar vertices
+          cape&lt;-st_simplify(islagrande,dTolerance =2000)#(radio-1000))
+          # convierto a linea
+          cape&lt;-st_cast(cape,&quot;LINESTRING&quot;)
+          # convierto a puntos
+          cape&lt;-st_cast(cape,&quot;POINT&quot;)
+          #st_crs(cape)
+          npuntos&lt;-2
+          puntos_cabo&lt;-st_sample(cape,size=npuntos+2,type=&quot;random&quot;)
+          puntos_cabo&lt;-st_cast(puntos_cabo,&quot;POINT&quot;)
+          puntos_cabo&lt;-st_sf(puntos_cabo)
+          puntos_cabo&lt;-puntos_cabo[1:npuntos,] # por quedarme solo con 2
+          puntos_cabo$nombre&lt;-sample(c(&quot;Cabo Tormentas&quot;, &quot;Cabo de la Desesperanza&quot;,
+                                       &quot;Punta Negra&quot;,&quot;Punta de las flechas&quot;),npuntos)
+        # creo una linea on la ruta del tesoro  
+          ruta_pirata&lt;-st_cast(st_combine(puntos_vip), &quot;LINESTRING&quot;)
+          aux&lt;-list(puntos_vip,puntos_cabo,ruta_pirata)
+          return(aux)
+    }   
+
+    
+    # Funcion pinta_mapa:
+    #   pinta el mapa completo del tesoro en plot base
+    pinta_mapa_negro&lt;-function(is2,nom_I,p_int){
+        #Calcula el centroide de cada isla
+        is2_c&lt;-st_centroid(is2,of_largest_polygon = FALSE)
+        
+        # Pintamos todo  
+          # pinta las islas
+            plot(st_geometry(is2), col=&quot;black&quot;, border = &quot;black&quot;,  axes = TRUE, main=&quot;Mapa del tesoro del capitán Vilber&quot;, bg=&quot;gray81&quot;,family=&quot;Old English Text MT&quot;)  #darkslategray1
+          # Pinta los centroides
+            plot(st_geometry(st_centroid(is2)),pch = 3, col = &#39;white&#39;, add = TRUE)
+          # Pinta las lineas e costa del mar
+            plot(st_cast(st_buffer(is2,50),&quot;MULTILINESTRING&quot;), col = &#39;gray20&#39;, add = TRUE)
+            plot(st_cast(st_buffer(is2,100),&quot;MULTILINESTRING&quot;), col = &#39;gray23&#39;, add = TRUE)
+            plot(st_cast(st_buffer(is2,300),&quot;MULTILINESTRING&quot;), col = &#39;gray29&#39;, add = TRUE)
+            plot(st_cast(st_buffer(is2,500),&quot;MULTILINESTRING&quot;), col = &#39;gray32&#39;, add = TRUE)
+        # Etiquetas de las islas
+        text(st_coordinates(is2_c), labels = nom_I, pos = 4,family=&quot;Old English Text MT&quot;,col = &#39;white&#39;)
+        # Puntos de interes
+          plot(p_int[[1]],add=T,pch=4,cex=2,lwd=2,col=&quot;gray42&quot;)
+          plot(p_int[[2]],add=T,col=&quot;red&quot;,pch=4,cex=2)
+          plot(p_int[[3]],add=T, col=&quot;red&quot;,lwd=2,lty=2)
+        #Etiquetas de los puntos de interes  
+          text(st_coordinates(p_int[[1]]), labels = p_int[[1]]$nombre, pos = 4,family=&quot;Old English Text MT&quot;,col = &#39;white&#39;,cex=0.9)
+        text(st_coordinates(p_int[[2]]), labels = p_int[[2]]$nombre, pos = 4,family=&quot;Old English Text MT&quot;,col = &#39;white&#39;,cex=0.7)
+      # añade escala y norte   
+      addscalebar()#(style=&quot;ticks&quot;)
+      addnortharrow(pos = &quot;topright&quot;, scale = 0.5)
+    }    </code></pre>
+</div>
+</div>
+<div id="resultado" class="section level2">
+<h2>Resultado</h2>
+<p>Juntamos el proceso en otra función que llamaremos mapa del tesoro y que nos genera el mapa deseado, de manera aleatoria y en un santiamén.</p>
+<p>Como es un blog personal, he decidido llamar a estos mapas los del tesoro del capitán Vilber, jeje:</p>
+<pre class="r"><code>################################################
+# Funciones para hacer un mapa del tesoro con R
+# Autor: Fernando Villalba Bergado
+# Fecha: 2018-2019
+################################################
+    mapa_tesoro&lt;-function(){
+            radio&lt;-10000
+            #crea una isla principal
+            islagrande&lt;-crea_isla(R=radio)%&gt;% pol_to_sf()%&gt;%validar_contorno()
+            # crea archipielago
+            a&lt;-archipielago(islagrande,radio=radio)
+            #junta las islas
+            islas1&lt;-junta_igran_archi(islagrande,a)
+            #da los nombres y los punto de interes
+            nom_I&lt;-nom_islas(length(a))
+            pun_int&lt;-p_interes(islagrande)
+              
+            #pinta_mapa(is2,nom_I)
+            aux&lt;-pinta_mapa_negro(islas1,nom_I,pun_int)
+            return(aux)
+          }
+
+    
+     mapa_tesoro()</code></pre>
+<p><img src="/post/2019-02-05-mapas-del-tesoro_files/figure-html/pintaM-1.png" width="672" /></p>
+<pre><code>## NULL</code></pre>
+<p>Cambiar los colores es bastante facil, aquí dejo una muestra con otras opcciones más coloridas:</p>
+<p><img src="/post/2019-02-05-mapas-del-tesoro_files/figure-html/mapa_color-1.png" width="672" /></p>
+<pre><code>## NULL</code></pre>
+<p><img src="/post/2019-02-05-mapas-del-tesoro_files/figure-html/mapa_color-2.png" width="672" /></p>
+<pre><code>## NULL</code></pre>
+</div>

@@ -10,23 +10,16 @@ tags:
   - divertido
   - modelos
 description: ''
-thumbnail: ''
-toc: yes
+thumbnail: 'img/bosque3.png'
+toc: no
 editor_options: 
   chunk_output_type: console
 ---
 
 
-<div id="TOC">
-true
-</div>
 
 <p>Seguimos con los modelos sencillos para talleres de programación, y este es bastante interesante.</p>
 <p>Se trata de, a partir de modelos muy simples generar un árbol,pintándolo en el tablero de r, y después generar muchos de estos árboles de forma aleatoria para formar un bosque.</p>
-<div class="figure">
-<img src="../../img/bosque3.png" alt="bosque creado con grafias simples de R" />
-<p class="caption">bosque creado con grafias simples de R</p>
-</div>
 <div id="crear-un-arbol" class="section level2">
 <h2>Crear un árbol</h2>
 <p>La idea es pintar una linea como tronco (de altura h), y en la punta de arriba un circulo (de radio r) que será la copa del árbol. Además para dar.le algo más de gracia, pintamos dos ramas a una altura aleatoria a partir de 0,7h.</p>
@@ -54,7 +47,7 @@ arbol&lt;-function(h,x0){
 
 #arbol(10,3)
 arbol(6,14)</code></pre>
-<p><img src="/post/2019-01-19-hacer-un-bosque-con-r_files/figure-html/unnamed-chunk-1-1.png" width="672" /> Hemos usado solo el paquete base, pero existen otras funciones y librerías que permiten pintar círculos, como <code>draw.circle(x0, h, r)#, nv = 1000, border = NULL, col = NA, lty = 1, lwd = 1)</code> de la librería plotyR</p>
+<p><img src="/post/2019-01-19-hacer-un-bosque-con-r_files/figure-html/unnamed-chunk-2-1.png" width="672" /> Hemos usado solo el paquete base, pero existen otras funciones y librerías que permiten pintar círculos, como <code>draw.circle(x0, h, r)#, nv = 1000, border = NULL, col = NA, lty = 1, lwd = 1)</code> de la librería plotyR</p>
 </div>
 <div id="crear-un-bosque" class="section level2">
 <h2>Crear un bosque</h2>
@@ -94,7 +87,7 @@ arbol1(10,3)
 arbol1(6,14,borra=FALSE)
 arbol1(8,8,borra=FALSE)
 arbol1(8,18,borra=FALSE)</code></pre>
-<p><img src="/post/2019-01-19-hacer-un-bosque-con-r_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p><img src="/post/2019-01-19-hacer-un-bosque-con-r_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 <pre class="r"><code># Version personalizada de la funcion ciudad
 bosque&lt;-function(ancho=100,h=20){
   # Pinta el lienzo del bosque
@@ -119,7 +112,7 @@ bosque&lt;-function(ancho=100,h=20){
 }
 
 bosque(50,15)</code></pre>
-<p><img src="/post/2019-01-19-hacer-un-bosque-con-r_files/figure-html/unnamed-chunk-2-2.png" width="672" /></p>
+<p><img src="/post/2019-01-19-hacer-un-bosque-con-r_files/figure-html/unnamed-chunk-3-2.png" width="672" /></p>
 <p>Ya está, la verdad que ha quedado chulo y divertido, tenemos un generador de bosques en un santiamén.</p>
 </div>
 <div id="un-vuelta-sobre-las-formas" class="section level2">
@@ -186,7 +179,7 @@ arbol2&lt;-function(h,x0,borra=T,color=&quot;green&quot;){
 
 arbol2(10,3)
 arbol2(6,14,borra=FALSE)</code></pre>
-<p><img src="/post/2019-01-19-hacer-un-bosque-con-r_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p><img src="/post/2019-01-19-hacer-un-bosque-con-r_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 <pre class="r"><code>bosque2&lt;-function(ancho=100,h=20, borra=T,color=&quot;green&quot;){
   # Pinta el lienzo de la ciudad
     if(borra==T){
@@ -216,10 +209,10 @@ bosque2(50,15)
 
 bosque2(50,8,borra = FALSE,color = &quot;red&quot;)
 bosque2(50,3,borra = FALSE,color = &quot;blue&quot;)</code></pre>
-<p><img src="/post/2019-01-19-hacer-un-bosque-con-r_files/figure-html/unnamed-chunk-3-2.png" width="672" /></p>
+<p><img src="/post/2019-01-19-hacer-un-bosque-con-r_files/figure-html/unnamed-chunk-4-2.png" width="672" /></p>
 <pre class="r"><code>## otro
 bosque2(100,15)
 bosque2(80,10,borra = FALSE,color=&quot;red&quot;)</code></pre>
-<p><img src="/post/2019-01-19-hacer-un-bosque-con-r_files/figure-html/unnamed-chunk-3-3.png" width="672" /> Las funciones que hemos programado permite formar una imagen de bosque bastante creíble, al menos a un dibujo animado.</p>
+<p><img src="/post/2019-01-19-hacer-un-bosque-con-r_files/figure-html/unnamed-chunk-4-3.png" width="672" /> Las funciones que hemos programado permite formar una imagen de bosque bastante creíble, al menos a un dibujo animado.</p>
 <p>Espero que os haya gustado este taller, creo que ha sido muy divertido.</p>
 </div>

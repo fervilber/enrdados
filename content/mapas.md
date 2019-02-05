@@ -1,8 +1,10 @@
 ---
 title: R Mapas
 date: 2018-04-09
-menu: main
+menu: side
 toc: true
+thumbnail: ''
+
 ---
 
 ***
