@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Mapas on EnRdados</title>
+    <link>/tags/mapas/</link>
+    <description>Recent content in Mapas on EnRdados</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>es</language>
+    <lastBuildDate>Wed, 16 Jan 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/mapas/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Geoposicionar fotografias</title>
+      <link>/post/geoposicionar-fotograf%C3%ADas/</link>
+      <pubDate>Wed, 16 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/geoposicionar-fotograf%C3%ADas/</guid>
+      <description>Objetivo Crear un mapa en R en el que esté marcada la geo localización de cada una de las fotos que hemos hecho.
+Antecedentes En mi trabajo hacemos muchas visitas a campo en las que recabar información, anotar, medir y sobre todo, hacer muchas fotografías.
+Las fotos se seleccionan y editan para los informes. Si se trata de un par de fotos es poco trabajo, pero cuando hay que insertar 20, 50 o más la cosa se complica.</description>
+    </item>
+    
+    <item>
+      <title>Generador de islas aleatorias</title>
+      <link>/post/generador-de-islas-aleatorias/</link>
+      <pubDate>Mon, 14 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/generador-de-islas-aleatorias/</guid>
+      <description>Tras hacer el generador de ciudades me entró el gusanillo y he pensado otros talleres de programación para niños, se trata de desarrollar clases cortas como introducción a la programación de algoritmos y su aplicación directa en R.
+Hablando con mi hijo mayor, pensamos que podía ser interesante crear un modelo para crear mapas de islas del tesoro… Como a mi me gustan mucho los mapas la idea me pareció genial y nos hemos puesto manos a la obra.</description>
+    </item>
+    
+    <item>
+      <title>Crear mapas estaticos con R</title>
+      <link>/post/crear-mapas-estaticos/</link>
+      <pubDate>Thu, 10 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/crear-mapas-estaticos/</guid>
+      <description>¿qué son los mapas estáticos?Los mapas fijos o estáticos son los de siempre, que se contraponen a los nuevos o dinámicos en los que se permite interactuar. Estos mapas fijos son solo imágenes de unarepresentación geográfica.
+Estos mapas tienen cada vez menos uso, pero siguen siendo útiles para insertar en documentos y libros. Estamos tan acostumbrados a interactuar con los mapas,a hacer zoom o localizar poblaciones de forma dinámica que es hasta raro querer un simple mapa como imagen.</description>
+    </item>
+    
+  </channel>
+</rss>

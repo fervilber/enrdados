@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Matemáticas on EnRdados</title>
+    <link>/tags/matem%C3%A1ticas/</link>
+    <description>Recent content in Matemáticas on EnRdados</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>es</language>
+    <lastBuildDate>Mon, 14 Jan 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/matem%C3%A1ticas/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Generador de islas aleatorias</title>
+      <link>/post/generador-de-islas-aleatorias/</link>
+      <pubDate>Mon, 14 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/generador-de-islas-aleatorias/</guid>
+      <description>Tras hacer el generador de ciudades me entró el gusanillo y he pensado otros talleres de programación para niños, se trata de desarrollar clases cortas como introducción a la programación de algoritmos y su aplicación directa en R.
+Hablando con mi hijo mayor, pensamos que podía ser interesante crear un modelo para crear mapas de islas del tesoro… Como a mi me gustan mucho los mapas la idea me pareció genial y nos hemos puesto manos a la obra.</description>
+    </item>
+    
+    <item>
+      <title>MathJax</title>
+      <link>/post/mathjax/</link>
+      <pubDate>Sat, 14 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/mathjax/</guid>
+      <description>&lt;p&gt;&lt;em&gt;MathJax&lt;/em&gt; es una librería JavaScript que permite ver ecuaciones y notación matemática en casi cualquier navegador moderno.
+Podemos usarla directamente en nuestros post de blogdown sin necesidad de acudir al formato Rmd, es decir con markdown puro de la siguiente forma:&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

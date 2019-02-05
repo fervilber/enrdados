@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html class="no-js" lang="es">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>markdown básico</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="Ejemplos de markdown básico.">
+	<meta name="generator" content="Hugo 0.53" />
+	<meta property="og:title" content="markdown básico" />
+<meta property="og:description" content="Ejemplos de markdown básico." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/post/mdbasic/" /><meta property="article:published_time" content="2018-12-06T00:00:00&#43;00:00"/>
+<meta property="article:modified_time" content="2018-12-06T00:00:00&#43;00:00"/>
+
+	
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+<link rel="stylesheet" href="/css/hybrid.css" rel="stylesheet" id="theme-stylesheet">
+<script src="/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+	<div class="container">
+		<div class="logo">
+			<a class="logo__link" href="/" title="EnRdados" rel="home">
+				<div class="logo__title">EnRdados</div>
+				<div class="logo__tagline">Hablamos de R, programación y otras cosas...</div>
+			</a>
+		</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menú</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/about/">Sobre mi</a>
+		</li>
+		<li class="menu__item menu__item--active">
+			<a class="menu__link" href="/post/mdbasic/">markdown básico</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">markdown básico</h1>
+			<div class="post__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 16 16"><path d="m8-.0000003c-4.4 0-8 3.6-8 8 0 4.4000003 3.6 8.0000003 8 8.0000003 4.4 0 8-3.6 8-8.0000003 0-4.4-3.6-8-8-8zm0 14.4000003c-3.52 0-6.4-2.88-6.4-6.4000003 0-3.52 2.88-6.4 6.4-6.4 3.52 0 6.4 2.88 6.4 6.4 0 3.5200003-2.88 6.4000003-6.4 6.4000003zm.4-10.4000003h-1.2v4.8l4.16 2.5600003.64-1.04-3.6-2.1600003z"/></svg>
+	<time class="meta__text" datetime="2018-12-06T00:00:00">2018-12-06</time>
+</div>
+
+<div class="meta__item-categories meta__item">
+	<svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg>
+	<span class="meta__text"><a class="meta__link" href="/categories/markdown" rel="category">markdown</a></span>
+</div>
+</div>
+		</header>
+<div class="post__toc toc">
+	<div class="toc__title">Índice</div>
+	<div class="toc__menu">
+		<nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#encabecados">Encabecados</a></li>
+</ul></li>
+<li><a href="#título-1">Título 1</a>
+<ul>
+<li><a href="#título-2">Título 2</a>
+<ul>
+<li><a href="#título-3">Título 3</a>
+<ul>
+<li><a href="#título-4">Título 4</a>
+<ul>
+<li><a href="#título-5">Título 5</a>
+<ul>
+<li><a href="#título-6">Título 6</a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li><a href="#listas">Listas</a>
+<ul>
+<li><a href="#ordered-list">Ordered List</a></li>
+<li><a href="#unordered-list">Unordered List</a></li>
+</ul></li>
+<li><a href="#bloques-de-código">Bloques de código</a></li>
+<li><a href="#tablas">Tablas</a></li>
+<li><a href="#marcas-de-formato">Marcas de formato</a></li>
+<li><a href="#enlaces">Enlaces</a></li>
+<li><a href="#insertar-imagen">Insertar imagen</a></li>
+<li><a href="#línea-horizontal">Línea horizontal</a></li>
+<li><a href="#insertar-un-video-de-youtube">insertar un video de youtube</a></li>
+<li><a href="#uso-de-latex">Uso de $LaTeX$</a></li>
+</ul></li>
+</ul>
+</nav>
+	</div>
+</div>
+<div class="content post__content clearfix">
+			<p>El principal propósito de este artículo es tener a mano un resumen para los formatos básicos de markdown.</p>
+
+<p>RSTUDIO pone a disposición de los usuarios una chuleta resumida muy bueno con gran parte de los formatos de sintaxis, pero creo conveniente ponerlo a mano también en el blog</p>
+
+<h2 id="encabecados">Encabecados</h2>
+
+<p>Los encabezados se forman con con el símbolo almohadilla <code>#</code>. Repitiendo este símbolo sucesivamente hacemos los encabezados o títulos cada vez más pequeños.</p>
+
+<pre><code># Título 1
+## Título 2
+### Título 3
+#### Título 4
+##### Título 5
+###### Título 6
+</code></pre>
+
+<h1 id="título-1">Título 1</h1>
+
+<h2 id="título-2">Título 2</h2>
+
+<h3 id="título-3">Título 3</h3>
+
+<h4 id="título-4">Título 4</h4>
+
+<h5 id="título-5">Título 5</h5>
+
+<h6 id="título-6">Título 6</h6>
+
+<hr />
+
+<h2 id="listas">Listas</h2>
+
+<h3 id="ordered-list">Ordered List</h3>
+
+<pre><code>1. Elemento 1
+2. Elemento 2
+3. Elemento 3
+</code></pre>
+
+<ol>
+<li>Elemento 1</li>
+<li>Elemento 2</li>
+<li>Elemento 3</li>
+</ol>
+
+<h3 id="unordered-list">Unordered List</h3>
+
+<pre><code>* Elemento 1
+* Elemento 2
+ * Subelemento 2.1
+* Elemento 3
+ * Subelemento 3.1
+</code></pre>
+
+<ul>
+<li>Elemento 1</li>
+<li>Elemento 2
+
+<ul>
+<li>Subelemento 2.1</li>
+</ul></li>
+<li>Elemento 3
+
+<ul>
+<li>Subelemento 3.1</li>
+</ul></li>
+</ul>
+
+<h2 id="bloques-de-código">Bloques de código</h2>
+
+<p>En md para meter un bloque de código lo podemos hacer encerrando la escritura entre las los símbolos tilde 3 veces:</p>
+
+<p>```</p>
+
+<p>Esto es un bloque de código</p>
+
+<p>```</p>
+
+<p>Cuya salida es:</p>
+
+<pre><code>esto es un bloque de código
+</code></pre>
+
+<p>Aunque depende de la configuración local, en muchos casos puede especificarse el lenguaje a continuación de las comillas como por ejemplo aquí:</p>
+
+<p>``` javascript</p>
+
+<p>var s = &ldquo;JavaScript syntax highlighting&rdquo;;</p>
+
+<p>alert(s);</p>
+
+<p>```</p>
+
+<pre><code class="language-javascript">var s = &quot;JavaScript syntax highlighting&quot;;
+alert(s);
+</code></pre>
+
+<p>En Rmd que es la versión adaptada de markdown que usa RSTUDIO lo haremos con el mismo símbolo y a continuación unas llaves <code>{}</code> indicando dentro de la llave el lenguaje y muchos otros parámetros.</p>
+
+<h2 id="tablas">Tablas</h2>
+
+<p>Las tablas que no se generan dentro de código R, pueden hacerse directamente con el formato usando el símbolo <code>|</code>.</p>
+
+<pre><code>| ID  | Make      | Model   | Year |
+| --- | --------- | ------- | ---- |
+| 1   | Honda     | Accord  | 2009 |
+| 2   | Toyota    | Camry   | 2012 |
+| 3   | Hyundai   | Elantra | 2010 |
+</code></pre>
+
+<p>resultado:</p>
+
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Make</th>
+<th>Model</th>
+<th>Year</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>1</td>
+<td>Honda</td>
+<td>Accord</td>
+<td>2009</td>
+</tr>
+
+<tr>
+<td>2</td>
+<td>Toyota</td>
+<td>Camry</td>
+<td>2012</td>
+</tr>
+
+<tr>
+<td>3</td>
+<td>Hyundai</td>
+<td>Elantra</td>
+<td>2010</td>
+</tr>
+</tbody>
+</table>
+
+<p>Otro ejemplo</p>
+
+<pre><code>| Tables      | Are           | Cool         |
+|:----------- |:-------------:| ------------:|
+| align: left | align: center | align: right |
+| align: left | align: center | align: right |
+| align: left | align: center | align: right |
+</code></pre>
+
+<p>se crea esto:</p>
+
+<table>
+<thead>
+<tr>
+<th align="left">Tables</th>
+<th align="center">Are</th>
+<th align="right">Cool</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td align="left">align: left</td>
+<td align="center">align: center</td>
+<td align="right">align: right</td>
+</tr>
+
+<tr>
+<td align="left">align: left</td>
+<td align="center">align: center</td>
+<td align="right">align: right</td>
+</tr>
+
+<tr>
+<td align="left">align: left</td>
+<td align="center">align: center</td>
+<td align="right">align: right</td>
+</tr>
+</tbody>
+</table>
+
+<p>Incluso puede usarse código md dentro de la tabla:</p>
+
+<pre><code>| Inline     | Markdown  | In                | Table      |
+| ---------- | --------- | ----------------- | ---------- |
+| *italics*  | **bold**  | ~~strikethrough~~ | `code`     |
+</code></pre>
+
+<table>
+<thead>
+<tr>
+<th>Inline</th>
+<th>Markdown</th>
+<th>In</th>
+<th>Table</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><em>italics</em></td>
+<td><strong>bold</strong></td>
+<td><del>strikethrough</del></td>
+<td><code>code</code></td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="marcas-de-formato">Marcas de formato</h2>
+
+<ul>
+<li><em>cursiva</em> = <code>*cursiva*</code></li>
+<li><strong>negrita</strong> = <code>**negrita**</code></li>
+<li><del>tachado</del> = <code>~~tachado~~</code></li>
+</ul>
+
+<h2 id="enlaces">Enlaces</h2>
+
+<p>Hay varias formas de crear enlaces en md, la más simple es poner la url del enlace entre los símbolos de <code>&lt;&gt;</code>, así <code>&lt;http://www.gritos.org&gt;</code> cuya salida es esto <a href="http://www.gritos.org">http://www.gritos.org</a>.</p>
+
+<p>La otra forma es usando las llaves y paréntesis:</p>
+
+<pre><code>[texto el enlace](http://www.gritos.org)
+</code></pre>
+
+<p>queda así:
+<a href="http://www.gritos.org">texto el enlace</a></p>
+
+<h2 id="insertar-imagen">Insertar imagen</h2>
+
+<p>Insertar una imagen simple se hace así:</p>
+
+<pre><code>![titulo imagen](ruta/delaimagen.jpg)
+</code></pre>
+
+<p>En Rmd y si la salida usa $LaTeX$ podemos usar etiquetas como la siguiente:</p>
+
+<pre><code>![titulo imagen \lable{fig_23}](ruta/delaimagen.jpg)
+</code></pre>
+
+<h2 id="línea-horizontal">Línea horizontal</h2>
+
+<p>Para insertar una linea horizontal pondremos 3 símbolos seguidos: (cualquiera de los siguientes funciona):</p>
+
+<ul>
+<li><code>***</code></li>
+</ul>
+
+<hr />
+
+<ul>
+<li><code>---</code></li>
+</ul>
+
+<hr />
+
+<h2 id="insertar-un-video-de-youtube">insertar un video de youtube</h2>
+
+<p>Para eso podemos insertar drectamente HTML en el código:</p>
+
+<pre><code>&lt;a href=&quot;http://www.youtube.com/watch?feature=player_embedded&amp;v=YOUTUBE_VIDEO_ID_HERE
+&quot; target=&quot;_blank&quot;&gt;&lt;img src=&quot;http://img.youtube.com/vi/YOUTUBE_VIDEO_ID_HERE/0.jpg&quot; 
+alt=&quot;IMAGE ALT TEXT HERE&quot; width=&quot;240&quot; height=&quot;180&quot; border=&quot;10&quot; /&gt;&lt;/a&gt;
+</code></pre>
+
+<h2 id="uso-de-latex">Uso de $LaTeX$</h2>
+
+<p>Para usar código $$LaTeX$$ debemos insertar el mismo entre el símbolo de dolar <code>$</code>.Por ejemplo para inserar una flecha  <code>$\rightarrow$</code> es $\rightarrow$.</p>
+		</div>
+		
+<div class="post__tags tags clearfix">
+	<svg class="icon icon-tag" width="16" height="16" viewBox="0 0 16 16"><path d="M16 9.5c0 .373-.24.74-.5 1l-5 5c-.275.26-.634.5-1 .5-.373 0-.74-.24-1-.5L1 8a2.853 2.853 0 0 1-.7-1C.113 6.55 0 5.973 0 5.6V1.4C0 1.034.134.669.401.401.67.134 1.034 0 1.4 0h4.2c.373 0 .95.113 1.4.3.45.187.732.432 1 .7l7.5 7.502c.26.274.5.632.5.998zM3.5 5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item"><a class="tags__link btn" href="/tags/formato/" rel="tag">formato</a></li>
+		<li class="tags__item"><a class="tags__link btn" href="/tags/markdown/" rel="tag">markdown</a></li>
+		<li class="tags__item"><a class="tags__link btn" href="/tags/sintaxis/" rel="tag">sintaxis</a></li>
+	</ul>
+</div>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="F.VilBer avatar" src="/img/gritos.jpg" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">Sobre el autor F.VilBer</span>
+	</div>
+	<div class="authorbox__description">
+		Hola soy Fernando VilBer, ingeniero de caminos y entusiasta usuario de R.
+	</div>
+</div>
+
+<nav class="post-nav flex">
+	<div class="post-nav__item post-nav__item--prev">
+		<a class="post-nav__link" href="/post/mathjax/" rel="prev"><span class="post-nav__caption">«&thinsp;Anterior</span><p class="post-nav__post-title">MathJax</p></a>
+	</div>
+	<div class="post-nav__item post-nav__item--next">
+		<a class="post-nav__link" href="/post/crear-un-blog-con-blogdown-1/" rel="next"><span class="post-nav__caption">Siguiente&thinsp;»</span><p class="post-nav__post-title">Crear un blog con blogdown (1)</p></a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "www-enrdados-net" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			<aside class="sidebar"><div class="widget-search widget">
+	<form class="widget-search__form" role="search" method="get" action="https://google.com/search">
+		<label>
+			<input class="widget-search__field" type="search" placeholder="Buscar..." value="" name="q" aria-label="Buscar...">
+		</label>
+		<input class="widget-search__submit" type="submit" value="Search">
+		<input type="hidden" name="sitesearch" value="/" />
+	</form>
+</div>
+<div class="widget-recent widget">
+	<h4 class="widget__title">Más Recientes</h4>
+	<div class="widget__content">
+		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/post/mapa-del-tesoro/">Mapas del tesoro</a></li>
+			<li class="widget__item"><a class="widget__link" href="/post/hacer-un-bosque-con-r/">Hacer un bosque con R</a></li>
+			<li class="widget__item"><a class="widget__link" href="/post/geoposicionar-fotograf%C3%ADas/">Geoposicionar fotografias</a></li>
+			<li class="widget__item"><a class="widget__link" href="/post/generador-de-islas-aleatorias/">Generador de islas aleatorias</a></li>
+			<li class="widget__item"><a class="widget__link" href="/post/crear-mapas-estaticos/">Crear mapas estaticos con R</a></li>
+		</ul>
+	</div>
+</div>
+<div class="widget-categories widget">
+	<h4 class="widget__title">Categorías</h4>
+	<div class="widget__content">
+		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/categories/editar-documentos">Editar documentos</a></li>
+			<li class="widget__item"><a class="widget__link" href="/categories/educaci%c3%b3n">Educación</a></li>
+			<li class="widget__item"><a class="widget__link" href="/categories/mapas">Mapas</a></li>
+			<li class="widget__item"><a class="widget__link" href="/categories/markdown">Markdown</a></li>
+		</ul>
+	</div>
+</div>
+<div class="widget-taglist widget">
+	<h4 class="widget__title">Etiquetas</h4>
+	<div class="widget__content">
+		<a class="widget-taglist__link widget__link btn" href="/tags/blogdown" title="Blogdown">Blogdown (3)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/bookdown" title="Bookdown">Bookdown (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/columna" title="Columna">Columna (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/crs" title="Crs">Crs (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/css" title="Css">Css (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/dibujo" title="Dibujo">Dibujo (4)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/divertido" title="Divertido">Divertido (4)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/formato" title="Formato">Formato (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/gr%c3%a1ficos" title="Gráficos">Gráficos (3)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/mapas" title="Mapas">Mapas (3)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/markdown" title="Markdown">Markdown (3)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/matem%c3%a1ticas" title="Matemáticas">Matemáticas (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/mathjax" title="Mathjax">Mathjax (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/modelos" title="Modelos">Modelos (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/pdf" title="Pdf">Pdf (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/processing" title="Processing">Processing (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/r" title="R">R (5)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/sf" title="Sf">Sf (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/sig" title="Sig">Sig (3)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/sintaxis" title="Sintaxis">Sintaxis (3)</a>
+	</div>
+</div>
+<div class="widget-sidemenu widget">
+	<h4 class="widget__title">Menu</h4>
+	<nav class="widget__content">
+		<ul class="widget__list">
+			
+			<li class="widget__item">
+				<a class="widget__link" href="/mapas/">R Mapas</a>
+			</li>
+			
+		</ul>
+	</nav>
+</div>
+
+<div class="widget-social widget">
+	<h4 class="widget-social__title widget__title">Social</h4>
+	<div class="widget-social__content widget__content">
+		<div class="widget-social__item widget__item">
+			<a class="widget-social__link widget__link btn" title="Email" href="mailto:fervilber@gmail.com">
+				<svg class="widget-social__link-icon icon-mail" viewBox="0 0 416 288" width="24" height="24" fill="#fff"><path d="m0 16v256 16h16 384 16v-16-256-16h-16-384-16zm347 16-139 92.5-139-92.5zm-148 125.5 9 5.5 9-5.5 167-111.5v210h-352v-210z"/></svg>
+				<span>fervilber@gmail.com</span>
+			</a>
+		</div>
+	</div>
+</div>
+</aside>
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+		<div class="footer__copyright">
+			&copy; 2019 EnRdados.
+			<span class="footer__copyright-credits">Generado con <a href="https://bookdown.org/yihui/blogdown/" rel="nofollow noopener" target="_blank">Blogdown</a>,  <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> y <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a>.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script></body>
+</html>

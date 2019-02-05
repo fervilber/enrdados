@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Editar Documentos on EnRdados</title>
+    <link>/categories/editar-documentos/</link>
+    <description>Recent content in Editar Documentos on EnRdados</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>es</language>
+    <lastBuildDate>Mon, 07 Jan 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/categories/editar-documentos/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Resaltar sintaxis</title>
+      <link>/post/resaltar-sintaxis/</link>
+      <pubDate>Mon, 07 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/resaltar-sintaxis/</guid>
+      <description>AntecedentesAunque conseguí que la plantilla de Hugo funcionase bien y crear un flujo correcto en el blog usando blogdown, he visto que la sintaxis que viene por defecto en los bloques de código es muy simple. Tan solo resalta en gris el bloque.
+Me gustaría, ya que esto es un blog de programación en R, que los bloques de código apareciesen con un resaltado más vivo, con formato para comandos y funciones.</description>
+    </item>
+    
+    <item>
+      <title>Documento a dos columnas</title>
+      <link>/post/editar-a-dos-columnas/</link>
+      <pubDate>Fri, 04 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/editar-a-dos-columnas/</guid>
+      <description>&lt;p&gt;Suelo trabajar con unos modelos de proyecto tipo para generar documentos. Cuando inicio un nuevo proyecto los copio y cambio cosas sobre estas plantillas.&lt;/p&gt;
+
+&lt;p&gt;Hoy quería hacer un documento en formato &lt;code&gt;pdf&lt;/code&gt; con salida en &lt;strong&gt;dos columnas&lt;/strong&gt;. Es algo que ya había necesitado antes, así que me puse a buscar.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Crear un blog con blogdown (2)</title>
+      <link>/post/crear-un-blog-con-blogdown-2/</link>
+      <pubDate>Thu, 03 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/crear-un-blog-con-blogdown-2/</guid>
+      <description>Problemas He sufrido bastante hasta que la web del blog ha funcionado de manera fluída. Primero por la instalacion de HUGO en Netlify, y después con otros aspectos pequeños que provocaban errores.
+Voy a air poniendo los errores que hacían petar el sistema:
+Errores con Git Para subir las cosas desde mi PC a gitHub en RSTUDIO, he usado siempre el entorno git que tiene por defecto, pero con blogdown he tenido muchos problemas y acabo haciendolo de manera manual desde Terminal.</description>
+    </item>
+    
+    <item>
+      <title>Crear un blog con blogdown (1)</title>
+      <link>/post/crear-un-blog-con-blogdown-1/</link>
+      <pubDate>Tue, 01 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/crear-un-blog-con-blogdown-1/</guid>
+      <description>Antes Llevo ya varias semanas con la idea de crear un blog con la herramienta blogdown de Yihue Xie, la cuestión de si cambiar a blogdown no es simple, aunque tienen muchas cosas buenas, yo me apaño bastante bien con otras herramientas como docuwiki que me gustan mucho, me aportasn flexibilidad y puedo editar desde cualquier sitio, pero el problema es que para usar especificamente con R hay que pasar las gráficas, tablas y datos a estilos diferentes y eso con blogdown lo tienes de inmediato.</description>
+    </item>
+    
+  </channel>
+</rss>

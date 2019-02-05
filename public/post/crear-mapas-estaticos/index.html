@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html class="no-js" lang="es">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Crear mapas estaticos con R</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="como crear un mapa fijo simple con R">
+	<meta name="generator" content="Hugo 0.53" />
+	<meta property="og:title" content="Crear mapas estaticos con R" />
+<meta property="og:description" content="como crear un mapa fijo simple con R" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/post/crear-mapas-estaticos/" /><meta property="article:published_time" content="2019-01-10T00:00:00&#43;00:00"/>
+<meta property="article:modified_time" content="2019-01-10T00:00:00&#43;00:00"/>
+
+	
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+<link rel="stylesheet" href="/css/hybrid.css" rel="stylesheet" id="theme-stylesheet">
+<script src="/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+	<div class="container">
+		<div class="logo">
+			<a class="logo__link" href="/" title="EnRdados" rel="home">
+				<div class="logo__title">EnRdados</div>
+				<div class="logo__tagline">Hablamos de R, programación y otras cosas...</div>
+			</a>
+		</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menú</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/about/">Sobre mi</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/post/mdbasic/">markdown básico</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">Crear mapas estaticos con R</h1>
+			<div class="post__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 16 16"><path d="m8-.0000003c-4.4 0-8 3.6-8 8 0 4.4000003 3.6 8.0000003 8 8.0000003 4.4 0 8-3.6 8-8.0000003 0-4.4-3.6-8-8-8zm0 14.4000003c-3.52 0-6.4-2.88-6.4-6.4000003 0-3.52 2.88-6.4 6.4-6.4 3.52 0 6.4 2.88 6.4 6.4 0 3.5200003-2.88 6.4000003-6.4 6.4000003zm.4-10.4000003h-1.2v4.8l4.16 2.5600003.64-1.04-3.6-2.1600003z"/></svg>
+	<time class="meta__text" datetime="2019-01-10T00:00:00">2019-01-10</time>
+</div>
+
+<div class="meta__item-categories meta__item">
+	<svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg>
+	<span class="meta__text"><a class="meta__link" href="/categories/mapas" rel="category">mapas</a></span>
+</div>
+</div>
+		</header>
+		<figure class="post__thumbnail">
+			<img src="/post/2019-01-10-crear-mapas-estaticos_files/mapa_ue1.png" alt="Crear mapas estaticos con R">
+		</figure><div class="content post__content clearfix">
+			
+
+
+<div id="que-son-los-mapas-estaticos" class="section level2">
+<h2>¿qué son los mapas estáticos?</h2>
+<p>Los mapas fijos o estáticos son los de siempre, que se contraponen a los nuevos o dinámicos en los que se permite <strong>interactuar</strong>. Estos mapas fijos son <strong>solo</strong> imágenes de unarepresentación geográfica.</p>
+<p>Estos mapas tienen cada vez menos uso, pero siguen siendo útiles para insertar en documentos y libros. Estamos tan acostumbrados a interactuar con los mapas,a hacer zoom o localizar poblaciones de forma dinámica que es hasta raro querer un simple mapa como imagen.</p>
+<p>Existen muchísimas librerías para hacer mapas en R, este es un mundo en expansión y cada día sale algo nuevo, o se cambia lo que funcionaba bien. Es el caso de los grandes problemas que hemos tenido los usuarios de librerías como <code>ggmap</code> que usaban la API de <em>Google</em>, que -de repente- cortó el flujo de datos y dejó a sus miles de usuarios en calzoncillos.</p>
+<p>Por eso voy a usar solo librerías que se basan en soluciones <em>libres</em>, existen también muchas y muy buenas como <a href="https://wiki.openstreetmap.org">OpenStreetMap</a>, pero me voy a centrar en un autor <a href="https://github.com/paleolimbot">Dewey Dunnington</a> que ha realizado algunas de los paquetes de mapas más interesantes que conozco.</p>
+<p>Lo que me interesa de los mapas estáticos es aprovechar los fondos cartográficos de bases como la de OpenStreetMap o OpenLayers, y superponer sobre estas bases capas personalizadas.</p>
+<p>Vamos a exponer algunas soluciones.</p>
+</div>
+<div id="lo-mas-simple" class="section level2">
+<h2>Lo más simple</h2>
+<p>Las funciones de trazado más habituales como <code>plot()</code>, <code>ggplot()</code> o <code>autoplot()</code> , pintan datos geográficos y puede servirnos para hacer mapas de contornos de capas y representación de puntos, pero adolecen de falta de fondos.</p>
+<pre class="r"><code>  library(prettymapr)
+  # cargamos maptools para datos de ejemplo
+  # library(maptools)
+# hacemos esto para cargar sin mensajes
+  suppressMessages(library(maptools, warn.conflicts = F))
+
+  # cargamos los contornos mundiales
+  data(&quot;wrld_simpl&quot;)
+  # pintamos la zona de España y mediterráneo
+  plot(wrld_simpl, xlim=c(-4,2), ylim=c(30, 47),col=rainbow(12))
+  
+  # Usando prettymapr odemos añadir mas cosa al plot
+
+  addscalebar()
+  addnortharrow(pos = &quot;topleft&quot;)</code></pre>
+<p><img src="/post/2019-01-10-crear-mapas-estaticos_files/figure-html/plot_simple-1.png" width="672" /></p>
+</div>
+<div id="ggspatial" class="section level2">
+<h2>ggspatial</h2>
+<p>La librería <a href="https://github.com/paleolimbot/ggspatial">ggspatial</a> es una versión de <code>ggplot</code> para mapas muy interesante si queremos añadir fondos a los mapas.</p>
+<p>Lo que hace este paquete es ampliar las opciones de la función <code>ggplot()</code> de la librería <code>ggplot2</code> y añadir geometrías y anotaciones adicionales como norte, escalas, fondos base.</p>
+<p>Por ejemplo, pintamos unos puntos sobre Torrevieja (ciudad de Alicante , España) con un fondo:</p>
+<pre class="r"><code>  library(ggplot2)
+  library(ggspatial)
+  library(sp)
+  
+  torrevieja &lt;- data.frame(lon = c(-0.69,-0.67,-0.685,-0.681),
+                           lat = c(37.98,37.97,37.978,37.975))
+  
+  # Convertimos la tabla de puntos en capa espacial con sp
+  capa_puntos&lt;-SpatialPoints(torrevieja)
+  # asignamos un sistema de coordenaas
+  sp::proj4string(capa_puntos) &lt;- CRS(&quot;+init=epsg:4326&quot;) 
+  
+  # pintamos el mapa con ggplot y ggspatial
+  ggplot()+
+        ggtitle(&quot;Plano Torrevieja con puntos de interés&quot;)+
+        annotation_map_tile(type = &quot;osm&quot;,zoom=15)+ 
+        layer_spatial(capa_puntos,size = 8, col=&quot;red&quot;,alpha = 0.5)+
+        annotation_scale(location = &quot;br&quot;)+ # pinta leyenda 
+        annotation_north_arrow(location = &quot;tr&quot;, which_north = &quot;true&quot;,
+                           style = north_arrow_fancy_orienteering, 
+                           height = unit(1.5, &quot;cm&quot;),
+                           width = unit(1.5, &quot;cm&quot;))</code></pre>
+<p><img src="/post/2019-01-10-crear-mapas-estaticos_files/figure-html/mapa_Murcia-1.png" width="672" /></p>
+<p>Cualquier <em>capa espacial</em> (cualquier objeto de los paquetes <code>sf</code>, <code>sp</code>, o <code>raster</code>) se puede agregar a un gráfico <code>ggplot()</code> usando una de las siguientes funciones de <code>ggspatial</code>:</p>
+<ul>
+<li><code>layer_spatial()</code> la peculiaridad es que esta capa fija la escala del gráfico, lo que significa que serán visibles siempre por defecto.</li>
+<li><code>annotation_spatial()</code> esta capa nunca fija la escala, por lo que pueden usarse como fondo para otras capas.</li>
+</ul>
+<div id="estilos-de-mapas-de-fondo" class="section level3">
+<h3>Estilos de mapas de fondo</h3>
+<p>Respecto a los estilos de mapa de fondo que están disponibles son los siguientes:</p>
+<pre class="r"><code>  # Estilos de fondos
+  rosm::osm.types()</code></pre>
+<pre><code>##  [1] &quot;osm&quot;                    &quot;opencycle&quot;             
+##  [3] &quot;hotstyle&quot;               &quot;loviniahike&quot;           
+##  [5] &quot;loviniacycle&quot;           &quot;hikebike&quot;              
+##  [7] &quot;hillshade&quot;              &quot;osmgrayscale&quot;          
+##  [9] &quot;stamenbw&quot;               &quot;stamenwatercolor&quot;      
+## [11] &quot;osmtransport&quot;           &quot;thunderforestlandscape&quot;
+## [13] &quot;thunderforestoutdoors&quot;  &quot;cartodark&quot;             
+## [15] &quot;cartolight&quot;</code></pre>
+</div>
+</div>
+<div id="preattymap" class="section level2">
+<h2>preattymap</h2>
+<p>Preattymap es una librería para pintar mapas “bonitos”, como su nombre indica. Es también una creación de nuestro amigo <em>Dewey</em>, junto con <code>rosm</code> y otras muchas librerías realmente útiles.</p>
+<p>Además de pintar buenos mapas tiene funciones de busqueda geográfica para obtener coordenadas de direcciones y lugares a partir del nombre con la función <code>searchbbox()</code>, así como muchas opciones de hacer cajas de coordenadas (<code>makebbox</code>) a partir de puntos, direcciones, etc.. y zoom (<code>zoombbox</code>) y uniones (<code>mergebbox</code> ) de dichas cajas lo que es muy útil.</p>
+<pre class="r"><code>  #install.packages(&quot;prettymapr&quot;)
+  library(prettymapr)
+  library(rosm)
+  # source=&quot;dsk&quot; es para entrar como Data Science Toolkit que evita tener que darse de alta en las APIs
+  prettymap(osm.plot(searchbbox(&quot;Murcia&quot;)))</code></pre>
+<div class="figure">
+<img src="/post/2019-01-10-crear-mapas-estaticos_files/pretty_1-1.png" alt="Murcia" />
+<p class="caption">Murcia</p>
+</div>
+<p>También podemos añadir otras capas a un mapa de <code>prettymapr</code> añadiendo una expresion de mapa o algo que dé como resultado una capa dentro de llaves como primer argumento de la función. despues de este argumento se le añaden las decoraciones al mapa, esto es las flecha de norte, escala etc..</p>
+<pre class="r"><code>require(prettymapr)
+require(rosm)</code></pre>
+<pre><code>## Loading required package: rosm</code></pre>
+<pre class="r"><code>  # plano con puntos a mano
+  lon = c(-1.5058806338,-1.4055545377,-1.1244527259)
+  lat = c(38.5723968325393,39.1989447389502,38.8332362700093)
+  nom = c(&quot;Albatana&quot;,&quot;Alcalá del Jucar&quot;,&quot;Almansa&quot;)
+  
+  datos&lt;-data.frame(lon,lat,nom)
+  #usamos funciones de la library(sp)
+  capa_pueblos&lt;-sp::SpatialPointsDataFrame(cbind(lon,lat),datos)
+ # asignamos un sistema de coordenaas
+  sp::proj4string(capa_pueblos) &lt;- sp::CRS(&quot;+init=epsg:4326&quot;) 
+
+  prettymap({
+    # Añadimos fondo
+    osm.plot(capa_pueblos,type=&quot;opencycle&quot;)
+    # Añadimos puntos
+    osm.points(capa_pueblos$lon, capa_pueblos$lat,pch=15,col=&quot;blue&quot;, cex=3)
+    # Añadimos texto de etiquetas
+    osm.text(capa_pueblos$lon, capa_pueblos$lat,labels=capa_pueblos$nom,adj=c(-0.3, 0.5), cex=1.2,col=&quot;blue&quot;)
+  },drawbox = TRUE,box.lwd=4,
+   scale.pos = &quot;bottomright&quot;, # posicion de las escala
+   arrow.pos=&quot;topright&quot;, # posicion de la flecha
+   drawarrow=T,arrow.scale=1)</code></pre>
+<pre><code>## Zoom: 10</code></pre>
+<pre><code>## Consider donating to the Open Street Map project at http://donate.openstreetmap.org/</code></pre>
+<pre><code>## Audotdetect projection: assuming Google Mercator (epsg 3857)</code></pre>
+<p><img src="/post/2019-01-10-crear-mapas-estaticos_files/figure-html/pretty_2-1.png" width="672" /></p>
+<pre class="r"><code>   #source=&quot;dsk&quot;)</code></pre>
+<p>En el ejemplo anterior he usado el mapa de fondo de <em>opencycle</em> que requiere una <em>API KEY</em> para quitar las molestas sombras, pero hay muchos otros que no necesitan ninguna de los que vimos <a href="#Estilos%20de%20mapas%20de%20fondo">arriba</a> El manual de uso puedes verlo <a href="https://cran.r-project.org/web/packages/prettymapr/prettymapr.pdf">aquí</a> para los detalles de los parámetos así por ejemplo la posicion de la escala puede definirse con scale.pos que puede ser: “bottomleft”, “bottomright”, “topleft”, o “topright”.</p>
+</div>
+<div id="openstreetmap" class="section level2">
+<h2>OpenStreetMap</h2>
+<p>Otra librería de mapas fijos es <code>OpenStreetMap</code>. Los estilos disponibles y uso son parecidos, pero con esta podemos usar directamente <code>plot()</code>.</p>
+<p>Para usar <code>OpenStreetMap</code> debemos tener instalado rJava y naturalmente Java en nuestro Ordenador.</p>
+<pre class="r"><code>    #Mapa de España
+    library(OpenStreetMap)
+    nm &lt;- c(&quot;osm&quot;, &quot;maptoolkit-topo&quot;, &quot;bing&quot;, &quot;stamen-toner&quot;, 
+            &quot;stamen-watercolor&quot;, &quot;esri&quot;, &quot;esri-topo&quot;, 
+            &quot;nps&quot;, &quot;apple-iphoto&quot;, &quot;skobbler&quot;)
+    map &lt;- openmap(c(35,-10),
+                c(44,2),
+            minNumTiles=5,type=nm[5])
+    plot(map)</code></pre>
+<p><img src="/post/2019-01-10-crear-mapas-estaticos_files/figure-html/mapa_osm-1.png" width="672" /></p>
+<pre class="r"><code>    # otra forma con autoplot
+   # ggplot2::autoplot(map)</code></pre>
+</div>
+
+		</div>
+		
+<div class="post__tags tags clearfix">
+	<svg class="icon icon-tag" width="16" height="16" viewBox="0 0 16 16"><path d="M16 9.5c0 .373-.24.74-.5 1l-5 5c-.275.26-.634.5-1 .5-.373 0-.74-.24-1-.5L1 8a2.853 2.853 0 0 1-.7-1C.113 6.55 0 5.973 0 5.6V1.4C0 1.034.134.669.401.401.67.134 1.034 0 1.4 0h4.2c.373 0 .95.113 1.4.3.45.187.732.432 1 .7l7.5 7.502c.26.274.5.632.5.998zM3.5 5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item"><a class="tags__link btn" href="/tags/gr%C3%A1ficos/" rel="tag">gráficos</a></li>
+		<li class="tags__item"><a class="tags__link btn" href="/tags/sig/" rel="tag">SIG</a></li>
+		<li class="tags__item"><a class="tags__link btn" href="/tags/mapas/" rel="tag">mapas</a></li>
+		<li class="tags__item"><a class="tags__link btn" href="/tags/r/" rel="tag">R</a></li>
+	</ul>
+</div>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="F.VilBer avatar" src="/img/gritos.jpg" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">Sobre el autor F.VilBer</span>
+	</div>
+	<div class="authorbox__description">
+		Hola soy Fernando VilBer, ingeniero de caminos y entusiasta usuario de R.
+	</div>
+</div>
+
+<nav class="post-nav flex">
+	<div class="post-nav__item post-nav__item--prev">
+		<a class="post-nav__link" href="/post/pintar-un-edificio-con-r/" rel="prev"><span class="post-nav__caption">«&thinsp;Anterior</span><p class="post-nav__post-title">Pintar una ciudad con R</p></a>
+	</div>
+	<div class="post-nav__item post-nav__item--next">
+		<a class="post-nav__link" href="/post/generador-de-islas-aleatorias/" rel="next"><span class="post-nav__caption">Siguiente&thinsp;»</span><p class="post-nav__post-title">Generador de islas aleatorias</p></a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "www-enrdados-net" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			<aside class="sidebar"><div class="widget-search widget">
+	<form class="widget-search__form" role="search" method="get" action="https://google.com/search">
+		<label>
+			<input class="widget-search__field" type="search" placeholder="Buscar..." value="" name="q" aria-label="Buscar...">
+		</label>
+		<input class="widget-search__submit" type="submit" value="Search">
+		<input type="hidden" name="sitesearch" value="/" />
+	</form>
+</div>
+<div class="widget-recent widget">
+	<h4 class="widget__title">Más Recientes</h4>
+	<div class="widget__content">
+		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/post/mapa-del-tesoro/">Mapas del tesoro</a></li>
+			<li class="widget__item"><a class="widget__link" href="/post/hacer-un-bosque-con-r/">Hacer un bosque con R</a></li>
+			<li class="widget__item"><a class="widget__link" href="/post/geoposicionar-fotograf%C3%ADas/">Geoposicionar fotografias</a></li>
+			<li class="widget__item"><a class="widget__link" href="/post/generador-de-islas-aleatorias/">Generador de islas aleatorias</a></li>
+			<li class="widget__item"><a class="widget__link" href="/post/crear-mapas-estaticos/">Crear mapas estaticos con R</a></li>
+		</ul>
+	</div>
+</div>
+<div class="widget-categories widget">
+	<h4 class="widget__title">Categorías</h4>
+	<div class="widget__content">
+		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/categories/editar-documentos">Editar documentos</a></li>
+			<li class="widget__item"><a class="widget__link" href="/categories/educaci%c3%b3n">Educación</a></li>
+			<li class="widget__item"><a class="widget__link" href="/categories/mapas">Mapas</a></li>
+			<li class="widget__item"><a class="widget__link" href="/categories/markdown">Markdown</a></li>
+		</ul>
+	</div>
+</div>
+<div class="widget-taglist widget">
+	<h4 class="widget__title">Etiquetas</h4>
+	<div class="widget__content">
+		<a class="widget-taglist__link widget__link btn" href="/tags/blogdown" title="Blogdown">Blogdown (3)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/bookdown" title="Bookdown">Bookdown (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/columna" title="Columna">Columna (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/crs" title="Crs">Crs (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/css" title="Css">Css (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/dibujo" title="Dibujo">Dibujo (4)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/divertido" title="Divertido">Divertido (4)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/formato" title="Formato">Formato (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/gr%c3%a1ficos" title="Gráficos">Gráficos (3)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/mapas" title="Mapas">Mapas (3)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/markdown" title="Markdown">Markdown (3)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/matem%c3%a1ticas" title="Matemáticas">Matemáticas (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/mathjax" title="Mathjax">Mathjax (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/modelos" title="Modelos">Modelos (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/pdf" title="Pdf">Pdf (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/processing" title="Processing">Processing (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/r" title="R">R (5)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/sf" title="Sf">Sf (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/sig" title="Sig">Sig (3)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/sintaxis" title="Sintaxis">Sintaxis (3)</a>
+	</div>
+</div>
+<div class="widget-sidemenu widget">
+	<h4 class="widget__title">Menu</h4>
+	<nav class="widget__content">
+		<ul class="widget__list">
+			
+			<li class="widget__item">
+				<a class="widget__link" href="/mapas/">R Mapas</a>
+			</li>
+			
+		</ul>
+	</nav>
+</div>
+
+<div class="widget-social widget">
+	<h4 class="widget-social__title widget__title">Social</h4>
+	<div class="widget-social__content widget__content">
+		<div class="widget-social__item widget__item">
+			<a class="widget-social__link widget__link btn" title="Email" href="mailto:fervilber@gmail.com">
+				<svg class="widget-social__link-icon icon-mail" viewBox="0 0 416 288" width="24" height="24" fill="#fff"><path d="m0 16v256 16h16 384 16v-16-256-16h-16-384-16zm347 16-139 92.5-139-92.5zm-148 125.5 9 5.5 9-5.5 167-111.5v210h-352v-210z"/></svg>
+				<span>fervilber@gmail.com</span>
+			</a>
+		</div>
+	</div>
+</div>
+</aside>
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+		<div class="footer__copyright">
+			&copy; 2019 EnRdados.
+			<span class="footer__copyright-credits">Generado con <a href="https://bookdown.org/yihui/blogdown/" rel="nofollow noopener" target="_blank">Blogdown</a>,  <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> y <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a>.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script></body>
+</html>

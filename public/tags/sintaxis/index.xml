@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Sintaxis on EnRdados</title>
+    <link>/tags/sintaxis/</link>
+    <description>Recent content in Sintaxis on EnRdados</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>es</language>
+    <lastBuildDate>Mon, 07 Jan 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/sintaxis/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Resaltar sintaxis</title>
+      <link>/post/resaltar-sintaxis/</link>
+      <pubDate>Mon, 07 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/resaltar-sintaxis/</guid>
+      <description>AntecedentesAunque conseguí que la plantilla de Hugo funcionase bien y crear un flujo correcto en el blog usando blogdown, he visto que la sintaxis que viene por defecto en los bloques de código es muy simple. Tan solo resalta en gris el bloque.
+Me gustaría, ya que esto es un blog de programación en R, que los bloques de código apareciesen con un resaltado más vivo, con formato para comandos y funciones.</description>
+    </item>
+    
+    <item>
+      <title>markdown básico</title>
+      <link>/post/mdbasic/</link>
+      <pubDate>Thu, 06 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/mdbasic/</guid>
+      <description>&lt;p&gt;El principal propósito de este artículo es tener a mano un resumen para los formatos básicos de markdown.&lt;/p&gt;
+
+&lt;p&gt;RSTUDIO pone a disposición de los usuarios una chuleta resumida muy bueno con gran parte de los formatos de sintaxis, pero creo conveniente ponerlo a mano también en el blog&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>MathJax</title>
+      <link>/post/mathjax/</link>
+      <pubDate>Sat, 14 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/mathjax/</guid>
+      <description>&lt;p&gt;&lt;em&gt;MathJax&lt;/em&gt; es una librería JavaScript que permite ver ecuaciones y notación matemática en casi cualquier navegador moderno.
+Podemos usarla directamente en nuestros post de blogdown sin necesidad de acudir al formato Rmd, es decir con markdown puro de la siguiente forma:&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

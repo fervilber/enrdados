@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html class="no-js" lang="es">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Pintar una ciudad con R</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="ejemplo de programación sencillo para educación. Se crea una función de skyline de ciudad.">
+	<meta name="generator" content="Hugo 0.53" />
+	<meta property="og:title" content="Pintar una ciudad con R" />
+<meta property="og:description" content="ejemplo de programación sencillo para educación. Se crea una función de skyline de ciudad." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/post/pintar-un-edificio-con-r/" /><meta property="article:published_time" content="2019-01-09T00:00:00&#43;00:00"/>
+<meta property="article:modified_time" content="2019-01-09T00:00:00&#43;00:00"/>
+
+	
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+<link rel="stylesheet" href="/css/hybrid.css" rel="stylesheet" id="theme-stylesheet">
+<script src="/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+	<div class="container">
+		<div class="logo">
+			<a class="logo__link" href="/" title="EnRdados" rel="home">
+				<div class="logo__title">EnRdados</div>
+				<div class="logo__tagline">Hablamos de R, programación y otras cosas...</div>
+			</a>
+		</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menú</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/about/">Sobre mi</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/post/mdbasic/">markdown básico</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">Pintar una ciudad con R</h1>
+			<div class="post__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 16 16"><path d="m8-.0000003c-4.4 0-8 3.6-8 8 0 4.4000003 3.6 8.0000003 8 8.0000003 4.4 0 8-3.6 8-8.0000003 0-4.4-3.6-8-8-8zm0 14.4000003c-3.52 0-6.4-2.88-6.4-6.4000003 0-3.52 2.88-6.4 6.4-6.4 3.52 0 6.4 2.88 6.4 6.4 0 3.5200003-2.88 6.4000003-6.4 6.4000003zm.4-10.4000003h-1.2v4.8l4.16 2.5600003.64-1.04-3.6-2.1600003z"/></svg>
+	<time class="meta__text" datetime="2019-01-09T00:00:00">2019-01-09</time>
+</div>
+
+<div class="meta__item-categories meta__item">
+	<svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg>
+	<span class="meta__text"><a class="meta__link" href="/categories/educaci%c3%b3n" rel="category">educación</a></span>
+</div>
+</div>
+		</header>
+		<figure class="post__thumbnail">
+			<img src="/post/2019-01-04-pintar-un-edificio-con-r_files/ciudad%20de%20R.png" alt="Pintar una ciudad con R">
+		</figure><div class="content post__content clearfix">
+			
+
+
+<div id="como-empezo-todo" class="section level2">
+<h2>Como empezó todo</h2>
+<p>Llevo tiempo pensando cómo enseñar a programar a un niño. Mis hijos va a clases de robótica en la que usan Lego para crear objetos a los que programan movimientos. Son unas clases divertidas, se lo pasan muy bien al tiempo que aprenden.</p>
+<p>Quiero hacer algo parecido con <em>R</em>, talleres sencillos, y que llamen la atención de un niño, vamos, que aguante un rato atento y sin distraerse.</p>
+<p>Con este simple objetivo voy a desarrollar una serie de ejemplos de programación y modelización de la realidad. Este primero es una copia de un ejemplo que vi en <a href="https://processing.org/processing">Processing</a>, un lenguaje gráfico fantástico, y que me encantó. Processing es un lenguaje de programación gráfico orientado más hacia el mundo de la creación artística. Está genial, pero <a href="https://enrdados.netlify.com/">aquí</a> somos de R.</p>
+</div>
+<div id="objetivo" class="section level2">
+<h2>Objetivo</h2>
+<p>Vamos a programar un gráfico de R, que nos pinte una ciudad de rascacielos altos al estilo de un <em>skyline</em> de Nueva York. Para ello partiremos de cero, y usaremos funciones muy simples.</p>
+<p>El resultado final será algo como la imagen inicial.</p>
+</div>
+<div id="primer-paso.-pintar-rectangulo-y-linea" class="section level2">
+<h2>Primer paso. Pintar rectángulo y línea</h2>
+<p>Empezaremos creando un simple rectángulo en una gráfica de R. En R ya existe una función que pinta un rectángulo en una gráfica se llama <code>rect()</code>. Para que lo pinte hay que pasar las coordenadas <em>x</em> e <em>y</em> de los vértices de esta forma:</p>
+<ul>
+<li>rect(xleft, ybottom, xright, ytop)</li>
+</ul>
+<p>También podemos pasarle otros parámetros gráficos en la misma llamada a la función <code>rect()</code>, como por ejemplo el color de fondo añadiendo tras una coma: <code>col=&quot;red&quot;</code> La función rect() necesita que haya un gráfico sobre el que pintar, por eso antes de llamarla debemos crear un gráfico en R con la función más simple <code>plot()</code> al que le pasamos una serie de datos, por ejemplo la serie del 0 al 10 y le decimos que no la pinte con <code>type = &quot;n&quot;</code>.</p>
+<pre class="r"><code>  plot(0:10,type = &quot;n&quot;, main=&quot;Pintar un rectángulo&quot;)
+  rect(1,1,10,8, col=&quot;grey&quot;)
+
+  # Pintar linea
+  x0&lt;-c(2,8)
+  y0&lt;-c(4,4)
+  lines(x0,y0,col=&quot;blue&quot;, lwd=3)</code></pre>
+<p><img src="/post/2019-01-04-pintar-un-edificio-con-r_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<p>Para pintar una linea en la gráfica está la función <code>lines()</code> a la que le pasamos como argumentos las coordenadas de los puntos inicio y final de la linea.</p>
+<p>También existen otras funciones para pintar formas como <code>polygon()</code> que pinta un polígono a partir de las coordenadas.</p>
+</div>
+<div id="paso-2.-crear-funcion-edificio" class="section level2">
+<h2>Paso 2. Crear función edificio</h2>
+<p>Ahora que conocemos las funciones de pintar vamos a crear una función personalizada que nos pinte un edificio que en el fondo es un simple rectángulo sobre el suelo, en el que pintaremos los pisos y las ventanas.</p>
+<p>Para definir un edificio necesitaremos antes aportar el número de pisos que va a tener y el ancho del edificio la definiremos por el número de ventanas, ya que las pondremos equidistantes.</p>
+<p>Como somos buenos arquitectos hay cosas que damos por sentadas, por ejemplo que la altura de un piso es de 3,5 m. o que las ventanas van a ser todas iguales de 1x1m. También damos por supuesto que cada ventana es de una habitación que tiene 4 metros de ancho de fachada.</p>
+<p>Con esta información ya podemos crear un modelo que genere y pinte un edificio al pasar los argumentos de número de pisos (<code>npisos</code>) y número de ventanas en fachada (<code>nvent</code>). Vamos a suponer que el vértice inicial del edificio está en las coordenadas (0,0).</p>
+<pre class="r"><code># funcion edificio
+edificio&lt;-function (npisos,nvent){
+          h&lt;-3.5 # altura de un piso
+          a&lt;- 4 #ancho de la habitación de fachada
+          altura&lt;-h*npisos # altura total del edificio
+          ancho&lt;-a*nvent # ancho total del edificio 
+          
+          #pintamos una grafica vacía que contenga la escala de maximos
+          plot(1:max(altura,ancho),type=&quot;n&quot;, xlim = c(0,max(altura,ancho)))
+          # pintamos el edificio de color gris
+          rect(0, 0, ancho,altura, col = &quot;grey&quot;)
+}
+# llamamos a la función y creamos el primer edificio
+edificio(34,5)</code></pre>
+<p><img src="/post/2019-01-04-pintar-un-edificio-con-r_files/figure-html/edificio_definicion-1.png" width="672" /></p>
+<p>Vamos a añadir a esta función unas líneas que marquen cada piso y las ventanas.</p>
+<pre class="r"><code>edificio1&lt;-function (npisos,nvent){
+          h&lt;-3.5 # altura de un piso
+          a&lt;- 4 #ancho de la habitación de fachada
+          ancho_ventana&lt;-1
+          altura&lt;-h*npisos # altura total del edificio
+          ancho&lt;-a*nvent # ancho total del edificio 
+          
+          #pintamos una grafica vacía que contenga la escala de maximos
+          plot(1:max(altura,ancho),type=&quot;n&quot;, xlim = c(0,max(altura,ancho)))
+          # pintamos el edificio de color gris
+          rect(0, 0, ancho,altura, col = &quot;grey&quot;)
+          # bucle para los pisos
+          x0=0
+          y0=0
+          # pintamos lineas horizontales
+          for (i in 2:npisos-1){# no incluye el piso bajo
+            x1&lt;-c(x0,x0+ancho)
+            y_piso&lt;-i*h+y0 # altura del piso
+            y1&lt;-c(y_piso,y_piso)
+            lines(x1,y1)
+            # por cada piso hacemos las ventanas
+            altura_ventana_suelo&lt;-1
+            for (k in 0:(nvent-1)){
+              # vertice x bajo de la ventana
+              xv&lt;-a/2-ancho_ventana/2+a*k
+              # vertice y bajo de la ventana
+              yv&lt;-y_piso+altura_ventana_suelo
+              # pintamos ventana
+              rect(xv,yv,xv+ancho_ventana,yv+ancho_ventana, col = &quot;black&quot;)
+              #rect(xleft, ybottom, xright, ytop) 
+            }
+          }          
+}
+
+edificio1(14,3)</code></pre>
+<p><img src="/post/2019-01-04-pintar-un-edificio-con-r_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+</div>
+<div id="paso-3.-anadir-desplazamiento" class="section level2">
+<h2>Paso 3. Añadir desplazamiento</h2>
+<p>La función está muy avanzada. Podríamos añadir como argumentos los parámetros que se introducen por defecto y generar una función más compleja de dibujo, pero vamos a continuar añadiendo la posibilidad de crear el edificio en otro punto de coordenadas diferente, para así poder generar muchos edificios y crear una ciudad.</p>
+<p>Hasta ahora el edificio se genera en el vértice (0,0) de coordenadas. Vamos a añadir la opción de que se genere en otro punto del eje x cualquiera y también la opción de que no se borre en cada repintado permitiendo añadir más edificios a la gráfica.</p>
+<pre class="r"><code>edificio2&lt;-function(npisos=10,nvent=3,x0=0,borrar=T){
+          y0 &lt;- 0
+          h &lt;-3.5 # altura de un piso
+          a &lt;- 4 #ancho de la habitación de fachada
+          ancho_ventana &lt;-1.5
+          altura &lt;-h*npisos # altura total del edificio
+          ancho &lt;-a*nvent # ancho total del edificio 
+          # pintamos una grafica vacía que contenga la escala de maximos
+          # si borrar=T vacía el lienzo
+          if(borrar==T){
+                plot(1:max(altura,ancho),type=&quot;n&quot;,
+                     xlim = c(0,max(altura,ancho)),
+                     xlab = &quot; &quot;,ylab=&quot; &quot;)
+                lines(c(0,max(altura,ancho)),c(0,0))
+                }
+          # pintamos el edificio de color gris
+          rect(x0, y0, ancho+x0,altura+y0, col = &quot;grey&quot;)
+          # bucle para los pisos
+          # pintamos lineas horizontales
+          for (i in 2:npisos-1){# no incluye el piso bajo
+            x1&lt;-c(x0,x0+ancho)
+            y_piso&lt;-i*h+y0 # altura del piso
+            y1&lt;-c(y_piso,y_piso)
+            lines(x1,y1,lty=2)
+            # por cada piso hacemos las ventanas
+            altura_ventana_suelo&lt;-1
+              for (k in 0:(nvent-1)){
+                # vertice x bajo de la ventana
+                xv&lt;-a/2-ancho_ventana/2+a*k
+                # vertice y bajo de la ventana
+                yv&lt;-y_piso+altura_ventana_suelo
+                # pintamos ventana
+                rect(x0+xv,yv,x0+xv+ancho_ventana,yv+ancho_ventana, col = &quot;black&quot;)
+                }
+          }          
+    }
+
+edificio2(26,3,15)
+edificio2(12,2,5,borrar=F)
+edificio2(22,7,45,borrar=F)</code></pre>
+<p><img src="/post/2019-01-04-pintar-un-edificio-con-r_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+</div>
+<div id="paso-4.-generar-un-skyline" class="section level2">
+<h2>Paso 4. Generar un skyline</h2>
+<p>Una vez tenemos la función generadora de edificios vamos a crear otra función que la llame varias veces hasta crear una ciudad.</p>
+<p>Los argumentos de entrada serán el ancho de la ciudad en m (M), la altura máxima del mayor rascacielos (H).</p>
+<pre class="r"><code>ciudad&lt;-function(M=200,H=140){
+  # Pinta el lienzo de la ciudad
+    plot(1:H,type=&quot;n&quot;,
+            xlim = c(0,M),
+            xlab = &quot; &quot;,ylab=&quot; &quot;)
+            lines(c(0,M),c(0,0))
+            
+    nedif&lt;-as.integer(M/12)
+    # de 2 a 8 ventanas
+    v_en_fachadas&lt;-2:7
+    alturas&lt;-5:as.integer(H/3.5)
+    vector_v&lt;- sample(v_en_fachadas,nedif,replace = TRUE)
+    print(&quot;ventanas:&quot;)
+    print(vector_v)
+    vector_y&lt;- sample(alturas,nedif)
+    print(&quot;pisos:&quot;)
+    print( vector_y)
+    x0&lt;-0
+    for(i in seq_along(vector_v)){
+      edificio2(vector_y[i],vector_v[i],x0,borrar=F)  
+      x0&lt;-vector_v[i]*4+x0
+      #edificio2(npisos,nvent=3,x0=0,borrar=T){
+    }
+    
+}
+
+ciudad()</code></pre>
+<p><img src="/post/2019-01-04-pintar-un-edificio-con-r_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<pre><code>## [1] &quot;ventanas:&quot;
+##  [1] 3 6 6 5 7 2 5 2 6 7 7 3 4 7 4 3
+## [1] &quot;pisos:&quot;
+##  [1] 34 22 25  7 14 37 27 18 38  8  6 19 11 28 12 39</code></pre>
+</div>
+<div id="paso-5.-mejoras" class="section level2">
+<h2>Paso 5. Mejoras</h2>
+<p>Una vez que tenemos la función generadora de edificios y la de ciudades, vamos a personalizar las funciones para mejorar la apariencia, por ejemplo, cambiando el color de los edificios y de las ventanas para que parezcan encendidas o apagadas.</p>
+<pre class="r"><code>edificio3&lt;-function(npisos=10,nvent=3,x0=0,y0=0,borrar=T,alfa=1,col=&quot;grey&quot;){
+          #y0 &lt;- 0
+          h &lt;-3.5 # altura de un piso
+          a &lt;- 4 #ancho de la habitación de fachada
+          ancho_ventana &lt;-1.5
+          altura &lt;-h*npisos # altura total del edificio
+          ancho &lt;-a*nvent # ancho total del edificio 
+          # pintamos una grafica vacía que contenga la escala de maximos
+          # si borrar=T vacía el lienzo
+          if(borrar==T){
+                plot(1:max(altura,ancho),type=&quot;n&quot;,
+                     xlim = c(0,max(altura,ancho)),
+                     xlab = &quot; &quot;,ylab=&quot; &quot;)
+                lines(c(0,max(altura,ancho)),c(0,0))
+                }
+          # pintamos el edificio de color gris
+          #alfa&lt;-runif(1,0.4,1)
+          color_edificio&lt;-adjustcolor(col, alpha.f = alfa)
+          col_border&lt;-adjustcolor(par(&quot;fg&quot;), alpha.f = alfa)
+          
+          rect(x0, y0, ancho+x0,altura+y0, col = color_edificio, border = col_border)
+          # bucle para los pisos
+          # pintamos lineas horizontales
+          for (i in 2:npisos-1){# no incluye el piso bajo
+            x1&lt;-c(x0,x0+ancho)
+            y_piso&lt;-i*h+y0 # altura del piso
+            y1&lt;-c(y_piso,y_piso)
+            lines(x1,y1,lty=2,col = col_border)
+            # por cada piso hacemos las ventanas
+            altura_ventana_suelo&lt;-1
+              for (k in 0:(nvent-1)){
+                # vertice x bajo de la ventana
+                xv&lt;-a/2-ancho_ventana/2+a*k
+                # vertice y bajo de la ventana
+                yv&lt;-y_piso+altura_ventana_suelo
+                # pintamos ventana
+                #color encendido apagado de luz
+                color_ventana&lt;-ifelse(runif(1)&gt;0.7,&quot;yellow&quot;,&quot;black&quot;)
+                color_ventana&lt;-adjustcolor(color_ventana, alpha.f = alfa) 
+                rect(x0+xv,yv,x0+xv+ancho_ventana,yv+ancho_ventana,
+                     col = color_ventana,border = col_border)
+                }
+          }          
+    }
+
+edificio3(26,3,15,alfa=0.3,col=&quot;wheat&quot;)
+edificio3(12,2,5,10,borrar=F)
+edificio3(22,7,45,23,borrar=F)
+edificio3(10,3,50,10,borrar=F,alfa=0.1)</code></pre>
+<p><img src="/post/2019-01-04-pintar-un-edificio-con-r_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+</div>
+<div id="resultados" class="section level2">
+<h2>Resultados</h2>
+<p>Con estos cambios podemos hacer ya muchas cosas chulas, por ejemplo vamos a personalizar la función de ciudad, añadiendo 3 argumentos:</p>
+<ul>
+<li>y0= para subir la linea de suelo</li>
+<li>alfa= para controlar la transparencia del color</li>
+<li>col= para definir el color general de los edificios</li>
+</ul>
+<p>La idea es llamar varias veces a la funcion <code>ciudad()</code> empezando por el fondo claro y tramsparente y termnar en el primer plano con alfa=1 y color vivo.</p>
+<p>Veamos el resultado:</p>
+<pre class="r"><code># Version personalizada de la funcion ciudad
+ciudad2&lt;-function(M=200,H=140, y0=0, alfa=1,col=&quot;grey&quot;,borrar=T){
+  # Pinta el lienzo de la ciudad o borra lo que haya
+  if(borrar==T){
+    plot(1:H,type=&quot;n&quot;,
+            xlim = c(0,M),
+            xlab = &quot; &quot;,ylab=&quot; &quot;,axes=FALSE)
+            lines(c(0,M),c(0,0))
+    }        
+    nedif&lt;-as.integer(M/12)# un calculo rápido del nummero de edificios
+    # ventanas en cada fachada de 2 a 7 ventanas
+    v_en_fachadas&lt;-2:7
+    alturas&lt;-5:as.integer(H/3.5) # alturas de los rascacielos posibles
+    # toma una muestra aleatoria de ventanas y alturas
+    vector_v&lt;- sample(v_en_fachadas,nedif,replace = TRUE)
+    vector_y&lt;- sample(alturas,nedif)
+    x0&lt;-0
+    for(i in seq_along(vector_v)){
+      # por orden, npisos, nventanas, x0,y0...
+      edificio3(vector_y[i],vector_v[i],x0,y0,borrar=F,alfa=alfa,col=col)  
+      x0&lt;-vector_v[i]*4+x0 # posicion x del siguiente edificio
+    }
+}
+
+# Ahora Creamos una ciudad
+  ciudad2(alfa=0.2,col=&quot;blue&quot;, y0=20)
+  ciudad2(alfa=0.5,col=&quot;red&quot;, y0=0,borrar=FALSE)
+  ciudad2(H=100,alfa=1,col=&quot;grey&quot;, y0=0,borrar=FALSE)</code></pre>
+<p><img src="/post/2019-01-04-pintar-un-edificio-con-r_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+</div>
+<div id="conclusion" class="section level2">
+<h2>Conclusión</h2>
+<p>Ha sido muy divertido, en breve continuaremos la saga educativa haciendo más modelos por ejemplo:</p>
+<ul>
+<li>generador de bosques</li>
+<li>creador de mapas del tesoro</li>
+<li>…</li>
+</ul>
+</div>
+
+		</div>
+		
+<div class="post__tags tags clearfix">
+	<svg class="icon icon-tag" width="16" height="16" viewBox="0 0 16 16"><path d="M16 9.5c0 .373-.24.74-.5 1l-5 5c-.275.26-.634.5-1 .5-.373 0-.74-.24-1-.5L1 8a2.853 2.853 0 0 1-.7-1C.113 6.55 0 5.973 0 5.6V1.4C0 1.034.134.669.401.401.67.134 1.034 0 1.4 0h4.2c.373 0 .95.113 1.4.3.45.187.732.432 1 .7l7.5 7.502c.26.274.5.632.5.998zM3.5 5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item"><a class="tags__link btn" href="/tags/dibujo/" rel="tag">dibujo</a></li>
+		<li class="tags__item"><a class="tags__link btn" href="/tags/gr%C3%A1ficos/" rel="tag">gráficos</a></li>
+		<li class="tags__item"><a class="tags__link btn" href="/tags/modelos/" rel="tag">modelos</a></li>
+		<li class="tags__item"><a class="tags__link btn" href="/tags/divertido/" rel="tag">divertido</a></li>
+		<li class="tags__item"><a class="tags__link btn" href="/tags/processing/" rel="tag">processing</a></li>
+		<li class="tags__item"><a class="tags__link btn" href="/tags/r/" rel="tag">R</a></li>
+	</ul>
+</div>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="F.VilBer avatar" src="/img/gritos.jpg" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">Sobre el autor F.VilBer</span>
+	</div>
+	<div class="authorbox__description">
+		Hola soy Fernando VilBer, ingeniero de caminos y entusiasta usuario de R.
+	</div>
+</div>
+
+<nav class="post-nav flex">
+	<div class="post-nav__item post-nav__item--prev">
+		<a class="post-nav__link" href="/post/resaltar-sintaxis/" rel="prev"><span class="post-nav__caption">«&thinsp;Anterior</span><p class="post-nav__post-title">Resaltar sintaxis</p></a>
+	</div>
+	<div class="post-nav__item post-nav__item--next">
+		<a class="post-nav__link" href="/post/crear-mapas-estaticos/" rel="next"><span class="post-nav__caption">Siguiente&thinsp;»</span><p class="post-nav__post-title">Crear mapas estaticos con R</p></a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "www-enrdados-net" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			<aside class="sidebar"><div class="widget-search widget">
+	<form class="widget-search__form" role="search" method="get" action="https://google.com/search">
+		<label>
+			<input class="widget-search__field" type="search" placeholder="Buscar..." value="" name="q" aria-label="Buscar...">
+		</label>
+		<input class="widget-search__submit" type="submit" value="Search">
+		<input type="hidden" name="sitesearch" value="/" />
+	</form>
+</div>
+<div class="widget-recent widget">
+	<h4 class="widget__title">Más Recientes</h4>
+	<div class="widget__content">
+		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/post/mapa-del-tesoro/">Mapas del tesoro</a></li>
+			<li class="widget__item"><a class="widget__link" href="/post/hacer-un-bosque-con-r/">Hacer un bosque con R</a></li>
+			<li class="widget__item"><a class="widget__link" href="/post/geoposicionar-fotograf%C3%ADas/">Geoposicionar fotografias</a></li>
+			<li class="widget__item"><a class="widget__link" href="/post/generador-de-islas-aleatorias/">Generador de islas aleatorias</a></li>
+			<li class="widget__item"><a class="widget__link" href="/post/crear-mapas-estaticos/">Crear mapas estaticos con R</a></li>
+		</ul>
+	</div>
+</div>
+<div class="widget-categories widget">
+	<h4 class="widget__title">Categorías</h4>
+	<div class="widget__content">
+		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/categories/editar-documentos">Editar documentos</a></li>
+			<li class="widget__item"><a class="widget__link" href="/categories/educaci%c3%b3n">Educación</a></li>
+			<li class="widget__item"><a class="widget__link" href="/categories/mapas">Mapas</a></li>
+			<li class="widget__item"><a class="widget__link" href="/categories/markdown">Markdown</a></li>
+		</ul>
+	</div>
+</div>
+<div class="widget-taglist widget">
+	<h4 class="widget__title">Etiquetas</h4>
+	<div class="widget__content">
+		<a class="widget-taglist__link widget__link btn" href="/tags/blogdown" title="Blogdown">Blogdown (3)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/bookdown" title="Bookdown">Bookdown (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/columna" title="Columna">Columna (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/crs" title="Crs">Crs (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/css" title="Css">Css (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/dibujo" title="Dibujo">Dibujo (4)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/divertido" title="Divertido">Divertido (4)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/formato" title="Formato">Formato (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/gr%c3%a1ficos" title="Gráficos">Gráficos (3)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/mapas" title="Mapas">Mapas (3)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/markdown" title="Markdown">Markdown (3)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/matem%c3%a1ticas" title="Matemáticas">Matemáticas (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/mathjax" title="Mathjax">Mathjax (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/modelos" title="Modelos">Modelos (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/pdf" title="Pdf">Pdf (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/processing" title="Processing">Processing (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/r" title="R">R (5)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/sf" title="Sf">Sf (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/sig" title="Sig">Sig (3)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/sintaxis" title="Sintaxis">Sintaxis (3)</a>
+	</div>
+</div>
+<div class="widget-sidemenu widget">
+	<h4 class="widget__title">Menu</h4>
+	<nav class="widget__content">
+		<ul class="widget__list">
+			
+			<li class="widget__item">
+				<a class="widget__link" href="/mapas/">R Mapas</a>
+			</li>
+			
+		</ul>
+	</nav>
+</div>
+
+<div class="widget-social widget">
+	<h4 class="widget-social__title widget__title">Social</h4>
+	<div class="widget-social__content widget__content">
+		<div class="widget-social__item widget__item">
+			<a class="widget-social__link widget__link btn" title="Email" href="mailto:fervilber@gmail.com">
+				<svg class="widget-social__link-icon icon-mail" viewBox="0 0 416 288" width="24" height="24" fill="#fff"><path d="m0 16v256 16h16 384 16v-16-256-16h-16-384-16zm347 16-139 92.5-139-92.5zm-148 125.5 9 5.5 9-5.5 167-111.5v210h-352v-210z"/></svg>
+				<span>fervilber@gmail.com</span>
+			</a>
+		</div>
+	</div>
+</div>
+</aside>
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+		<div class="footer__copyright">
+			&copy; 2019 EnRdados.
+			<span class="footer__copyright-credits">Generado con <a href="https://bookdown.org/yihui/blogdown/" rel="nofollow noopener" target="_blank">Blogdown</a>,  <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> y <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a>.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script></body>
+</html>

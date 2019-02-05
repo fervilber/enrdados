@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Divertido on EnRdados</title>
+    <link>/tags/divertido/</link>
+    <description>Recent content in Divertido on EnRdados</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>es</language>
+    <lastBuildDate>Thu, 24 Jan 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/divertido/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Mapas del tesoro</title>
+      <link>/post/mapa-del-tesoro/</link>
+      <pubDate>Thu, 24 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/mapa-del-tesoro/</guid>
+      <description>trueUna vuelta más sobre el generador de islas aleatoriasHace unas semanas publiqué un artículo dedicado a generar islas aeatorias. Fue un tema que gustó mucho y también a mis hijos, por lo que estoy realizando una versión en Shiny que permita ejecutar en línea el código y estará disponible para todos.
+También he visto que se puede aprovechar y darle alguna vuelta más profesional al asunto, en concreto para aprender de SIG (Sistemas de Información Geográfica), así que, manos a la obra que vamos a hacer mapas con R, vamos a crear Mapas del Tesoro.</description>
+    </item>
+    
+    <item>
+      <title>Hacer un bosque con R</title>
+      <link>/post/hacer-un-bosque-con-r/</link>
+      <pubDate>Sat, 19 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/hacer-un-bosque-con-r/</guid>
+      <description>Seguimos con los modelos sencillos para talleres de programación, y este es bastante interesante.
+Se trata de, a partir de modelos muy simples generar un árbol,pintándolo en el tablero de r, y después generar muchos de estos árboles de forma aleatoria para formar un bosque.
+Crear un árbolLa idea es pintar una linea como tronco (de altura h), y en la punta de arriba un circulo (de radio r) que será la copa del árbol.</description>
+    </item>
+    
+    <item>
+      <title>Generador de islas aleatorias</title>
+      <link>/post/generador-de-islas-aleatorias/</link>
+      <pubDate>Mon, 14 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/generador-de-islas-aleatorias/</guid>
+      <description>Tras hacer el generador de ciudades me entró el gusanillo y he pensado otros talleres de programación para niños, se trata de desarrollar clases cortas como introducción a la programación de algoritmos y su aplicación directa en R.
+Hablando con mi hijo mayor, pensamos que podía ser interesante crear un modelo para crear mapas de islas del tesoro… Como a mi me gustan mucho los mapas la idea me pareció genial y nos hemos puesto manos a la obra.</description>
+    </item>
+    
+    <item>
+      <title>Pintar una ciudad con R</title>
+      <link>/post/pintar-un-edificio-con-r/</link>
+      <pubDate>Wed, 09 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/pintar-un-edificio-con-r/</guid>
+      <description>Como empezó todoLlevo tiempo pensando cómo enseñar a programar a un niño. Mis hijos va a clases de robótica en la que usan Lego para crear objetos a los que programan movimientos. Son unas clases divertidas, se lo pasan muy bien al tiempo que aprenden.
+Quiero hacer algo parecido con R, talleres sencillos, y que llamen la atención de un niño, vamos, que aguante un rato atento y sin distraerse.</description>
+    </item>
+    
+  </channel>
+</rss>

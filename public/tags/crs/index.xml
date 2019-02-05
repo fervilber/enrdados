@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Crs on EnRdados</title>
+    <link>/tags/crs/</link>
+    <description>Recent content in Crs on EnRdados</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>es</language>
+    <lastBuildDate>Wed, 16 Jan 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/crs/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Geoposicionar fotografias</title>
+      <link>/post/geoposicionar-fotograf%C3%ADas/</link>
+      <pubDate>Wed, 16 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/geoposicionar-fotograf%C3%ADas/</guid>
+      <description>Objetivo Crear un mapa en R en el que esté marcada la geo localización de cada una de las fotos que hemos hecho.
+Antecedentes En mi trabajo hacemos muchas visitas a campo en las que recabar información, anotar, medir y sobre todo, hacer muchas fotografías.
+Las fotos se seleccionan y editan para los informes. Si se trata de un par de fotos es poco trabajo, pero cuando hay que insertar 20, 50 o más la cosa se complica.</description>
+    </item>
+    
+  </channel>
+</rss>

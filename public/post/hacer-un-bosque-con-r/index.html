@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html class="no-js" lang="es">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Hacer un bosque con R</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+	<meta name="generator" content="Hugo 0.53" />
+	<meta property="og:title" content="Hacer un bosque con R" />
+<meta property="og:description" content="Seguimos con los modelos sencillos para talleres de programación, y este es bastante interesante.
+Se trata de, a partir de modelos muy simples generar un árbol,pintándolo en el tablero de r, y después generar muchos de estos árboles de forma aleatoria para formar un bosque.
+Crear un árbolLa idea es pintar una linea como tronco (de altura h), y en la punta de arriba un circulo (de radio r) que será la copa del árbol." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/post/hacer-un-bosque-con-r/" /><meta property="article:published_time" content="2019-01-19T00:00:00&#43;00:00"/>
+<meta property="article:modified_time" content="2019-01-19T00:00:00&#43;00:00"/>
+
+	
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+<link rel="stylesheet" href="/css/hybrid.css" rel="stylesheet" id="theme-stylesheet">
+<script src="/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+	<div class="container">
+		<div class="logo">
+			<a class="logo__link" href="/" title="EnRdados" rel="home">
+				<div class="logo__title">EnRdados</div>
+				<div class="logo__tagline">Hablamos de R, programación y otras cosas...</div>
+			</a>
+		</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menú</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/about/">Sobre mi</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/post/mdbasic/">markdown básico</a>
+		</li>
+	</ul>
+</nav>
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">Hacer un bosque con R</h1>
+			<div class="post__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 16 16"><path d="m8-.0000003c-4.4 0-8 3.6-8 8 0 4.4000003 3.6 8.0000003 8 8.0000003 4.4 0 8-3.6 8-8.0000003 0-4.4-3.6-8-8-8zm0 14.4000003c-3.52 0-6.4-2.88-6.4-6.4000003 0-3.52 2.88-6.4 6.4-6.4 3.52 0 6.4 2.88 6.4 6.4 0 3.5200003-2.88 6.4000003-6.4 6.4000003zm.4-10.4000003h-1.2v4.8l4.16 2.5600003.64-1.04-3.6-2.1600003z"/></svg>
+	<time class="meta__text" datetime="2019-01-19T00:00:00">2019-01-19</time>
+</div>
+
+<div class="meta__item-categories meta__item">
+	<svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg>
+	<span class="meta__text"><a class="meta__link" href="/categories/educaci%c3%b3n" rel="category">educación</a></span>
+</div>
+</div>
+		</header>
+		<figure class="post__thumbnail">
+			<img src="/img/bosque3.png" alt="Hacer un bosque con R">
+		</figure><div class="content post__content clearfix">
+			
+
+
+<p>Seguimos con los modelos sencillos para talleres de programación, y este es bastante interesante.</p>
+<p>Se trata de, a partir de modelos muy simples generar un árbol,pintándolo en el tablero de r, y después generar muchos de estos árboles de forma aleatoria para formar un bosque.</p>
+<div id="crear-un-arbol" class="section level2">
+<h2>Crear un árbol</h2>
+<p>La idea es pintar una linea como tronco (de altura h), y en la punta de arriba un circulo (de radio r) que será la copa del árbol. Además para dar.le algo más de gracia, pintamos dos ramas a una altura aleatoria a partir de 0,7h.</p>
+<p>Usaremos las funciones <code>lines()</code> para pintar las lineas del tronco y ramas, y la función <code>symbols()</code> para dibujar el círculo. Esta función sirve también para otras formas como rectángulos, estrellas etc. pero hay que acordarse de poner <code>inches = FALSE</code>, pues de otra forma la dimensión de todos los elementos generados será la misma.</p>
+<p>Vamos a crear la función generadora de un simple árbol con estas premisas:</p>
+<pre class="r"><code># funcion para pintar un arbol
+arbol&lt;-function(h,x0){
+  plot(1:h,type=&quot;n&quot;,
+            xlim = c(0,30),
+            ylim = c(0,h*1.4),
+            xlab = &quot; &quot;,ylab=&quot; &quot;)
+  color_copa&lt;-adjustcolor(&quot;green&quot;,alpha.f = 0.5)
+  #pintamos la copa del arbol
+    r&lt;-h/runif(1,1.5,4) # rádio de la copa en funion de la altura
+  # pinta e circulo
+    symbols(x0, y=h, circles=r,add = TRUE,bg=color_copa, inches = FALSE)
+  
+  # pintamos el tronco
+    lines(c(x0,x0),c(0,h),lwd=5)
+  # pintamos 2 ramas
+    rama&lt;-abs(rnorm(1)*r/2)
+    lines(c(x0,x0+rama*cos(pi/4)),c(h*0.9,h*0.9+rama*sin(pi/4)),lwd=3)
+    lines(c(x0,x0-rama/2*cos(pi/4)),c(h*0.85,h*0.85+rama/2*sin(pi/4)),lwd=2)
+}
+
+#arbol(10,3)
+arbol(6,14)</code></pre>
+<p><img src="/post/2019-01-19-hacer-un-bosque-con-r_files/figure-html/unnamed-chunk-2-1.png" width="672" /> Hemos usado solo el paquete base, pero existen otras funciones y librerías que permiten pintar círculos, como <code>draw.circle(x0, h, r)#, nv = 1000, border = NULL, col = NA, lty = 1, lwd = 1)</code> de la librería plotyR</p>
+</div>
+<div id="crear-un-bosque" class="section level2">
+<h2>Crear un bosque</h2>
+<p>Vamos a crear el bosque simplemente repitiendo la función árbol en un ancho determinado. Como parámetros de la función bosque daremos la altura media esperada de los árboles, la posición del árbol en el eje x y un parámetro que nos indica si se borra o no el lienzo antes de pintar el bosque.</p>
+<p>También hemos transformado un poco la función árbol,para que de más juego. También debemos asumir ciertos parámetros que calculamos de forma simple, como el numero de árboles por metro, o la altura.</p>
+<pre class="r"><code># funcion para pintar un bosque
+arbol1&lt;-function(h,x0,borra=T){
+  # si es T borra el lienzo
+  if(borra==T){
+    plot(1:h,type=&quot;n&quot;,
+              xlim = c(0,30),
+              ylim = c(0,h*1.4),
+              xlab = &quot; &quot;,ylab=&quot; &quot;)
+  }
+  # calculamos 10 colores verdes para las copas
+  color_copa&lt;-colorRampPalette(c(&quot;yellow&quot;, &quot;wheat&quot;,&quot;green&quot;, &quot;darkgreen&quot;))( 10 )
+  color_copa&lt;-adjustcolor(sample(color_copa,1),alpha.f = 0.6) # ajustamos la transparencia
+  
+  #calulamos el radio de la copa
+  r&lt;-h/runif(1,2,5)
+  #pintamos la copa del arbol
+  symbols(x0,h, r,add = TRUE,bg=color_copa,fg=color_copa,inches=FALSE)
+  #colores 
+  color_tronco&lt;-colorRampPalette(c(&quot;brown&quot;, &quot;darkgreen&quot;, &quot;wheat&quot;))( 10 )
+  color_tronco&lt;-adjustcolor(sample(color_tronco,1),alpha.f = 0.8)
+  # pintamos el tronco
+  lines(c(x0,x0),c(0,h),lwd=runif(1,1,3),col=color_tronco)
+  # pintamos 2 ramas
+  rama&lt;-runif(1)*r
+    h1&lt;-runif(1,0.7,1)*h
+  lines(c(x0,x0+rama*cos(pi/4)),c(h*0.9,h*0.9+rama*sin(pi/4)),lwd=1,col=color_tronco)
+  lines(c(x0,x0-rama*cos(pi/4)),c(h1,h1+rama/2*sin(pi/4)),lwd=1,col=color_tronco)
+}
+
+
+arbol1(10,3)
+arbol1(6,14,borra=FALSE)
+arbol1(8,8,borra=FALSE)
+arbol1(8,18,borra=FALSE)</code></pre>
+<p><img src="/post/2019-01-19-hacer-un-bosque-con-r_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<pre class="r"><code># Version personalizada de la funcion ciudad
+bosque&lt;-function(ancho=100,h=20){
+  # Pinta el lienzo del bosque
+    plot(1:ancho,type=&quot;n&quot;,
+            xlim = c(0,ancho),
+            ylim = c(0,h*2),
+            xlab = &quot; &quot;,ylab=&quot; &quot;)
+    # pinta la linea de suelo
+    lines(c(0,ancho),c(0,0))
+  
+    # calculamos el numero de arboles en el ancho        
+    n_arboles&lt;-as.integer(ancho/runif(1,1,3))
+    # calculamos las alturas de los arboles
+    alturas&lt;-sample(5:as.integer(h*1.5),n_arboles,replace = TRUE)
+    #calculamos el punto X0 de cada arbol
+    x0_arbol&lt;- sort(sample(1:ancho,n_arboles,replace = TRUE))
+
+    #pinta cada arbol en su sitio
+    for(i in seq_along(x0_arbol)){
+      arbol1(alturas[i],x0_arbol[i],borra=FALSE)  
+    }
+}
+
+bosque(50,15)</code></pre>
+<p><img src="/post/2019-01-19-hacer-un-bosque-con-r_files/figure-html/unnamed-chunk-3-2.png" width="672" /></p>
+<p>Ya está, la verdad que ha quedado chulo y divertido, tenemos un generador de bosques en un santiamén.</p>
+</div>
+<div id="un-vuelta-sobre-las-formas" class="section level2">
+<h2>Un vuelta sobre las formas</h2>
+<p>Viendo los resultados con los niños, me dicen que los arboles circulares son sosos, que hay que darles más forma de árbol. Se nos ocurrió que habría que dar a las copas una forma más irregular como una nube, eso lo podemos conseguir sumando a la función del radio una función seno o coseno.</p>
+<p>Haremos una función generadora de formas de nube, y sustituiremos la función <code>symbols</code> del programa inicial, para que los árboles sean más irregulares.</p>
+<pre class="r"><code>nube1&lt;-function(R=10,multi=2,x0=0,y0=0){
+  rp&lt;-R/10
+  n_puntos&lt;-100 # puntos de division de la circulo
+  phi&lt;-2*pi/n_puntos
+  dat&lt;-data.frame(x=NULL,y=NULL)
+  
+  for(i in 1:n_puntos){
+    ang&lt;-phi*i
+    x&lt;-R*cos(ang)+rp*cos(ang*multi+phi*multi)
+    y&lt;-R*sin(ang)+rp*sin(ang*multi+phi*multi)
+    dat&lt;-rbind(dat,c(x,y))
+  }
+
+   #dat&lt;-rbind(dat,c(dat[1,1],dat[1,2]))
+   #dat&lt;-na.omit(dat)
+   dat[,1]&lt;-dat[,1]+x0
+   dat[,2]&lt;-dat[,2]+y0
+   #plot(dat,type = &quot;n&quot;, add=TRUE)
+   return(dat)
+  #polygon(x=dat[,1], y=dat[,2], col = col, lwd = 1, border = col)
+}
+#plot(-50:50,type=&quot;n&quot;)
+#nube1(multi=7)
+
+
+
+# funcion para pintar un arbol con forma de nube1
+arbol2&lt;-function(h,x0,borra=T,color=&quot;green&quot;){
+  if(borra==T){
+  plot(1:h,type=&quot;n&quot;,
+            xlim = c(0,30),
+            ylim = c(0,h*1.4),
+            xlab = &quot; &quot;,ylab=&quot; &quot;)
+  }
+#  col&lt;-colorRamp(c(&quot;red&quot;, &quot;white&quot;))
+  #if( is.null(color_copa)){
+    color_copa&lt;-colorRampPalette(c(&quot;yellow&quot;, &quot;wheat&quot;,color, &quot;darkgreen&quot;))( 10 )
+  #}
+  color_copa&lt;-adjustcolor(sample(color_copa,1),alpha.f = 0.6)
+  #pintamos la copa del arbol
+  r&lt;-h/runif(1,2,5)
+  #draw.circle(x0, h, r)#, nv = 1000, border = NULL, col = NA, lty = 1, lwd = 1)
+  
+  dat&lt;-nube1(r,multi=runif(1,2,9),x0,h)
+  polygon(x=dat[,1], y=dat[,2], col = color_copa, lwd = 1, border = color_copa)
+  #symbols(x0,h, r,add = TRUE,bg=color_copa,fg=color_copa,inches=FALSE)
+  # pintamos el tronco
+  color_tronco&lt;-colorRampPalette(c(&quot;brown&quot;, &quot;darkgreen&quot;, &quot;wheat&quot;))( 10 )
+  color_tronco&lt;-adjustcolor(sample(color_tronco,1),alpha.f = 0.8)
+  lines(c(x0,x0),c(0,h),lwd=runif(1,1,3),col=color_tronco)
+  # pintamos 2 ramas
+  rama&lt;-runif(1)*r
+  h1&lt;-runif(1,0.7,1)*h
+  lines(c(x0,x0+rama*cos(pi/4)),c(h*0.9,h*0.9+rama*sin(pi/4)),lwd=1,col=color_tronco)
+  lines(c(x0,x0-rama*cos(pi/4)),c(h1,h1+rama/2*sin(pi/4)),lwd=1,col=color_tronco)
+}
+
+
+arbol2(10,3)
+arbol2(6,14,borra=FALSE)</code></pre>
+<p><img src="/post/2019-01-19-hacer-un-bosque-con-r_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<pre class="r"><code>bosque2&lt;-function(ancho=100,h=20, borra=T,color=&quot;green&quot;){
+  # Pinta el lienzo de la ciudad
+    if(borra==T){
+    plot(1:ancho,type=&quot;n&quot;,
+            xlim = c(0,ancho),
+            ylim = c(0,h*2),
+            xlab = &quot; &quot;,ylab=&quot; &quot;,main=&quot;el bosque aleatorio&quot;)
+
+    lines(c(0,ancho),c(0,0))
+  }
+    # calculamos el numero de arboles en el ancho        
+    n_arboles&lt;-as.integer(ancho/runif(1,1,3))
+    # calculamos las alturas de los arboles
+    alturas&lt;-sample(5:as.integer(h*1.5),n_arboles,replace = TRUE)
+    #calculamos el punto X0 de cada arbol
+    x0_arbol&lt;- sort(sample(1:ancho,n_arboles,replace = TRUE))
+
+    x0&lt;-0
+    #pinta cada arbol en su sitio
+    for(i in seq_along(x0_arbol)){
+      arbol2(alturas[i],x0_arbol[i],borra=FALSE,color=color)  
+    }
+}
+
+
+bosque2(50,15)
+
+bosque2(50,8,borra = FALSE,color = &quot;red&quot;)
+bosque2(50,3,borra = FALSE,color = &quot;blue&quot;)</code></pre>
+<p><img src="/post/2019-01-19-hacer-un-bosque-con-r_files/figure-html/unnamed-chunk-4-2.png" width="672" /></p>
+<pre class="r"><code>## otro
+bosque2(100,15)
+bosque2(80,10,borra = FALSE,color=&quot;red&quot;)</code></pre>
+<p><img src="/post/2019-01-19-hacer-un-bosque-con-r_files/figure-html/unnamed-chunk-4-3.png" width="672" /> Las funciones que hemos programado permite formar una imagen de bosque bastante creíble, al menos a un dibujo animado.</p>
+<p>Espero que os haya gustado este taller, creo que ha sido muy divertido.</p>
+</div>
+
+		</div>
+		
+<div class="post__tags tags clearfix">
+	<svg class="icon icon-tag" width="16" height="16" viewBox="0 0 16 16"><path d="M16 9.5c0 .373-.24.74-.5 1l-5 5c-.275.26-.634.5-1 .5-.373 0-.74-.24-1-.5L1 8a2.853 2.853 0 0 1-.7-1C.113 6.55 0 5.973 0 5.6V1.4C0 1.034.134.669.401.401.67.134 1.034 0 1.4 0h4.2c.373 0 .95.113 1.4.3.45.187.732.432 1 .7l7.5 7.502c.26.274.5.632.5.998zM3.5 5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item"><a class="tags__link btn" href="/tags/dibujo/" rel="tag">dibujo</a></li>
+		<li class="tags__item"><a class="tags__link btn" href="/tags/divertido/" rel="tag">divertido</a></li>
+		<li class="tags__item"><a class="tags__link btn" href="/tags/modelos/" rel="tag">modelos</a></li>
+	</ul>
+</div>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="F.VilBer avatar" src="/img/gritos.jpg" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">Sobre el autor F.VilBer</span>
+	</div>
+	<div class="authorbox__description">
+		Hola soy Fernando VilBer, ingeniero de caminos y entusiasta usuario de R.
+	</div>
+</div>
+
+<nav class="post-nav flex">
+	<div class="post-nav__item post-nav__item--prev">
+		<a class="post-nav__link" href="/post/geoposicionar-fotograf%C3%ADas/" rel="prev"><span class="post-nav__caption">«&thinsp;Anterior</span><p class="post-nav__post-title">Geoposicionar fotografias</p></a>
+	</div>
+	<div class="post-nav__item post-nav__item--next">
+		<a class="post-nav__link" href="/post/mapa-del-tesoro/" rel="next"><span class="post-nav__caption">Siguiente&thinsp;»</span><p class="post-nav__post-title">Mapas del tesoro</p></a>
+	</div>
+</nav>
+
+<section class="comments">
+	<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "www-enrdados-net" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+			</div>
+			<aside class="sidebar"><div class="widget-search widget">
+	<form class="widget-search__form" role="search" method="get" action="https://google.com/search">
+		<label>
+			<input class="widget-search__field" type="search" placeholder="Buscar..." value="" name="q" aria-label="Buscar...">
+		</label>
+		<input class="widget-search__submit" type="submit" value="Search">
+		<input type="hidden" name="sitesearch" value="/" />
+	</form>
+</div>
+<div class="widget-recent widget">
+	<h4 class="widget__title">Más Recientes</h4>
+	<div class="widget__content">
+		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/post/mapa-del-tesoro/">Mapas del tesoro</a></li>
+			<li class="widget__item"><a class="widget__link" href="/post/hacer-un-bosque-con-r/">Hacer un bosque con R</a></li>
+			<li class="widget__item"><a class="widget__link" href="/post/geoposicionar-fotograf%C3%ADas/">Geoposicionar fotografias</a></li>
+			<li class="widget__item"><a class="widget__link" href="/post/generador-de-islas-aleatorias/">Generador de islas aleatorias</a></li>
+			<li class="widget__item"><a class="widget__link" href="/post/crear-mapas-estaticos/">Crear mapas estaticos con R</a></li>
+		</ul>
+	</div>
+</div>
+<div class="widget-categories widget">
+	<h4 class="widget__title">Categorías</h4>
+	<div class="widget__content">
+		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/categories/editar-documentos">Editar documentos</a></li>
+			<li class="widget__item"><a class="widget__link" href="/categories/educaci%c3%b3n">Educación</a></li>
+			<li class="widget__item"><a class="widget__link" href="/categories/mapas">Mapas</a></li>
+			<li class="widget__item"><a class="widget__link" href="/categories/markdown">Markdown</a></li>
+		</ul>
+	</div>
+</div>
+<div class="widget-taglist widget">
+	<h4 class="widget__title">Etiquetas</h4>
+	<div class="widget__content">
+		<a class="widget-taglist__link widget__link btn" href="/tags/blogdown" title="Blogdown">Blogdown (3)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/bookdown" title="Bookdown">Bookdown (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/columna" title="Columna">Columna (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/crs" title="Crs">Crs (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/css" title="Css">Css (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/dibujo" title="Dibujo">Dibujo (4)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/divertido" title="Divertido">Divertido (4)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/formato" title="Formato">Formato (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/gr%c3%a1ficos" title="Gráficos">Gráficos (3)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/mapas" title="Mapas">Mapas (3)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/markdown" title="Markdown">Markdown (3)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/matem%c3%a1ticas" title="Matemáticas">Matemáticas (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/mathjax" title="Mathjax">Mathjax (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/modelos" title="Modelos">Modelos (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/pdf" title="Pdf">Pdf (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/processing" title="Processing">Processing (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/r" title="R">R (5)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/sf" title="Sf">Sf (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/sig" title="Sig">Sig (3)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/sintaxis" title="Sintaxis">Sintaxis (3)</a>
+	</div>
+</div>
+<div class="widget-sidemenu widget">
+	<h4 class="widget__title">Menu</h4>
+	<nav class="widget__content">
+		<ul class="widget__list">
+			
+			<li class="widget__item">
+				<a class="widget__link" href="/mapas/">R Mapas</a>
+			</li>
+			
+		</ul>
+	</nav>
+</div>
+
+<div class="widget-social widget">
+	<h4 class="widget-social__title widget__title">Social</h4>
+	<div class="widget-social__content widget__content">
+		<div class="widget-social__item widget__item">
+			<a class="widget-social__link widget__link btn" title="Email" href="mailto:fervilber@gmail.com">
+				<svg class="widget-social__link-icon icon-mail" viewBox="0 0 416 288" width="24" height="24" fill="#fff"><path d="m0 16v256 16h16 384 16v-16-256-16h-16-384-16zm347 16-139 92.5-139-92.5zm-148 125.5 9 5.5 9-5.5 167-111.5v210h-352v-210z"/></svg>
+				<span>fervilber@gmail.com</span>
+			</a>
+		</div>
+	</div>
+</div>
+</aside>
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+		<div class="footer__copyright">
+			&copy; 2019 EnRdados.
+			<span class="footer__copyright-credits">Generado con <a href="https://bookdown.org/yihui/blogdown/" rel="nofollow noopener" target="_blank">Blogdown</a>,  <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> y <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a>.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script></body>
+</html>
