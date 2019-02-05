@@ -22,7 +22,7 @@ MathJaxVersion = "2.7.1"
 [Params]
   subtitle = "Hablamos de R, programación y otras cosas..." # Subtitle of your site
   description = "Web personal sobre R, el lenguaje de la ciencia" # Description of your site
-  logo = "img/R_logo.svg.png"
+  logo = "/img/R_logo.svg.png"
   opengraph = true
   twitter_cards = false
   readmore = false # Show "Read more" button in list if true

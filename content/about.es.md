@@ -22,6 +22,8 @@ Un ser humano... y parece que no soy el único del planeta..Además soy una pers
 
 Mi profesión es la ingeniería civil, pues soy Ingeniero de Caminos, Canales y Puertos, y me he dedicado desde hace algunos años ya al mundo del agua.
 
+![F.Vilber](/img/30796838843_f3f70d19d3_q.jpg)
+
 ## R
 Hace 20 años, programé mis primeras aplicaciones en visual basic. VB es un lenguaje que usé mucho para realizar modelos de comportamiento hidrológico.
 
@@ -38,4 +40,4 @@ Buscando alternativas descubrí TOR, un lenguaje de sintaxis parecida a R y espe
 Espero que os guste!
 
 
-![gritos](/content/about.es_files/gritos.jpg)
+![gritos](/img/gritos.jpg)
