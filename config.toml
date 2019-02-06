@@ -1,4 +1,4 @@
-baseurl = "http://enrdados.net"
+baseurl = "https://enrdados.netlify.com/"
 title = "EnRdados"
 languageCode = "es"
 defaultContentLanguage = "es"
@@ -7,12 +7,7 @@ theme = "Mainroad"
 disqusShortname = "www-enrdados-net" # Enable comments by entering your Disqus shortname
 googleAnalytics = "" # Enable Google Analytics by entering your tracking id
 ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
-highlightjsCDN = "//cdn.bootcss.com"
-highlightjsLang = ["r", "yaml"]
-highlightjsTheme = "hybrid"
 
-MathJaxCDN = "//cdn.bootcss.com"
-MathJaxVersion = "2.7.1"
 
 [Author]
   name = "F.VilBer"
@@ -22,7 +17,7 @@ MathJaxVersion = "2.7.1"
 [Params]
   subtitle = "Hablamos de R, programación y otras cosas..." # Subtitle of your site
   description = "Web personal sobre R, el lenguaje de la ciencia" # Description of your site
-  logo = "/img/R_logo.svg.png"
+  logo = "img/R_logo.svg.png"
   opengraph = true
   twitter_cards = false
   readmore = false # Show "Read more" button in list if true
@@ -30,13 +25,19 @@ MathJaxVersion = "2.7.1"
   post_navigation = true
   postSections = ["post"]
   dateformat = "2006-01-02" # change the format of date
-  
+  #mathjax: true
+  #highlightjsVersion = "9.11.0"
+  highlightjsCDN = "//cdn.bootcss.com"
+  highlightjsLang = ["r", "yaml"]
+  highlightjsTheme = "hybrid"
+  MathJaxCDN = "//cdn.bootcss.com"
+
 [Params.sidebar]
   home = "right"   # Configure layout for home page
   list = "right"   # Configure layout for list pages
   single = "right" # Configure layout for single pages
   # Enable widgets in given order
-  widgets = ["search", "recent", "categories", "taglist","sidemenu", "social"]
+  widgets = ["recent", "categories", "taglist", "social"]#"search","sidemenu"
 
 [Params.widgets]
   recent_num = 5 # Set the number of articles in the "Recent articles" widget
