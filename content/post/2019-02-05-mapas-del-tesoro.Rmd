@@ -20,7 +20,7 @@ editor_options:
 ---
 
 ## Una vuelta más sobre el generador de islas aleatorias
-Hace unas semanas publiqué un artículo dedicado a generar [islas aeatorias](../Generador-de-islas-aleatorias). Fue un tema que gustó mucho y también a mis hijos, por lo que estoy realizando una versión en *Shiny* que permita ejecutar en línea el código y estará disponible para todos.
+Hace unas semanas publiqué un artículo dedicado a generar [islas aeatorias](../Generador-de-islas-aleatorias). Fue un tema que gustó mucho y también a mis hijos, por lo que estoy realizando una versión en *Shiny* que permita ejecutar en línea el código y estará disponible para todos [aquí](https://nolugar.shinyapps.io/mapatesoro/).
 
 También he visto que se puede aprovechar y darle alguna vuelta más profesional al asunto, en concreto para aprender de *SIG* (Sistemas de Información Geográfica), así que, manos a la obra que vamos a hacer mapas con R, vamos a crear **Mapas del Tesoro**.
 

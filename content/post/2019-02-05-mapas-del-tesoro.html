@@ -34,7 +34,7 @@ true
 
 <div id="una-vuelta-mas-sobre-el-generador-de-islas-aleatorias" class="section level2">
 <h2>Una vuelta más sobre el generador de islas aleatorias</h2>
-<p>Hace unas semanas publiqué un artículo dedicado a generar <a href="../Generador-de-islas-aleatorias">islas aeatorias</a>. Fue un tema que gustó mucho y también a mis hijos, por lo que estoy realizando una versión en <em>Shiny</em> que permita ejecutar en línea el código y estará disponible para todos.</p>
+<p>Hace unas semanas publiqué un artículo dedicado a generar <a href="../Generador-de-islas-aleatorias">islas aeatorias</a>. Fue un tema que gustó mucho y también a mis hijos, por lo que estoy realizando una versión en <em>Shiny</em> que permita ejecutar en línea el código y estará disponible para todos <a href="https://nolugar.shinyapps.io/mapatesoro/">aquí</a>.</p>
 <p>También he visto que se puede aprovechar y darle alguna vuelta más profesional al asunto, en concreto para aprender de <em>SIG</em> (Sistemas de Información Geográfica), así que, manos a la obra que vamos a hacer mapas con R, vamos a crear <strong>Mapas del Tesoro</strong>.</p>
 <div class="figure">
 <img src="/post/2019-02-05-mapas-del-tesoro_files/mapa55.png" alt="Mapa del tesoro" />
@@ -64,7 +64,6 @@ true
 <li><code>crea_isla</code> función que llama a las anteriores y crea el polígono de una isla aleatoria y lo pinta.</li>
 </ul>
 <p>El esquema que tenemos en mente es el siguiente:</p>
-<pre><code>## Warning: package &#39;DiagrammeR&#39; was built under R version 3.5.2</code></pre>
 <div id="htmlwidget-1" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
 <script type="application/json" data-for="htmlwidget-1">{"x":{"diagram":"graph TD;\n    A(pol_cero)-->B[div_pol];\n    C(puntomedio)-->B;\n    B-->E[crea_isla];\n    style C fill:cyan;"},"evals":[],"jsHooks":[]}</script>
 <p>Tenemos que hacer algún retoque de la función <code>crea_isla()</code>, para que en lugar de pintar el resultado, devuelva un polígono en formato <code>data.frame</code>, eso os lo dejamos de tarea.</p>
