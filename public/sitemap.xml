@@ -155,13 +155,19 @@
   </url>
   
   <url>
+    <loc>/tags/graficas/</loc>
+    <lastmod>2019-02-11T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>/tags/gr%C3%A1ficos/</loc>
     <lastmod>2019-01-24T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/tags/logo-plot-graficas-tipograf%C3%ADa/</loc>
+    <loc>/tags/logo/</loc>
     <lastmod>2019-02-11T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
@@ -215,6 +221,12 @@
   </url>
   
   <url>
+    <loc>/tags/plot/</loc>
+    <lastmod>2019-02-11T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>/post/</loc>
     <lastmod>2019-02-11T00:00:00+00:00</lastmod>
     <priority>0</priority>
@@ -253,6 +265,12 @@
   <url>
     <loc>/tags/</loc>
     <lastmod>2019-01-07T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/tipograf%C3%ADa/</loc>
+    <lastmod>2019-02-11T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   

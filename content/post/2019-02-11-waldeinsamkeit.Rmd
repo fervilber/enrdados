@@ -7,7 +7,10 @@ categories:
   - educación
   - diseño
 tags:
-  - logo plot graficas tipografía
+  - logo
+  - plot
+  - graficas
+  - tipografía
 description: 'hacemos un logo parecido al del disco pensamientos de waldeinsamkeit con R'
 thumbnail: '/post/2019-02-11-waldeinsamkeit_files/w2.png'
 toc: no
@@ -31,7 +34,7 @@ Lo primero es poner el fondo negro y quitar los bordes de la gráfica con esto: 
 
 Para generar la *sierra* creamos dos conjuntos de números aleatorios, unos con media mayor que los otros y los mezclamos al tresbolillo
 
-```{r eval=FALSE, warning=FALSE}
+```{r warning=FALSE}
 library(extrafont)
 #font_install("fontcm")
 #font_import()
@@ -113,10 +116,131 @@ pinta_logo<-function(n=5,text="enRdados.net"){
 
 pinta_logo()
 
-#par(mfrow=c(1,1))
-#pinta_logo()
-#pinta_logo()
-#pinta_logo()
-#pinta_logo()
+```
+
+
+## Coordilleras
+
+Ya puestos en el lío, como tenemos una función para hacer una sierra, vamos seguir desarrollando el logotipo con la idea de obtener una serie de cadenas montañosas.
+Además hemos reciclado las funciones del [artículo  de generador de islas aleatorias](./2019-01-14-generador-de-islas-aleatorias.html), para aportar caos en las líneas y formar una cadena de montañas algo más realistas.
+
+
+```{r funciones, echo=FALSE}
+    puntomedio<-function(x1,y1,x2,y2){
+     # calcula el punto medio del lado y lo mueve
+     # un porcentaje aleatorio sobre al perpendicular del lado
+        xmed<-(x1+x2)/2
+        ymed<-(y1+y2)/2
+        # calculamos la tangente para sacar la perpendicular 
+        vx<- -(y2-y1) # por anlgulos es el eje opuesto
+        vy<-(x2-x1)
+        # Este parametro d es importante y marca la desviación 
+        # del nuevo punto respecto al lado
+        d<-0.02*runif(1,-1,1)
+        # coord del nuevo punto medio final
+        x0<-xmed+d*vx
+        y0<-ymed+d*vy
+    
+        return(c(x0,y0))
+    }
+
+
+# función que divide en 2 cada lado del poligono
+# los datos de entrada deben ser un data.frame
+  div_pol<-function(poligon){
+             n_pol<-data.frame(x=NA,y=NA)
+      # aplicamos la funión de punto medio
+          for (i in 1:nrow(poligon)-1){
+              n_pol<-rbind(n_pol,c(poligon[i,1],poligon[i,2]))
+              n_pol<-rbind(n_pol,puntomedio(poligon[i,1],poligon[i,2],
+                                          poligon[i+1,1],poligon[i+1,2]))
+              #n_pol<-rbind(n_pol,c(poligon[i+1,1],poligon[i+1,2]))
+              }
+              n_pol<-na.omit(n_pol)
+              return(n_pol)
+  }
+
+#2. funcion recursiva      
+  div_pol_n<-function(poligon, N){
+      z<-poligon
+      if(N>0){
+      for(i in 1:N){
+          z<- div_pol(z)        
+      }
+      }
+      return(z)
+  }
 
 ```
+
+```{r sierras_logo, warning=FALSE}
+
+sierra_r<-function(np=5,al_max=2000,al_min=1400){
+    a<-as.integer(rnorm(np*2,al_min,al_min/6))# crestas bajas
+    a<-c(a,as.integer(rnorm(np,al_max,al_max/8))) #crestas altas
+    a<-abs(sample(a,np))
+    
+    b<-as.integer(rnorm(np-1,al_min/3,al_min/7)) # valles
+    b<-abs(c(b,0))
+    linea<-c(0, c(rbind(a,b))) # mezcla al tresbolillo  
+    return(linea)
+}
+
+
+coordillera<-function(n=5,ns=5,des_s=200){
+  # n= num puntos por sierra/2
+  # ns= num sierras
+  # des_s= desplazamiento en veritical de las sierras
+  sierras<-list()
+  for(i in 1:ns){
+    sierras[[i]]<-sierra_r(n=n)
+    sierras[[i]]<-sierras[[i]]+des_s
+    sierras[[i]][1]<-0
+    sierras[[i]][length(sierras[[i]])]<-0
+    
+  }
+  return(sierras)
+}
+
+
+pinta_coordillera2<-function(np=6,ns=8,des_s=800,coef=0.8,recursivo=3){
+  par(bg=gray(0.05),oma=c(0.1,0.1,0.1,0.1),mar=c(0.1,0.1,0.1,0.1))
+  a<-coordillera(n=np,ns=ns,des_s=des_s)
+  
+  factor<-length(a)
+  #coef=0.8
+  des<-coef/factor
+  max<-max(sapply(a, max))
+
+  covdf<-function(a,max=100){
+    b<-data.frame(x=(1:length(a))*max,y=a)
+    return(b)
+  }
+  
+  a1<-lapply(a,covdf)  
+  #print(dim(a1[[1]][1]))
+  
+    plot(a1[[1]], type="l",col=NA,axes=F,lwd=1,ylim=c(1,max*1),xlim=c(150,(dim(a1[[1]])[1]-1)*100))
+    for(i in 1:factor){
+        mont<-a1[[i]]
+        mont[,2]<-mont[,2]*(1-des*i)
+        mont1<-div_pol_n(mont,recursivo)# añade caos
+        mont1<-rbind(mont1,c(mont1[nrow(mont1),1]+100,0))
+        polygon(mont1,col=gray(1-des*(i-1)), border=NA)
+  #print(mont1)
+          }
+  text(350,max/1.08 , "Coordilleras   enRdados.net",adj=c(0,0),col=gray(0.85), family="Kalinga",cex = 1.2)
+  
+}
+
+# pintamos algunos ejemplo
+pinta_coordillera2(coef=0.9)
+pinta_coordillera2(n=15,ns=3,coef=0.8)
+# recursivo aumenta el caos
+pinta_coordillera2(n=5,ns=6,coef=0.97,recursivo=0)
+pinta_coordillera2(n=5,ns=6,coef=0.97,recursivo=6)
+
+
+
+```
+

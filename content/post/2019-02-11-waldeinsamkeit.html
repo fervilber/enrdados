@@ -7,7 +7,10 @@ categories:
   - educación
   - diseño
 tags:
-  - logo plot graficas tipografía
+  - logo
+  - plot
+  - graficas
+  - tipografía
 description: 'hacemos un logo parecido al del disco pensamientos de waldeinsamkeit con R'
 thumbnail: '/post/2019-02-11-waldeinsamkeit_files/w2.png'
 toc: no
@@ -24,8 +27,9 @@ toc: no
 <p>El caso es que me dí cuenta de que ese logo se podría formar de manera simple mediante una función matemática en R, y me he puesto a ello.</p>
 <p>Vamos a usar solo R base y la función <em>plot</em>, también usaremos una librería para usar tipografía que es <em>extrafont</em>. Lo primero es poner el fondo negro y quitar los bordes de la gráfica con esto: <code>par(bg=gray(0.05),oma=c(0.1,0.1,0.1,0.1),mar=c(0.1,0.1,0.1,0.1))</code>.</p>
 <p>Para generar la <em>sierra</em> creamos dos conjuntos de números aleatorios, unos con media mayor que los otros y los mezclamos al tresbolillo</p>
-<pre class="r"><code>library(extrafont)
-#font_install(&quot;fontcm&quot;)
+<pre class="r"><code>library(extrafont)</code></pre>
+<pre><code>## Registering fonts with R</code></pre>
+<pre class="r"><code>#font_install(&quot;fontcm&quot;)
 #font_import()
 #loadfonts()
 #fonts()  # para ver las fuentes instaladas
@@ -57,6 +61,7 @@ l_sierra&lt;-function(texto){
 }
 
 l_sierra(&quot;enRdados.net&quot;)</code></pre>
+<p><img src="/post/2019-02-11-waldeinsamkeit_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
 <p>Después de probar un rato me fijé que, en realidad, el reflejo de la sierra que estaba haciendo no era correcto, pues en el cartel se pinta de manera opuesta creando una simetría extraña, pero que aporta complejidad no aparente.</p>
 <p>Aquí está el resultado final (hecho una mañana de sábado.. pues hay que empezar el día programando), he incluido unos puntos que imitan estrellas…</p>
 <pre class="r"><code>#funcion que genera una linea quebrada
@@ -97,12 +102,77 @@ pinta_logo&lt;-function(n=5,text=&quot;enRdados.net&quot;){
 }
 
 pinta_logo()</code></pre>
-<pre><code>## Warning in text.default(2, -19, text, col = gray(0.85), family =
-## &quot;Kalinga&quot;, : font family not found in Windows font database</code></pre>
 <p><img src="/post/2019-02-11-waldeinsamkeit_files/figure-html/logo-1.png" width="672" /></p>
-<pre class="r"><code>#par(mfrow=c(1,1))
-#pinta_logo()
-#pinta_logo()
-#pinta_logo()
-#pinta_logo()</code></pre>
+</div>
+<div id="coordilleras" class="section level2">
+<h2>Coordilleras</h2>
+<p>Ya puestos en el lío, como tenemos una función para hacer una sierra, vamos seguir desarrollando el logotipo con la idea de obtener una serie de cadenas montañosas. Además hemos reciclado las funciones del <a href="./2019-01-14-generador-de-islas-aleatorias.html">artículo de generador de islas aleatorias</a>, para aportar caos en las líneas y formar una cadena de montañas algo más realistas.</p>
+<pre class="r"><code>sierra_r&lt;-function(np=5,al_max=2000,al_min=1400){
+    a&lt;-as.integer(rnorm(np*2,al_min,al_min/6))# crestas bajas
+    a&lt;-c(a,as.integer(rnorm(np,al_max,al_max/8))) #crestas altas
+    a&lt;-abs(sample(a,np))
+    
+    b&lt;-as.integer(rnorm(np-1,al_min/3,al_min/7)) # valles
+    b&lt;-abs(c(b,0))
+    linea&lt;-c(0, c(rbind(a,b))) # mezcla al tresbolillo  
+    return(linea)
+}
+
+
+coordillera&lt;-function(n=5,ns=5,des_s=200){
+  # n= num puntos por sierra/2
+  # ns= num sierras
+  # des_s= desplazamiento en veritical de las sierras
+  sierras&lt;-list()
+  for(i in 1:ns){
+    sierras[[i]]&lt;-sierra_r(n=n)
+    sierras[[i]]&lt;-sierras[[i]]+des_s
+    sierras[[i]][1]&lt;-0
+    sierras[[i]][length(sierras[[i]])]&lt;-0
+    
+  }
+  return(sierras)
+}
+
+
+pinta_coordillera2&lt;-function(np=6,ns=8,des_s=800,coef=0.8,recursivo=3){
+  par(bg=gray(0.05),oma=c(0.1,0.1,0.1,0.1),mar=c(0.1,0.1,0.1,0.1))
+  a&lt;-coordillera(n=np,ns=ns,des_s=des_s)
+  
+  factor&lt;-length(a)
+  #coef=0.8
+  des&lt;-coef/factor
+  max&lt;-max(sapply(a, max))
+
+  covdf&lt;-function(a,max=100){
+    b&lt;-data.frame(x=(1:length(a))*max,y=a)
+    return(b)
+  }
+  
+  a1&lt;-lapply(a,covdf)  
+  #print(dim(a1[[1]][1]))
+  
+    plot(a1[[1]], type=&quot;l&quot;,col=NA,axes=F,lwd=1,ylim=c(1,max*1),xlim=c(150,(dim(a1[[1]])[1]-1)*100))
+    for(i in 1:factor){
+        mont&lt;-a1[[i]]
+        mont[,2]&lt;-mont[,2]*(1-des*i)
+        mont1&lt;-div_pol_n(mont,recursivo)# añade caos
+        mont1&lt;-rbind(mont1,c(mont1[nrow(mont1),1]+100,0))
+        polygon(mont1,col=gray(1-des*(i-1)), border=NA)
+  #print(mont1)
+          }
+  text(350,max/1.08 , &quot;Coordilleras   enRdados.net&quot;,adj=c(0,0),col=gray(0.85), family=&quot;Kalinga&quot;,cex = 1.2)
+  
+}
+
+# pintamos algunos ejemplo
+pinta_coordillera2(coef=0.9)</code></pre>
+<p><img src="/post/2019-02-11-waldeinsamkeit_files/figure-html/sierras_logo-1.png" width="672" /></p>
+<pre class="r"><code>pinta_coordillera2(n=15,ns=3,coef=0.8)</code></pre>
+<p><img src="/post/2019-02-11-waldeinsamkeit_files/figure-html/sierras_logo-2.png" width="672" /></p>
+<pre class="r"><code># recursivo aumenta el caos
+pinta_coordillera2(n=5,ns=6,coef=0.97,recursivo=0)</code></pre>
+<p><img src="/post/2019-02-11-waldeinsamkeit_files/figure-html/sierras_logo-3.png" width="672" /></p>
+<pre class="r"><code>pinta_coordillera2(n=5,ns=6,coef=0.97,recursivo=6)</code></pre>
+<p><img src="/post/2019-02-11-waldeinsamkeit_files/figure-html/sierras_logo-4.png" width="672" /></p>
 </div>
