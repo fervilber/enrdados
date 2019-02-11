@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>/post/waldeinsamkeit/</loc>
+    <lastmod>2019-02-11T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/post/mapa-del-tesoro/</loc>
     <lastmod>2019-01-24T00:00:00+00:00</lastmod>
   </url>
@@ -114,6 +119,12 @@
   </url>
   
   <url>
+    <loc>/categories/dise%C3%B1o/</loc>
+    <lastmod>2019-02-11T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>/tags/divertido/</loc>
     <lastmod>2019-01-24T00:00:00+00:00</lastmod>
     <priority>0</priority>
@@ -127,13 +138,13 @@
   
   <url>
     <loc>/categories/educaci%C3%B3n/</loc>
-    <lastmod>2019-01-24T00:00:00+00:00</lastmod>
+    <lastmod>2019-02-11T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/</loc>
-    <lastmod>2019-01-24T00:00:00+00:00</lastmod>
+    <lastmod>2019-02-11T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -146,6 +157,12 @@
   <url>
     <loc>/tags/gr%C3%A1ficos/</loc>
     <lastmod>2019-01-24T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/logo-plot-graficas-tipograf%C3%ADa/</loc>
+    <lastmod>2019-02-11T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -199,7 +216,7 @@
   
   <url>
     <loc>/post/</loc>
-    <lastmod>2019-01-24T00:00:00+00:00</lastmod>
+    <lastmod>2019-02-11T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   

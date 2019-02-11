@@ -1,0 +1,122 @@
+---
+title: Waldeinsamkeit
+author: F.VilBer
+date: '2019-02-11'
+slug: waldeinsamkeit
+categories:
+  - educación
+  - diseño
+tags:
+  - logo plot graficas tipografía
+description: 'hacemos un logo parecido al del disco pensamientos de waldeinsamkeit con R'
+thumbnail: '/post/2019-02-11-waldeinsamkeit_files/w2.png'
+toc: no
+---
+
+Hace unos días, paseando por Murcia vi un cartel que anunciaba un concierto. No sabía de qué grupo se trataba, pero me llamó poderosamente la atención su diseño.
+
+Era un cartel en blanco y negro con una línea quebrada que parecían la silueta de una sierra y debajo el reflejo de esa forma en color opuesto. El grupo en cuestión se llama [Waldenskeit](https://waldenskeit.com/bio/) y suenan muy bien como podéis comprobar en el enlace.
+
+El álbum que anunciaban es *PENSAMIENTOS* y el concierto en Murcia es el próximo 15/02 en la Sala Musik.
+
+Según parece la palabra [Waldeinsamkeit](http://palabrasintraducibles.blogspot.com/2014/02/waldeinsamkeit-la-palabra-intraducible.html) en alemán significa algo así como la sensación de estar a solas en el bosque, entre los árboles... esa sensación que es difícil de sentir en un país sin bosques como nuestro seco Sur.
+
+## Programar un logo
+
+El caso es que me dí cuenta de que ese logo se podría formar de manera simple mediante una función matemática en R, y me he puesto a ello.
+
+Vamos a usar solo R base y la función *plot*, también usaremos una librería para usar tipografía que es 
+*extrafont*. 
+Lo primero es poner el fondo negro y quitar los bordes de la gráfica con esto: `par(bg=gray(0.05),oma=c(0.1,0.1,0.1,0.1),mar=c(0.1,0.1,0.1,0.1))`. 
+
+Para generar la *sierra* creamos dos conjuntos de números aleatorios, unos con media mayor que los otros y los mezclamos al tresbolillo
+
+```{r eval=FALSE, warning=FALSE}
+library(extrafont)
+#font_install("fontcm")
+#font_import()
+#loadfonts()
+#fonts()  # para ver las fuentes instaladas
+
+########################################
+# Funcion para pintar logo de waldenskeit
+########################################
+
+# ponemos el fondo negro
+par(bg=gray(0.05),oma=c(0.1,0.1,0.1,0.1),mar=c(0.1,0.1,0.1,0.1))
+
+l_sierra<-function(texto){
+    a<-as.integer(rnorm(5,15,4)) # num crestas
+    b<-as.integer(rnorm(4,5,4)) # num valles
+    b<-c(b,0)
+    linea<-c(0, c(rbind(a,b)))
+    # creamos la linea inversa para el reflejo
+    l_inv<-c(0, c(-rbind(a,b)))
+    # pintamos
+    plot(linea, type="l",col=gray(0.95),axes=F,lwd=1,ylim=c(-20,20),xlim=c(0,12))
+    # pintamos linea horizontal
+    abline(h=0,col="grey")
+    #pintamos reflejo
+    lines(l_inv,col=gray(0.35))
+    #Rellenamos el reflejo con poligono
+    polygon(l_inv,col=gray(0.95), border=NA)
+    #Escribimos un texto abajo
+    text(8, -20, texto, col="white", family="Eras Medium ITC",cex = 2)
+}
+
+l_sierra("enRdados.net")
+```
+
+
+Después de probar un rato me fijé que, en realidad, el reflejo de la sierra que estaba haciendo no era correcto, pues en el cartel se pinta de manera opuesta creando una simetría extraña, pero que aporta complejidad no aparente.
+
+Aquí está el resultado final (hecho una mañana de sábado.. pues hay que empezar el día programando), he incluido unos puntos que imitan estrellas... 
+
+
+```{r logo}
+#funcion que genera una linea quebrada
+sierra<-function(n=5){
+    a<-as.integer(rnorm(n,12,3))# crestas altas
+    a<-c(a,as.integer(rnorm(n,18,2))) #crestas bajas
+    a<-abs(sample(a,n))
+    
+    b<-as.integer(rnorm(n-1,4,2)) # valles
+    b<-abs(c(b,0))
+    linea<-c(0, c(rbind(a,b))) # mezcla al tresbolillo  
+    return(linea)
+}
+
+# funcion que pinta el logo estilo Waldenskeit
+pinta_logo<-function(n=5,text="enRdados.net"){
+  # ponemos el fondo negro
+    par(bg=gray(0.05),oma=c(0.1,0.1,0.1,0.1),mar=c(0.1,0.1,0.1,0.1))
+    lin<-sierra(n)
+    l_inv<- -rev(lin) # damos la vuelta al vector
+    
+    plot(lin, type="l",col=gray(0.95),axes=F,lwd=1,ylim=c(-20,20),xlim=c(0,n*2+2))
+    # añado nebulosas
+    xy<-data.frame(x=rnorm(500,n*2-1,2),y=rnorm(500,10,3))
+    points(xy,col=gray(0.75),pch=".")
+    xy<-data.frame(x=rnorm(400,3,2),y=rnorm(400,-8,2))
+    points(xy,col=gray(0.75),pch=".")
+    
+    #linea horizonte
+    abline(h=0,col="grey")
+    #segments(1,0,11,0,col=gray(0.95))
+    lines(l_inv,col=gray(0.35))
+    #lines(l_inv, type= "h", col="blue")
+    polygon(l_inv,col=gray(0.90), border=NA)
+    polygon(lin,col=gray(0.05), border="white")
+    # Texto
+    text(2, -19, text,col=gray(0.85), family="Kalinga",cex = 1.2)
+}
+
+pinta_logo()
+
+#par(mfrow=c(1,1))
+#pinta_logo()
+#pinta_logo()
+#pinta_logo()
+#pinta_logo()
+
+```

@@ -1,0 +1,108 @@
+---
+title: Waldeinsamkeit
+author: F.VilBer
+date: '2019-02-11'
+slug: waldeinsamkeit
+categories:
+  - educación
+  - diseño
+tags:
+  - logo plot graficas tipografía
+description: 'hacemos un logo parecido al del disco pensamientos de waldeinsamkeit con R'
+thumbnail: '/post/2019-02-11-waldeinsamkeit_files/w2.png'
+toc: no
+---
+
+
+
+<p>Hace unos días, paseando por Murcia vi un cartel que anunciaba un concierto. No sabía de qué grupo se trataba, pero me llamó poderosamente la atención su diseño.</p>
+<p>Era un cartel en blanco y negro con una línea quebrada que parecían la silueta de una sierra y debajo el reflejo de esa forma en color opuesto. El grupo en cuestión se llama <a href="https://waldenskeit.com/bio/">Waldenskeit</a> y suenan muy bien como podéis comprobar en el enlace.</p>
+<p>El álbum que anunciaban es <em>PENSAMIENTOS</em> y el concierto en Murcia es el próximo 15/02 en la Sala Musik.</p>
+<p>Según parece la palabra <a href="http://palabrasintraducibles.blogspot.com/2014/02/waldeinsamkeit-la-palabra-intraducible.html">Waldeinsamkeit</a> en alemán significa algo así como la sensación de estar a solas en el bosque, entre los árboles… esa sensación que es difícil de sentir en un país sin bosques como nuestro seco Sur.</p>
+<div id="programar-un-logo" class="section level2">
+<h2>Programar un logo</h2>
+<p>El caso es que me dí cuenta de que ese logo se podría formar de manera simple mediante una función matemática en R, y me he puesto a ello.</p>
+<p>Vamos a usar solo R base y la función <em>plot</em>, también usaremos una librería para usar tipografía que es <em>extrafont</em>. Lo primero es poner el fondo negro y quitar los bordes de la gráfica con esto: <code>par(bg=gray(0.05),oma=c(0.1,0.1,0.1,0.1),mar=c(0.1,0.1,0.1,0.1))</code>.</p>
+<p>Para generar la <em>sierra</em> creamos dos conjuntos de números aleatorios, unos con media mayor que los otros y los mezclamos al tresbolillo</p>
+<pre class="r"><code>library(extrafont)
+#font_install(&quot;fontcm&quot;)
+#font_import()
+#loadfonts()
+#fonts()  # para ver las fuentes instaladas
+
+########################################
+# Funcion para pintar logo de waldenskeit
+########################################
+
+# ponemos el fondo negro
+par(bg=gray(0.05),oma=c(0.1,0.1,0.1,0.1),mar=c(0.1,0.1,0.1,0.1))
+
+l_sierra&lt;-function(texto){
+    a&lt;-as.integer(rnorm(5,15,4)) # num crestas
+    b&lt;-as.integer(rnorm(4,5,4)) # num valles
+    b&lt;-c(b,0)
+    linea&lt;-c(0, c(rbind(a,b)))
+    # creamos la linea inversa para el reflejo
+    l_inv&lt;-c(0, c(-rbind(a,b)))
+    # pintamos
+    plot(linea, type=&quot;l&quot;,col=gray(0.95),axes=F,lwd=1,ylim=c(-20,20),xlim=c(0,12))
+    # pintamos linea horizontal
+    abline(h=0,col=&quot;grey&quot;)
+    #pintamos reflejo
+    lines(l_inv,col=gray(0.35))
+    #Rellenamos el reflejo con poligono
+    polygon(l_inv,col=gray(0.95), border=NA)
+    #Escribimos un texto abajo
+    text(8, -20, texto, col=&quot;white&quot;, family=&quot;Eras Medium ITC&quot;,cex = 2)
+}
+
+l_sierra(&quot;enRdados.net&quot;)</code></pre>
+<p>Después de probar un rato me fijé que, en realidad, el reflejo de la sierra que estaba haciendo no era correcto, pues en el cartel se pinta de manera opuesta creando una simetría extraña, pero que aporta complejidad no aparente.</p>
+<p>Aquí está el resultado final (hecho una mañana de sábado.. pues hay que empezar el día programando), he incluido unos puntos que imitan estrellas…</p>
+<pre class="r"><code>#funcion que genera una linea quebrada
+sierra&lt;-function(n=5){
+    a&lt;-as.integer(rnorm(n,12,3))# crestas altas
+    a&lt;-c(a,as.integer(rnorm(n,18,2))) #crestas bajas
+    a&lt;-abs(sample(a,n))
+    
+    b&lt;-as.integer(rnorm(n-1,4,2)) # valles
+    b&lt;-abs(c(b,0))
+    linea&lt;-c(0, c(rbind(a,b))) # mezcla al tresbolillo  
+    return(linea)
+}
+
+# funcion que pinta el logo estilo Waldenskeit
+pinta_logo&lt;-function(n=5,text=&quot;enRdados.net&quot;){
+  # ponemos el fondo negro
+    par(bg=gray(0.05),oma=c(0.1,0.1,0.1,0.1),mar=c(0.1,0.1,0.1,0.1))
+    lin&lt;-sierra(n)
+    l_inv&lt;- -rev(lin) # damos la vuelta al vector
+    
+    plot(lin, type=&quot;l&quot;,col=gray(0.95),axes=F,lwd=1,ylim=c(-20,20),xlim=c(0,n*2+2))
+    # añado nebulosas
+    xy&lt;-data.frame(x=rnorm(500,n*2-1,2),y=rnorm(500,10,3))
+    points(xy,col=gray(0.75),pch=&quot;.&quot;)
+    xy&lt;-data.frame(x=rnorm(400,3,2),y=rnorm(400,-8,2))
+    points(xy,col=gray(0.75),pch=&quot;.&quot;)
+    
+    #linea horizonte
+    abline(h=0,col=&quot;grey&quot;)
+    #segments(1,0,11,0,col=gray(0.95))
+    lines(l_inv,col=gray(0.35))
+    #lines(l_inv, type= &quot;h&quot;, col=&quot;blue&quot;)
+    polygon(l_inv,col=gray(0.90), border=NA)
+    polygon(lin,col=gray(0.05), border=&quot;white&quot;)
+    # Texto
+    text(2, -19, text,col=gray(0.85), family=&quot;Kalinga&quot;,cex = 1.2)
+}
+
+pinta_logo()</code></pre>
+<pre><code>## Warning in text.default(2, -19, text, col = gray(0.85), family =
+## &quot;Kalinga&quot;, : font family not found in Windows font database</code></pre>
+<p><img src="/post/2019-02-11-waldeinsamkeit_files/figure-html/logo-1.png" width="672" /></p>
+<pre class="r"><code>#par(mfrow=c(1,1))
+#pinta_logo()
+#pinta_logo()
+#pinta_logo()
+#pinta_logo()</code></pre>
+</div>
