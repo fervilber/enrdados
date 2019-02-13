@@ -6,10 +6,20 @@
     <description>Recent content on EnRdados</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>es</language>
-    <lastBuildDate>Mon, 11 Feb 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 13 Feb 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Aprendizaje Supervisado</title>
+      <link>/post/aprendizaje-supervisado/</link>
+      <pubDate>Wed, 13 Feb 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/aprendizaje-supervisado/</guid>
+      <description>El aprendizaje supervisado es una técnica usada en minería de datos, en la que se genera una función de pronóstico a partir del entrenamiento sobre datos etiquetados, es decir, aprendemos a partir de casos reales y extrapolamos el resultado a los casos futuros.
+Se dice que es supervisado porque, previamente debe existir una clasificación o etiquetado de los datos que es lo que aporta el conocimiento. Otros modelos como las redes neuronales no necesitan este conocimiento previo para realizar el pronóstico.</description>
+    </item>
     
     <item>
       <title>Waldeinsamkeit</title>

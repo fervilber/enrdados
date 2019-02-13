@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>/post/aprendizaje-supervisado/</loc>
+    <lastmod>2019-02-13T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/post/waldeinsamkeit/</loc>
     <lastmod>2019-02-11T00:00:00+00:00</lastmod>
   </url>
@@ -78,6 +83,12 @@
   </url>
   
   <url>
+    <loc>/tags/aprendizaje-autom%C3%A1tico/</loc>
+    <lastmod>2019-02-13T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>/tags/blogdown/</loc>
     <lastmod>2019-01-07T00:00:00+00:00</lastmod>
     <priority>0</priority>
@@ -113,6 +124,12 @@
   </url>
   
   <url>
+    <loc>/tags/data-minning/</loc>
+    <lastmod>2019-02-13T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>/tags/dibujo/</loc>
     <lastmod>2019-01-24T00:00:00+00:00</lastmod>
     <priority>0</priority>
@@ -138,13 +155,13 @@
   
   <url>
     <loc>/categories/educaci%C3%B3n/</loc>
-    <lastmod>2019-02-11T00:00:00+00:00</lastmod>
+    <lastmod>2019-02-13T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/</loc>
-    <lastmod>2019-02-11T00:00:00+00:00</lastmod>
+    <lastmod>2019-02-13T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -210,7 +227,13 @@
   
   <url>
     <loc>/tags/modelos/</loc>
-    <lastmod>2019-01-19T00:00:00+00:00</lastmod>
+    <lastmod>2019-02-13T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/categories/modelos/</loc>
+    <lastmod>2019-02-13T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -228,7 +251,7 @@
   
   <url>
     <loc>/post/</loc>
-    <lastmod>2019-02-11T00:00:00+00:00</lastmod>
+    <lastmod>2019-02-13T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -240,7 +263,13 @@
   
   <url>
     <loc>/tags/r/</loc>
-    <lastmod>2019-01-16T00:00:00+00:00</lastmod>
+    <lastmod>2019-02-13T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/redes-bayesianas/</loc>
+    <lastmod>2019-02-13T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -264,7 +293,7 @@
   
   <url>
     <loc>/tags/</loc>
-    <lastmod>2019-01-07T00:00:00+00:00</lastmod>
+    <lastmod>2019-02-13T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   

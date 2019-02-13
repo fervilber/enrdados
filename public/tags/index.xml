@@ -6,10 +6,19 @@
     <description>Recent content in Tags on EnRdados</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>es</language>
-    <lastBuildDate>Mon, 07 Jan 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 13 Feb 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Aprendizaje Automático</title>
+      <link>/tags/aprendizaje-autom%C3%A1tico/</link>
+      <pubDate>Wed, 13 Feb 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/aprendizaje-autom%C3%A1tico/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>Blogdown</title>
@@ -53,6 +62,15 @@
       <pubDate>Mon, 07 Jan 2019 00:00:00 +0000</pubDate>
       
       <guid>/tags/css/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Data Minning</title>
+      <link>/tags/data-minning/</link>
+      <pubDate>Wed, 13 Feb 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/data-minning/</guid>
       <description></description>
     </item>
     
@@ -149,7 +167,7 @@
     <item>
       <title>Modelos</title>
       <link>/tags/modelos/</link>
-      <pubDate>Sat, 19 Jan 2019 00:00:00 +0000</pubDate>
+      <pubDate>Wed, 13 Feb 2019 00:00:00 +0000</pubDate>
       
       <guid>/tags/modelos/</guid>
       <description></description>
@@ -185,9 +203,18 @@
     <item>
       <title>R</title>
       <link>/tags/r/</link>
-      <pubDate>Wed, 16 Jan 2019 00:00:00 +0000</pubDate>
+      <pubDate>Wed, 13 Feb 2019 00:00:00 +0000</pubDate>
       
       <guid>/tags/r/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Redes Bayesianas</title>
+      <link>/tags/redes-bayesianas/</link>
+      <pubDate>Wed, 13 Feb 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/redes-bayesianas/</guid>
       <description></description>
     </item>
     

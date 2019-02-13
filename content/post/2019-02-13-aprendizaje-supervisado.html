@@ -1,0 +1,120 @@
+---
+title: Aprendizaje Supervisado
+author: F.VilBer
+date: '2019-02-13'
+slug: aprendizaje-supervisado
+categories:
+  - educación
+  - modelos
+tags:
+  - redes bayesianas
+  - modelos
+  - R
+  - data minning
+  - aprendizaje automático
+description: 'descripción de las técnicas de aprendizaje supervisado más comunes en R'
+thumbnail: '/post/2019-02-13-aprendizaje-supervisado_files/cover_aprendizaje_supervisado.jpg'
+toc: no
+---
+
+
+
+<p>El <strong>aprendizaje supervisado</strong> es una técnica usada en minería de datos, en la que se genera una función de pronóstico a partir del entrenamiento sobre datos <strong>etiquetados</strong>, es decir, aprendemos a partir de casos reales y extrapolamos el resultado a los casos futuros.</p>
+<p>Se dice que es supervisado porque, previamente debe existir una clasificación o etiquetado de los datos que es lo que aporta el conocimiento. Otros modelos como las <em>redes neuronales</em> no necesitan este conocimiento previo para realizar el pronóstico.</p>
+<div id="comenzar-un-modelo" class="section level2">
+<h2>Comenzar un modelo</h2>
+<p>Lo primero es dividir la muestra en dos conjuntos, uno de <strong>entrenamiento</strong> y otro de <strong>prueba</strong> o test. Con los datos de entrenamiento ordenados convenientemente obtenemos un conjunto de vectores o pares de entrada-salida.</p>
+<p>Las entradas son las variables conocidas que usaremos para hacer el pronóstico. La salida es la variable dependiente que queremos pronosticar o clasificar.</p>
+<p>Los algoritmos “aprenden” de los datos de entrenamiento y ese conocimiento obtenido del estudio de los datos previos clasificados lo representaremos en forma de modelo matemático. Cuando metemos una nueva entrada en el modelo, nos pronostica la salida más probable.</p>
+<div class="figure">
+<img src="/post/2019-02-13-aprendizaje-supervisado_files/arbol_decision.png" alt="Ejemplo de arbol de decisión" />
+<p class="caption">Ejemplo de arbol de decisión</p>
+</div>
+<p>Los modelos de aprendizaje supervisado, se denominan habitualmente <strong>modelos de clasificación</strong> ya que tratan de agrupar los valores en conjuntos con características semejantes, y la respuesta es el grupo al que creen que pertenece el hecho definido en la entrada.</p>
+</div>
+<div id="principales-algoritmos-de-aprendizaje-supervisado" class="section level2">
+<h2>Principales algoritmos de aprendizaje supervisado</h2>
+<p>Existen diferentes algoritmos que abordan el problema de aprendizaje supervisado y técnicas de minería de datos en R, pero los más habituales son los 5 siguientes:</p>
+<ul>
+<li>knn ((k-Nearest Neighbour Classification).</li>
+<li>naive bayes o algoritmo ingenuo</li>
+<li>regresión logística binaria</li>
+<li>árboles de decisión</li>
+<li>bosques de clasificación</li>
+</ul>
+<p>He realizado un manual básico de aprendizaje supervisado en R en el que describo estos 5 algoritmos y alguno más de forma práctica y que puedes ver libremente <a href="https://fervilber.github.io/Aprendizaje-supervisado-en-R/">aquí</a>.</p>
+<p>Solo como recordatorio, pongo también el enlace a mi libro <a href="https://drive.google.com/open?id=1EoLm-rqr5eikmpodb90uIGyju6E1jBjZ">Manual de R para el científico de datos</a>, cuya descarga es completamente gratis.</p>
+</div>
+<div id="tabla-resumen-de-uso" class="section level2">
+<h2>Tabla resumen de uso</h2>
+<p>Aunque la información detallada está en el <a href="https://fervilber.github.io/Aprendizaje-supervisado-en-R/">manual</a>, aportamos en la siguiente tabla un resumen de uso práctico de cada modelo que puede venir bien tener a mano, indicando el paquete o librería de R y la función de pronóstico principal para cada uno:</p>
+<ol style="list-style-type: decimal">
+<li><strong>knn</strong>
+<ul>
+<li>library(class)</li>
+<li><code>m&lt;-knn(train = tabla_train, test = tabla_test, cl = tabla_train$col_clasificadora)</code></li>
+<li>el resultado de la función es el tipo de clase <code>cl</code> al que pertenecen los datos de la tabla_test</li>
+<li>Para optimizar los resultados el modelo necesita estandarizar las variables normalizar distancias
+<ul>
+<li>scale(tabla)</li>
+</ul></li>
+</ul></li>
+<li><strong>naivebayes</strong>
+<ul>
+<li>library(naivebayes)</li>
+<li><code>m&lt;-naive_bayes(var_dependiente ~ var1 + var2..., data = tabla_datos, laplace = n)</code> laplace es opcional y agrega n casos para cada supuesto combinatorio.</li>
+<li><code>predict(m)</code> predicción sobre toda la tabla origen</li>
+<li><code>predict(m,h,type=&quot;prob&quot;)</code> siendo <code>h</code> un hecho en <code>data.frame</code>.
+<ul>
+<li><code>type = &quot;prob&quot;</code> muestra probabilidad de cada clase de salida, si se omite <em>type=</em>, el resultado es la clasificación más probable.</li>
+</ul></li>
+</ul></li>
+<li><strong>naivebayes_e1071</strong>
+<ul>
+<li>library(e1071)</li>
+<li><code>m&lt;-naiveBayes(var_dependiente ~ ., data = tabla_datos_train)</code></li>
+<li><code>predict(m)</code> predicción sobre toda la tabla origen <code>tabla_datos_train</code>, ,<code>type=&quot;prob&quot;</code> opcional</li>
+<li><code>predict(m,tabla_datos_test)</code></li>
+</ul></li>
+<li><strong>Regresión logistica</strong> <code>glm</code>
+<ul>
+<li>library(stats), cargada por defecto con R base.</li>
+<li><code>m_glm&lt;-glm(y ~ x1 + x2 + x3,data = misdatos_train, family = &quot;binomial&quot;)</code></li>
+<li><code>m_glm&lt;-glm(y ~ x1*x2, data = misdatos_train, family = &quot;binomial&quot;)</code> para variables con impacto combinado, efecto conjunto exponencial sobre la variable dependiente.</li>
+<li>probabilidad: <code>prob &lt;- predict(m_glm, misdatos_test, type = &quot;response&quot;)</code> usar tipo response</li>
+<li>umbral de predicción: <code>pred &lt;- ifelse(prob &gt; 0.50, 1, 0)</code></li>
+<li><code>summary(m_glm)</code></li>
+</ul></li>
+<li><strong>Optimizacion de regresión logistica</strong> <code>glm</code>
+<ul>
+<li>Se usa para hallar el mejor modelo de pronóstico, definiendo un inicio y fin de modelos:<br />
+1.Modelo sin predictores: <code>null_model &lt;- glm(var1 ~ 1, data = misdatos, family = &quot;binomial&quot;)</code> 2.Modelo completo: <code>full_model &lt;- glm(var1 ~ ., data = misdatos, family = &quot;binomial&quot;)</code>
+<ol start="3" style="list-style-type: decimal">
+<li>función step(): <code>step_model &lt;- step(null_model, scope = list(lower = null_model, upper = full_model), direction = &quot;forward&quot;)</code></li>
+</ol></li>
+<li><code>summary(step_model)</code> da el resultado de las pruebas con el mejor modelo</li>
+<li>Para estimar la probabilidad: <code>step_prob &lt;- predict(step_model, type = &quot;response&quot;)</code></li>
+</ul></li>
+<li><strong>Árboles de decisión</strong>
+<ul>
+<li>los datos origen a clasificar deben ser factores o estar categorizados. No es conveniente usar datos continuos.</li>
+<li><code>library(rpart)</code></li>
+<li>Hay que definir una poda <code>poda&lt;-rpart.control(cp= 0.2, maxdepth = 30, minsplit = 20)</code>que limita el árbol, lo más común es usar solo cp=0.2.</li>
+<li><code>m_tree&lt;-rpart(var_dependiente ~ ., data = tabla_datos_train, control = poda)</code></li>
+<li><code>predict(m_tree, h,type = &quot;class&quot;)</code> predicción sobre el hecho <code>h</code></li>
+<li><code>predict(m,tabla_datos_test)</code> predicción sobre los datos de test</li>
+<li>Se puede dibujar el árbol con rpart.plot: <code>rpart.plot(m_tree, type = 2, clip.right.labs = FALSE,</code> <code>branch = .6,</code> <code>box.palette = c( &quot;red&quot;,&quot;green&quot;),</code><br />
+<code>main = &quot;Ejemplo de arbol \n lalala&quot;)</code></li>
+</ul></li>
+<li><strong>Bosques aleatorios</strong>.
+<ul>
+<li>Los bosques son sumas de modelos de árboles. Por lo que es mejor no usar datos continuos sino categorizados.</li>
+<li><code>library(randomForest)</code></li>
+<li><code>m_bosque &lt;- randomForest(var_dependiente ~ ., data = tabla_datos_train[complete.cases(tabla_datos_train),], ntree = 100 )</code> Hemos excluido todos los posibles NA, pero podría hacerse previamente un <code>impute</code> de estos datos.</li>
+<li><code>predict(m_bosque)</code> predicción sobre toda la tabla origen<br />
+</li>
+<li><code>predict(m_bosque,tabla_datos_test)</code>, predicción sobre los datos de test</li>
+<li>Pintamos la evolución del modelo y vemos a partir de qué numero de arboles los resultados son homogéneos: <code>plot(m_bosque)</code></li>
+</ul></li>
+</ol>
+</div>
