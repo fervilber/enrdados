@@ -6,10 +6,20 @@
     <description>Recent content in Posts on EnRdados</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>es</language>
-    <lastBuildDate>Wed, 13 Feb 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 18 Feb 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Test de Rorschach</title>
+      <link>/post/test-de-rorschach/</link>
+      <pubDate>Mon, 18 Feb 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/test-de-rorschach/</guid>
+      <description>La generación de formas al azar es muy interesante desde el punto de vista artístico, pero también del psicológico. Una mancha representa lo que queramos ver en ella, lo que nuestro subconsciente desea ver y percibe de su forma. Esta percepción puede decirnos mucha cosas sobre nuestra personalidad y soprendernos.
+Hermann RorschachHermann Rorschach(1884-1922) fue un psiquiatra suizo especializado en psicoanálisis. Es ampliamente conocido por ser el inventor del test de Rorschach, una técnica que analiza el impacto visual de ciertas imágenes en la percepción del individuo.</description>
+    </item>
     
     <item>
       <title>Aprendizaje Supervisado</title>

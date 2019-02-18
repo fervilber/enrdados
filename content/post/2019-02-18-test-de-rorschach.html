@@ -1,0 +1,213 @@
+---
+title: Test de Rorschach
+author: F.VilBer
+date: '2019-02-18'
+slug: test-de-rorschach
+categories:
+  - diseño
+  - educación
+  - GIS
+tags:
+  - divertido
+  - graficas
+  - dibujo
+  - sf
+  - SIG
+description: 'generación de formas al azar, manchas de tinta al estilo test de Rorschach'
+thumbnail: '/post/2019-02-18-test-de-rorschach_files/caballeros.png'
+toc: no
+---
+
+
+
+<p>La generación de formas al azar es muy interesante desde el punto de vista artístico, pero también del psicológico. Una mancha representa lo que queramos ver en ella, lo que nuestro subconsciente desea ver y percibe de su forma. Esta percepción puede decirnos mucha cosas sobre nuestra personalidad y soprendernos.</p>
+<div id="hermann-rorschach" class="section level2">
+<h2>Hermann Rorschach</h2>
+<p><a href="https://es.wikipedia.org/wiki/Hermann_Rorschach">Hermann Rorschach(1884-1922)</a> fue un psiquiatra suizo especializado en psicoanálisis. Es ampliamente conocido por ser el inventor del <a href="https://es.wikipedia.org/wiki/Test_de_Rorschach"><em>test de Rorschach</em></a>, una técnica que analiza el impacto visual de ciertas imágenes en la percepción del individuo.</p>
+<p>Según sus estudios la interpretación de imágenes ambiguas por una persona, puede desvelar rasgos de su personalidad. Con este principio desarrolló un método que se basa en mostrar <strong>manchas de tinta simétricas</strong>, en concreto 10 imágenes, 5 en blanco y negro, 2 en blanco negro y rojo, y 3 en colores variados.</p>
+<p>Según la percepción del individuo se obtiene un patrón de personalidad fruto de la comparación de las respuestas con una extensa base de datos de resultados disponibles.</p>
+</div>
+<div id="generador-de-manchas" class="section level2">
+<h2>Generador de manchas</h2>
+<p>Con esta idea del <em>test de Rorschach</em>, hemos programado un generador aleatorio de manchas simétricas. Obtendremos en cada simulación una imagen parecida a las obtenidas por Rorschach doblando un papel con tinta china.</p>
+<p>Como comprobareis en el <a href="https://nolugar.shinyapps.io/rorschach/">programa en linea</a>, los humanos tendemos a ver muchas caras en lo que en realidad son puras manchas hechas al azar.</p>
+</div>
+<div id="funciones" class="section level2">
+<h2>Funciones</h2>
+<p>Vamos a aprovechar las funciones que creamos en el generador de <a href="../Generador-de-islas-aleatorias">islas aleatorias</a> para crear un polígono al azar que pintaremos de negro.</p>
+<p>Estas funciones son:</p>
+<ul>
+<li><code>puntomedio</code>, que calcula el punto medio entre dos puntos dados.</li>
+<li><code>pol_cero</code>, que crea un polígono aletorio a partir de los valores de diámetro medio y número de lados.</li>
+<li><code>div_pol</code>, función que divide cada lado del polígono de entrada en dos y genera distorsiones caóticas aleatorias distanciando el punto medio sobre la perpendicular al lado.</li>
+<li><code>div_pol_n</code> función recursiva que hace n veces la función anterior <code>div_pol</code></li>
+<li><code>pol_cero</code> función que llama a las anteriores y crea el polígono aleatorio</li>
+<li><code>pol_to_sf</code> funcion que convierte un poligono en un objeto <code>sf</code>.</li>
+</ul>
+<pre class="r"><code># Función punto medio
+    puntomedio&lt;-function(x1,y1,x2,y2,c_dist=0.5){
+     # calcula el punto medio del lado y lo mueve
+     # un porcentaje aleatorio sobre al perpendicular del lado
+        xmed&lt;-(x1+x2)/2
+        ymed&lt;-(y1+y2)/2
+        # calculamos la tangente para sacar la perpendicular 
+        vx&lt;- -(y2-y1) # por anlgulos es el eje opuesto
+        vy&lt;-(x2-x1)
+        # Este parametro d es importante y marca la desviación 
+        # del nuevo punto respecto al lado
+        d&lt;-c_dist*runif(1,-1,1)
+        # coord del nuevo punto medio final
+        x0&lt;-xmed+d*vx
+        y0&lt;-ymed+d*vy
+    
+        return(c(x0,y0))
+    }
+
+# Funcion divide poligono
+     div_pol&lt;-function(poligon){
+             n_pol&lt;-data.frame(x=NA,y=NA)
+      # aplicamos la funión de punto medio
+          for (i in 1:nrow(poligon)-1){
+              n_pol&lt;-rbind(n_pol,c(poligon[i,1],poligon[i,2]))
+              n_pol&lt;-rbind(n_pol,puntomedio(poligon[i,1],poligon[i,2],
+                                          poligon[i+1,1],poligon[i+1,2]))
+#              
+          }
+              n_pol&lt;-rbind(n_pol,c(poligon[i+1,1],poligon[i+1,2]))
+              n_pol&lt;-na.omit(n_pol)
+              return(n_pol)
+  }
+
+# Funcion recursiva de division de lados del poligono      
+  div_pol_n&lt;-function(poligon, N){
+      z&lt;-poligon
+      for(i in 1:N){
+          z&lt;- div_pol(z)        
+      }
+      return(z)
+  }
+# convierte en sf un poligono dataframe  
+  pol_to_sf&lt;-function(pol,epsg=25831){
+      capa &lt;- pol %&gt;%
+        st_as_sf(coords = c(&quot;x&quot;, &quot;y&quot;), crs = epsg) %&gt;%
+        summarise(geometry = st_combine(geometry)) %&gt;%
+        st_cast(&quot;POLYGON&quot;)
+      st_crs(capa)&lt;-epsg
+      return(capa)
+  }
+  
+# Genera un poligono aleatorio      
+    pol_cero&lt;-function(R=10,nvert=8){
+    # R= diametro medio  
+    I&lt;- R/2 # Amplitud de desviación media de irregularidades
+    paso&lt;-2*pi/nvert # mejor para para que de giro completo
+    
+    # creamos poligono inicial como data.frame
+    pol_coord&lt;-data.frame(x=NA,y=NA)
+    a&lt;-runif(1,0.5,10) # añadimos una funcion seno a la amplitud
+    b&lt;-runif(1,0.5,10) # añadimos otra funcion seno a la amplitud
+    for(i in 1:nvert-1){
+        #x&lt;-(R+rnorm(1,I,I/3))*cos(paso*i)
+        #y&lt;-(R+rnorm(1,I,I/3))*sin(paso*i)
+        x&lt;-abs((R+I*sin(paso*i*a)+I*sin(paso*i*b)))*cos(paso*i)
+        y&lt;-abs((R+I*sin(paso*i*a)+I*sin(paso*i*b)))*sin(paso*i)
+        pol_coord&lt;-rbind(pol_coord,c(x,y))
+    }
+    pol_coord&lt;-na.omit(pol_coord)
+    # Añadimos al final el punto origen para cerrar el poligono
+    pol_coord&lt;-rbind(pol_coord,c(pol_coord[1,1],pol_coord[1,2]))
+    return(pol_coord)
+}</code></pre>
+<p>Tomando como base las funciones anteriores dibujaremos sobre un lienzo una mancha aleatoria usando la función <code>pol_cero()</code> para crear el polígono inicial.</p>
+<p>Usaremos la funcion de dibujo <code>plot()</code>, pero antes indicaremos los parámetros globales del lienzo con <code>par()</code>, en este caso, el color del fondo y reduciremos al mínimo los márgenes.</p>
+<p>Finalmente creamos la función <code>mancha1()</code> que calcula el simetro del poligono inicial y los une para devolver una forma simetrica vertical como un objeto simple features (sf). Usar objetos sf nos da acceso a todas las funciones de la librería sf, entre ellas <code>st_area()</code> que usaremos para limitar la salida a poligonos de cierta área y evitar resultados con poca “tinta”.</p>
+<pre class="r"><code>library(sf)
+library(tidyverse)
+
+# ajusto los margenes del lienzo 
+par(bg=gray(0.99),oma=c(0.1,0.1,0.1,0.1),mar=c(0.1,0.1,0.1,0.1))
+
+# funcion de mancha aleatoria
+mancha1&lt;-function(simplicidad=3,des=10){
+    a=0
+    while(a &lt;150){ # esto es para evitar manchas muy chicas
+        poly&lt;-pol_cero(nvert=runif(1,4,17))
+        manch&lt;-div_pol_n(poly,simplicidad)
+        #hacemos la simetrica
+        manchsim&lt;-data.frame(x=-(manch$x-des),y=manch$y)
+        #convertimos a sf la mancha y su simetrica
+        xy1 &lt;- st_as_sf(manch, coords = c(&quot;x&quot;, &quot;y&quot;))
+        xy11&lt;-pol_to_sf(xy1)
+        xy2 &lt;- st_as_sf(manchsim, coords = c(&quot;x&quot;, &quot;y&quot;))
+        xy21&lt;-pol_to_sf(xy2)
+        #unimos ambas
+        z&lt;-st_union(st_buffer(xy11,0.5),st_buffer(xy21,0.5))
+        a&lt;- unclass(st_area(z)) # calcula el area
+    }
+    return(z)
+    }
+
+# Pintamos un ejemplo
+  p&lt;-mancha1(simplicidad=runif(1,4,7),des=runif(1,15,35))
+  # esto es para simplificar la forma
+  # q&lt;-st_simplify(p,preserveTopology = TRUE, dTolerance = 1)
+  plot(st_geometry(p),col=gray(0.1))
+  plot(st_geometry(st_buffer(p,0.2)),border=gray(0.1),add=T)
+  plot(st_geometry(st_buffer(p,0.5)),border=gray(0.1),add=T)
+  plot(st_geometry(st_buffer(p,-0.2)),border=gray(0.91),add=T)
+  plot(st_geometry(st_buffer(p,-0.5)),border=gray(0.91),add=T)</code></pre>
+<div class="figure">
+<img src="/post/2019-02-18-test-de-rorschach_files/mancha1.png" alt="mancha del test de rorschar" />
+<p class="caption">mancha del test de rorschar</p>
+</div>
+</div>
+<div id="crear-poligono-aleatorio-con-convex-hull" class="section level2">
+<h2>Crear poligono aleatorio con <em>Convex hull</em></h2>
+<p>He descubierto hace poco una manera muy sencilla de generar un <em>polígono aleatorio geográfico</em> usando la librería <code>sf</code>, que como hemos visto en otros artículos es uno de los paquetes de SIG más avanzados de R.</p>
+<p>La función <code>st_convex_hull</code> calcula la <a href="https://es.wikipedia.org/wiki/Envolvente_convexa">envolvente convexa</a> de un conjunto de puntos, es decir, el polígono que los encierra a todos y que pasa por los puntos.</p>
+<p>Esto nos permite generar un polígono muy fácil, basta para ello generar unos puntos aleatorios en el plano y calcular luego la envolvente convexa de esos puntos.</p>
+<p>Lo hemos programado en la función <code>mancha2()</code>, simplemente para ver su funcionamiento.</p>
+<pre class="r"><code># Crea un poligono mancha con algoritmo st_convex_hull
+mancha2&lt;-function(simplicidad=3,xmax=10,ymax=20){
+    a=0
+    while(a &lt;50){ # esto es para evitar manchas muy chicas
+        # defino la extension del lienzo
+        x&lt;-runif(20)*xmax # limites x
+        y&lt;-runif(20)*ymax  # limite Y
+        # xy aleatorio
+        xy&lt;-data.frame(x=x,y=y)
+        # Convertimos a sf
+        xy_sf &lt;- st_as_sf(xy, coords = c(&quot;x&quot;, &quot;y&quot;))
+        #creamos un poligono convexo
+        poly&lt;-st_convex_hull(st_union(xy_sf)) %&gt;% st_cast(&quot;POINT&quot;)  %&gt;% st_coordinates()
+        # añadimos caos a los lados 
+        manch&lt;-div_pol_n(poly,simplicidad)
+        #hacemos la simetrica
+        manchsim&lt;-data.frame(x=-manch$x,y=manch$y)
+        #convertimos a sf la mancha y su simetrica
+        xy1 &lt;- st_as_sf(manch, coords = c(&quot;x&quot;, &quot;y&quot;))
+            xy11&lt;-pol_to_sf(xy1)
+        xy2 &lt;- st_as_sf(manchsim, coords = c(&quot;x&quot;, &quot;y&quot;))
+            xy21&lt;-pol_to_sf(xy2)
+        # unimos ambas con un buffer
+        z&lt;-st_union(st_buffer(xy11,0.2),st_buffer(xy21,0.2))
+        a&lt;- unclass(st_area(z)) # calcula el area
+    }
+    return(z)
+    }
+
+# generamos un par de manchas de ejemplo
+p&lt;-mancha2(simplicidad=runif(1,2,4),xmax=runif(1,5,10),ymax=runif(1,10,20))
+plot(st_geometry(p),col=gray(0.1))
+
+p&lt;-mancha2(simplicidad=runif(1,2,4),xmax=runif(1,5,10),ymax=runif(1,10,20))
+plot(st_geometry(p),col=gray(0.1))</code></pre>
+<div class="figure">
+<img src="/post/2019-02-18-test-de-rorschach_files/simetrias.png" alt="manchas tinta" />
+<p class="caption">manchas tinta</p>
+</div>
+</div>
+<div id="resultados" class="section level2">
+<h2>Resultados</h2>
+<p>Puedes jugar en linea a interpretar estas formas aleatorias en la aplicaci´çon que he realizado aquí: <a href="https://nolugar.shinyapps.io/rorschach/">programa test de Rorschach</a></p>
+</div>
