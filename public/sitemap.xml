@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>/post/arbol-genealogico/</loc>
+    <lastmod>2019-02-22T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/post/test-de-rorschach/</loc>
     <lastmod>2019-02-18T00:00:00+00:00</lastmod>
   </url>
@@ -129,6 +134,12 @@
   </url>
   
   <url>
+    <loc>/tags/curiosidades/</loc>
+    <lastmod>2019-02-22T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>/tags/data-minning/</loc>
     <lastmod>2019-02-13T00:00:00+00:00</lastmod>
     <priority>0</priority>
@@ -166,7 +177,7 @@
   
   <url>
     <loc>/</loc>
-    <lastmod>2019-02-18T00:00:00+00:00</lastmod>
+    <lastmod>2019-02-22T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -184,7 +195,7 @@
   
   <url>
     <loc>/tags/graficas/</loc>
-    <lastmod>2019-02-18T00:00:00+00:00</lastmod>
+    <lastmod>2019-02-22T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -262,13 +273,19 @@
   
   <url>
     <loc>/post/</loc>
-    <lastmod>2019-02-18T00:00:00+00:00</lastmod>
+    <lastmod>2019-02-22T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/processing/</loc>
     <lastmod>2019-01-09T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/categories/r/</loc>
+    <lastmod>2019-02-22T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   

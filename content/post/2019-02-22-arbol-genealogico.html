@@ -1,0 +1,298 @@
+---
+title: Árbol genealógico
+author: F.VilBer
+date: '2019-02-22'
+slug: arbol-genealogico
+categories:
+  - R
+tags:
+  - curiosidades
+  - graficas
+description: 'Como pintar y trabajar con árboles genealógicos en R'
+thumbnail: '/post/2019-02-22-arbol-genealogico_files/arbol-3.png'
+toc: no
+editor_options: 
+  chunk_output_type: console
+---
+
+<script src="/rmarkdown-libs/htmlwidgets/htmlwidgets.js"></script>
+<script src="/rmarkdown-libs/d3/d3.min.js"></script>
+<script src="/rmarkdown-libs/dagre/dagre-d3.min.js"></script>
+<link href="/rmarkdown-libs/mermaid/dist/mermaid.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/mermaid/dist/mermaid.slim.min.js"></script>
+<link href="/rmarkdown-libs/DiagrammeR-styles/styles.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/chromatography/chromatography.js"></script>
+<script src="/rmarkdown-libs/DiagrammeR-binding/DiagrammeR.js"></script>
+
+
+<p>Una de las ventajas de usar R es que su comunidad es tan grande, que hay librerías para cualquier tema, por raro que nos parezca.</p>
+<p>Por ejemplo, hace un tiempo quise hacer un árbol genealógico de la familia, y en vez de buscar herramientas por la web o hacerlo con Excel, pensé que debía existir algún paquete de R para esto… dicho y hecho cuestión de buscar un rato y encontré algunas soluciones muy interesantes.</p>
+<div id="si-solo-queremos-pintar" class="section level2">
+<h2>Si solo queremos pintar</h2>
+<p>La primera opción que se me ocurrió fue buscar una herramienta para pintar diagramas de flujo en R. La que uso habitualmente es <code>DiagrammeR</code> una estupenda libraría para hacer gráficas dinámicas en <em>javascript</em> desde R.</p>
+<p>La ventaja de hacerlo con <code>DiagrammeR</code>, respecto a pintarlo con un programa de diseño, es que en <code>DiagrammeR</code> metemos solo las relaciones, y la salida gráfica podemos adaptarla al gusto.</p>
+<p>un cambio en el argumento nos transforma el dibujo:</p>
+<ul>
+<li><em>LR</em>., pinta de izquierda a derecha (Left-Right)</li>
+<li><em>TD</em> pinta de arriba a abajo (Top-Down)</li>
+</ul>
+<p>y así podemos cambiar rápidamente el resultado manteniendo los mismos datos de flujo.</p>
+<p>Cada nodo debe llevar un nombre o identificador (en mi caso pongo números) y a continuación la apertura de un paréntesis o corchete ( que da forma al rectángulo en el diagrama con bordes rígidos o redondeados). El color se especifica después con estilos.</p>
+<p>Veamos un ejemplo sencillo de árbol familiar:</p>
+<pre class="r"><code>  library(DiagrammeR)
+  # arbol genealógico sencillo
+  DiagrammeR(&quot;graph TD;
+  
+      1(Yaya-Yayo)--&gt;15[Papá-Mamá];
+      1--&gt;3[Tía A];
+      1--&gt;10[Tío B-B1];
+      1--&gt;6[Tío C-C1];
+    
+      15--&gt;16[Yo-Tú]
+      16--&gt;18[hijo1]
+      16--&gt;19[hijo2]
+  
+  style 1 fill:#E5E25F;
+  style 15 fill:#81F7BE;
+  style 19 fill:#FAAC58;
+  style 16 fill:#FA58F4
+  &quot;
+  )</code></pre>
+<div id="htmlwidget-1" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-1">{"x":{"diagram":"graph TD;\n  \n      1(Yaya-Yayo)-->15[Papá-Mamá];\n      1-->3[Tía A];\n      1-->10[Tío B-B1];\n      1-->6[Tío C-C1];\n    \n      15-->16[Yo-Tú]\n      16-->18[hijo1]\n      16-->19[hijo2]\n  \n  style 1 fill:#E5E25F;\n  style 15 fill:#81F7BE;\n  style 19 fill:#FAAC58;\n  style 16 fill:#FA58F4\n  "},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="genealogia-cientifica-en-r" class="section level2">
+<h2>Genealogía científica en R</h2>
+<p>Si no solo queremos hacer un árbol gráfico, sino que buscamos algo más hay varias librerías especializadas en el tratamiento matemático de los lazos familiares, para fines genéticos.</p>
+<p>Hay enfermedades, características físicas y de personalidad que se heredan y la ciencia nos da herramientas matemáticas para el cálculo de estas probabilidades. <strong>Y si es ciencia, en R alguien debe haber escrito algo</strong>.</p>
+<p>Encontré un par de librería muy interesantes, <code>kinship2</code> y <code>GENLIB</code>, ambas se dedican a la matemática de transmisión de genes (<em>pedigris</em>) y aparte de muchas otras opciones, ofrecen salidas gráficas muy interesantes.</p>
+<div id="registro-de-datos" class="section level3">
+<h3>Registro de datos</h3>
+<p>Lo primero es introducir los datos de forma sistemática, lo mejor es hacer una tabla con un campo de identificación de la persona otro que diga el padre y la madre y otro el sexo.</p>
+<p>Se pueden añadir todos los campos que queramos como año de nacimiento etc.. Pero para el ejemplo hemos puesto solo: ind, padre, madre, sexo, nombre y estado (vivo o no).</p>
+<p>Lo más sencillo es hacer la tabla en <em>Excel</em> e importar el fichero <em>.csv</em> desde R. Dejamos la línea de ejemplo en comentarios.</p>
+<pre class="r"><code># Ejemplo de arbol genealogico complejo
+library(knitr)
+library(kableExtra)
+
+#Leemos los datos de una tabla csv
+#familia&lt;-read.csv(&quot;familia1.csv&quot;,sep = &quot;;&quot;,header = T)
+
+familia&lt;-data.frame(stringsAsFactors=FALSE,
+         ind = c(1, 2, 3, 6, 5, 4, 7, 8, 9, 10, 11, 12, 14, 15, 16, 17, 100,
+                 102, 104, 106, 108, 110, 112, 114, 116, 118, 120, 122, 124,
+                 126, 128, 130, 132, 134, 136, 138, 140, 142, 144, 146, 148, 150,
+                 152, 154, 156, 158, 160, 162, 164, 166, 168, 170, 172, 174),
+      father = c(126, 128, 1, 1, 1, 1, 3, 3, 0, 4, 0, 0, 10, 10, 10, 10, 126,
+                 0, 126, 126, 0, 128, 128, 3, 0, 116, 116, 116, 116, 0, 0, 0,
+                 7, 7, 0, 136, 136, 0, 8, 8, 8, 0, 150, 150, 0, 156, 156, 0, 122,
+                 122, 0, 0, 4, 4),
+      mother = c(102, 108, 2, 2, 2, 2, 9, 9, 0, 11, 0, 0, 12, 12, 12, 12, 102,
+                 0, 102, 102, 0, 108, 108, 9, 0, 5, 5, 5, 5, 0, 0, 0, 130, 130,
+                 0, 114, 114, 0, 142, 142, 142, 0, 118, 118, 0, 120, 120, 0,
+                 162, 162, 0, 0, 11, 11),
+         sex = c(1, 2, 1, 2, 2, 1, 1, 1, 2, 1, 2, 2, 1, 2, 2, 2, 1, 2, 1, 2, 2,
+                 1, 1, 2, 1, 2, 2, 1, 1, 1, 1, 2, 1, 2, 1, 1, 2, 2, 2, 1, 1, 1,
+                 2, 1, 1, 1, 1, 2, 1, 2, 1, 1, 2, 2),
+         nom = c(&quot;Pedro&quot;, &quot;María&quot;, &quot;Antonio&quot;, &quot;Eva&quot;, &quot;Ruth&quot;, &quot;Santiago&quot;,
+                 &quot;Javier&quot;, &quot;Fernando&quot;, &quot;M_Luisa&quot;, &quot;Angel&quot;, &quot;M_Carmen&quot;, &quot;Eva&quot;,
+                 &quot;Jaime&quot;, &quot;Mar&quot;, &quot;Eva&quot;, &quot;Ana&quot;, &quot;Antonio&quot;, &quot;Josefa&quot;,
+                 &quot;Pascual&quot;, &quot;Juana&quot;, &quot;Francisca&quot;, &quot;Pepe&quot;, &quot;Ramon&quot;, &quot;Susana&quot;, &quot;Manolo&quot;,
+                 &quot;Raquel&quot;, &quot;Javier&quot;, &quot;Manolo&quot;, &quot;Paco&quot;, &quot;Antonio&quot;, &quot;Cristobal&quot;,
+                 &quot;M_Jose&quot;, &quot;Laura&quot;, &quot;Jaime&quot;, NA, &quot;Nicolas&quot;, &quot;Julieta&quot;, &quot;Ana&quot;,
+                 &quot;Sara&quot;, &quot;Javier&quot;, &quot;Diego&quot;, &quot;Pepe&quot;, &quot;Beatriz&quot;, &quot;Jose&quot;, &quot;Antonio&quot;,
+                 &quot;Santiago&quot;, &quot;David&quot;, &quot;Ana&quot;, &quot;Angel&quot;, &quot;Alba&quot;, &quot;Juan&quot;, &quot;Santiago&quot;,
+                 &quot;Malen&quot;, &quot;Cristina&quot;),
+      status = c(1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1,
+                 1, 1, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+)
+
+
+kable(head(familia),&quot;html&quot;,booktabs=T)</code></pre>
+<table>
+<thead>
+<tr>
+<th style="text-align:right;">
+ind
+</th>
+<th style="text-align:right;">
+father
+</th>
+<th style="text-align:right;">
+mother
+</th>
+<th style="text-align:right;">
+sex
+</th>
+<th style="text-align:left;">
+nom
+</th>
+<th style="text-align:right;">
+status
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+126
+</td>
+<td style="text-align:right;">
+102
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+Pedro
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+128
+</td>
+<td style="text-align:right;">
+108
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+María
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+Antonio
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+Eva
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+Ruth
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+Santiago
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+</tbody>
+</table>
+<p>Una vez tenemos los datos en una tabla ordenada y almacenados en un <em>data.frame</em> vamos a pintar el árbol genealógico con R.</p>
+<pre class="r"><code>library(kinship2)
+# creamos las relaciones 
+fam1&lt;-pedigree(id=familia$ind,
+               dadid = familia$father,
+               momid = familia$mother,
+               sex = familia$sex,
+               status = familia$status)
+
+#Pintamos el árbol genealigico
+#plot.pedigree {kinship2}
+plot(fam1)</code></pre>
+<p><img src="/post/2019-02-22-arbol-genealogico_files/figure-html/arbol-1.png" width="672" /></p>
+<pre><code>## Did not plot the following people: 168 170</code></pre>
+<pre class="r"><code>#Añadimos los nombres a la gráfica
+id2 &lt;- paste(fam1$id, familia$nom,sep=&quot;\n&quot;)
+# ajustamos la escala tambien
+plot(fam1, id=id2,symbolsize=1,cex=0.8)</code></pre>
+<p><img src="/post/2019-02-22-arbol-genealogico_files/figure-html/arbol-2.png" width="672" /></p>
+<pre><code>## Did not plot the following people: 168 170</code></pre>
+<pre class="r"><code># ñadimos colores según sexo
+plot(fam1, col=ifelse(familia$sex==1,1,2), id=id2,cex=0.8)</code></pre>
+<p><img src="/post/2019-02-22-arbol-genealogico_files/figure-html/arbol-3.png" width="672" /></p>
+<pre><code>## Did not plot the following people: 168 170</code></pre>
+<p>Otra librería completísima de tratamiento genealógico es <code>GENLIB</code>. Su uso es parecido así que usaremos los datos de la tabla de familia introducida ya antes.</p>
+<pre class="r"><code>#libreria GENLIB
+library(GENLIB)</code></pre>
+<pre><code>## Loading required package: Rcpp</code></pre>
+<pre class="r"><code># formamos la tabla
+gen.df&lt;-data.frame(familia$ind, familia$father, familia$mother, familia$sex-1) 
+# cramos genealogía
+genEx&lt;-gen.genealogy(familia)
+# Pintamos grafica
+gen.graph(genEx)</code></pre>
+<pre><code>## Warning in kinship2::pedigree(id = nouv.asc.df$upn, dadid = nouv.asc.df$dadid, : Sex values contain 0, but expected codes 1-4.
+##  Setting 0=male, 1=female, 2=unknown, 3=terminated.</code></pre>
+<p><img src="/post/2019-02-22-arbol-genealogico_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<p>Espero que os haya gustado y que probéis una forma diferente de hacer un árbol familiar.</p>
+</div>
+</div>

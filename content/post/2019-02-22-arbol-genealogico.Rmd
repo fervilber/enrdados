@@ -1,0 +1,161 @@
+---
+title: Árbol genealógico
+author: F.VilBer
+date: '2019-02-22'
+slug: arbol-genealogico
+categories:
+  - R
+tags:
+  - curiosidades
+  - graficas
+description: 'Como pintar y trabajar con árboles genealógicos en R'
+thumbnail: '/post/2019-02-22-arbol-genealogico_files/arbol-3.png'
+toc: no
+editor_options: 
+  chunk_output_type: console
+---
+
+Una de las ventajas de usar R es que su comunidad es tan grande, que hay librerías para cualquier tema, por raro que nos parezca.
+
+Por ejemplo, hace un tiempo quise hacer un árbol genealógico de la familia, y en vez de buscar herramientas por la web o hacerlo con Excel, pensé que debía existir algún paquete de R para esto... dicho y hecho cuestión de buscar un rato y encontré algunas soluciones muy interesantes.
+
+## Si solo queremos pintar 
+La primera opción que se me ocurrió fue buscar una herramienta para pintar diagramas de flujo en R. La que uso habitualmente es `DiagrammeR` una estupenda libraría para hacer gráficas dinámicas en *javascript* desde R. 
+
+La ventaja de hacerlo con `DiagrammeR`, respecto a pintarlo con un programa de diseño, es que en `DiagrammeR` metemos solo las relaciones, y la salida gráfica podemos adaptarla al gusto.
+
+un cambio en el argumento nos transforma el dibujo:
+
+ - *LR*., pinta de izquierda a derecha (Left-Right)
+ - *TD* pinta de arriba a abajo (Top-Down)
+ 
+ y así podemos cambiar rápidamente el resultado manteniendo los mismos datos de flujo. 
+ 
+ Cada nodo debe llevar un nombre o identificador (en mi caso pongo números)  y a continuación la apertura de un paréntesis o corchete ( que da forma al rectángulo en el diagrama con bordes rígidos o redondeados). El color se especifica después con estilos.
+ 
+ Veamos un ejemplo sencillo de árbol familiar:
+
+```{r pintar_arbol}
+  library(DiagrammeR)
+  # arbol genealógico sencillo
+  DiagrammeR("graph TD;
+  
+      1(Yaya-Yayo)-->15[Papá-Mamá];
+      1-->3[Tía A];
+      1-->10[Tío B-B1];
+      1-->6[Tío C-C1];
+    
+      15-->16[Yo-Tú]
+      16-->18[hijo1]
+      16-->19[hijo2]
+  
+  style 1 fill:#E5E25F;
+  style 15 fill:#81F7BE;
+  style 19 fill:#FAAC58;
+  style 16 fill:#FA58F4
+  "
+  )
+
+```
+
+## Genealogía científica en R
+Si no solo queremos hacer un árbol gráfico, sino que buscamos algo más hay varias librerías especializadas en el tratamiento matemático de los lazos familiares, para fines genéticos.
+
+Hay enfermedades, características físicas y de personalidad que se heredan y la ciencia nos da herramientas matemáticas para el cálculo de estas probabilidades. **Y si es ciencia, en R alguien debe haber escrito algo**.
+
+Encontré un par de librería muy interesantes, `kinship2` y `GENLIB`, ambas se dedican a la matemática de transmisión de genes (*pedigris*) y aparte de muchas otras opciones, ofrecen salidas gráficas muy interesantes.
+
+
+### Registro de datos
+Lo primero es introducir los datos de forma sistemática, lo mejor es hacer una tabla con un campo de identificación de la persona otro que diga el padre y la madre y otro el sexo. 
+
+Se pueden añadir todos los campos que queramos como año de nacimiento etc.. Pero para el ejemplo hemos puesto solo: ind, padre, madre, sexo, nombre y estado (vivo o no).
+
+Lo más sencillo es hacer la tabla en *Excel* e importar el fichero *.csv* desde R. Dejamos la línea de ejemplo en comentarios.
+
+```{r datos, warning=FALSE, message=FALSE}
+# Ejemplo de arbol genealogico complejo
+library(knitr)
+library(kableExtra)
+
+#Leemos los datos de una tabla csv
+#familia<-read.csv("familia1.csv",sep = ";",header = T)
+
+familia<-data.frame(stringsAsFactors=FALSE,
+         ind = c(1, 2, 3, 6, 5, 4, 7, 8, 9, 10, 11, 12, 14, 15, 16, 17, 100,
+                 102, 104, 106, 108, 110, 112, 114, 116, 118, 120, 122, 124,
+                 126, 128, 130, 132, 134, 136, 138, 140, 142, 144, 146, 148, 150,
+                 152, 154, 156, 158, 160, 162, 164, 166, 168, 170, 172, 174),
+      father = c(126, 128, 1, 1, 1, 1, 3, 3, 0, 4, 0, 0, 10, 10, 10, 10, 126,
+                 0, 126, 126, 0, 128, 128, 3, 0, 116, 116, 116, 116, 0, 0, 0,
+                 7, 7, 0, 136, 136, 0, 8, 8, 8, 0, 150, 150, 0, 156, 156, 0, 122,
+                 122, 0, 0, 4, 4),
+      mother = c(102, 108, 2, 2, 2, 2, 9, 9, 0, 11, 0, 0, 12, 12, 12, 12, 102,
+                 0, 102, 102, 0, 108, 108, 9, 0, 5, 5, 5, 5, 0, 0, 0, 130, 130,
+                 0, 114, 114, 0, 142, 142, 142, 0, 118, 118, 0, 120, 120, 0,
+                 162, 162, 0, 0, 11, 11),
+         sex = c(1, 2, 1, 2, 2, 1, 1, 1, 2, 1, 2, 2, 1, 2, 2, 2, 1, 2, 1, 2, 2,
+                 1, 1, 2, 1, 2, 2, 1, 1, 1, 1, 2, 1, 2, 1, 1, 2, 2, 2, 1, 1, 1,
+                 2, 1, 1, 1, 1, 2, 1, 2, 1, 1, 2, 2),
+         nom = c("Pedro", "María", "Antonio", "Eva", "Ruth", "Santiago",
+                 "Javier", "Fernando", "M_Luisa", "Angel", "M_Carmen", "Eva",
+                 "Jaime", "Mar", "Eva", "Ana", "Antonio", "Josefa",
+                 "Pascual", "Juana", "Francisca", "Pepe", "Ramon", "Susana", "Manolo",
+                 "Raquel", "Javier", "Manolo", "Paco", "Antonio", "Cristobal",
+                 "M_Jose", "Laura", "Jaime", NA, "Nicolas", "Julieta", "Ana",
+                 "Sara", "Javier", "Diego", "Pepe", "Beatriz", "Jose", "Antonio",
+                 "Santiago", "David", "Ana", "Angel", "Alba", "Juan", "Santiago",
+                 "Malen", "Cristina"),
+      status = c(1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1,
+                 1, 1, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+)
+
+
+kable(head(familia),"html",booktabs=T)
+```
+
+Una vez tenemos los datos en una tabla ordenada y almacenados en un *data.frame* vamos a pintar el árbol genealógico con R.
+
+
+
+```{r arbol, warning=FALSE, message=FALSE}
+library(kinship2)
+# creamos las relaciones 
+fam1<-pedigree(id=familia$ind,
+               dadid = familia$father,
+               momid = familia$mother,
+               sex = familia$sex,
+               status = familia$status)
+
+#Pintamos el árbol genealigico
+#plot.pedigree {kinship2}
+plot(fam1)
+
+#Añadimos los nombres a la gráfica
+id2 <- paste(fam1$id, familia$nom,sep="\n")
+# ajustamos la escala tambien
+plot(fam1, id=id2,symbolsize=1,cex=0.8)
+
+# ñadimos colores según sexo
+plot(fam1, col=ifelse(familia$sex==1,1,2), id=id2,cex=0.8)
+```
+
+Otra librería completísima de tratamiento genealógico es `GENLIB`. Su uso es parecido así que usaremos los datos de la tabla de familia introducida ya antes. 
+
+```{r}
+
+#libreria GENLIB
+library(GENLIB)
+# formamos la tabla
+gen.df<-data.frame(familia$ind, familia$father, familia$mother, familia$sex-1) 
+# cramos genealogía
+genEx<-gen.genealogy(familia)
+# Pintamos grafica
+gen.graph(genEx)
+           
+```
+
+Espero que os haya gustado y que probéis una forma diferente de hacer un árbol familiar.
+
+

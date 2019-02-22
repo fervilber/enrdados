@@ -6,10 +6,20 @@
     <description>Recent content on EnRdados</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>es</language>
-    <lastBuildDate>Mon, 18 Feb 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 22 Feb 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Árbol genealógico</title>
+      <link>/post/arbol-genealogico/</link>
+      <pubDate>Fri, 22 Feb 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/arbol-genealogico/</guid>
+      <description>Una de las ventajas de usar R es que su comunidad es tan grande, que hay librerías para cualquier tema, por raro que nos parezca.
+Por ejemplo, hace un tiempo quise hacer un árbol genealógico de la familia, y en vez de buscar herramientas por la web o hacerlo con Excel, pensé que debía existir algún paquete de R para esto… dicho y hecho cuestión de buscar un rato y encontré algunas soluciones muy interesantes.</description>
+    </item>
     
     <item>
       <title>Test de Rorschach</title>
