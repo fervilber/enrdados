@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MD_Metadata>
+  <fileIdentifier>ESMMASIAGUA0020</fileIdentifier>
+  <identificationInfo>
+    <MD_DataIdentification>
+      <citation>
+        <CI_Citation>
+          <title>Comunidades Autonomas</title>
+          <alternateTitle />
+          <date>
+            <CI_Date>
+              <date>enero de 2007</date>
+              <dateType>publication</dateType>
+            </CI_Date>
+          </date>
+        </CI_Citation>
+      </citation>
+      <abstract>A partir de la capa de municipios, se ha hecho una agregación de los polígonos que formen parte de la misma Comunidad Autónoma obteniendo los polígonos correspondientes, a la misma escala, y cuyos límites coinciden con los municipales y los provinciales.</abstract>
+      <credit />
+      <topicCategory />
+      <pointOfContact>
+        <CI_ResponsibleParty>
+          <individualName />
+          <organisationName>SGPYUSA. Subdirección General de Planificación Hidrológica y Uso Sostenible del Agua. Dirección General del Agua (Ministerio de Agricultura, Alimentación y Medio Ambiente)</organisationName>
+          <positionName />
+          <contactInfo>
+            <CI_Contact>
+              <phone>
+                <CI_Telephone>
+                  <voice />
+                </CI_Telephone>
+              </phone>
+              <address>
+                <CI_Address>
+                  <electronicMailAddress>centrodeservicios@sia-marm.es</electronicMailAddress>
+                </CI_Address>
+              </address>
+            </CI_Contact>
+          </contactInfo>
+        </CI_ResponsibleParty>
+      </pointOfContact>
+      <resourceConstraints>
+        <MD_LegalConstraints>
+          <accessConstraints />
+          <useConstraints />
+        </MD_LegalConstraints>
+      </resourceConstraints>
+      <spatialRepresentationType>Vector</spatialRepresentationType>
+      <spatialResolution>
+        <equivalentScale>
+          <MD_RepresentativeFraction>
+            <denominator>25000</denominator>
+          </MD_RepresentativeFraction>
+        </equivalentScale>
+        <MD_Resolution>
+          <distance>
+            <value />
+          </distance>
+        </MD_Resolution>
+      </spatialResolution>
+      <language>spa</language>
+      <extent>
+        <EX_Extent>
+          <geographicElement>
+            <EX_GeographicBoundingBox>
+              <westBoundLongitude>-9.3792460000000002</westBoundLongitude>
+              <eastBoundLongitude>4.7706119999999999</eastBoundLongitude>
+              <southBoundLatitude>35.078871999999997</southBoundLatitude>
+              <northBoundLatitude>43.887295999999999</northBoundLatitude>
+            </EX_GeographicBoundingBox>
+          </geographicElement>
+        </EX_Extent>
+      </extent>
+    </MD_DataIdentification>
+  </identificationInfo>
+  <referenceSystemInfo>
+    <MD_CRS>
+      <referenceSystemIdentifier>
+        <RS_Identifier>
+          <code>ETRS89</code>
+        </RS_Identifier>
+      </referenceSystemIdentifier>
+    </MD_CRS>
+  </referenceSystemInfo>
+  <distributionInfo>
+    <MD_Distribution>
+      <distributionFormat>
+        <MD_Format>
+          <name>ESRI ShapeFile</name>
+        </MD_Format>
+      </distributionFormat>
+      <transferOptions>
+        <MD_DigitalTransferOptions>
+          <onLine>
+            <CI_OnlineResource>
+              <linkage />
+            </CI_OnlineResource>
+          </onLine>
+        </MD_DigitalTransferOptions>
+      </transferOptions>
+    </MD_Distribution>
+  </distributionInfo>
+  <metadataStandardName>ISO 19115 Geographic information - Metadata</metadataStandardName>
+  <metadataStandardVersion>2003</metadataStandardVersion>
+  <dateStamp>2019-02-18</dateStamp>
+</MD_Metadata>
+

@@ -1,0 +1,748 @@
+---
+title: Manual de sf para SIG
+author: F.VilBer
+date: '2019-02-26'
+slug: manual-de-sf-para-sig
+categories:
+  - GIS
+  - R
+  - mapas
+tags:
+  - plot
+  - sf
+  - SIG
+  - mapas
+description: 'Manual de uso de la librería sf para mapas y datos geográficos'
+thumbnail: '/post/2019-02-26-manual-de-sf-para-sig_files/cieza_sf.png'
+toc: no
+---
+
+<script src="/rmarkdown-libs/htmlwidgets/htmlwidgets.js"></script>
+<script src="/rmarkdown-libs/d3/d3.min.js"></script>
+<script src="/rmarkdown-libs/dagre/dagre-d3.min.js"></script>
+<link href="/rmarkdown-libs/mermaid/dist/mermaid.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/mermaid/dist/mermaid.slim.min.js"></script>
+<link href="/rmarkdown-libs/DiagrammeR-styles/styles.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/chromatography/chromatography.js"></script>
+<script src="/rmarkdown-libs/DiagrammeR-binding/DiagrammeR.js"></script>
+
+
+<p>Hace muy poco tiempo, usar SIG en R era bastante difícil. Teníamos que aprender el uso de muchas librerías diferentes y que no tenían conexión de sintaxis. En mi caso acostumbrado a usar <em>Arcgis</em> y <em>QGIS</em>, veía que las opciones de R en aquel entonces estaban bastante limitadas, pero siempre creí que tenía un gran futuro para hacer SIG, … todo llega a su tiempo.</p>
+<p>La principal librería que usábamos era <code>sp</code>, pero prácticamente para cualquier cosa necesitabas muchos otros paquetes…. todo ha cambiado desde que tenemos <code>sf</code>. Ha sido, desde mi punto de vista un acierto absoluto rehacer la programación desde la perspectiva de sf, y tener todas las funciones disponibles en este paquete.</p>
+<p>Lo único malo, es que simple features (sf) requiere de cierta práctica y uso para cogerle el tranquillo, y para eso he escrito este intenso manual de consulta de <code>sf</code>, con muchas de las funciones habituales.</p>
+<div id="simple-features" class="section level2">
+<h2>Simple features</h2>
+<p>La descripción de los objetos <em>sf</em> se ha estandarizado con la publicación de la <em>ISO 19125</em>. Se trata de un documento de consenso que define la arquitectura de objetos espaciales <em>sf</em> (simple features) desarrollado bajo el paraguas del consorcio <strong>OpenGIS</strong>.</p>
+<p>La base geométrica básica de los objetos <em>sf</em> la forman 4 elementos simples (subclases): el punto, la curva, la superficie y las colecciones espaciales. Las colecciones son listas de objetos. Además cada objeto se asocia a un Sistema Espacial de Referencia (SRS)</p>
+<p>El esquema básico de la geometría sf es el siguiente:</p>
+<div class="figure">
+<img src="/post/2019-02-26-manual-de-sf-para-sig_files/esquema_sf.png" alt="esquema objetos sf" />
+<p class="caption">esquema objetos sf</p>
+</div>
+</div>
+<div id="lectura-escritura" class="section level2">
+<h2>Lectura-Escritura</h2>
+<div id="lectura" class="section level3">
+<h3>Lectura</h3>
+<p>La función de lectura básica de <code>sf</code> es <code>st_read()</code>. Esta función lee múltiples formatos GIS y de datos. Vamos hacer un ejemplo con datos <em>shp</em> descargados de la <a href="https://servicio.mapama.gob.es/sia/visualizacion/descargas/mapas.jsp">web del Ministerio de Medio Ambiente de España</a></p>
+<p>Descargamos la capa de las comunidades autónomas de la web (<em>Comunidades autonomas.shp</em>) y la guardamos en la carpeta capas.</p>
+<pre class="r"><code># Lectura de datos
+    library(sf)
+    # Leemos capa autonomías
+     autonomias &lt;- st_read(&quot;../../static/capas/Comunidades autonomas.shp&quot;)</code></pre>
+<pre><code>## Reading layer `Comunidades autonomas&#39; from data source `C:\R\publicaciones\enrdados\static\capas\Comunidades autonomas.shp&#39; using driver `ESRI Shapefile&#39;
+## Simple feature collection with 19 features and 3 fields
+## geometry type:  MULTIPOLYGON
+## dimension:      XY
+## bbox:           xmin: -18.16122 ymin: 27.63779 xmax: 4.327785 ymax: 43.79238
+## epsg (SRID):    NA
+## proj4string:    +proj=longlat +ellps=GRS80 +no_defs</code></pre>
+<pre class="r"><code>     class(autonomias)</code></pre>
+<pre><code>## [1] &quot;sf&quot;         &quot;data.frame&quot;</code></pre>
+<pre class="r"><code>    # pintamos la geometría de la capa
+     plot(st_geometry(autonomias))</code></pre>
+<p><img src="/post/2019-02-26-manual-de-sf-para-sig_files/figure-html/lectura-1.png" width="672" /></p>
+<pre class="r"><code>     head(autonomias)</code></pre>
+<pre><code>## Simple feature collection with 6 features and 3 fields
+## geometry type:  MULTIPOLYGON
+## dimension:      XY
+## bbox:           xmin: -18.16122 ymin: 27.63779 xmax: 4.327785 ymax: 43.51369
+## epsg (SRID):    NA
+## proj4string:    +proj=longlat +ellps=GRS80 +no_defs
+##   COD_CCAA                                NOML_CCAA           NOM_CCAA
+## 1       01          COMUNIDAD AUTONOMA DE ANDALUCIA          ANDALUCIA
+## 2       02             COMUNIDAD AUTONOMA DE ARAGON             ARAGON
+## 3       03  COMUNIDAD AUTONOMA DE LAS ILLES BALEARS           BALEARES
+## 4       04           COMUNIDAD AUTONOMA DE CANARIAS           CANARIAS
+## 5       05          COMUNIDAD AUTONOMA DE CANTABRIA          CANTABRIA
+## 6       06 COMUNIDAD AUTONOMA DE CASTILLA-LA MANCHA CASTILLA-LA MANCHA
+##                         geometry
+## 1 MULTIPOLYGON (((-5.035409 3...
+## 2 MULTIPOLYGON (((-0.747266 4...
+## 3 MULTIPOLYGON (((3.213645 39...
+## 4 MULTIPOLYGON (((-16.15754 2...
+## 5 MULTIPOLYGON (((-3.590244 4...
+## 6 MULTIPOLYGON (((-2.901019 4...</code></pre>
+</div>
+<div id="escritura" class="section level3">
+<h3>Escritura</h3>
+<p>Para escribir usaremos la función <code>st_write()</code> que tiene muchas opciones de formato.</p>
+<pre class="r"><code>  # guarda la capa como ccaa.shp      
+    st_write(autonomias, &quot;ccaa.shp&quot;, delete_layer = TRUE) # overwrites
+
+  # En formato csv también con as coordenadas de la capa 
+    st_write(pts2, &quot;pts.csv&quot;, layer_options = &quot;GEOMETRY=AS_XY&quot;)</code></pre>
+</div>
+</div>
+<div id="descomposicion-de-sf" class="section level2">
+<h2>Descomposición de sf</h2>
+<p>Los objetos <em>sf</em> se descomponen en una serie de sub objetos característicos. Esta descomposición es algo liosa y difícil de comprender, pero es necesario entenderla para usar todo el potencial de la librería, y además lo expondremos de forma sencilla:</p>
+<p>Un objeto <em>sf</em> se compone de un objeto <em>sfc</em> y de una data.frame. A su vez un objeto <em>sfc</em> se descompone en un objeto <em>sfg</em> y un sistema de coordenadas de referencia (CRS). El esquema básico es así:</p>
+<pre class="r"><code>library(DiagrammeR)
+  # arbol genealógico sencillo
+  DiagrammeR(&quot;graph TD;
+  
+      1[sf]--&gt;2[sfc];
+      2--&gt;3[sfg];
+      2--&gt;4[CRS];
+      1--&gt;5[data.frame];
+      3--&gt;30(POINT)
+      3--&gt;31(MULTIPOINT )
+      3--&gt;32(LINESTRING)
+      3--&gt;33(MULTILINESTRING )
+      3--&gt;34(POLYGON )
+      3--&gt;35(MULTIPOLYGON )
+
+  style 1 fill:#E5E25F;
+  style 2 fill:#81F7BE;
+  style 3 fill:#FAAC58;
+  style 4 fill:#FA58F4
+  &quot;
+  )</code></pre>
+<div id="htmlwidget-1" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-1">{"x":{"diagram":"graph TD;\n  \n      1[sf]-->2[sfc];\n      2-->3[sfg];\n      2-->4[CRS];\n      1-->5[data.frame];\n      3-->30(POINT)\n      3-->31(MULTIPOINT )\n      3-->32(LINESTRING)\n      3-->33(MULTILINESTRING )\n      3-->34(POLYGON )\n      3-->35(MULTIPOLYGON )\n\n  style 1 fill:#E5E25F;\n  style 2 fill:#81F7BE;\n  style 3 fill:#FAAC58;\n  style 4 fill:#FA58F4\n  "},"evals":[],"jsHooks":[]}</script>
+<div id="sfg" class="section level3">
+<h3>sfg</h3>
+<p>Los objetos sfg almacenan la geometría básica con la información gráfica del objeto: las coordenadas, dimensiones, tipo. Hay 17 tipos posibles, pero los más básicos son:</p>
+<ul>
+<li><em>POINT</em>: un punto simple (un vector x,y)</li>
+<li><em>MULTIPOINT</em>: múltiples puntos (una matriz cada fila un punto)</li>
+<li><em>LINESTRING</em>: secuencia de 2 o mas puntos conectados por lineas rectas</li>
+<li><em>MULTILINESTRING</em>: múltiples lineas (lista de lista matrices)</li>
+<li><em>POLYGON</em>: un polígono cerrado con cero o más huecos interiores (lista de matrices)</li>
+<li><em>MULTIPOLYGON</em>: múltiple polígonos</li>
+<li><em>GEOMETRYCOLLECTION</em>: cualquier combinación de los anteriores</li>
+</ul>
+<p>Para crear cualquiera de estas geometrías la librería sf contiene una serie de funciones creadoras:<code>st_point()</code>, <code>st_multipoint()</code>, <code>st_linestring()</code>, <code>st_polygon()</code>.</p>
+<pre class="r"><code>    punto1&lt;- st_point(c(-3.7025599,40.4165001))
+class(punto1)</code></pre>
+<pre><code>## [1] &quot;XY&quot;    &quot;POINT&quot; &quot;sfg&quot;</code></pre>
+<pre class="r"><code>    linea1&lt;- st_linestring(rbind(c(-3.7025599,40.4165001),c(2.1589899,41.3887901)))
+  class(linea1)</code></pre>
+<pre><code>## [1] &quot;XY&quot;         &quot;LINESTRING&quot; &quot;sfg&quot;</code></pre>
+<pre class="r"><code>  # pintamos los sfg
+    plot(linea1)
+    plot(punto1,add=T, col=&quot;red&quot;)</code></pre>
+<p><img src="/post/2019-02-26-manual-de-sf-para-sig_files/figure-html/crea_sfg-1.png" width="672" /></p>
+</div>
+<div id="sfc" class="section level3">
+<h3>sfc</h3>
+<p>Los <em>simple feature geometry list column</em> o sfc son objetos <em>sfg</em> a los que se les aporta un sistema de referencia CRS (<em>Coordinate Reference System</em>). Para crear un objeto sfc se coge uno sfg y se le añade el sistema de referencia con la función <code>st_sfc(sfg, crs)</code>. Por defecto el sistema de referencia es NA.</p>
+<p>Un sistema de referencia se puede aportar de dos maneras con el código <a href="http://www.epsg.org/">EPSG</a> o mediante una cadena de texto en formato <a href="https://proj4.org/">proj4string</a>.</p>
+<p>Un CRS se compone de varios atributos, principalmente:</p>
+<ul>
+<li>Ellipsoide (describe la forma de la tierra del modelo)</li>
+<li>Datum (define el origen y orientación de los ejes de coordenadas)</li>
+<li>Proyección (pasa a 2D los datos en 3D anteriores)</li>
+</ul>
+<p>Como puedes imaginar se pueden combinar a voluntad, aunque según la región del globo son más habituales unas que otras.</p>
+<p>Una forma de identificar la combinación de los 3 atributos anteriores es mediante las denominaciones o códigos EPSG de (European Petroleum Survey Group).</p>
+<p>En España desde agosto del 2007 existe un sistema de referencia oficial que es el ETRS89 para la península y Baleares y el REGCAN95 para la zona de Canarias. Los códigos EPSG correspondientes a estos sistemas son:</p>
+<ul>
+<li><em>4258</em>, para coordenadas geográficas.</li>
+<li><em>258xx</em>, para UTM, donde “xx” es el huso (28,29,30 o 31) .</li>
+</ul>
+<p>Para saber el CRS de una capa se usa la función <code>st_crs(capa)</code>.</p>
+<pre class="r"><code>    # Creamos una capa sfc con las geomerías sfg del ejemplo anterior
+    coleccion&lt;-st_sfc(punto1, linea1, crs = 4326)
+    class(coleccion)</code></pre>
+<pre><code>## [1] &quot;sfc_GEOMETRY&quot; &quot;sfc&quot;</code></pre>
+<pre class="r"><code>    st_crs(coleccion)</code></pre>
+<pre><code>## Coordinate Reference System:
+##   EPSG: 4326 
+##   proj4string: &quot;+proj=longlat +datum=WGS84 +no_defs&quot;</code></pre>
+<pre class="r"><code>    coleccion</code></pre>
+<pre><code>## Geometry set for 2 features 
+## geometry type:  GEOMETRY
+## dimension:      XY
+## bbox:           xmin: -3.70256 ymin: 40.4165 xmax: 2.15899 ymax: 41.38879
+## epsg (SRID):    4326
+## proj4string:    +proj=longlat +datum=WGS84 +no_defs</code></pre>
+</div>
+<div id="sf" class="section level3">
+<h3>sf</h3>
+<p>Siguiendo hacia arriba la descripción, cuando a un objeto sfc le asignamos un data.frame asociado obtenemos un objeto sf completo. Para ayudarnos está la función <code>st_sf(tabla, geometría)</code></p>
+<pre class="r"><code># Creamos una data frame
+  data &lt;- data.frame(nombre = c(&quot;punto&quot;, &quot;Linea&quot;))
+  
+  objeto_sf&lt;- st_sf(data, coleccion)
+  class(objeto_sf)</code></pre>
+<pre><code>## [1] &quot;sf&quot;         &quot;data.frame&quot;</code></pre>
+<pre class="r"><code>  objeto_sf</code></pre>
+<pre><code>## Simple feature collection with 2 features and 1 field
+## geometry type:  GEOMETRY
+## dimension:      XY
+## bbox:           xmin: -3.70256 ymin: 40.4165 xmax: 2.15899 ymax: 41.38879
+## epsg (SRID):    4326
+## proj4string:    +proj=longlat +datum=WGS84 +no_defs
+##   nombre                      coleccion
+## 1  punto       POINT (-3.70256 40.4165)
+## 2  Linea LINESTRING (-3.70256 40.416...</code></pre>
+<pre class="r"><code>  # para descomponer y quedarnos solo con data.frama
+  st_set_geometry(objeto_sf,NULL)</code></pre>
+<pre><code>##   nombre
+## 1  punto
+## 2  Linea</code></pre>
+<pre class="r"><code>  # solo la geometría 
+  st_geometry(objeto_sf)</code></pre>
+<pre><code>## Geometry set for 2 features 
+## geometry type:  GEOMETRY
+## dimension:      XY
+## bbox:           xmin: -3.70256 ymin: 40.4165 xmax: 2.15899 ymax: 41.38879
+## epsg (SRID):    4326
+## proj4string:    +proj=longlat +datum=WGS84 +no_defs</code></pre>
+</div>
+</div>
+<div id="seleccion" class="section level2">
+<h2>Selección</h2>
+<p>Los objetos sf, son por tanto geometrías asociadas a tablas, y podemos usar los mismos criterios de selección que utilizamos en los data frames.</p>
+<p>Una vez que hemos leído la capa como sf, además de la geometría contiene datos asociados como data.frame. Estos datos se pueden seleccionar como si se tratase de una data.frame normal y corriente:</p>
+<p>Usaremos en este ejemplo <code>dplyr</code>. Para seleccionar del mapa de CCAA todas menos Canarias.</p>
+<pre class="r"><code>    library(dplyr)
+    # vemos las variables que tiene la capa (la geometría es una de ellas)
+    class(autonomias)</code></pre>
+<pre><code>## [1] &quot;sf&quot;         &quot;data.frame&quot;</code></pre>
+<pre class="r"><code>    summary(autonomias)</code></pre>
+<pre><code>##     COD_CCAA                            NOML_CCAA       NOM_CCAA 
+##  01     : 1   CIUDAD DE CEUTA                : 1   ANDALUCIA: 1  
+##  02     : 1   CIUDAD DE MELILLA              : 1   ARAGON   : 1  
+##  03     : 1   COMUNIDAD AUTONOMA DE ANDALUCIA: 1   ASTURIAS : 1  
+##  04     : 1   COMUNIDAD AUTONOMA DE ARAGON   : 1   BALEARES : 1  
+##  05     : 1   COMUNIDAD AUTONOMA DE CANARIAS : 1   CANARIAS : 1  
+##  06     : 1   COMUNIDAD AUTONOMA DE CANTABRIA: 1   CANTABRIA: 1  
+##  (Other):13   (Other)                        :13   (Other)  :13  
+##           geometry 
+##  MULTIPOLYGON :19  
+##  epsg:NA      : 0  
+##  +proj=long...: 0  
+##                    
+##                    
+##                    
+## </code></pre>
+<pre class="r"><code>    head(autonomias$NOM_CCAA)</code></pre>
+<pre><code>## [1] ANDALUCIA          ARAGON             BALEARES          
+## [4] CANARIAS           CANTABRIA          CASTILLA-LA MANCHA
+## 19 Levels: ANDALUCIA ARAGON ASTURIAS BALEARES CANARIAS ... VALENCIA</code></pre>
+<pre class="r"><code>    ## seleccion
+    # todas las CCAA menos Canarias    
+    autonomias %&gt;% select(COD_CCAA)%&gt;% filter(COD_CCAA!=&quot;04&quot;) %&gt;% plot()</code></pre>
+<p><img src="/post/2019-02-26-manual-de-sf-para-sig_files/figure-html/seleccion-1.png" width="672" /></p>
+<pre class="r"><code>    # Canarias sola    
+    autonomias %&gt;% select(COD_CCAA)%&gt;% filter(COD_CCAA==&quot;04&quot;) %&gt;% plot()</code></pre>
+<p><img src="/post/2019-02-26-manual-de-sf-para-sig_files/figure-html/seleccion-2.png" width="672" /></p>
+<div id="anadir-nuevos-campos-a-un-data.frame-sf" class="section level3">
+<h3>Añadir nuevos campos a un data.frame sf</h3>
+<p>La propiedad length no da el número de objetos que contiene la colección de objetos sf. Si se trata de un objeto solo espacial, es decir que solo contiene geometrías dará length =1, pero si es una data.frame sf contendrá además de la geometría un objeto más por cada variable o columna de datos como veremos en el ejemplo:</p>
+<pre class="r"><code>    #library(dplyr)
+
+    # creamos una data frame de puntos de 3 ciudades de españa
+    # además metemos el campo nombre
+    p_esp&lt;- data.frame(lon=c(-3.7025599,2.1589899, -0.37739, -5.9731698),
+                       lat= c(  40.4165001,41.3887901,39.4697495,37.3828316),
+                       nom=c(&quot;Madrid&quot;, &quot;Barcelona&quot;, &quot;Valencia&quot;,&quot;Sevilla&quot;))
+    # convertimos los datos a sf
+    p_esp &lt;- st_as_sf(p_esp, coords = c(&quot;lon&quot;, &quot;lat&quot;))
+    
+    # comprobamos la clase
+    class(p_esp)</code></pre>
+<pre><code>## [1] &quot;sf&quot;         &quot;data.frame&quot;</code></pre>
+<pre class="r"><code>    # pintamos los puntos
+    plot(st_geometry(p_esp), col=&quot;red&quot;,pch=16)
+    text(st_coordinates(p_esp),labels = p_esp$nom, pos=3)
+    
+    #Añadimos la costa de españa
+    library(rworldmap)
+    data(countriesLow) 
+    plot(countriesLow, add = T)</code></pre>
+<p><img src="/post/2019-02-26-manual-de-sf-para-sig_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<pre class="r"><code>    summary(p_esp)</code></pre>
+<pre><code>##         nom       geometry
+##  Barcelona:1   POINT  :4  
+##  Madrid   :1   epsg:NA:0  
+##  Sevilla  :1              
+##  Valencia :1</code></pre>
+<pre class="r"><code>    length(p_esp)</code></pre>
+<pre><code>## [1] 2</code></pre>
+<pre class="r"><code>    # Añadimos un nueva columan de datos
+    p_esp$habitantes&lt;-c(3.2,1.62,0.79,0.70)
+    
+    # pintamos de nuevo
+    plot(st_geometry(p_esp), col=&quot;red&quot;,pch=16)
+    text(st_coordinates(p_esp),
+         labels = paste(p_esp$nom, &quot;\n&quot;,&quot;hab:&quot;, p_esp$habitantes),
+         pos=3)
+    plot(countriesLow, add = T)</code></pre>
+<p><img src="/post/2019-02-26-manual-de-sf-para-sig_files/figure-html/unnamed-chunk-3-2.png" width="672" /></p>
+</div>
+</div>
+<div id="conversion" class="section level2">
+<h2>Conversión</h2>
+<div id="simplify" class="section level3">
+<h3>simplify</h3>
+<p>Las capas con geometrías ocupan mucho espacio en disco y R trabaja todo en memoria, por eso el comando <em>simplify</em> es muy interesante, ya que reduce la geometría manteniendo ciertos criterios para que ocupe menos y se represente más rápido.</p>
+<pre class="r"><code>    library(tidyverse)    
+    # Pintar la capa 
+        plot(st_geometry(autonomias), col = &quot;grey&quot;)</code></pre>
+<p><img src="/post/2019-02-26-manual-de-sf-para-sig_files/figure-html/simplify-1.png" width="672" /></p>
+<pre class="r"><code>    # Medir el tamaño del archivo
+        pryr::object_size(autonomias)</code></pre>
+<pre><code>## 13 MB</code></pre>
+<pre class="r"><code>    # Calcular el numemro de puntos totales de la capa
+        pts_autonomias &lt;- st_cast(autonomias$geometry, &quot;MULTIPOINT&quot;)
+        cnt_autonomias &lt;- sapply(pts_autonomias, length)
+        sum(cnt_autonomias)</code></pre>
+<pre><code>## [1] 1486814</code></pre>
+<pre class="r"><code>    # hacemos lo mismo con una nueva capa reducida 
+    # Simplify object  reducir vertices
+        autonomias_simple &lt;- st_simplify(autonomias, 
+                                preserveTopology = T, 
+                                dTolerance = 0.05)
+        pryr::object_size(autonomias_simple)</code></pre>
+<pre><code>## 1.68 MB</code></pre>
+<pre class="r"><code>        pts_autonomias_simple &lt;- st_cast(autonomias_simple$geometry, &quot;MULTIPOINT&quot;)
+        cnt_autonomias_simple &lt;- sapply(pts_autonomias_simple, length)
+        sum(cnt_autonomias_simple)</code></pre>
+<pre><code>## [1] 38766</code></pre>
+<pre class="r"><code>        plot(st_geometry(autonomias_simple), col = &quot;grey&quot;)</code></pre>
+<p><img src="/post/2019-02-26-manual-de-sf-para-sig_files/figure-html/simplify-2.png" width="672" /> ### <code>sp</code> a <code>sf</code></p>
+<p>Para los que siguen trabajando con la librería sp, la forma de convertir de uno a otro tipo es así:</p>
+<pre class="r"><code>  rios &lt;- st_read(&quot;capas/Cauces - Nivel 0.shp&quot;)
+  class(rios)
+  # Convertir a Spatial object
+  rios_sp &lt;- as(rios, Class = &quot;Spatial&quot;)
+  class(rios_sp)</code></pre>
+</div>
+<div id="data.frame-a-sf" class="section level3">
+<h3>data.frame a <code>sf</code></h3>
+<p>De tabla con datos lon-lat o xy a sf</p>
+<pre class="r"><code>require(sf)
+    # Simple dataframe with coordinates
+    pts &lt;- data.frame(ID = 1:2, lon = c(-2, 1),lat = c(41, 42))
+    # pintamos los puntos 
+    plot(st_geometry(autonomias), col = &quot;grey&quot;)
+    points(pts$lon,pts$lat,col=&quot;red&quot;,pch = 19)</code></pre>
+<p><img src="/post/2019-02-26-manual-de-sf-para-sig_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<pre class="r"><code>    # Convertimos de puntos a sf 
+    pts1 &lt;- st_as_sf(pts, coords = c(&quot;lon&quot;, &quot;lat&quot;))
+    # pintamos 
+    plot(st_geometry(autonomias), col = &quot;grey&quot;)
+    plot(pts1,add=T,col=&quot;red&quot;,pch = 19)</code></pre>
+<p><img src="/post/2019-02-26-manual-de-sf-para-sig_files/figure-html/unnamed-chunk-4-2.png" width="672" /></p>
+<pre class="r"><code>    # pero no tiene sistema de coordenadas
+    st_crs(pts1)</code></pre>
+<pre><code>## Coordinate Reference System: NA</code></pre>
+<pre class="r"><code>    # para ponerle uno hacemos:
+    pts2&lt;-st_as_sf(pts, coords = c(&quot;lon&quot;, &quot;lat&quot;), crs = 2062)
+    st_crs(pts2)</code></pre>
+<pre><code>## Coordinate Reference System:
+##   EPSG: 2062 
+##   proj4string: &quot;+proj=lcc +lat_1=40 +lat_0=40 +lon_0=0 +k_0=0.9988085293 +x_0=600000 +y_0=600000 +a=6378298.3 +b=6356657.142669561 +pm=madrid +units=m +no_defs&quot;</code></pre>
+</div>
+<div id="sf-a-fichero-x-y" class="section level3">
+<h3><code>sf</code> a fichero x-y</h3>
+<p>Para extraer las coordenadas de una capa en formato de tabla y escribirla en un fichero usaremos el coman <code>st_write()</code>, pero hay que usar un comando oculto para que realmente escriba las coordenadas poniendo <code>layer_options = &quot;GEOMETRY=AS_XY&quot;</code>.</p>
+<pre class="r"><code>    # sacar las coordenadas de una capa a un fichero csv
+    st_write(pts2, &quot;pts.csv&quot;, layer_options = &quot;GEOMETRY=AS_XY&quot;)</code></pre>
+</div>
+<div id="puntos-xy-a-sf" class="section level3">
+<h3>puntos xy a <code>sf</code></h3>
+<p>Lo hemos visto ya antes, pero repetimos por su importancia. Necesitamos la función <code>st_as_sf()</code> indicando si los datos son x-y o lon-lat o el nombre de los campos o columnas que sea la x y la y en un vector y el crs de la capa si lo conocemos.</p>
+<p>El CRS puede ser especificado como <em>proj4</em> o <em>EPSG</em>.</p>
+<p>ejemplo:</p>
+<pre><code>c_sf &lt;- st_as_sf(tablaxy, coords = c(&quot;nombre_campo_X&quot;,&quot;nombre_campo_Y&quot;), crs = 4326)</code></pre>
+<pre class="r"><code>    # creamos una data frame de puntos de 3 ciudades de españa
+    # además metemos el campo nombre
+    p_esp&lt;- data.frame(lon=c(-3.7025599,2.1589899, -0.37739, -5.9731698),
+                       lat= c(  40.4165001,41.3887901,39.4697495,37.3828316),
+                       nom=c(&quot;Madrid&quot;, &quot;Barcelona&quot;, &quot;Valencia&quot;,&quot;Sevilla&quot;))
+    # convertimos los datos a sf
+    p_esp &lt;- st_as_sf(p_esp, coords = c(&quot;lon&quot;, &quot;lat&quot;))
+    
+    # comprobamos la clase
+    class(p_esp)</code></pre>
+<pre><code>## [1] &quot;sf&quot;         &quot;data.frame&quot;</code></pre>
+<pre class="r"><code>    # pintamos los puntos
+    plot(st_geometry(p_esp), col=&quot;red&quot;,pch=16)
+    text(st_coordinates(p_esp),labels = p_esp$nom, pos=3)</code></pre>
+<p><img src="/post/2019-02-26-manual-de-sf-para-sig_files/figure-html/unnamed-chunk-6-1.png" width="672" /> ### sf a geometría Los objetos sf contienen tablas de datos y muchas veces al representarlos con plot nos dibuja un mapa para cada variable del data frame asociado. Por esto necesitaremos indicar que queremos que pinte solo la geometría del objeto con la función <code>st_geometry()</code>.</p>
+<pre class="r"><code>    # comprobamos que la dimension de campos de la capa
+    length(autonomias_simple) # son 4 -1 de geometría 3</code></pre>
+<pre><code>## [1] 4</code></pre>
+<pre class="r"><code>    # si pintamos nos dibuja cada campo
+    plot(autonomias_simple)</code></pre>
+<p><img src="/post/2019-02-26-manual-de-sf-para-sig_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<pre class="r"><code>    # si queremos solo la geometría hacemos esto
+    plot(st_geometry(autonomias_simple),col=1:19)</code></pre>
+<p><img src="/post/2019-02-26-manual-de-sf-para-sig_files/figure-html/unnamed-chunk-7-2.png" width="672" /></p>
+</div>
+<div id="geometria-a-sf" class="section level3">
+<h3>geometría a sf</h3>
+<p>El caso contrario es cuando tenemos solo una capa de geometría, pero que no tiene ninguna tabla de datos asociada.</p>
+<p>Asignar un nuevo campo de tabla es muy sencillo, pero lo habitual es usar la función <code>st_sf()</code>. Veamos un ejemplo:</p>
+<pre class="r"><code>    # creamos una data frame de puntos de 3 ciudades de españa
+    ciudades&lt;- data.frame(lon=c(-3.7025599,2.1589899, -0.37739, -5.9731698),
+                       lat= c(  40.4165001,41.3887901,39.4697495,37.3828316))
+    # convertimos los datos a sf
+    ciudades &lt;- st_as_sf(ciudades, coords = c(&quot;lon&quot;, &quot;lat&quot;))
+    class(ciudades)</code></pre>
+<pre><code>## [1] &quot;sf&quot;         &quot;data.frame&quot;</code></pre>
+<pre class="r"><code>    ciudades_geo&lt;-st_geometry(ciudades)
+    class(ciudades_geo)</code></pre>
+<pre><code>## [1] &quot;sfc_POINT&quot; &quot;sfc&quot;</code></pre>
+<pre class="r"><code>    length(ciudades_geo)</code></pre>
+<pre><code>## [1] 4</code></pre>
+<pre class="r"><code>    # transformamos en sf la geometría
+    ciudades2&lt;-st_sf(ciudades_geo)
+    class(ciudades2)</code></pre>
+<pre><code>## [1] &quot;sf&quot;         &quot;data.frame&quot;</code></pre>
+<pre class="r"><code>    ciudades2$nom=c(&quot;Madrid&quot;, &quot;Barcelona&quot;, &quot;Valencia&quot;,&quot;Sevilla&quot;)   </code></pre>
+<p>Como vemos la capa ciudades_geo es del tipo <em>sfc</em>, que indica que es una colección de objetos geométricos, pero no un <em>sf</em>. Sin embargo la capa <em>ciudades2</em>, si es un sf, y además le asignamos un campo como si se tratara de una data.frame.</p>
+</div>
+</div>
+<div id="operaciones-espaciales" class="section level2">
+<h2>Operaciones espaciales</h2>
+<div id="buffer" class="section level3">
+<h3>Buffer</h3>
+<p>El bufer es el polígono que encierra el resultante de dar una determinada distancia en torno a un punto, línea o polígono. Se utiliza mucho para procesos de análisis espacial y la librería sf contienen una función simple para hacerlos <code>st_buffer()</code>.</p>
+<p>La distancia que coge es la de la capa, por lo que será grados o m según sea lat lon o UTM</p>
+<pre class="r"><code>    puntos &lt;- data.frame(ID = 1:4, lon = c(-2, 1,-1.5,0),lat = c(41, 42,40.5,40.6))
+    # pintamos los puntos 
+    #plot(st_geometry(autonomias), col = &quot;grey&quot;)
+    #points(puntos$lon,puntos$lat,col=&quot;red&quot;,pch = 19)
+    puntos &lt;- st_as_sf(puntos, coords = c(&quot;lon&quot;, &quot;lat&quot;),crs=st_crs(autonomias, asText = TRUE))
+    #plot(puntos)
+    
+    puntos_buf &lt;- st_buffer(puntos, dist = 1)
+    #plot(st_geometry(autonomias))
+    plot(st_geometry(puntos_buf),col = &quot;firebrick&quot;)
+    plot(st_geometry(puntos), pch = 16,col = &quot;forestgreen&quot;, add = TRUE)</code></pre>
+<p><img src="/post/2019-02-26-manual-de-sf-para-sig_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+</div>
+<div id="centroide" class="section level3">
+<h3>Centroide</h3>
+<pre class="r"><code># selecciona aragón
+aragon&lt;-autonomias[autonomias$NOM_CCAA == &quot;ARAGON&quot;,]
+
+plot(st_geometry(aragon),col=gray(0.4))
+plot(st_centroid(aragon),add=T, pch = 1, cex=2)</code></pre>
+<p><img src="/post/2019-02-26-manual-de-sf-para-sig_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<pre class="r"><code>#   # pinto las que tocan a aragón
+#toca_aragon&lt;-autonomias[aragon, op = st_touches]
+#    plot(st_geometry(toca_aragon),col=gray(0.4))
+#    plot(st_geometry(aragon),col=gray(0.7), add=T)
+
+#autonomias %&gt;% filter(lengths(st_touches(., aragon)) &gt; 0)</code></pre>
+</div>
+<div id="bbox-caja" class="section level3">
+<h3>bbox caja</h3>
+<p>Esta operación consiste en seleccionar una caja o rectángulo que englobe y contenga una capa. La función habitual es <code>st_bbox(capa)</code> que nos proporciona el rectángulo en el que se inscribe la capa, pero lo mas habitual es que queramos un polígono de este rectángulo y no solo las coordenadas de los vértices y esto lo hacemos con <strong>grid</strong>.</p>
+<pre class="r"><code>    # caja alrededdor de aragon
+    caja_aragon &lt;- st_make_grid(aragon, n = 1)
+    # datos de la caja que envuelve la capa
+    st_bbox(aragon)</code></pre>
+<pre><code>##       xmin       ymin       xmax       ymax 
+## -2.1736713 39.8467782  0.7713067 42.9244952</code></pre>
+<pre class="r"><code>    # pintamos las capas
+    plot(st_geometry(aragon),col=gray(0.4))
+    plot(st_geometry(caja_aragon),add=T)</code></pre>
+<p><img src="/post/2019-02-26-manual-de-sf-para-sig_files/figure-html/bbox-1.png" width="672" /></p>
+<pre class="r"><code>    plot(st_geometry(aragon),col=gray(0.3))
+    plot(st_geometry(st_make_grid(aragon, n = 4)),add=T)</code></pre>
+<p><img src="/post/2019-02-26-manual-de-sf-para-sig_files/figure-html/bbox-2.png" width="672" /></p>
+</div>
+<div id="unir-capas-st_union" class="section level3">
+<h3>Unir capas <code>st_union()</code></h3>
+<p>Hay que comprender como son los objetos <code>sf</code> antes de unirlos, pues en algunas ocasiones podemos hacer un lío sin querer. Las uniones no se pueden hacer sobre objetos simples como POINTS pues trata cada uno como una capa nueva, hay primero que unir la propia capa y transformarla en MULTIPOINT para unirla con otra.</p>
+<div id="unir-puntos" class="section level4">
+<h4>Unir puntos</h4>
+<p>La precaución que hay que tener es que <strong>NO</strong> se pueden unir capas de tipo POINT, y solo debemos hacerlo con MULTIPOINTS.</p>
+<p>En el siguiente ejemplo veremos la diferencia entre unir POINTS y MULTIPOINTS. Creamos dos capas aleatorias de 10 puntos cada una y las unimos con <code>st_union</code>. Como veremos, al crear las capas con un data frame, se forma una capa de 10 POINT, si unimos esta capa a otra de 10 POINT nos genera una de 100 POINT. Sin embargo si antes de unir las capas transformamos cada una en MULTIPOINT usando <code>st_union</code> en cada capa, la unión final es una capa de 10+10 =20 puntos.</p>
+<pre class="r"><code>    # creamos un data frame aleatorio xy entre 0 y 1000
+    xy&lt;-data.frame(id=1:10,x=runif(10)*1000,y=runif(10)*1000)
+    #Repetimos para crear la capa 2
+    xy2&lt;-data.frame(id=101:110,x=runif(10)*1000,y=runif(10)*1000)
+    
+    # comvertimos a sf y unimos para crear un multipoint por capa
+    xy_sf &lt;- st_union(st_as_sf(xy, coords = c(&quot;x&quot;, &quot;y&quot;), crs=25831))
+    xy2_sf &lt;- st_union(st_as_sf(xy2, coords = c(&quot;x&quot;, &quot;y&quot;), crs=25831))
+    # representamos los puntos
+    plot(st_geometry(xy_sf), col=&quot;blue&quot;,pch = 19)
+    plot(st_geometry(xy2_sf), col=&quot;red&quot;,pch = 19,add=T)</code></pre>
+<p><img src="/post/2019-02-26-manual-de-sf-para-sig_files/figure-html/unir_puntos-1.png" width="672" /></p>
+<pre class="r"><code>    # comprobamos que es MULTIPOINT
+    class(xy_sf)</code></pre>
+<pre><code>## [1] &quot;sfc_MULTIPOINT&quot; &quot;sfc&quot;</code></pre>
+<pre class="r"><code>    # Unimos las 2 capas de multipoints
+    xy_b_union&lt;-st_union(xy_sf,xy2_sf)
+    class(xy_b_union)</code></pre>
+<pre><code>## [1] &quot;sfc_MULTIPOINT&quot; &quot;sfc&quot;</code></pre>
+<pre class="r"><code>    # comprobamos que son 20 puntos
+    length(st_cast(xy_b_union,&quot;POINT&quot;))</code></pre>
+<pre><code>## [1] 20</code></pre>
+<pre class="r"><code>    #length(xy_b_union)
+    plot(st_geometry(xy_b_union), col=&quot;red&quot; ,pch = 19)</code></pre>
+<p><img src="/post/2019-02-26-manual-de-sf-para-sig_files/figure-html/unir_puntos-2.png" width="672" /> Si no hubiésemos unido antes el POINT nos saldría otra cosa:</p>
+<pre class="r"><code>    # Forma incorrecta de unir pntos
+    # convertimos a sf 
+    xy_sf1 &lt;- st_as_sf(xy, coords = c(&quot;x&quot;, &quot;y&quot;), crs=25831)
+    xy2_sf1 &lt;- st_as_sf(xy2, coords = c(&quot;x&quot;, &quot;y&quot;), crs=25831)
+    class(xy_sf1)</code></pre>
+<pre><code>## [1] &quot;sf&quot;         &quot;data.frame&quot;</code></pre>
+<pre class="r"><code>    # unimos POINT 
+    xy_b_union1&lt;-st_union(xy_sf1,xy2_sf1)
+    
+    class(xy_b_union1)</code></pre>
+<pre><code>## [1] &quot;sf&quot;         &quot;data.frame&quot;</code></pre>
+<pre class="r"><code>    # tiene length =3 , pues una es la geometría, y otras 2 los id de cada capa
+    length(xy_b_union1)</code></pre>
+<pre><code>## [1] 3</code></pre>
+<pre class="r"><code>    # ahora veremos que son 100 puntos
+    summary(xy_b_union1)</code></pre>
+<pre><code>##        id            id.1                geometry  
+##  Min.   : 1.0   Min.   :101.0   MULTIPOINT   :100  
+##  1st Qu.: 3.0   1st Qu.:103.0   epsg:25831   :  0  
+##  Median : 5.5   Median :105.5   +proj=utm ...:  0  
+##  Mean   : 5.5   Mean   :105.5                      
+##  3rd Qu.: 8.0   3rd Qu.:108.0                      
+##  Max.   :10.0   Max.   :110.0</code></pre>
+<pre class="r"><code>    #st_dimension(xy_b_union)</code></pre>
+</div>
+<div id="unir-poligonos" class="section level4">
+<h4>Unir polígonos</h4>
+<p>Con los polígonos, <code>st_union()</code> disolverá todos los polígonos en un solo polígono que representa el área superpuesta de todos.</p>
+<pre class="r"><code>    # creamos una capa de puntos
+    d = data.frame(matrix(runif(15), ncol = 3))
+    names(d)&lt;-c(&quot;x&quot;, &quot;y&quot;, &quot;z&quot;)
+    d$z&lt;-d$z*10
+    
+    puntos = st_as_sf(x = d, coords = 1:2)
+    # creamos una capa de poligonos con buffer sobre los puntos
+    # Buffer de capa de puntos
+    p_buffer &lt;- st_buffer(puntos, dist=0.3)
+    # Limitamos a solo la geometry
+    p_buffers &lt;- st_geometry(p_buffer)
+    # numero de geometrías en la capa
+    length(p_buffers)</code></pre>
+<pre><code>## [1] 5</code></pre>
+<pre class="r"><code>    # dimension de estas geometrias 2=superficie
+    st_dimension(p_buffers)</code></pre>
+<pre><code>## [1] 2 2 2 2 2</code></pre>
+<pre class="r"><code>    # Plot 
+    plot(p_buffers,col=1:5)</code></pre>
+<p><img src="/post/2019-02-26-manual-de-sf-para-sig_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<pre class="r"><code>    # unimos la geometria
+    p_buf_union &lt;- st_union(p_buffers)
+    # numero de geometrías en la capa unida
+    length(p_buf_union)</code></pre>
+<pre><code>## [1] 1</code></pre>
+<pre class="r"><code>    # Plot 
+    plot(p_buf_union)</code></pre>
+<p><img src="/post/2019-02-26-manual-de-sf-para-sig_files/figure-html/unnamed-chunk-11-2.png" width="672" /></p>
+</div>
+</div>
+<div id="agregar-datos-entre-capas-aggregate" class="section level3">
+<h3>Agregar datos entre capas <code>aggregate</code></h3>
+<p>Si tenemos una capa de puntos y otra de polígonos, y queremos calcular la media de los valores de puntos en cada polígono usaremos <code>aggregate</code>.</p>
+<p>Queremos asignar a cada polígono la media de los valores que da la capa de puntos que caen dentro de cada polígono. Veamos un ejemplo</p>
+<pre class="r"><code>    # generamos un poligono formado por otros 2
+    # resultado de dividir un cuadrado por la diagonal
+        m1 = cbind(c(0, 0, 1, 0), c(0, 1, 1, 0))
+        m2 = cbind(c(0, 1, 1, 0), c(0, 0, 1, 0))
+    # transformamos en una lista sf los 2 pol
+        pol = st_sfc(st_polygon(list(m1)), st_polygon(list(m2)))
+        plot(pol,col=1:2)</code></pre>
+<p><img src="/post/2019-02-26-manual-de-sf-para-sig_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<pre class="r"><code>        class(pol)</code></pre>
+<pre><code>## [1] &quot;sfc_POLYGON&quot; &quot;sfc&quot;</code></pre>
+<pre class="r"><code>        str(pol)</code></pre>
+<pre><code>## sfc_POLYGON of length 2; first list element: List of 1
+##  $ : num [1:4, 1:2] 0 0 1 0 0 1 1 0
+##  - attr(*, &quot;class&quot;)= chr [1:3] &quot;XY&quot; &quot;POLYGON&quot; &quot;sfg&quot;</code></pre>
+<pre class="r"><code>    # vamos a generar una capa de puntos aleatoria
+    set.seed(1988)
+    d = data.frame(matrix(runif(15), ncol = 3))
+    names(d)&lt;-c(&quot;x&quot;, &quot;y&quot;, &quot;z&quot;)
+    d$z&lt;-d$z*10
+    
+    puntos = st_as_sf(x = d, coords = 1:2)
+    plot(pol)
+    plot(puntos,pch = 5,lwd=5, add = TRUE)</code></pre>
+<p><img src="/post/2019-02-26-manual-de-sf-para-sig_files/figure-html/unnamed-chunk-12-2.png" width="672" /></p>
+<pre class="r"><code>    # Usamos aggregate
+    # calculamos la media en cada poligono
+    p_ag1 = aggregate(puntos, pol, mean)
+    plot(p_ag1)
+    plot(puntos,pch = 5,lwd=5, add = TRUE)
+    text(d$x, d$y, labels=round(d$z,2), cex= 0.8, pos=3)</code></pre>
+<p><img src="/post/2019-02-26-manual-de-sf-para-sig_files/figure-html/unnamed-chunk-12-3.png" width="672" /></p>
+<pre class="r"><code>    st_dimension(p_ag1)</code></pre>
+<pre><code>## [1] 2 2</code></pre>
+</div>
+<div id="envolvente-convexa" class="section level3">
+<h3>Envolvente convexa</h3>
+<p>La <em>envolvente convexa</em> de una capa de puntos es el polígono de superficie mínima que contiene a todos los puntos, y cuyos vértices son también algunos de los puntos.</p>
+<p>La función <code>st_convex_hull()</code> calcula la envolvente dado una capa MULTIPOINT, es decir si son POINT antes tendremos que hacer un <code>st_union()</code> para combinarlos.</p>
+<pre class="r"><code>    plot(xy_b_union)</code></pre>
+<p><img src="/post/2019-02-26-manual-de-sf-para-sig_files/figure-html/envol_convexa-1.png" width="672" /></p>
+<pre class="r"><code>    # como es ya una capa MULTIPOINT nos da uno el numero de geometrías
+    length(xy_b_union)</code></pre>
+<pre><code>## [1] 1</code></pre>
+<pre class="r"><code>    puntos_hull &lt;- st_convex_hull(xy_b_union)
+    # Plot the points together with the hull
+    plot(st_geometry(xy_b_union), col = &quot;red&quot;)
+    plot(puntos_hull, add = T)</code></pre>
+<p><img src="/post/2019-02-26-manual-de-sf-para-sig_files/figure-html/envol_convexa-2.png" width="672" /></p>
+</div>
+<div id="vinculos-espaciales-st_join" class="section level3">
+<h3>Vínculos espaciales <code>st_join()</code></h3>
+<p>Los vínculos de join son diferentes a <em>union</em>, lo que se hace es asociar una variable de una capa a otra capa determinando el valor por su posición geográfica.</p>
+<p>Para muchos tipos de análisis se necesita vincular geografías espacialmente. Por ejemplo, si tenemos una capa de puntos con la posición de casas y otra con los polígonos de barrios, podremos con join asignar un nuevo campo o variable a la capa de casas que indique en qué barrio está usando <code>st_join()</code>.</p>
+<p>Como se trata de vincular columnas de datos la función <code>st_join()</code> requiere datos <code>sf</code> como entrada y no aceptará un objeto que sea solo geometría. Para estos casos hay que transforma la capa con la función <code>st_sf()</code> para convertir objetos de geometría <code>sf</code> en un sf, que es -en definitiva- lo contrario que <code>st_geometry()</code>.</p>
+<pre class="r"><code>    # Canarias sola    
+    peninsulaB&lt;-autonomias %&gt;% select(COD_CCAA)%&gt;% filter(COD_CCAA!=&quot;04&quot;) 
+    # calculo 100 puntos dentro de la peninsula y B
+    puntos_pen&lt;-st_sample(peninsulaB,size=100)
+    # pinto las 2 capas
+    plot(st_geometry(peninsulaB))
+    plot(puntos_pen, add = T, pch = 16, col = &quot;red&quot;)</code></pre>
+<p><img src="/post/2019-02-26-manual-de-sf-para-sig_files/figure-html/join-1.png" width="672" /></p>
+<pre class="r"><code>    puntos_pen1&lt;-st_union(puntos_pen)
+    # Determine la clase del los puntos y si es data.frame
+    class(puntos_pen1) # veo que no</code></pre>
+<pre><code>## [1] &quot;sfc_MULTIPOINT&quot; &quot;sfc&quot;</code></pre>
+<pre class="r"><code>    # Convirto en sf la geometria
+    puntos_pen2 &lt;- st_sf(puntos_pen1)
+    # Confirmo que es sf data frame
+    class(puntos_pen2)</code></pre>
+<pre><code>## [1] &quot;sf&quot;         &quot;data.frame&quot;</code></pre>
+<pre class="r"><code>    class(peninsulaB)</code></pre>
+<pre><code>## [1] &quot;sf&quot;         &quot;data.frame&quot;</code></pre>
+<pre class="r"><code>    # vinculo ambas capas sf espacialmente 
+    puntosP &lt;- st_join(puntos_pen2, peninsulaB)
+
+    # Confirmo que la capa de puntos tienen la informacion de la capa de CCAA
+    head(puntosP)</code></pre>
+<pre><code>## Simple feature collection with 6 features and 1 field
+## geometry type:  MULTIPOINT
+## dimension:      XY
+## bbox:           xmin: -8.671461 ymin: 36.55956 xmax: 3.179787 ymax: 43.50636
+## epsg (SRID):    NA
+## proj4string:    +proj=longlat +ellps=GRS80 +no_defs
+##   COD_CCAA                       geometry
+## 1       01 MULTIPOINT (-8.671461 42.84...
+## 2       02 MULTIPOINT (-8.671461 42.84...
+## 3       03 MULTIPOINT (-8.671461 42.84...
+## 4       05 MULTIPOINT (-8.671461 42.84...
+## 5       06 MULTIPOINT (-8.671461 42.84...
+## 6       08 MULTIPOINT (-8.671461 42.84...</code></pre>
+<p>Como vemos la función <code>st_join()</code> ha vinculado el campo <em>COD_CCAA</em> de la capa <em>peninsulaB</em> a los puntos de la capa <em>puntos_pen2</em> y así lo vemos al extraer el encabezado de la tabla.</p>
+</div>
+<div id="contiene-e-intersecta" class="section level3">
+<h3>Contiene e intersecta</h3>
+<p>Las funciones contiene <code>st_contains()</code> e intersecta con <code>st_intersects()</code> indican como su nombre si una capa espacial está completamente contenida dentro de otra , o si una capa intersecta a otra (en caso de superficies incluye contiene).</p>
+<p>Estas dos funciones comprueban relaciones entre dos conjuntos de objetos sf y tienen una salida distinta a otras, pues no dan como resultado una capa, sino <strong>una lista de índices</strong>.</p>
+<p>El resultado de estas y otras funciones relacionadas es un tipo especial de lista. Por ejemplo, cuando se usa <code>st_intersects(A,B)</code>, se puede acceder al primer elemento de la salida usando <code>[[1]]</code>, que muestra los polígonos de <em>B</em> que se intersecan con <em>A</em>. Del mismo modo, <code>[[2]]</code> mostraría los polígonos del primer polígono <em>A</em>, que se intersecan con el segundo polígono <em>B</em>. Veamos un ejemplo:</p>
+<pre class="r"><code>    # generamos un poligono formado por otros 2
+    # resultado de dividir un cuadrado por la diagonal
+        m1 = cbind(c(0, 0, 1, 0), c(0, 1, 1, 0))
+        m2 = cbind(c(0, 1, 1, 0), c(0, 0, 1, 0))
+    # transformamos en una lista sf los 2 pol
+        pol0 = st_sfc(st_polygon(list(m1)), st_polygon(list(m2)))
+        pol&lt;-st_sf(pol0)
+        zona&lt;-st_union(pol)
+        # pintamos los dos poligonos 
+        plot(pol)
+        text(x=c(0.25,0.75), y=c(0.75,0.25), labels = 1:2)
+    
+    # generamos 5 puntos
+    p5&lt;-st_sample(zona,size=5)    
+        plot(p5,pch = 5,lwd=5, add = TRUE)
+    # generamos un capa de bufer
+    p5_buffer&lt;-st_buffer(p5,dist=0.1)
+        plot(p5_buffer, add = TRUE)
+    
+    # bufer contenido en rectanguno
+    vecinos_cont &lt;- st_contains(zona,p5_buffer)
+    cont &lt;- vecinos_cont[[1]]
+    plot(p5_buffer[cont], add = TRUE, col = &quot;yellow&quot;)</code></pre>
+<p><img src="/post/2019-02-26-manual-de-sf-para-sig_files/figure-html/contiene_intersecta-1.png" width="672" /></p>
+<p>Veamos ahora un ejemplo de intersección:</p>
+<pre class="r"><code>    zona&lt;-pol0[[1]]
+    plot(zona, col=&quot;grey&quot;)
+    plot(p5,pch = 5,lwd=5, add = TRUE)
+    plot(p5_buffer, add = TRUE)
+    
+    # bufer contenido en poligono
+    vecinos_inter &lt;- st_intersects(zona,p5_buffer)
+    inter &lt;- vecinos_inter[[1]]
+    plot(p5_buffer[inter], add = TRUE, col = &quot;yellow&quot;)
+    
+    # recortamos con clip
+    vecinos_clip &lt;- st_intersection(p5_buffer, zona)
+    plot(vecinos_clip, add = TRUE, col = &quot;red&quot;)</code></pre>
+<p><img src="/post/2019-02-26-manual-de-sf-para-sig_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+</div>
+<div id="distancias" class="section level3">
+<h3>Distancias</h3>
+<p>Medir la distancia entre objetos es una parte importante de muchos análisis espaciales. Existen varias funciones en R base, así como en los paquetes <code>rgeos</code> y <code>geosphere</code> para calcular distancias, pero la función <code>st_distance()</code> de <code>sf</code> proporciona una matriz de distancia bastante completa que puede utilizarse para la mayoría de las necesidades.</p>
+<p>En este ejercicio, vamos a generar puntos aleatorios dentro del mapa de la Región de Murcia y calcular la distancia de esos puntos al municipio de Cieza.</p>
+<pre class="r"><code>    # Murcia sola  
+    Murcia&lt;-autonomias %&gt;% select(COD_CCAA)%&gt;% filter(COD_CCAA==&quot;15&quot;) 
+    # Establecemos su epsg, ya que la capa no lo define
+    st_crs(Murcia) = 4326
+    
+    # calculo 10 puntos dentro de Murcia
+    puntos_mur&lt;-st_sample(Murcia,size=10)
+    # creo un punto sf con los datos de Cieza
+    p_cieza&lt;- data.frame(lon=-1.42, lat= 38.24)
+    p_cieza &lt;- st_as_sf(p_cieza, coords = c(&quot;lon&quot;, &quot;lat&quot;))
+    # les asigno sistema de coordenadas
+    st_crs(p_cieza) =4326
+    st_crs(puntos_mur) =4326
+    
+    #st_transform(puntos_mur, crs = st_crs(Murcia))
+    # pinto las capas
+    plot(st_geometry(Murcia), col=&quot;lightgreen&quot;, main=&quot;Mapa distancias a Cieza&quot;)
+    plot(p_cieza, add = T, pch = 17, col = &quot;blue&quot;,lwd=5)
+        text(st_coordinates(p_cieza),
+         labels = &quot;Cieza&quot;,
+         pos=1,cex=0.9)
+    plot(puntos_mur, add = T, pch = 16, col = &quot;red&quot;)
+
+    # calculamos las distancias
+    d &lt;- st_distance(p_cieza, puntos_mur)
+    head(d)</code></pre>
+<pre><code>## Units: [m]
+## [1] 25985.51 42328.64 19119.80 90853.35 58139.53 39268.75</code></pre>
+<pre class="r"><code>    # calculamos el mas cercano
+    mascercano &lt;- which.min(d)
+    plot(puntos_mur[mascercano], add = T, pch = 11, col = &quot;black&quot;)
+    
+    prueba1&lt;-st_cast(st_union(puntos_mur,p_cieza),&quot;LINESTRING&quot;)
+    plot(prueba1,add=T)
+    text(st_coordinates(puntos_mur),
+         labels = paste0(&quot;km:&quot;,round(unclass(d)[1,]/1000,0)),
+         pos=1,cex=0.8)</code></pre>
+<p><img src="/post/2019-02-26-manual-de-sf-para-sig_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+</div>
+</div>
