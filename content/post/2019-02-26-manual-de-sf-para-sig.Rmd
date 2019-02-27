@@ -15,64 +15,77 @@ tags:
 description: 'Manual de uso de la librería sf para mapas y datos geográficos'
 thumbnail: '/post/2019-02-26-manual-de-sf-para-sig_files/cieza_sf.png'
 toc: no
+editor_options: 
+  chunk_output_type: console
 ---
 
-```{r setup, include=FALSE}
+```{r setup, include=FALSE, echo=FALSE}
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE,message = FALSE)
+# opciones de grafico sin bordes
+    par(bg=gray(1),oma=c(0.1,0.1,0.1,0.1),mar=c(0.1,0.1,0.1,0.1))
+# cargo librería sf  
+    library(sf)
 ```
 
-Hace muy poco tiempo, usar SIG en R era bastante difícil. Teníamos que aprender el uso de muchas librerías diferentes y que no tenían conexión de sintaxis. En mi caso acostumbrado a usar *Arcgis* y *QGIS*, veía que las opciones de R en aquel entonces estaban bastante limitadas, pero siempre creí que tenía un gran futuro para hacer SIG, ... todo llega a su tiempo.
+Hace muy poco tiempo, usar *SIG* en R era bastante difícil. Teníamos que aprender el uso de muchas librerías diferentes que no tenían conexión de sintaxis. En mi caso acostumbrado a usar *Arcgis* y *QGIS*, veía que las opciones de R en aquel entonces estaban bastante limitadas, pero siempre creí que tenía un gran futuro para hacer SIG , solo faltaba tiemo de desarrollo.
 
-La principal librería que usábamos era `sp`, pero prácticamente para cualquier cosa necesitabas muchos otros paquetes.... todo ha cambiado desde que tenemos `sf`. Ha sido, desde mi punto de vista un acierto absoluto rehacer la programación desde la perspectiva de sf, y tener todas las funciones disponibles en este paquete.
+La principal librería para datos espaciales era `sp`, pero era necesario siempre buscar funciones en otros paquetes. Todo ha cambiado desde que tenemos `sf`. Ha sido, desde mi punto de vista, un acierto absoluto rehacer la programación desde la perspectiva de sf, y tener todas las funciones disponibles, juntas y con la misma sintaxis.
 
-Lo único malo, es que simple features (sf) requiere de cierta práctica y uso para cogerle el tranquillo, y para eso he escrito este intenso manual de consulta de `sf`, con muchas de las funciones habituales.
+La desventaja, es que *simple features* (sf) requiere de cierta práctica para cogerle el tranquillo y que es un poco compleja de comprender al principio, pero para eso he escrito este intenso manual de consulta de `sf`, con muchas de las funciones habituales y un resumen teórico que seguro os ayuda a iniciaros en el R SIG.
 
+## Indice {#indice}
 
-## Simple features
+  * [Simple features](#simple-features)
+  * [Descomposición de sf](#descomposicion-de-sf)
+    + [sfg](#sfg)
+    + [sfc](#sfc)
+    + [sf](#sf)
+  * [Lectura-Escritura](#lectura-Escritura) 
+    + [Lectura](#lectura)
+  * [Selección](#seleccion) 
+    + [Seleccion por tabla](#Seleccion-por-tabla)
+    + [Seleccion espacial](#Seleccion-espacial)
+    + [Añadir nuevos campos a un data.frame sf](#anadir-nuevos-campos-a-un-data)
+  * [Conversión](#conversion) 
+    + [simplify](#simplify)
+    + [sp a sf](#sp-a-sf)
+    + [ data.frame a sf](#data.frame-a-sf)
+    + [sf a fichero x-y ](#sf-a-fichero-x-y)
+    + [puntos xy a sf](#puntos-xy-a-sf)
+    + [sf a geometría](#sf-a-geometria)
+    + [geometría a sf](#geometria-a-sf)
+  * [Operaciones espaciales](#Operaciones-espaciales)
+    + [Desplazamiento y giro](#desplazamiento-y-giro)
+    + [Buffer](#buffer) 
+    + [Centroide](#centroide) 
+    + [bbox caja](#bbox-caja) 
+    + [Unir capas st_union](#unir-capas)
+      - [Unir puntos](#unir-puntos) 
+      - [Unir poligonos](#unir-poligonos)
+    + [Asignar datos por geometría aggregate](#asignar-datos-por-geomet)
+    + [Envolvente convexa](#envolvente-convexa)
+    + [Vínculos espaciales `st_join()`](#vinculos-espaciales)
+    + [Contiene e intersecta](#Contiene-e-intersecta)
+    + [Distancias](#Distancias)    
+  
+  
+## Simple features 
 La descripción de los objetos *sf* se ha estandarizado con la publicación de la *ISO 19125*. Se trata de un documento de consenso que define la arquitectura de objetos espaciales *sf* (simple features) desarrollado bajo el paraguas del consorcio **OpenGIS**.
 
 La base geométrica básica de los objetos *sf* la forman 4 elementos simples (subclases): el punto, la curva, la superficie y las colecciones espaciales. Las colecciones son listas de objetos. Además cada objeto se asocia a un Sistema Espacial de Referencia (SRS)
 
-El esquema básico de la geometría sf es el siguiente:
+El esquema básico de la geometrías que establece **OpenGIS** y se aplica a sf es el siguiente:
 
 ![esquema objetos sf](/post/2019-02-26-manual-de-sf-para-sig_files/esquema_sf.png)
 
-##Lectura-Escritura
-### Lectura
-La función de lectura básica de `sf` es `st_read()`. Esta función lee múltiples formatos GIS y de datos.
-Vamos hacer un ejemplo con datos *shp* descargados de la [web del Ministerio de Medio Ambiente de España](https://servicio.mapama.gob.es/sia/visualizacion/descargas/mapas.jsp)
+[Volver al índice](#indice)
 
-Descargamos la capa de las comunidades autónomas de la web (*Comunidades autonomas.shp*) y la guardamos en la carpeta capas.
-
-```{r lectura}
-# Lectura de datos
-    library(sf)
-    # Leemos capa autonomías
-     autonomias <- st_read("../../static/capas/Comunidades autonomas.shp")
-     class(autonomias)
-    # pintamos la geometría de la capa
-     plot(st_geometry(autonomias))
-    
-     head(autonomias)
-```
-
-###Escritura
-Para escribir usaremos la función `st_write()` que tiene muchas opciones de formato.
-
-```{r escritura, eval=FALSE}
-  # guarda la capa como ccaa.shp      
-    st_write(autonomias, "ccaa.shp", delete_layer = TRUE) # overwrites
-
-  # En formato csv también con as coordenadas de la capa 
-    st_write(pts2, "pts.csv", layer_options = "GEOMETRY=AS_XY")
-```
-
-## Descomposición de sf
+## Descomposición de sf {#descomposicion-de-sf}
 Los objetos *sf* se descomponen en una serie de sub objetos característicos. Esta descomposición es algo liosa y difícil de comprender, pero es necesario entenderla para usar todo el potencial de la librería, y además lo expondremos de forma sencilla:
 
 Un objeto *sf* se compone de un objeto *sfc* y de una data.frame. A su vez un objeto *sfc* se descompone en un objeto *sfg* y un sistema de coordenadas de referencia (CRS). El esquema básico es así:
 
-```{r}
+```{r diagram, echo=FALSE}
 library(DiagrammeR)
   # arbol genealógico sencillo
   DiagrammeR("graph TD;
@@ -96,6 +109,7 @@ library(DiagrammeR)
   )
 ```
 
+
 ### sfg
 Los objetos sfg almacenan la geometría básica con la información gráfica del objeto: las coordenadas, dimensiones, tipo. Hay 17 tipos posibles, pero los más básicos son:
 
@@ -110,6 +124,7 @@ Los objetos sfg almacenan la geometría básica con la información gráfica del
 Para crear cualquiera de estas geometrías la librería sf contiene una serie de funciones creadoras:`st_point()`, `st_multipoint()`, `st_linestring()`, `st_polygon()`.
 
 ```{r crea_sfg}
+    library(sf)
     punto1<- st_point(c(-3.7025599,40.4165001))
 class(punto1)
     linea1<- st_linestring(rbind(c(-3.7025599,40.4165001),c(2.1589899,41.3887901)))
@@ -168,9 +183,40 @@ Para ayudarnos está la función `st_sf(tabla, geometría)`
   # solo la geometría 
   st_geometry(objeto_sf)
 ```
+##Lectura-Escritura
+### Lectura
+La función de lectura básica de `sf` es `st_read()`. Esta función lee múltiples formatos GIS y de datos.
+Vamos hacer un ejemplo con datos *shp* descargados de la [web del Ministerio de Medio Ambiente de España](https://servicio.mapama.gob.es/sia/visualizacion/descargas/mapas.jsp)
 
+Descargamos la capa de las comunidades autónomas de la web (*Comunidades autonomas.shp*) y la guardamos en la carpeta capas.
+
+```{r lectura}
+# Lectura de datos
+    library(sf)
+    # Leemos capa autonomías
+     autonomias <- st_read("../../static/capas/Comunidades autonomas.shp")
+     class(autonomias)
+    # pintamos la geometría de la capa
+     plot(st_geometry(autonomias))
+    
+     head(autonomias)
+```
+
+###Escritura
+Para escribir usaremos la función `st_write()` que tiene muchas opciones de formato.
+
+```{r escritura, eval=FALSE}
+  # guarda la capa como ccaa.shp      
+    st_write(autonomias, "ccaa.shp", delete_layer = TRUE) # overwrites
+
+  # En formato csv también con as coordenadas de la capa 
+    st_write(pts2, "pts.csv", layer_options = "GEOMETRY=AS_XY")
+```
+
+[Volver al índice](#indice)
 
 ## Selección 
+### Seleccion por tabla
 Los objetos sf, son por tanto geometrías asociadas a tablas, y podemos usar los mismos criterios de selección que utilizamos en los data frames.
 
 Una vez que hemos leído la capa como sf, además de la geometría contiene datos asociados como data.frame. Estos datos se pueden seleccionar como si se tratase de una data.frame normal y corriente:
@@ -194,18 +240,45 @@ Usaremos en este ejemplo `dplyr`. Para seleccionar del mapa de CCAA todas menos 
     
 ```
 
+### Seleccion espacial
+Además de usar criterios de seleccion de tabla, las geometrías permiten seleccionar por criterios de posición como: contacto, inclusión, igualdad, contenido en,  etc.
 
-### Añadir nuevos campos a un data.frame sf
+```{r seleccion_geo}
+  Murcia<-autonomias %>% select(COD_CCAA)%>% filter(COD_CCAA=="15") 
+  # selecciono las ccaa que tocan el borde de Murcia
+  toca_murcia<-autonomias[Murcia, op = st_touches]
+  # pinto el resultado
+  plot(st_geometry(toca_murcia),col=5:8)
+```
+
+Los operadores que podemos usar para seleccionar de esta forma son entre otros:
+
+   * st_intersects(x, y, sparse = TRUE, prepared = TRUE)
+   * st_disjoint(x, y = x, sparse = TRUE, prepared = TRUE)
+   * st_touches(x, y, sparse = TRUE, prepared = TRUE)
+   * st_crosses(x, y, sparse = TRUE, prepared = TRUE)
+   * st_within(x, y, sparse = TRUE, prepared = TRUE)
+   * st_contains(x, y, sparse = TRUE, prepared = TRUE)
+   * st_contains_properly(x, y, sparse = TRUE, prepared = TRUE)
+   * st_overlaps(x, y, sparse = TRUE, prepared = TRUE)
+   * st_equals(x, y, sparse = TRUE, prepared = FALSE)
+   * st_covers(x, y, sparse = TRUE, prepared = TRUE)
+   * st_covered_by(x, y, sparse = TRUE, prepared = TRUE)
+   * st_equals_exact(x, y, par, sparse = TRUE, prepared = FALSE)
+   * st_is_within_distance(x, y, dist, sparse = TRUE)
+
+Este tipo de funciones no devuelven geometrías sino una salida matricial lógica indicando si se cumple o no la condición. Veremos un caso concreto [en contiene-intersecta](#Contiene e intersecta).
+
+###Añadir nuevos campos a un data.frame sf {#anadir-nuevos-campos-a-un-data}
 La propiedad length no da el número de objetos que contiene la colección de objetos sf. Si se trata de un objeto solo espacial, es decir que solo contiene geometrías dará length =1, pero si es una data.frame sf contendrá además de la geometría un objeto más por cada variable o columna de datos como veremos en el ejemplo:
 
 
-```{r}
+```{r anadecampodf}
     #library(dplyr)
-
     # creamos una data frame de puntos de 3 ciudades de españa
     # además metemos el campo nombre
     p_esp<- data.frame(lon=c(-3.7025599,2.1589899, -0.37739, -5.9731698),
-                       lat= c( 	40.4165001,41.3887901,39.4697495,37.3828316),
+                       lat= c(  40.4165001,41.3887901,39.4697495,37.3828316),
                        nom=c("Madrid", "Barcelona", "Valencia","Sevilla"))
     # convertimos los datos a sf
     p_esp <- st_as_sf(p_esp, coords = c("lon", "lat"))
@@ -236,21 +309,20 @@ La propiedad length no da el número de objetos que contiene la colección de ob
 
 ```
 
+[Volver al índice](#indice)
 
+##Conversión
 
-## Conversión
-### simplify
-Las capas con geometrías ocupan mucho espacio en disco y R trabaja todo en memoria, por eso el comando *simplify* es muy interesante, ya que reduce la geometría manteniendo ciertos criterios para que ocupe menos y se represente más rápido.
+###simplify
+Las capas con geometrías ocupan mucho espacio en disco y R trabaja todo en memoria, por eso el comando *simplify* es muy interesante. Permite reducir el tamaño de la geometría, simplificando trazos. Aunque cambia respecto a la original, por lo que en ciertos casos hay que usarlo con cuidado.
+
+Veamos por ejemplo el caso de la capa de autonomías de España.
 
 ```{r simplify}
-    library(tidyverse)    
-    # Pintar la capa 
-        plot(st_geometry(autonomias), col = "grey")
-    
-    # Medir el tamaño del archivo
+    # Medir el tamaño del archivo de cc autónomas
         pryr::object_size(autonomias)
     
-    # Calcular el numemro de puntos totales de la capa
+    # Calcular el numero de puntos totales de la capa
         pts_autonomias <- st_cast(autonomias$geometry, "MULTIPOINT")
         cnt_autonomias <- sapply(pts_autonomias, length)
         sum(cnt_autonomias)
@@ -260,15 +332,15 @@ Las capas con geometrías ocupan mucho espacio en disco y R trabaja todo en memo
         autonomias_simple <- st_simplify(autonomias, 
                                 preserveTopology = T, 
                                 dTolerance = 0.05)
+        # tamaño en megas del objeto
         pryr::object_size(autonomias_simple)
-    
+        # numero de puntos
         pts_autonomias_simple <- st_cast(autonomias_simple$geometry, "MULTIPOINT")
         cnt_autonomias_simple <- sapply(pts_autonomias_simple, length)
         sum(cnt_autonomias_simple)
-        plot(st_geometry(autonomias_simple), col = "grey")
-
 ```
-### `sp` a `sf`
+
+### sp a sf
 
 Para los que siguen trabajando con la librería sp, la forma de convertir de uno a otro tipo es así:
 ```{r de_sp_sf, eval=FALSE  }
@@ -279,45 +351,33 @@ Para los que siguen trabajando con la librería sp, la forma de convertir de uno
   class(rios_sp)
 ```
 
-### data.frame a `sf`
+### dataframe a sf
 
-De tabla con datos lon-lat o xy a sf
+De tabla con datos lon-lat o x-y a objeto sf. El proceso es crear la geometría, añadir el sistema de referencia, con la función `st_as_sf()`
 
-```{r}
-require(sf)
-    # Simple dataframe with coordinates
+```{r df_a_sf}
+    require(sf)
+    # Simple dataframe 
     pts <- data.frame(ID = 1:2, lon = c(-2, 1),lat = c(41, 42))
     # pintamos los puntos 
-    plot(st_geometry(autonomias), col = "grey")
-    points(pts$lon,pts$lat,col="red",pch = 19)
+     # plot(st_geometry(autonomias), col = "grey")
+     # points(pts$lon,pts$lat,col="red",pch = 19)
     
-    # Convertimos de puntos a sf 
+    # Convertimos de data.frame de puntos a sf 
     pts1 <- st_as_sf(pts, coords = c("lon", "lat"))
-    # pintamos 
-    plot(st_geometry(autonomias), col = "grey")
-    plot(pts1,add=T,col="red",pch = 19)
-    
-    # pero no tiene sistema de coordenadas
+    # el sistema CRS por defecto es NA
     st_crs(pts1)
-    
-    # para ponerle uno hacemos:
+    # para crear un sf con crs distinto de NA hacemos:
+    # donde crs= codigo epsg
     pts2<-st_as_sf(pts, coords = c("lon", "lat"), crs = 2062)
     st_crs(pts2)
 
 ```
 
-### `sf` a fichero x-y 
-Para extraer las coordenadas de una capa en formato de tabla y escribirla en un fichero usaremos el coman `st_write()`, pero hay que usar un comando oculto para que realmente escriba las coordenadas poniendo `layer_options = "GEOMETRY=AS_XY"`.
+###puntos xy a sf
+Simplemente pasamos los puntos a un data frame y procedemos como [antes](#dataframe-a-sf).
 
-
-```{r eval=FALSE}
-    # sacar las coordenadas de una capa a un fichero csv
-    st_write(pts2, "pts.csv", layer_options = "GEOMETRY=AS_XY")
-
-```
-
-### puntos xy a `sf`
-Lo hemos visto ya antes, pero repetimos por su importancia. Necesitamos la función `st_as_sf()` indicando si los datos son x-y o lon-lat o el nombre de los campos o columnas que sea la x y la y en un vector y el crs de la capa si lo conocemos.
+Necesitamos la función `st_as_sf()` indicando si los datos son x-y o lon-lat o el nombre de los campos o columnas que sea la x y la y en un vector y el crs de la capa si lo conocemos.
 
 El CRS puede ser especificado como *proj4* o *EPSG*.
 
@@ -329,7 +389,7 @@ ejemplo:
     # creamos una data frame de puntos de 3 ciudades de españa
     # además metemos el campo nombre
     p_esp<- data.frame(lon=c(-3.7025599,2.1589899, -0.37739, -5.9731698),
-                       lat= c( 	40.4165001,41.3887901,39.4697495,37.3828316),
+                       lat= c(  40.4165001,41.3887901,39.4697495,37.3828316),
                        nom=c("Madrid", "Barcelona", "Valencia","Sevilla"))
     # convertimos los datos a sf
     p_esp <- st_as_sf(p_esp, coords = c("lon", "lat"))
@@ -340,7 +400,21 @@ ejemplo:
     plot(st_geometry(p_esp), col="red",pch=16)
     text(st_coordinates(p_esp),labels = p_esp$nom, pos=3)
 ```
-### sf a geometría
+
+###sf a fichero x-y 
+Ver también apartado de [escritura](#escritura). 
+
+Para extraer las coordenadas de una capa en formato de tabla y escribirla en un fichero usaremos el comando `st_write()`, pero hay que usar un comando oculto para que realmente escriba las coordenadas esplicitamente con `layer_options = "GEOMETRY=AS_XY"`.
+
+
+```{r eval=FALSE}
+    # sacar las coordenadas de una capa a un fichero csv
+    st_write(pts2, "pts.csv", layer_options = "GEOMETRY=AS_XY")
+
+```
+
+
+###sf a geometría {#sf-a-geometria}
 Los objetos sf contienen tablas de datos y muchas veces al representarlos con plot nos dibuja un mapa para cada variable del data frame asociado. Por esto necesitaremos indicar que queremos que pinte solo la geometría del objeto con la función `st_geometry()`.
 
 ```{r}
@@ -354,7 +428,7 @@ Los objetos sf contienen tablas de datos y muchas veces al representarlos con pl
 ```
 
 
-### geometría a sf
+###geometría a sf {##geometria-a-sf}
 
 El caso contrario es cuando tenemos solo una capa de geometría, pero que no tiene ninguna tabla de datos asociada.
 
@@ -363,7 +437,7 @@ Asignar un nuevo campo de tabla es muy sencillo, pero lo habitual es usar la fun
 ```{r}
     # creamos una data frame de puntos de 3 ciudades de españa
     ciudades<- data.frame(lon=c(-3.7025599,2.1589899, -0.37739, -5.9731698),
-                       lat= c( 	40.4165001,41.3887901,39.4697495,37.3828316))
+                       lat= c(  40.4165001,41.3887901,39.4697495,37.3828316))
     # convertimos los datos a sf
     ciudades <- st_as_sf(ciudades, coords = c("lon", "lat"))
     class(ciudades)
@@ -379,41 +453,86 @@ Asignar un nuevo campo de tabla es muy sencillo, pero lo habitual es usar la fun
 
 Como vemos la capa ciudades_geo es del tipo *sfc*, que indica que es una colección de objetos geométricos, pero no un *sf*. Sin embargo la capa *ciudades2*, si es un sf, y además le asignamos un campo como si se tratara de una data.frame. 
 
+[Volver al índice](#indice)
 
-## Operaciones espaciales
-### Buffer
-El bufer es el polígono que encierra el resultante de dar una determinada distancia en torno a un punto, línea o polígono. Se utiliza mucho para procesos de análisis espacial y la librería sf contienen una función simple para hacerlos `st_buffer()`.
+##Operaciones espaciales
 
-La distancia que coge es la de la capa, por lo que será grados o m según sea lat lon o UTM
+###Desplazamiento y giro
+Estas transformaciones simples se suelen denominar operaciones afines y se trata simplemente de desplazamientos y giros de capas espeaciales.
 
-```{r}
-    puntos <- data.frame(ID = 1:4, lon = c(-2, 1,-1.5,0),lat = c(41, 42,40.5,40.6))
-    # pintamos los puntos 
-    #plot(st_geometry(autonomias), col = "grey")
-    #points(puntos$lon,puntos$lat,col="red",pch = 19)
-    puntos <- st_as_sf(puntos, coords = c("lon", "lat"),crs=st_crs(autonomias, asText = TRUE))
-    #plot(puntos)
+Vamos a realizar unas transformaciones afines simples a la capa del límite de la CCAA de Madrid simplificado en coordenadas UTM.
+
+Haremos un desplazamiento en eje X y otro en Y. Para el giro tenemos que hace una función simple llamada rot que transforma las coordenadas. Las unidades UTM son en metros. En la transformación de giro necesitamos definir un punto de giro, que será el centroide de la capa, y además le aplicamos una escalación multiplicando por 0.5.
+
+
+
+```{r afines}
+##Obtener el limite de la CAM
+  # Selecciono una CCAA de la capa autonomías de ejemplo
+    madrid<-autonomias[autonomias$NOM_CCAA == "MADRID",]
+  # la simplifico para que ocupe menos
+    madrid<-st_simplify(madrid,
+                      preserveTopology = T, 
+                      dTolerance = 0.02)
+  # como tienen varios poligonos he decidido quedarme solo con el principal
+  # para eso transforomo en lineas y me quedo con el principal que es el 2
+    madrid<-st_transform(madrid,crs=23030)
+    madrid<-st_geometry(madrid)
+    m1<-st_cast(madrid,"LINESTRING") # transformo a lineas
+    # veo con length(m1)=3 que hay 3 poligonos linea principales
+    madrid<-m1[2] # me quedo con el 2 que mas grande y quito las islas
+    madrid<-st_cast(madrid,"POLYGON") # transformo a poligono de nuevo
+
+# Realizamos las transformaciones afines sobre esa capa
+  # Desplazamiento en eje x e y
+    mx<- madrid + c(6000,0)
+    my<- madrid + c(0,10000)
+  # Giro
+    rot = function(a) matrix(c(cos(a), sin(a), -sin(a), cos(a)), 2, 2)
+    #Centro de giro
+    m_centro<-st_centroid(madrid)
+    # aplicamos giro y escala por 0.5
+    m_giro90 = (st_geometry(madrid) - m_centro) * rot(pi/2) *0.5 + m_centro
     
-    puntos_buf <- st_buffer(puntos, dist = 1)
-    #plot(st_geometry(autonomias))
-    plot(st_geometry(puntos_buf),col = "firebrick")
-    plot(st_geometry(puntos), pch = 16,col = "forestgreen", add = TRUE)
+    plot(madrid, col="grey")
+    plot(mx,border="red",lty=2,add=T)
+    plot(my,border="blue",add=T)
+    plot(m_giro90,col="purple",lwd=2, lty=3,add=T)
 
 ```
 
+
+### Buffer
+El bufer es el polígono que encierra el resultante de dar una determinada distancia en torno a un punto, línea o polígono. Se utiliza mucho para procesos de análisis espacial y la librería sf contienen una función simple para hacerlos `st_buffer(geometria, dist=)`.
+
+La distancia es la separación que hacemos desde la linea de la capa origen, pero hemos de tener en cuenta que las unidades son las de la capa.
+
+En este ejemplo vamos a trabajar con el límite de la comunidad autónoma  de Madrid y vamos a pintar un buffer exterior y otro interior. La capa está en UTM por lo que la distancia es **en metros**.
+
+```{r buffer, eval=TRUE}
+#    par(bg=gray(1),oma=c(0.1,0.1,0.1,0.1),mar=c(0.1,0.1,0.1,0.1))
+  # Calculo 2 capas de buffer una exterior y otra interior
+    mad_buf1<-st_buffer(st_geometry(madrid), dist = 2000)
+    mad_buf2<-st_buffer(st_geometry(madrid), dist = -5000)
+    # pinto las capas  
+    plot(st_geometry(madrid),lwd=2)
+    plot(st_geometry(mad_buf1),border="red",add=T)
+    plot(st_geometry(mad_buf2),border="blue",add=T)
+```
+
 ### Centroide
+El centroide es el baricentro o centro de masas de una geometría. En el caso de multipolígonos la función st_centroid(), nos permite seleccionar la opción de dar el centro de masas total o el del elemento mayor (con el argumento `of_largest_polygon = TRUE`).
 
-```{r}
-# selecciona aragón
-aragon<-autonomias[autonomias$NOM_CCAA == "ARAGON",]
-
-plot(st_geometry(aragon),col=gray(0.4))
-plot(st_centroid(aragon),add=T, pch = 1, cex=2)
+```{r centroide}
+  # selecciona aragón
+    aragon<-autonomias[autonomias$NOM_CCAA == "ARAGON",]
+    plot(st_geometry(aragon),col=gray(0.4))
+    plot(st_centroid(aragon),add=T, pch = 1, cex=2)
 
 #   # pinto las que tocan a aragón
-#toca_aragon<-autonomias[aragon, op = st_touches]
-#    plot(st_geometry(toca_aragon),col=gray(0.4))
-#    plot(st_geometry(aragon),col=gray(0.7), add=T)
+#     toca_aragon<-autonomias[aragon, op = st_touches]
+#     plot(st_geometry(toca_aragon),col=gray(0.4))
+#     plot(st_geometry(aragon),col=gray(0.7), add=T)
 
 #autonomias %>% filter(lengths(st_touches(., aragon)) > 0)
 
@@ -425,20 +544,18 @@ Esta operación consiste en seleccionar una caja o rectángulo que englobe y con
  
 ```{r bbox}
     # caja alrededdor de aragon
-    caja_aragon <- st_make_grid(aragon, n = 1)
+      caja_aragon <- st_make_grid(aragon, n = 1)
     # datos de la caja que envuelve la capa
-    st_bbox(aragon)
+      st_bbox(aragon)
     # pintamos las capas
-    plot(st_geometry(aragon),col=gray(0.4))
-    plot(st_geometry(caja_aragon),add=T)
+      plot(st_geometry(aragon),col=gray(0.4))
+      plot(st_geometry(caja_aragon),add=T)
     
-    plot(st_geometry(aragon),col=gray(0.3))
-    plot(st_geometry(st_make_grid(aragon, n = 4)),add=T)
-
+      plot(st_geometry(aragon),col=gray(0.3))
+      plot(st_geometry(st_make_grid(aragon, n = 4)),add=T)
 ```
 
-### Unir capas `st_union()`
-
+### Unir capas
 Hay que comprender como son los objetos `sf` antes de unirlos, pues en algunas ocasiones podemos hacer un lío sin querer. Las uniones no se pueden hacer sobre objetos simples como POINTS pues trata cada uno como una capa nueva, hay primero que unir la propia capa y transformarla en MULTIPOINT para unirla con otra.
 
 #### Unir puntos
@@ -471,24 +588,6 @@ Creamos dos capas aleatorias de 10 puntos cada una y las unimos con `st_union`. 
     plot(st_geometry(xy_b_union), col="red" ,pch = 19)
 
 ```
-Si no hubiésemos unido antes el POINT nos saldría otra cosa:
- 
-```{r unir_p2}
-    # Forma incorrecta de unir pntos
-    # convertimos a sf 
-    xy_sf1 <- st_as_sf(xy, coords = c("x", "y"), crs=25831)
-    xy2_sf1 <- st_as_sf(xy2, coords = c("x", "y"), crs=25831)
-    class(xy_sf1)
-    # unimos POINT 
-    xy_b_union1<-st_union(xy_sf1,xy2_sf1)
-    
-    class(xy_b_union1)
-    # tiene length =3 , pues una es la geometría, y otras 2 los id de cada capa
-    length(xy_b_union1)
-    # ahora veremos que son 100 puntos
-    summary(xy_b_union1)
-    #st_dimension(xy_b_union)
-```
 
 #### Unir polígonos
 Con los polígonos, `st_union()` disolverá todos los polígonos en un solo polígono que representa el área superpuesta de todos. 
@@ -519,7 +618,7 @@ Con los polígonos, `st_union()` disolverá todos los polígonos en un solo pol�
     plot(p_buf_union)
 ```
 
-### Agregar datos entre capas `aggregate`
+### Asignar datos por geometría aggregate
 
 Si tenemos una capa de puntos y otra de polígonos, y queremos calcular la media de los valores de puntos en cada polígono usaremos `aggregate`.
 
@@ -571,7 +670,7 @@ La función `st_convex_hull()` calcula la envolvente dado una capa MULTIPOINT, e
     plot(puntos_hull, add = T)
 ```
 
-### Vínculos espaciales `st_join()`
+### Vínculos espaciales `st_join()` {#vinculos-espaciales}
 
 Los vínculos de join son diferentes a *union*, lo que se hace es asociar una variable de una capa a otra capa determinando el valor por su posición geográfica.
 
@@ -623,7 +722,7 @@ El resultado de estas y otras funciones relacionadas es un tipo especial de list
         pol<-st_sf(pol0)
         zona<-st_union(pol)
         # pintamos los dos poligonos 
-        plot(pol)
+        plot(st_geometry(pol))
         text(x=c(0.25,0.75), y=c(0.75,0.25), labels = 1:2)
     
     # generamos 5 puntos
@@ -636,7 +735,7 @@ El resultado de estas y otras funciones relacionadas es un tipo especial de list
     # bufer contenido en rectanguno
     vecinos_cont <- st_contains(zona,p5_buffer)
     cont <- vecinos_cont[[1]]
-    plot(p5_buffer[cont], add = TRUE, col = "yellow")
+    plot(p5_buffer[cont], add = TRUE, col = scales::alpha("yellow", 0.4))
 ```
 
 Veamos ahora un ejemplo de intersección:
@@ -649,11 +748,11 @@ Veamos ahora un ejemplo de intersección:
     # bufer contenido en poligono
     vecinos_inter <- st_intersects(zona,p5_buffer)
     inter <- vecinos_inter[[1]]
-    plot(p5_buffer[inter], add = TRUE, col = "yellow")
+    plot(p5_buffer[inter], add = TRUE, col = scales::alpha("yellow", 0.4))
     
     # recortamos con clip
     vecinos_clip <- st_intersection(p5_buffer, zona)
-    plot(vecinos_clip, add = TRUE, col = "red")
+    plot(vecinos_clip, add = TRUE, col = scales::alpha("red", 0.5))
 ```
 
 
@@ -700,5 +799,5 @@ En este ejercicio, vamos a generar puntos aleatorios dentro del mapa de la Regi�
          pos=1,cex=0.8)
 ```
 
-
+[Volver al índice](#indice)
 
