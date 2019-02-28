@@ -29,9 +29,9 @@ editor_options:
 <script src="/rmarkdown-libs/DiagrammeR-binding/DiagrammeR.js"></script>
 
 
-<p>Hace muy poco tiempo, usar <em>SIG</em> en R era bastante difícil. Teníamos que aprender el uso de muchas librerías diferentes que no tenían conexión de sintaxis. En mi caso acostumbrado a usar <em>Arcgis</em> y <em>QGIS</em>, veía que las opciones de R en aquel entonces estaban bastante limitadas, pero siempre creí que tenía un gran futuro para hacer SIG , solo faltaba tiemo de desarrollo.</p>
-<p>La principal librería para datos espaciales era <code>sp</code>, pero era necesario siempre buscar funciones en otros paquetes. Todo ha cambiado desde que tenemos <code>sf</code>. Ha sido, desde mi punto de vista, un acierto absoluto rehacer la programación desde la perspectiva de sf, y tener todas las funciones disponibles, juntas y con la misma sintaxis.</p>
-<p>La desventaja, es que <em>simple features</em> (sf) requiere de cierta práctica para cogerle el tranquillo y que es un poco compleja de comprender al principio, pero para eso he escrito este intenso manual de consulta de <code>sf</code>, con muchas de las funciones habituales y un resumen teórico que seguro os ayuda a iniciaros en el R SIG.</p>
+<p>Hace poco tiempo, usar <em>SIG</em> en R era bastante difícil. Teníamos que aprender el uso de muchas librerías diferentes que no tenían conexión de sintaxis. En mi caso acostumbrado a usar <em>Arcgis</em> y <em>QGIS</em>, veía que las opciones de R en aquel entonces estaban bastante limitadas, pero siempre creí que tenía un gran futuro para hacer SIG, solo faltaba tiempo de desarrollo.</p>
+<p>La principal librería para SIG y datos espaciales era <code>sp</code>, pero necesitabas siempre buscar funciones complementarias en otros paquetes. Todo esto ha cambiado desde que tenemos <code>sf</code>. Ha sido, un acierto rehacer la programación desde la perspectiva unitaria y lógica de sf, y tener así todas las funciones SIG integradas y bajo una misma sintaxis.</p>
+<p>La desventaja es que <em>simple features</em> (sf) requiere de cierta práctica para comprender su filosofía y habituarse a sus funciones, pero para eso he escrito este intenso manual de consulta de <code>sf</code>. El articulo es largo, pero expone un repaso fundamental de muchas de las funciones de sf y un resumen teórico que seguro os ayuda para iniciaros en la generación de mapas con R.</p>
 <div id="indice" class="section level2">
 <h2>Indice</h2>
 <ul>
@@ -45,11 +45,12 @@ editor_options:
 <li><a href="#lectura-Escritura">Lectura-Escritura</a>
 <ul>
 <li><a href="#lectura">Lectura</a></li>
+<li><a href="#escritura">Escritura</a></li>
 </ul></li>
 <li><a href="#seleccion">Selección</a>
 <ul>
-<li><a href="#Seleccion-por-tabla">Seleccion por tabla</a></li>
-<li><a href="#Seleccion-espacial">Seleccion espacial</a></li>
+<li><a href="#seleccion-por-tabla">Seleccion por tabla</a></li>
+<li><a href="#seleccion-espacial">Seleccion espacial</a></li>
 <li><a href="#anadir-nuevos-campos-a-un-data">Añadir nuevos campos a un data.frame sf</a></li>
 </ul></li>
 <li><a href="#conversion">Conversión</a>
@@ -62,7 +63,7 @@ editor_options:
 <li><a href="#sf-a-geometria">sf a geometría</a></li>
 <li><a href="#geometria-a-sf">geometría a sf</a></li>
 </ul></li>
-<li><a href="#Operaciones-espaciales">Operaciones espaciales</a>
+<li><a href="#operaciones-espaciales">Operaciones espaciales</a>
 <ul>
 <li><a href="#desplazamiento-y-giro">Desplazamiento y giro</a></li>
 <li><a href="#buffer">Buffer</a></li>
@@ -75,30 +76,33 @@ editor_options:
 <li><a href="#envolvente-convexa">Envolvente convexa</a></li>
 <li><a href="#vinculos-espaciales">Vínculos espaciales <code>st_join()</code></a></li>
 <li><a href="#Contiene-e-intersecta">Contiene e intersecta</a></li>
-<li><a href="#Distancias">Distancias</a></li>
+<li><a href="#distancias">Distancias</a></li>
 </ul></li>
 </ul>
 </div>
 <div id="simple-features" class="section level2">
 <h2>Simple features</h2>
-<p>La descripción de los objetos <em>sf</em> se ha estandarizado con la publicación de la <em>ISO 19125</em>. Se trata de un documento de consenso que define la arquitectura de objetos espaciales <em>sf</em> (simple features) desarrollado bajo el paraguas del consorcio <strong>OpenGIS</strong>.</p>
-<p>La base geométrica básica de los objetos <em>sf</em> la forman 4 elementos simples (subclases): el punto, la curva, la superficie y las colecciones espaciales. Las colecciones son listas de objetos. Además cada objeto se asocia a un Sistema Espacial de Referencia (SRS)</p>
-<p>El esquema básico de la geometrías que establece <strong>OpenGIS</strong> y se aplica a sf es el siguiente:</p>
+<p>La descripción de los objetos <em>sf</em> se ha estandarizado desde la publicación de la <em>ISO 19125</em>. Se trata de un documento de consenso que define la arquitectura de objetos espaciales <em>sf</em> (simple features) desarrollado bajo el paraguas del consorcio <strong>OpenGIS</strong>.</p>
+<p>La base geométrica teórica la forman 4 elementos simples (subclases): el punto, la curva, la superficie y las colecciones espaciales. Las <strong>colecciones</strong> son solo listas de objetos.</p>
+<p><strong>OpenGIS</strong> define la arquitectura del sistema geométrico espacial así:</p>
 <div class="figure">
 <img src="/post/2019-02-26-manual-de-sf-para-sig_files/esquema_sf.png" alt="esquema objetos sf" />
 <p class="caption">esquema objetos sf</p>
 </div>
+<p>Como vemos, la definición geométrica es una clase, y otra diferente los sistema de referencia y medida. Esto es importante y se aplica directamente en los objetos sf, que como veremos se descomponen en otros llamados sfc y sfg.</p>
 <p><a href="#indice">Volver al índice</a></p>
 </div>
 <div id="descomposicion-de-sf" class="section level2">
 <h2>Descomposición de sf</h2>
-<p>Los objetos <em>sf</em> se descomponen en una serie de sub objetos característicos. Esta descomposición es algo liosa y difícil de comprender, pero es necesario entenderla para usar todo el potencial de la librería, y además lo expondremos de forma sencilla:</p>
-<p>Un objeto <em>sf</em> se compone de un objeto <em>sfc</em> y de una data.frame. A su vez un objeto <em>sfc</em> se descompone en un objeto <em>sfg</em> y un sistema de coordenadas de referencia (CRS). El esquema básico es así:</p>
+<p>Los objetos <em>sf</em> se forman como integración de unas piezas o subclases que heredan las caracteristicas de la ISO19125.</p>
+<p>Básicamente un objeto <em>sf</em> se descompone en un objeto <em>sfc</em> y de otro <em>data.frame</em>. A su vez un objeto <em>sfc</em> se descompone en un objeto <em>sfg</em> y otro <em>CRS</em> (sistema de coordenadas de referencia CRS). Y podemos continuar con la descomposición del <em>sfg</em> en otras clases como <em>POINT</em>, <em>LINESTRING</em>…</p>
+<p>El esquema básico es así:</p>
 <div id="htmlwidget-1" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
-<script type="application/json" data-for="htmlwidget-1">{"x":{"diagram":"graph TD;\n  \n      1[sf]-->2[sfc];\n      2-->3[sfg];\n      2-->4[CRS];\n      1-->5[data.frame];\n      3-->30(POINT)\n      3-->31(MULTIPOINT )\n      3-->32(LINESTRING)\n      3-->33(MULTILINESTRING )\n      3-->34(POLYGON )\n      3-->35(MULTIPOLYGON )\n\n  style 1 fill:#E5E25F;\n  style 2 fill:#81F7BE;\n  style 3 fill:#FAAC58;\n  style 4 fill:#FA58F4\n  "},"evals":[],"jsHooks":[]}</script>
+<script type="application/json" data-for="htmlwidget-1">{"x":{"diagram":"graph LR;\n  \n      1[sf]-->2[     sfc    ];\n      2-->3[    sfg    ];\n      2-->4[    CRS    ];\n      1-->5[data.frame];\n      3-->30(POINT)\n      3-->31(MULTIPOINT)\n      3-->32(LINESTRING)\n      3-->33(MULTILINESTRING)\n      3-->34(POLYGON)\n      3-->35(MULTIPOLYGON)\n\n  style 1 fill:#E5E25F;\n  style 2 fill:#81F7BE;\n  style 3 fill:#FAAC58;\n  style 4 fill:#FA58F4\n  "},"evals":[],"jsHooks":[]}</script>
+<p>Veamos más detenidamente cada uno, comenzando por el de más bajo nivel hasta llegar a sf.</p>
 <div id="sfg" class="section level3">
 <h3>sfg</h3>
-<p>Los objetos sfg almacenan la geometría básica con la información gráfica del objeto: las coordenadas, dimensiones, tipo. Hay 17 tipos posibles, pero los más básicos son:</p>
+<p>La clase <em>sfg</em> almacena la geometría con la información gráfica del objeto: las coordenadas, dimensiones, tipo de geometría… Hay 17 tipos posibles, pero los más básicos son:</p>
 <ul>
 <li><em>POINT</em>: un punto simple (un vector x,y)</li>
 <li><em>MULTIPOINT</em>: múltiples puntos (una matriz cada fila un punto)</li>
@@ -108,32 +112,39 @@ editor_options:
 <li><em>MULTIPOLYGON</em>: múltiple polígonos</li>
 <li><em>GEOMETRYCOLLECTION</em>: cualquier combinación de los anteriores</li>
 </ul>
-<p>Para crear cualquiera de estas geometrías la librería sf contiene una serie de funciones creadoras:<code>st_point()</code>, <code>st_multipoint()</code>, <code>st_linestring()</code>, <code>st_polygon()</code>.</p>
+<p>Para crear cualquiera de estas geometrías básicas la librería <code>sf</code> contiene una serie de funciones creadoras:<code>st_point()</code>, <code>st_multipoint()</code>, <code>st_linestring()</code>, <code>st_polygon()</code>. Veamos unos ejemplo de uso:</p>
 <pre class="r"><code>    library(sf)
-    punto1&lt;- st_point(c(-3.7025599,40.4165001))
-class(punto1)</code></pre>
+    # Crear la geometría de un punto
+      punto1&lt;- st_point(c(-3.7,40.41))
+      punto2&lt;- st_point(c(-2.5,39.25))
+      class(punto1)</code></pre>
 <pre><code>## [1] &quot;XY&quot;    &quot;POINT&quot; &quot;sfg&quot;</code></pre>
-<pre class="r"><code>    linea1&lt;- st_linestring(rbind(c(-3.7025599,40.4165001),c(2.1589899,41.3887901)))
-  class(linea1)</code></pre>
+<pre class="r"><code>    # Crea un multipunto
+      multip&lt;-st_multipoint(rbind(punto1,punto2))
+      class(multip)</code></pre>
+<pre><code>## [1] &quot;XY&quot;         &quot;MULTIPOINT&quot; &quot;sfg&quot;</code></pre>
+<pre class="r"><code>    # Crea la geometría de una linea
+      linea1&lt;- st_linestring(rbind(c(-3.7025599,40.4165001),c(2.1589899,41.3887901)))
+      class(linea1)</code></pre>
 <pre><code>## [1] &quot;XY&quot;         &quot;LINESTRING&quot; &quot;sfg&quot;</code></pre>
-<pre class="r"><code>  # pintamos los sfg
-    plot(linea1)
-    plot(punto1,add=T, col=&quot;red&quot;)</code></pre>
-<p><img src="/post/2019-02-26-manual-de-sf-para-sig_files/figure-html/crea_sfg-1.png" width="672" /></p>
 </div>
 <div id="sfc" class="section level3">
 <h3>sfc</h3>
-<p>Los <em>simple feature geometry list column</em> o sfc son objetos <em>sfg</em> a los que se les aporta un sistema de referencia CRS (<em>Coordinate Reference System</em>). Para crear un objeto sfc se coge uno sfg y se le añade el sistema de referencia con la función <code>st_sfc(sfg, crs)</code>. Por defecto el sistema de referencia es NA.</p>
-<p>Un sistema de referencia se puede aportar de dos maneras con el código <a href="http://www.epsg.org/">EPSG</a> o mediante una cadena de texto en formato <a href="https://proj4.org/">proj4string</a>.</p>
-<p>Un CRS se compone de varios atributos, principalmente:</p>
+<p>Los <em>simple feature geometry list column</em> o <em>sfc</em> son objetos <em>sfg</em> a los que se les aporta un sistema de referencia CRS (<em>Coordinate Reference System</em>). Para crear un objeto <em>sfc</em> se coge uno <em>sfg</em> y se le añade el sistema de referencia con la función <code>st_sfc(sfg, crs)</code>. Por defecto el sistema de referencia que se añade es NA, a no ser que se especifique otro.</p>
+<p>Un sistema de referencia se puede aportar de dos maneras, que corresponden con los 2 estandars más habituales:</p>
+<ol style="list-style-type: decimal">
+<li>con el código <a href="http://www.epsg.org/">EPSG</a></li>
+<li>como texto formato <a href="https://proj4.org/">proj4string</a>.</li>
+</ol>
+<p>Ambos son equivalentes, pero se expresan de diferente forma. Puedes ver un listado de los códigos <em>epsg</em> habituales en el post <a href="../geoposicionar-fotografías">geoposicionar fotografías</a>.</p>
+<p>También vimos en ese artículo que un sistema de referecia (CRS) se compone de varios atributos:</p>
 <ul>
-<li>Ellipsoide (describe la forma de la tierra del modelo)</li>
-<li>Datum (define el origen y orientación de los ejes de coordenadas)</li>
-<li>Proyección (pasa a 2D los datos en 3D anteriores)</li>
+<li><em>Ellipsoide</em> (describe la forma de la tierra del modelo)</li>
+<li><em>Datum</em> (define el origen y orientación de los ejes de coordenadas)</li>
+<li><em>Proyección</em> (pasa a 2D los datos en 3D anteriores)</li>
 </ul>
-<p>Como puedes imaginar se pueden combinar a voluntad, aunque según la región del globo son más habituales unas que otras.</p>
-<p>Una forma de identificar la combinación de los 3 atributos anteriores es mediante las denominaciones o códigos EPSG de (European Petroleum Survey Group).</p>
-<p>En España desde agosto del 2007 existe un sistema de referencia oficial que es el ETRS89 para la península y Baleares y el REGCAN95 para la zona de Canarias. Los códigos EPSG correspondientes a estos sistemas son:</p>
+<p>Una forma de identificar la combinación de los 3 atributos anteriores es mediante los códigos EPSG llamados así por el acrónimo de European Petroleum Survey Group.</p>
+<p>En España desde agosto del 2007 existe un sistema de referencia oficial que es el ETRS89 para la península y Baleares y el REGCAN95 para Canarias. Los códigos EPSG correspondientes a estos sistemas son:</p>
 <ul>
 <li><em>4258</em>, para coordenadas geográficas.</li>
 <li><em>258xx</em>, para UTM, donde “xx” es el huso (28,29,30 o 31) .</li>
@@ -151,13 +162,14 @@ class(punto1)</code></pre>
 <pre><code>## Geometry set for 2 features 
 ## geometry type:  GEOMETRY
 ## dimension:      XY
-## bbox:           xmin: -3.70256 ymin: 40.4165 xmax: 2.15899 ymax: 41.38879
+## bbox:           xmin: -3.70256 ymin: 40.41 xmax: 2.15899 ymax: 41.38879
 ## epsg (SRID):    4326
 ## proj4string:    +proj=longlat +datum=WGS84 +no_defs</code></pre>
 </div>
 <div id="sf" class="section level3">
 <h3>sf</h3>
-<p>Siguiendo hacia arriba la descripción, cuando a un objeto sfc le asignamos un data.frame asociado obtenemos un objeto sf completo. Para ayudarnos está la función <code>st_sf(tabla, geometría)</code></p>
+<p>Cuando, a un objeto <em>sfc</em> le asociamos un <em>data.frame</em> obtenemos un objeto <em>sf</em>.</p>
+<p>Para crear una instancia de <em>sf</em> está la función <code>st_sf(data.frame, sfc)</code></p>
 <pre class="r"><code># Creamos una data frame
   data &lt;- data.frame(nombre = c(&quot;punto&quot;, &quot;Linea&quot;))
   
@@ -168,23 +180,23 @@ class(punto1)</code></pre>
 <pre><code>## Simple feature collection with 2 features and 1 field
 ## geometry type:  GEOMETRY
 ## dimension:      XY
-## bbox:           xmin: -3.70256 ymin: 40.4165 xmax: 2.15899 ymax: 41.38879
+## bbox:           xmin: -3.70256 ymin: 40.41 xmax: 2.15899 ymax: 41.38879
 ## epsg (SRID):    4326
 ## proj4string:    +proj=longlat +datum=WGS84 +no_defs
 ##   nombre                      coleccion
-## 1  punto       POINT (-3.70256 40.4165)
+## 1  punto             POINT (-3.7 40.41)
 ## 2  Linea LINESTRING (-3.70256 40.416...</code></pre>
 <pre class="r"><code>  # para descomponer y quedarnos solo con data.frama
   st_set_geometry(objeto_sf,NULL)</code></pre>
 <pre><code>##   nombre
 ## 1  punto
 ## 2  Linea</code></pre>
-<pre class="r"><code>  # solo la geometría 
+<pre class="r"><code>  # para descomponer y quedarnos solo la geometría 
   st_geometry(objeto_sf)</code></pre>
 <pre><code>## Geometry set for 2 features 
 ## geometry type:  GEOMETRY
 ## dimension:      XY
-## bbox:           xmin: -3.70256 ymin: 40.4165 xmax: 2.15899 ymax: 41.38879
+## bbox:           xmin: -3.70256 ymin: 40.41 xmax: 2.15899 ymax: 41.38879
 ## epsg (SRID):    4326
 ## proj4string:    +proj=longlat +datum=WGS84 +no_defs</code></pre>
 </div>
@@ -193,7 +205,8 @@ class(punto1)</code></pre>
 <h2>Lectura-Escritura</h2>
 <div id="lectura" class="section level3">
 <h3>Lectura</h3>
-<p>La función de lectura básica de <code>sf</code> es <code>st_read()</code>. Esta función lee múltiples formatos GIS y de datos. Vamos hacer un ejemplo con datos <em>shp</em> descargados de la <a href="https://servicio.mapama.gob.es/sia/visualizacion/descargas/mapas.jsp">web del Ministerio de Medio Ambiente de España</a></p>
+<p>La función de lectura básica de <code>sf</code> es <code>st_read()</code>. Esta función lee múltiples formatos de datos SIG.</p>
+<p>Vamos a hacer un ejemplo leyendo los datos <em>shp</em> descargados de la <a href="https://servicio.mapama.gob.es/sia/visualizacion/descargas/mapas.jsp">web del Ministerio de Medio Ambiente de España</a></p>
 <p>Descargamos la capa de las comunidades autónomas de la web (<em>Comunidades autonomas.shp</em>) y la guardamos en la carpeta capas.</p>
 <pre class="r"><code># Lectura de datos
     library(sf)
@@ -283,6 +296,7 @@ class(punto1)</code></pre>
 <pre class="r"><code>    # Canarias sola    
     autonomias %&gt;% select(COD_CCAA)%&gt;% filter(COD_CCAA==&quot;04&quot;) %&gt;% plot()</code></pre>
 <p><img src="/post/2019-02-26-manual-de-sf-para-sig_files/figure-html/seleccion-2.png" width="672" /></p>
+<p><a href="#indice">Volver al índice</a></p>
 </div>
 <div id="seleccion-espacial" class="section level3">
 <h3>Seleccion espacial</h3>
@@ -382,7 +396,8 @@ class(punto1)</code></pre>
         pts_autonomias_simple &lt;- st_cast(autonomias_simple$geometry, &quot;MULTIPOINT&quot;)
         cnt_autonomias_simple &lt;- sapply(pts_autonomias_simple, length)
         sum(cnt_autonomias_simple)</code></pre>
-<pre><code>## [1] 38756</code></pre>
+<pre><code>## [1] 38760</code></pre>
+<p><a href="#indice">Volver al índice</a></p>
 </div>
 <div id="sp-a-sf" class="section level3">
 <h3>sp a sf</h3>
@@ -415,14 +430,13 @@ class(punto1)</code></pre>
 <pre><code>## Coordinate Reference System:
 ##   EPSG: 2062 
 ##   proj4string: &quot;+proj=lcc +lat_1=40 +lat_0=40 +lon_0=0 +k_0=0.9988085293 +x_0=600000 +y_0=600000 +a=6378298.3 +b=6356657.142669561 +pm=madrid +units=m +no_defs&quot;</code></pre>
+<p><a href="#indice">Volver al índice</a></p>
 </div>
 <div id="puntos-xy-a-sf" class="section level3">
 <h3>puntos xy a sf</h3>
 <p>Simplemente pasamos los puntos a un data frame y procedemos como <a href="#dataframe-a-sf">antes</a>.</p>
 <p>Necesitamos la función <code>st_as_sf()</code> indicando si los datos son x-y o lon-lat o el nombre de los campos o columnas que sea la x y la y en un vector y el crs de la capa si lo conocemos.</p>
-<p>El CRS puede ser especificado como <em>proj4</em> o <em>EPSG</em>.</p>
-<p>ejemplo:</p>
-<pre><code>c_sf &lt;- st_as_sf(tablaxy, coords = c(&quot;nombre_campo_X&quot;,&quot;nombre_campo_Y&quot;), crs = 4326)</code></pre>
+<p>El CRS puede ser especificado como <em>proj4</em> o <em>EPSG</em>. Ejemplo:<code>c_sf &lt;- st_as_sf(tablaxy, coords = c(&quot;nombre_campo_X&quot;,&quot;nombre_campo_Y&quot;), crs = 4326)</code></p>
 <pre class="r"><code>    # creamos una data frame de puntos de 3 ciudades de españa
     # además metemos el campo nombre
     p_esp&lt;- data.frame(lon=c(-3.7025599,2.1589899, -0.37739, -5.9731698),
@@ -437,7 +451,7 @@ class(punto1)</code></pre>
 <pre class="r"><code>    # pintamos los puntos
     plot(st_geometry(p_esp), col=&quot;red&quot;,pch=16)
     text(st_coordinates(p_esp),labels = p_esp$nom, pos=3)</code></pre>
-<p><img src="/post/2019-02-26-manual-de-sf-para-sig_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p><img src="/post/2019-02-26-manual-de-sf-para-sig_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
 </div>
 <div id="sf-a-fichero-x-y" class="section level3">
 <h3>sf a fichero x-y</h3>
@@ -445,6 +459,7 @@ class(punto1)</code></pre>
 <p>Para extraer las coordenadas de una capa en formato de tabla y escribirla en un fichero usaremos el comando <code>st_write()</code>, pero hay que usar un comando oculto para que realmente escriba las coordenadas esplicitamente con <code>layer_options = &quot;GEOMETRY=AS_XY&quot;</code>.</p>
 <pre class="r"><code>    # sacar las coordenadas de una capa a un fichero csv
     st_write(pts2, &quot;pts.csv&quot;, layer_options = &quot;GEOMETRY=AS_XY&quot;)</code></pre>
+<p><a href="#indice">Volver al índice</a></p>
 </div>
 <div id="sf-a-geometria" class="section level3">
 <h3>sf a geometría</h3>
@@ -454,10 +469,10 @@ class(punto1)</code></pre>
 <pre><code>## [1] 4</code></pre>
 <pre class="r"><code>    # si pintamos nos dibuja cada campo
     plot(autonomias_simple)</code></pre>
-<p><img src="/post/2019-02-26-manual-de-sf-para-sig_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p><img src="/post/2019-02-26-manual-de-sf-para-sig_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 <pre class="r"><code>    # si queremos solo la geometría hacemos esto
     plot(st_geometry(autonomias_simple),col=1:19)</code></pre>
-<p><img src="/post/2019-02-26-manual-de-sf-para-sig_files/figure-html/unnamed-chunk-4-2.png" width="672" /></p>
+<p><img src="/post/2019-02-26-manual-de-sf-para-sig_files/figure-html/unnamed-chunk-3-2.png" width="672" /></p>
 </div>
 <div id="geometria-a-sf-geometria-a-sf" class="section level3">
 <h3>geometría a sf {##geometria-a-sf}</h3>
@@ -488,7 +503,7 @@ class(punto1)</code></pre>
 <h2>Operaciones espaciales</h2>
 <div id="desplazamiento-y-giro" class="section level3">
 <h3>Desplazamiento y giro</h3>
-<p>Estas transformaciones simples se suelen denominar operaciones afines y se trata simplemente de desplazamientos y giros de capas espeaciales.</p>
+<p>Estas transformaciones simples se suelen denominar <em>operaciones afines</em> y se trata simplemente de desplazamientos y giros de capas espeaciales.</p>
 <p>Vamos a realizar unas transformaciones afines simples a la capa del límite de la CCAA de Madrid simplificado en coordenadas UTM.</p>
 <p>Haremos un desplazamiento en eje X y otro en Y. Para el giro tenemos que hace una función simple llamada rot que transforma las coordenadas. Las unidades UTM son en metros. En la transformación de giro necesitamos definir un punto de giro, que será el centroide de la capa, y además le aplicamos una escalación multiplicando por 0.5.</p>
 <pre class="r"><code>##Obtener el limite de la CAM
@@ -626,7 +641,7 @@ class(punto1)</code></pre>
 <pre><code>## [1] 2 2 2 2 2</code></pre>
 <pre class="r"><code>    # Plot 
     plot(p_buffers,col=1:5)</code></pre>
-<p><img src="/post/2019-02-26-manual-de-sf-para-sig_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p><img src="/post/2019-02-26-manual-de-sf-para-sig_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 <pre class="r"><code>    # unimos la geometria
     p_buf_union &lt;- st_union(p_buffers)
     # numero de geometrías en la capa unida
@@ -634,7 +649,7 @@ class(punto1)</code></pre>
 <pre><code>## [1] 1</code></pre>
 <pre class="r"><code>    # Plot 
     plot(p_buf_union)</code></pre>
-<p><img src="/post/2019-02-26-manual-de-sf-para-sig_files/figure-html/unnamed-chunk-6-2.png" width="672" /></p>
+<p><img src="/post/2019-02-26-manual-de-sf-para-sig_files/figure-html/unnamed-chunk-5-2.png" width="672" /></p>
 </div>
 </div>
 <div id="asignar-datos-por-geometria-aggregate" class="section level3">
@@ -648,7 +663,7 @@ class(punto1)</code></pre>
     # transformamos en una lista sf los 2 pol
         pol = st_sfc(st_polygon(list(m1)), st_polygon(list(m2)))
         plot(pol,col=1:2)</code></pre>
-<p><img src="/post/2019-02-26-manual-de-sf-para-sig_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p><img src="/post/2019-02-26-manual-de-sf-para-sig_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 <pre class="r"><code>        class(pol)</code></pre>
 <pre><code>## [1] &quot;sfc_POLYGON&quot; &quot;sfc&quot;</code></pre>
 <pre class="r"><code>        str(pol)</code></pre>
@@ -664,14 +679,14 @@ class(punto1)</code></pre>
     puntos = st_as_sf(x = d, coords = 1:2)
     plot(pol)
     plot(puntos,pch = 5,lwd=5, add = TRUE)</code></pre>
-<p><img src="/post/2019-02-26-manual-de-sf-para-sig_files/figure-html/unnamed-chunk-7-2.png" width="672" /></p>
+<p><img src="/post/2019-02-26-manual-de-sf-para-sig_files/figure-html/unnamed-chunk-6-2.png" width="672" /></p>
 <pre class="r"><code>    # Usamos aggregate
     # calculamos la media en cada poligono
     p_ag1 = aggregate(puntos, pol, mean)
     plot(p_ag1)
     plot(puntos,pch = 5,lwd=5, add = TRUE)
     text(d$x, d$y, labels=round(d$z,2), cex= 0.8, pos=3)</code></pre>
-<p><img src="/post/2019-02-26-manual-de-sf-para-sig_files/figure-html/unnamed-chunk-7-3.png" width="672" /></p>
+<p><img src="/post/2019-02-26-manual-de-sf-para-sig_files/figure-html/unnamed-chunk-6-3.png" width="672" /></p>
 <pre class="r"><code>    st_dimension(p_ag1)</code></pre>
 <pre><code>## [1] 2 2</code></pre>
 </div>
@@ -777,7 +792,7 @@ class(punto1)</code></pre>
     # recortamos con clip
     vecinos_clip &lt;- st_intersection(p5_buffer, zona)
     plot(vecinos_clip, add = TRUE, col = scales::alpha(&quot;red&quot;, 0.5))</code></pre>
-<p><img src="/post/2019-02-26-manual-de-sf-para-sig_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p><img src="/post/2019-02-26-manual-de-sf-para-sig_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
 </div>
 <div id="distancias" class="section level3">
 <h3>Distancias</h3>
@@ -820,7 +835,7 @@ class(punto1)</code></pre>
     text(st_coordinates(puntos_mur),
          labels = paste0(&quot;km:&quot;,round(unclass(d)[1,]/1000,0)),
          pos=1,cex=0.8)</code></pre>
-<p><img src="/post/2019-02-26-manual-de-sf-para-sig_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p><img src="/post/2019-02-26-manual-de-sf-para-sig_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
 <p><a href="#indice">Volver al índice</a></p>
 </div>
 </div>

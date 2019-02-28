@@ -27,11 +27,11 @@ knitr::opts_chunk$set(echo = TRUE, warning = FALSE,message = FALSE)
     library(sf)
 ```
 
-Hace muy poco tiempo, usar *SIG* en R era bastante difícil. Teníamos que aprender el uso de muchas librerías diferentes que no tenían conexión de sintaxis. En mi caso acostumbrado a usar *Arcgis* y *QGIS*, veía que las opciones de R en aquel entonces estaban bastante limitadas, pero siempre creí que tenía un gran futuro para hacer SIG , solo faltaba tiemo de desarrollo.
+Hace poco tiempo, usar *SIG* en R era bastante difícil. Teníamos que aprender el uso de muchas librerías diferentes que no tenían conexión de sintaxis. En mi caso acostumbrado a usar *Arcgis* y *QGIS*, veía que las opciones de R en aquel entonces estaban bastante limitadas, pero siempre creí que tenía un gran futuro para hacer SIG, solo faltaba tiempo de desarrollo.
 
-La principal librería para datos espaciales era `sp`, pero era necesario siempre buscar funciones en otros paquetes. Todo ha cambiado desde que tenemos `sf`. Ha sido, desde mi punto de vista, un acierto absoluto rehacer la programación desde la perspectiva de sf, y tener todas las funciones disponibles, juntas y con la misma sintaxis.
+La principal librería para SIG y datos espaciales era `sp`, pero necesitabas siempre buscar funciones complementarias en otros paquetes. Todo esto ha cambiado desde que tenemos `sf`. Ha sido, un acierto rehacer la programación desde la perspectiva unitaria y lógica de sf, y tener así todas las funciones SIG integradas y bajo una misma sintaxis.
 
-La desventaja, es que *simple features* (sf) requiere de cierta práctica para cogerle el tranquillo y que es un poco compleja de comprender al principio, pero para eso he escrito este intenso manual de consulta de `sf`, con muchas de las funciones habituales y un resumen teórico que seguro os ayuda a iniciaros en el R SIG.
+La desventaja es que *simple features* (sf) requiere de cierta práctica para comprender su filosofía y habituarse a sus funciones, pero para eso he escrito este intenso manual de consulta de `sf`. El articulo es largo, pero expone un repaso fundamental de  muchas de las funciones de sf y un resumen teórico que seguro os ayuda para iniciaros en la generación de mapas con R.
 
 ## Indice {#indice}
 
@@ -42,9 +42,10 @@ La desventaja, es que *simple features* (sf) requiere de cierta práctica para c
     + [sf](#sf)
   * [Lectura-Escritura](#lectura-Escritura) 
     + [Lectura](#lectura)
+    + [Escritura](#escritura)
   * [Selección](#seleccion) 
-    + [Seleccion por tabla](#Seleccion-por-tabla)
-    + [Seleccion espacial](#Seleccion-espacial)
+    + [Seleccion por tabla](#seleccion-por-tabla)
+    + [Seleccion espacial](#seleccion-espacial)
     + [Añadir nuevos campos a un data.frame sf](#anadir-nuevos-campos-a-un-data)
   * [Conversión](#conversion) 
     + [simplify](#simplify)
@@ -54,7 +55,7 @@ La desventaja, es que *simple features* (sf) requiere de cierta práctica para c
     + [puntos xy a sf](#puntos-xy-a-sf)
     + [sf a geometría](#sf-a-geometria)
     + [geometría a sf](#geometria-a-sf)
-  * [Operaciones espaciales](#Operaciones-espaciales)
+  * [Operaciones espaciales](#operaciones-espaciales)
     + [Desplazamiento y giro](#desplazamiento-y-giro)
     + [Buffer](#buffer) 
     + [Centroide](#centroide) 
@@ -66,40 +67,44 @@ La desventaja, es que *simple features* (sf) requiere de cierta práctica para c
     + [Envolvente convexa](#envolvente-convexa)
     + [Vínculos espaciales `st_join()`](#vinculos-espaciales)
     + [Contiene e intersecta](#Contiene-e-intersecta)
-    + [Distancias](#Distancias)    
+    + [Distancias](#distancias)    
   
   
 ## Simple features 
-La descripción de los objetos *sf* se ha estandarizado con la publicación de la *ISO 19125*. Se trata de un documento de consenso que define la arquitectura de objetos espaciales *sf* (simple features) desarrollado bajo el paraguas del consorcio **OpenGIS**.
+La descripción de los objetos *sf* se ha estandarizado desde la publicación de la *ISO 19125*. Se trata de un documento de consenso que define la arquitectura de objetos espaciales *sf* (simple features) desarrollado bajo el paraguas del consorcio **OpenGIS**.
 
-La base geométrica básica de los objetos *sf* la forman 4 elementos simples (subclases): el punto, la curva, la superficie y las colecciones espaciales. Las colecciones son listas de objetos. Además cada objeto se asocia a un Sistema Espacial de Referencia (SRS)
+La base geométrica teórica la forman 4 elementos simples (subclases): el punto, la curva, la superficie y las colecciones espaciales. Las **colecciones** son solo listas de objetos. 
 
-El esquema básico de la geometrías que establece **OpenGIS** y se aplica a sf es el siguiente:
+**OpenGIS** define la arquitectura del sistema geométrico espacial así:
 
 ![esquema objetos sf](/post/2019-02-26-manual-de-sf-para-sig_files/esquema_sf.png)
+
+Como vemos, la definición geométrica es una clase, y otra diferente los sistema de referencia y medida. Esto es importante y se aplica directamente en los objetos sf, que como veremos se descomponen en otros llamados sfc y sfg.
 
 [Volver al índice](#indice)
 
 ## Descomposición de sf {#descomposicion-de-sf}
-Los objetos *sf* se descomponen en una serie de sub objetos característicos. Esta descomposición es algo liosa y difícil de comprender, pero es necesario entenderla para usar todo el potencial de la librería, y además lo expondremos de forma sencilla:
+Los objetos *sf* se forman como integración de unas piezas o subclases que heredan las caracteristicas de la ISO19125.
 
-Un objeto *sf* se compone de un objeto *sfc* y de una data.frame. A su vez un objeto *sfc* se descompone en un objeto *sfg* y un sistema de coordenadas de referencia (CRS). El esquema básico es así:
+Básicamente un objeto *sf* se descompone en un objeto *sfc* y de otro *data.frame*. A su vez un objeto *sfc* se descompone en un objeto *sfg* y otro *CRS* (sistema de coordenadas de referencia CRS). Y podemos continuar con la descomposición del *sfg* en otras clases como *POINT*, *LINESTRING*...
+
+El esquema básico es así:
 
 ```{r diagram, echo=FALSE}
 library(DiagrammeR)
   # arbol genealógico sencillo
-  DiagrammeR("graph TD;
+  DiagrammeR("graph LR;
   
-      1[sf]-->2[sfc];
-      2-->3[sfg];
-      2-->4[CRS];
+      1[sf]-->2[     sfc    ];
+      2-->3[    sfg    ];
+      2-->4[    CRS    ];
       1-->5[data.frame];
       3-->30(POINT)
-      3-->31(MULTIPOINT )
+      3-->31(MULTIPOINT)
       3-->32(LINESTRING)
-      3-->33(MULTILINESTRING )
-      3-->34(POLYGON )
-      3-->35(MULTIPOLYGON )
+      3-->33(MULTILINESTRING)
+      3-->34(POLYGON)
+      3-->35(MULTIPOLYGON)
 
   style 1 fill:#E5E25F;
   style 2 fill:#81F7BE;
@@ -109,9 +114,10 @@ library(DiagrammeR)
   )
 ```
 
+Veamos más detenidamente cada uno, comenzando por el de más bajo nivel hasta llegar a sf.
 
 ### sfg
-Los objetos sfg almacenan la geometría básica con la información gráfica del objeto: las coordenadas, dimensiones, tipo. Hay 17 tipos posibles, pero los más básicos son:
+La clase *sfg* almacena la geometría con la información gráfica del objeto: las coordenadas, dimensiones, tipo de geometría... Hay 17 tipos posibles, pero los más básicos son:
 
  - *POINT*: un punto simple (un vector x,y)
  - *MULTIPOINT*: múltiples puntos (una matriz cada fila un punto)
@@ -121,36 +127,41 @@ Los objetos sfg almacenan la geometría básica con la información gráfica del
  - *MULTIPOLYGON*: múltiple polígonos
  - *GEOMETRYCOLLECTION*: cualquier combinación de los anteriores
 
-Para crear cualquiera de estas geometrías la librería sf contiene una serie de funciones creadoras:`st_point()`, `st_multipoint()`, `st_linestring()`, `st_polygon()`.
+Para crear cualquiera de estas geometrías básicas la librería `sf` contiene una serie de funciones creadoras:`st_point()`, `st_multipoint()`, `st_linestring()`, `st_polygon()`. Veamos unos ejemplo de uso:
 
 ```{r crea_sfg}
     library(sf)
-    punto1<- st_point(c(-3.7025599,40.4165001))
-class(punto1)
-    linea1<- st_linestring(rbind(c(-3.7025599,40.4165001),c(2.1589899,41.3887901)))
-  class(linea1)
-  
-  # pintamos los sfg
-    plot(linea1)
-    plot(punto1,add=T, col="red")
+    # Crear la geometría de un punto
+      punto1<- st_point(c(-3.7,40.41))
+      punto2<- st_point(c(-2.5,39.25))
+      class(punto1)
+    # Crea un multipunto
+      multip<-st_multipoint(rbind(punto1,punto2))
+      class(multip)
+    # Crea la geometría de una linea
+      linea1<- st_linestring(rbind(c(-3.7025599,40.4165001),c(2.1589899,41.3887901)))
+      class(linea1)
 ```
 
 ### sfc 
-Los *simple feature geometry list column* o sfc son objetos *sfg* a los que se les aporta un sistema de referencia CRS (*Coordinate Reference System*). Para crear un objeto sfc se coge uno sfg y se le añade el sistema de referencia con la función `st_sfc(sfg, crs)`. Por defecto el sistema de referencia es NA.
+Los *simple feature geometry list column* o *sfc* son objetos *sfg* a los que se les aporta un sistema de referencia CRS (*Coordinate Reference System*). Para crear un objeto *sfc* se coge uno *sfg* y se le añade el sistema de referencia con la función `st_sfc(sfg, crs)`. Por defecto el sistema de referencia que se añade es NA, a no ser que se especifique otro.
 
-Un sistema de referencia se puede aportar de dos maneras con el código [EPSG](http://www.epsg.org/) o mediante una cadena de texto en formato [proj4string ](https://proj4.org/).
+Un sistema de referencia se puede aportar de dos maneras, que corresponden con los 2 estandars más habituales:
 
-Un CRS se compone de varios atributos, principalmente:
+  1. con el código [EPSG](http://www.epsg.org/) 
+  2. como texto formato [proj4string](https://proj4.org/).
 
- - Ellipsoide (describe la forma de la tierra del modelo)
- - Datum (define el origen y orientación de los ejes de coordenadas)
- - Proyección (pasa a 2D los datos en 3D anteriores)
+Ambos son equivalentes, pero se expresan de diferente forma. Puedes ver un listado de los códigos *epsg* habituales en el post [geoposicionar fotografías](../geoposicionar-fotografías).
 
-Como puedes imaginar se pueden combinar a voluntad, aunque según la región del globo son más habituales unas que otras.
+También vimos en ese artículo que un sistema de referecia (CRS) se compone de varios atributos:
 
-Una forma de identificar la combinación de los 3 atributos anteriores es mediante las denominaciones o códigos EPSG de (European Petroleum Survey Group).
+ - *Ellipsoide* (describe la forma de la tierra del modelo)
+ - *Datum* (define el origen y orientación de los ejes de coordenadas)
+ - *Proyección* (pasa a 2D los datos en 3D anteriores)
 
-En España desde agosto del 2007 existe un sistema de referencia oficial que es el ETRS89 para la península y Baleares y el REGCAN95 para la zona de Canarias. Los códigos EPSG correspondientes a estos sistemas son:
+Una forma de identificar la combinación de los 3 atributos anteriores es mediante los códigos EPSG llamados así por el acrónimo de European Petroleum Survey Group.
+
+En España desde agosto del 2007 existe un sistema de referencia oficial que es el ETRS89 para la península y Baleares y el REGCAN95 para Canarias. Los códigos EPSG correspondientes a estos sistemas son:
 
   - *4258*, para coordenadas geográficas.
   - *258xx*, para UTM, donde “xx” es el huso (28,29,30 o 31) .
@@ -167,10 +178,11 @@ Para saber el CRS de una capa se usa la función `st_crs(capa)`.
 ```
 
 ### sf
-Siguiendo hacia arriba la descripción, cuando a un objeto sfc le asignamos un data.frame asociado obtenemos un objeto sf completo.
-Para ayudarnos está la función `st_sf(tabla, geometría)`
+Cuando, a un objeto *sfc* le asociamos un *data.frame* obtenemos un objeto *sf*.
 
-```{r}
+Para crear una instancia de *sf* está la función `st_sf(data.frame, sfc)`
+
+```{r fun_st_sf}
 # Creamos una data frame
   data <- data.frame(nombre = c("punto", "Linea"))
   
@@ -180,13 +192,16 @@ Para ayudarnos está la función `st_sf(tabla, geometría)`
 
   # para descomponer y quedarnos solo con data.frama
   st_set_geometry(objeto_sf,NULL)
-  # solo la geometría 
+  # para descomponer y quedarnos solo la geometría 
   st_geometry(objeto_sf)
 ```
+
 ##Lectura-Escritura
+
 ### Lectura
-La función de lectura básica de `sf` es `st_read()`. Esta función lee múltiples formatos GIS y de datos.
-Vamos hacer un ejemplo con datos *shp* descargados de la [web del Ministerio de Medio Ambiente de España](https://servicio.mapama.gob.es/sia/visualizacion/descargas/mapas.jsp)
+La función de lectura básica de `sf` es `st_read()`. Esta función lee múltiples formatos de datos SIG.
+
+Vamos a hacer un ejemplo leyendo los datos *shp* descargados de la [web del Ministerio de Medio Ambiente de España](https://servicio.mapama.gob.es/sia/visualizacion/descargas/mapas.jsp)
 
 Descargamos la capa de las comunidades autónomas de la web (*Comunidades autonomas.shp*) y la guardamos en la carpeta capas.
 
@@ -216,6 +231,7 @@ Para escribir usaremos la función `st_write()` que tiene muchas opciones de for
 [Volver al índice](#indice)
 
 ## Selección 
+
 ### Seleccion por tabla
 Los objetos sf, son por tanto geometrías asociadas a tablas, y podemos usar los mismos criterios de selección que utilizamos en los data frames.
 
@@ -239,6 +255,8 @@ Usaremos en este ejemplo `dplyr`. Para seleccionar del mapa de CCAA todas menos 
     autonomias %>% select(COD_CCAA)%>% filter(COD_CCAA=="04") %>% plot()
     
 ```
+
+[Volver al índice](#indice)
 
 ### Seleccion espacial
 Además de usar criterios de seleccion de tabla, las geometrías permiten seleccionar por criterios de posición como: contacto, inclusión, igualdad, contenido en,  etc.
@@ -340,6 +358,8 @@ Veamos por ejemplo el caso de la capa de autonomías de España.
         sum(cnt_autonomias_simple)
 ```
 
+[Volver al índice](#indice)
+
 ### sp a sf
 
 Para los que siguen trabajando con la librería sp, la forma de convertir de uno a otro tipo es así:
@@ -374,16 +394,14 @@ De tabla con datos lon-lat o x-y a objeto sf. El proceso es crear la geometría,
 
 ```
 
+[Volver al índice](#indice)
+
 ###puntos xy a sf
 Simplemente pasamos los puntos a un data frame y procedemos como [antes](#dataframe-a-sf).
 
 Necesitamos la función `st_as_sf()` indicando si los datos son x-y o lon-lat o el nombre de los campos o columnas que sea la x y la y en un vector y el crs de la capa si lo conocemos.
 
-El CRS puede ser especificado como *proj4* o *EPSG*.
-
-ejemplo:
-
-    c_sf <- st_as_sf(tablaxy, coords = c("nombre_campo_X","nombre_campo_Y"), crs = 4326)
+El CRS puede ser especificado como *proj4* o *EPSG*. Ejemplo:`c_sf <- st_as_sf(tablaxy, coords = c("nombre_campo_X","nombre_campo_Y"), crs = 4326)`
 
 ```{r}
     # creamos una data frame de puntos de 3 ciudades de españa
@@ -413,6 +431,7 @@ Para extraer las coordenadas de una capa en formato de tabla y escribirla en un 
 
 ```
 
+[Volver al índice](#indice)
 
 ###sf a geometría {#sf-a-geometria}
 Los objetos sf contienen tablas de datos y muchas veces al representarlos con plot nos dibuja un mapa para cada variable del data frame asociado. Por esto necesitaremos indicar que queremos que pinte solo la geometría del objeto con la función `st_geometry()`.
@@ -458,13 +477,11 @@ Como vemos la capa ciudades_geo es del tipo *sfc*, que indica que es una colecci
 ##Operaciones espaciales
 
 ###Desplazamiento y giro
-Estas transformaciones simples se suelen denominar operaciones afines y se trata simplemente de desplazamientos y giros de capas espeaciales.
+Estas transformaciones simples se suelen denominar *operaciones afines* y se trata simplemente de desplazamientos y giros de capas espeaciales.
 
 Vamos a realizar unas transformaciones afines simples a la capa del límite de la CCAA de Madrid simplificado en coordenadas UTM.
 
 Haremos un desplazamiento en eje X y otro en Y. Para el giro tenemos que hace una función simple llamada rot que transforma las coordenadas. Las unidades UTM son en metros. En la transformación de giro necesitamos definir un punto de giro, que será el centroide de la capa, y además le aplicamos una escalación multiplicando por 0.5.
-
-
 
 ```{r afines}
 ##Obtener el limite de la CAM
