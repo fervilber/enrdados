@@ -1,0 +1,316 @@
+---
+title: Algoritmo golfo cabo
+author: F.VilBer
+date: '2019-03-04'
+slug: algoritmo-golfo-cabo
+categories:
+  - GIS
+  - mapas
+  - modelos
+tags:
+  - matemáticas
+  - mapas
+  - gráficos
+  - sf
+description: 'Método para detectar golfos y cabos en una línea de costa'
+thumbnail: ''
+toc: no
+---
+
+Hace unas semanas dejé un artículo de cómo generar un polígono de [isla aleatoria](../Generador-de-islas-aleatorias), después lo complementamos con habilidades gráficas para crear una aplicación que hace mapas del tesoro aleatorios con varias islas y muchos adornos... lo puedes ver [aquí](../Mapas-del-tesoro).
+
+Cuando estuve programando la aplicación, busqué un algoritmo que me ayudara a localizar los puntos de la linea de perímetro de las isla que son **cabos** y los puntos que son **bahías** o golfos. La idea era poder poner nombres a los cabos y a las playas(bahías), para que el mapa del tesoro fuera realista.
+
+Al final, lo que hice fue aplicar un *simplify* fuerte (`st_simplify()`) al polígono manteniendo la topología. Esto detectaba con bastante acierto los cabos pero mal las bahías.
+
+El caso es que no le dediqué mucho más tiempo, y tampoco encontré nada en la web para detectar cabos y golfos, pero hace unos días me vino una idea a la cabeza para detectarlos que he puesto en práctica y funciona muy bien.
+
+Este artículo voy a exponer esa idea y la programación en R del algoritmo. Aunque ha sido totalmente original, agradecería si algún lector conoce alguna solución alternativa o alguna fuente de algoritmos geográficos de este tipo, pues no encuentro mucha información, incluso puede que ya esté más que inventado y me crea que es obra original.. ;-> .
+
+## Idea
+Es bastante simple, se trata de detectar si un punto de una línea de costa es más cabo que golfo. Vamos a realizar el siguiente algoritmo, que nos dará un valor entre 0 y 1, siendo 1 el valor más golfo, y 0 el valor que indica que el punto es más cabo.
+
+Es decir, obtendremos para cada punto de la línea de costa un valor normalizado que indicará si el punto es similar a un cabo (valor más próximo a cero) o a un golfo-bahía (valor más próximo a 1).
+
+El método consiste en los siguientes pasos (Algoritmo golfo-cabo de VilBer):
+
+  1. dividir la línea de costa en puntos equidistantes.
+  2. en cada punto trazar un círculo de radio R. El radio debe ser de amplitud similar a las bahías que se desea detectar.
+  3. Hallar la intersección del círculo con la línea de costa y calcular el área intersecada A1.
+  4. Dividir A1 entre el área del círculo completo.
+    
+Esta simple metodología nos permite calcular la intención de cada punto respecto a si está en un golfo o en un cabo.
+
+[circulo](clip_circulo.png)
+
+## Desarrollo en R
+
+```{r funciones_isla, echo=FALSE, warning=FALSE, message=FALSE}
+################################################
+# Funciones para hacer un mapa del tesoro con R
+# Autor: Fernando Villalba Bergado
+# Fecha: 2018-2019
+################################################
+
+
+require(dplyr)
+require(sf)
+#require(sp)
+#require(rgdal)
+
+
+#font_add_google("Old English Text MT", "Old English Text MT")
+# Crea poligono aleatorio de n vertices y diámetro medio R
+pol_cero<-function(R=3000,nvert=5){
+    # R= diametro medio de la isla en m 
+    I<- R/2 # Amplitud de desviación media de irregularidades
+    #N<-N # número de puntos base del boceto siempre <20
+    
+    paso<-2*pi/nvert
+    # creamos poligono inicial como data.frame
+    pol_coord<-data.frame(x=NA,y=NA)
+    a<-runif(1,0.5,10) # añadimos una funcion seno a la amplitud
+    b<-runif(1,0.5,10) # añadimos otra funcion seno a la amplitud
+    for(i in 1:nvert-1){
+        #x<-(R+rnorm(1,I,I/3))*cos(paso*i)
+        #y<-(R+rnorm(1,I,I/3))*sin(paso*i)
+        x<-abs((R+I*sin(paso*i*a)+I*sin(paso*i*b)))*cos(paso*i)
+        y<-abs((R+I*sin(paso*i*a)+I*sin(paso*i*b)))*sin(paso*i)
+        pol_coord<-rbind(pol_coord,c(x,y))
+    }
+    pol_coord<-na.omit(pol_coord)
+    # Añadimos al final el punto origen para cerrar el poligono
+    pol_coord<-rbind(pol_coord,c(pol_coord[1,1],pol_coord[1,2]))
+    return(pol_coord)
+}
+
+#plot(pol_cero(,7),type="l")
+# Creamos la función punto medio
+puntomedio<-function(x1,y1,x2,y2){
+    # calcula el punto medio del lado y lo mueve
+    # un porcentaje aleatorio sobre al perpendicular del lado
+    xmed<-(x1+x2)/2
+    ymed<-(y1+y2)/2
+    # calculamos la tangente para sacar la perpendicular 
+    vx<- -(y2-y1) # por anlgulos es el eje opuesto
+    vy<-(x2-x1)
+    # Este parametro d es importante y marca la desviación 
+    # del nuevo punto respecto al lado
+    d<-0.2*runif(1,-1,1)
+    # coord del nuevo punto medio final
+    x0<-xmed+d*vx
+    y0<-ymed+d*vy
+    
+    return(c(x0,y0))
+}
+# Función que divide en 2 cada lado del poligono
+# los datos de entrada deben ser un data.frame
+div_pol<-function(poligon){
+    n_pol<-data.frame(x=NA,y=NA)
+    # aplicamos la funión de punto medio
+    for (i in 1:nrow(poligon)-1){
+        n_pol<-rbind(n_pol,c(poligon[i,1],poligon[i,2]))
+        n_pol<-rbind(n_pol,puntomedio(poligon[i,1],poligon[i,2],
+                                      poligon[i+1,1],poligon[i+1,2]))
+        #n_pol<-rbind(n_pol,c(poligon[i+1,1],poligon[i+1,2]))
+        #esto era el fallo, se duplicaba la coordenada en el bucle
+    }
+    n_pol<-rbind(n_pol,c(poligon[nrow(poligon),1],poligon[nrow(poligon),2]))
+    n_pol<-na.omit(n_pol)
+    return(n_pol)
+}
+
+#2. funcion recursiva      
+div_pol_n<-function(poligon, N){
+    z<-poligon
+    for(i in 1:N){
+        z<- div_pol(z)        
+    }
+    return(z)
+}
+# plot(div_pol_n(pol_cero(,3),5),type="l")
+
+# Funcion final que devuelve el poligono de una isla
+# aleaoria en formato poligono x-y
+crea_isla<-function(R=5000,nver=6,N=5){
+    z<-pol_cero(R,nver)    
+    z<-div_pol_n(z,N)
+    return(z)
+}
+
+#crea_isla()
+# Funcion pol_to_sf:
+# para transformar el poligono en objeto o capa espacial sf
+# por defecto coge el CRS epsg 25831 
+pol_to_sf<-function(pol,epsg=NA){
+    capa <- pol %>%
+        st_as_sf(coords = c("x", "y"), crs = epsg) %>%
+        summarise(geometry = st_combine(geometry)) %>%
+        st_cast("POLYGON")
+    st_crs(capa)<-epsg
+    return(capa)
+}
+
+# Funcion validar_contorno: 
+# sirve para corregir fallos en los poligonos en los que cruzan lados
+validar_contorno<-function(pol){
+    str1<-st_crs(pol)
+    if(is.na(str1)){str1=25831}
+    #    pol<-st_cast(pol,"POLYGON")
+    if(!st_is_valid(pol)){
+        pol<-st_buffer(pol, 10)# crea un buffer
+        pol<-st_combine(pol)
+        st_crs(pol)<-str1#25831
+    }
+    # comprueba que no es multipol
+    if(class(pol)[[1]]=="sfc_MULTIPOLYGON"){
+        pol<-multipol_a_uno(pol)
+        st_crs(pol)<-str1
+    }  
+    return(pol)
+}
+```
+
+El algoritmo va a crear en cada punto del contorno de la isla un circulo de radio= tolerancia (radio/10) y calcular el área de la superficie que intersecta con la isla.
+
+Hemos programado 2 funciones para hacer el trabajo: `por_circulo()`, que calcula el tanto por uno de área intersectada por el círculo con la parte de tierra, y `gc()`, que calcula esto para cada punto de la línea de costa y da como resultado una capa con los valores por punto en la columna gc. 
+
+Nota: he usado la función `sapply` en lugar de un bucle ya que son funciones mucho más rápidas. 
+
+```{r funcionesgc}
+# Funcion por_circulo:
+# Calcula el área de interseccion del circulo con elpoligono de  tierra de la isla
+#   punto: punto del contorno 
+#   isla: poligon de tierra o de la isla sf
+#   tolerancia: radio del circulo
+por_circulo<-function(punto,isla,tolerancia){
+        # crea un circulo de radio=tolerancia
+        cir1<-st_buffer(st_geometry(punto),dist=tolerancia)
+        # calcula su área
+        area_circulo<-as.numeric(st_area(cir1))
+        # clip con tierra-isla
+        # iguala los crs para evitar conflictos
+        st_crs(cir1)<-st_crs(isla)
+        # hace el clip del circulo con la tierra-isla
+        clip1 <- st_intersection(cir1,isla)
+        # calcula el area del clip
+        area_cir1<-as.numeric(st_area(clip1))
+        # retorna el tanto por uno  
+        return(area_cir1/area_circulo)
+}
+
+# funcion algoritmo golfo cabo
+#   isla: sf con poligono cerrado de tierra
+#   R: radio del circulo = tolerancia
+#   seg: unidades para segmentar la linea de costa
+gc<-function(isla,radio=2000,seg=200){
+    # unidades en m
+    # segmentiza la linea de costa
+    # crea un punto cada 200 m maximo
+    c1<-st_segmentize(st_geometry(isla),seg)
+    # convierte la capa a puntos
+    pts_c1<-st_cast(c1, "POINT")
+    # calcula el algoritmo con sapply en cada punto
+    gc1<-sapply(pts_c1,por_circulo,isla=isla,tolerancia=radio)
+    # genera una capa sf de resultado con los puntos y los valores
+    pts_c2<-st_sf(data.frame(gc=gc1), st_geometry(pts_c1))
+    #retorna el resultado como capa
+    return(pts_c2)
+}
+
+# funcion para calcular los puntos que salen en una capa de lineas
+n_puntos<-function(poli){
+        # numero de puntos de una capa
+        pts_poli<-st_cast(poli$geometry, "MULTIPOINT")
+        cnt_poli <- sapply(pts_poli, length)
+        sum(cnt_poli)
+        }
+
+``` 
+
+También hay una función `n_puntos`, que es meramente informativa, con los puntos que salen de la capa, solo para comparar `st_simplify`.
+
+Manos a la obra, vamos a generar una isla aleatoria, usando las funciones del artículo de mapa del tesoro:
+
+```{r c_isla}
+# generamos una isla
+    radio=8000
+    islagrande<-crea_isla(R=radio)%>% pol_to_sf() #%>%validar_contorno()
+    plot(islagrande, col="darksalmon", main="Isla ejemplo")
+```
+
+Simplificamos la capa para que tenga menos puntos y no de problemas de memoria en el calculo:
+
+```{r c_isla2}
+#   Simplificamos el poligono para reducir tiempo de calculo 
+    i1<-st_simplify(islagrande, preserveTopology = FALSE, dTolerance = radio/100)
+# comparamos los puntos de ambas capas
+    n_puntos(i1)
+    n_puntos(islagrande)
+    
+# calculamos el algoritmo en la capa simplificada
+    a<-gc(i1)
+    
+# Vemos el resultado.
+    head(a)
+# pintamos el resultado
+    plot(st_geometry(islagrande), col="lightgrey")
+    # sañalamos el golfo más claro
+    plot(a[which.max(a$gc),],pch=19,cex=2, col="red",add=T)
+    text(st_coordinates(a[which.max(a$gc),]), labels = "playa", col = 'red',pos = 4)
+    # señalamos el cabo más evidente
+    plot(a[which.min(a$gc),],pch=19,cex=2, col="blue",add=T)
+    text(st_coordinates(a[which.min(a$gc),]), labels = "cabo", col = 'blue',pos = 4)
+
+# pintamos el resultado variando el color,el grueso del punto
+    # y las escalas
+    plot(a["gc"],key.pos = 1,pch=19,main="Resultados algoritmo golfo-cabo de Vilber",
+         pal=topo.colors,cex=(1/a$gc),axes = T, key.width = lcm(2), key.length = 1.0)    
+```
+
+Los resultados gráficos indican que la función es bastante acertada y permite reconocer fácilmente las zonas de cabos y las playas en golfos o bahías de la isla.
+
+Una forma alternativa de ver los resultados podría ser limitando la escala con `breaks` y así delimitar cada zona:
+
+```{r}
+    # zona playa y cabo
+    plot(a["gc"],key.pos = 1,pch=19,main="zona playa-cabo",breaks = c(0,.25,.50,1), axes = T, key.width = lcm(2), key.length = 1.0)   
+```
+
+## ggplot
+Otra interpretación gráfica interesante se puede hacer con `ggplot`, con el grosor de línea variable según el índice *gc*. En este caso, la línea gruesa indica cabo, la fina bahía.
+
+```{r warning=FALSE}
+
+library(ggplot2)
+#CReamos un data frame
+    aux<-data.frame(st_coordinates(a),a$gc)
+    # cambiamos los nombres
+    names(aux)<-c("x","y","z")
+    # pintamos la ruta
+    ggplot(aux, aes(aux$x,aux$y,size=(1/aux$z))) +
+      geom_path(linejoin = "round",lineend="round")
+    
+```
+
+## Resultados para diferentes radios
+El radio del círculo es importante en la determinación de las zonas, debe elegirse una magnitud representativa del tamaño de playa buscado, es decir, del mismo orden de magnitud que la longitud de playa.
+
+Vamos a hacer una comparación con 4 valores de radio:
+
+
+```{r comparacion}
+# pintamos con varios radios
+radios<-list(1000, 2500, 5000, 8000)
+#. aplicamos el bucle
+lapply(radios, function(x) {plot(gc(i1,radio=x),pch=19,
+                                       main=paste("plot", x[[1]]))})
+
+```
+
+
+## Conclusiones
+
+Este algoritmo es muy interesante, y creo que se puede extender de una forma más global. Por ejemplo, si pensamos en 3D haríamos lo mismo, pero con una esfera en lugar de un círculo y nos daría un índice de convexidad - concavidad del terreno.
+
+También puede pensarse como indicador para series temporales, en este caso haciendo un medio círculo en el punto actual de dato, y calculando el porcentaje de área pasada que intersecta el círculo.... 
