@@ -13,36 +13,44 @@ tags:
   - gráficos
   - sf
 description: 'Método para detectar golfos y cabos en una línea de costa'
-thumbnail: ''
+thumbnail: '/post/2019-03-04-algoritmo-golfo-cabo_files/gc6.png'
 toc: no
+editor_options: 
+  chunk_output_type: console
 ---
 
 
 
-<p>Hace unas semanas dejé un artículo de cómo generar un polígono de <a href="../Generador-de-islas-aleatorias">isla aleatoria</a>, después lo complementamos con habilidades gráficas para crear una aplicación que hace mapas del tesoro aleatorios con varias islas y muchos adornos… lo puedes ver <a href="../Mapas-del-tesoro">aquí</a>.</p>
-<p>Cuando estuve programando la aplicación, busqué un algoritmo que me ayudara a localizar los puntos de la linea de perímetro de las isla que son <strong>cabos</strong> y los puntos que son <strong>bahías</strong> o golfos. La idea era poder poner nombres a los cabos y a las playas(bahías), para que el mapa del tesoro fuera realista.</p>
-<p>Al final, lo que hice fue aplicar un <em>simplify</em> fuerte (<code>st_simplify()</code>) al polígono manteniendo la topología. Esto detectaba con bastante acierto los cabos pero mal las bahías.</p>
+<p>Hace unas semanas escribí un artículo de cómo generar un polígono de <a href="../Generador-de-islas-aleatorias">isla aleatoria</a>, después lo complementamos con habilidades gráficas para crear una aplicación que hace mapas del tesoro aleatorios con varias islas y muchos adornos, lo puedes ver <a href="https://nolugar.shinyapps.io/mapatesoro/">aquí</a>.</p>
+<p>Cuando estuve programando el <a href="../mapa-del-tesoro">mapa del tesoro</a> busqué un algoritmo que ayudara a localizar los puntos en el perímetro que fueran <strong>cabos</strong> y los puntos que fueran <strong>bahías</strong> o golfos, con la idea de poner nombres a estos puntos singulares, para que el mapa fuera realista.</p>
+<p>Al final, lo que hice fue aplicar un <em>simplify</em> fuerte (<code>st_simplify()</code>) al polígono con la opción de mantener topología. Esto detecta con bastante acierto los puntos singulares, pero no me dice cuáles son cabos o bahías.</p>
+<div class="figure">
+<img src="/post/2019-03-04-algoritmo-golfo-cabo_files/gc4.png" alt="simplify poligono origen" />
+<p class="caption">simplify poligono origen</p>
+</div>
 <p>El caso es que no le dediqué mucho más tiempo, y tampoco encontré nada en la web para detectar cabos y golfos, pero hace unos días me vino una idea a la cabeza para detectarlos que he puesto en práctica y funciona muy bien.</p>
-<p>Este artículo voy a exponer esa idea y la programación en R del algoritmo. Aunque ha sido totalmente original, agradecería si algún lector conoce alguna solución alternativa o alguna fuente de algoritmos geográficos de este tipo, pues no encuentro mucha información, incluso puede que ya esté más que inventado y me crea que es obra original.. ;-&gt; .</p>
+<p>Este artículo voy a exponer esa idea y la programación en R del algoritmo. Aunque ha sido totalmente original, agradecería si algún lector conoce alguna solución alternativa simplificada.</p>
 <div id="idea" class="section level2">
 <h2>Idea</h2>
-<p>Es bastante simple, se trata de detectar si un punto de una línea de costa es más cabo que golfo. Vamos a realizar el siguiente algoritmo, que nos dará un valor entre 0 y 1, siendo 1 el valor más golfo, y 0 el valor que indica que el punto es más cabo.</p>
-<p>Es decir, obtendremos para cada punto de la línea de costa un valor normalizado que indicará si el punto es similar a un cabo (valor más próximo a cero) o a un golfo-bahía (valor más próximo a 1).</p>
-<p>El método consiste en los siguientes pasos (Algoritmo golfo-cabo de VilBer):</p>
+<p>Es bastante simple, se trata de detectar si un punto de una línea de costa es más cabo que golfo y lo haremos pintando un circulo en cada punto del perímetro y calculando el área que interseca con la tierra. La división del área intersecada con la total nos da un valor entre 0 y 1. Cuanto más cerca de 1, el punto está más abrigado por tierra y será por tanto un golfo, cuanto más cerca de 0 el punto está menos abrigado y será un cabo.</p>
+<p>Es decir, obtendremos para cada punto de la línea de costa, un valor normalizado que nos distingue entre golfo y cabo.</p>
+<p>Algoritmo golfo-cabo de VilBer:</p>
 <ol style="list-style-type: decimal">
-<li>dividir la línea de costa en puntos equidistantes.</li>
+<li>dividir la línea de costa en puntos.</li>
 <li>en cada punto trazar un círculo de radio R. El radio debe ser de amplitud similar a las bahías que se desea detectar.</li>
 <li>Hallar la intersección del círculo con la línea de costa y calcular el área intersecada A1.</li>
 <li>Dividir A1 entre el área del círculo completo.</li>
 </ol>
-<p>Esta simple metodología nos permite calcular la intención de cada punto respecto a si está en un golfo o en un cabo.</p>
-<p><a href="clip_circulo.png">circulo</a></p>
+<div class="figure">
+<img src="/post/2019-03-04-algoritmo-golfo-cabo_files/clip_golfocabo.png" alt="Ejemplo de algoritmo golfo cabo de Vilber en dos puntos" />
+<p class="caption">Ejemplo de algoritmo golfo cabo de Vilber en dos puntos</p>
+</div>
 </div>
 <div id="desarrollo-en-r" class="section level2">
 <h2>Desarrollo en R</h2>
-<p>El algoritmo va a crear en cada punto del contorno de la isla un circulo de radio= tolerancia (radio/10) y calcular el área de la superficie que intersecta con la isla.</p>
-<p>Hemos programado 2 funciones para hacer el trabajo: <code>por_circulo()</code>, que calcula el tanto por uno de área intersectada por el círculo con la parte de tierra, y <code>gc()</code>, que calcula esto para cada punto de la línea de costa y da como resultado una capa con los valores por punto en la columna gc.</p>
-<p>Nota: he usado la función <code>sapply</code> en lugar de un bucle ya que son funciones mucho más rápidas.</p>
+<p>El algoritmo va a crear en cada punto del contorno de la isla un círculo de radio= r y calcular el área de la superficie que interseca con la isla.</p>
+<p>Hemos programado 2 funciones para hacer el trabajo: <code>por_circulo()</code>, que calcula el tanto por uno de área intersectada por el círculo con la parte de tierra, y <code>gc()</code>, que calcula esto para cada punto de la línea de costa y da como resultado una capa <em>sf</em> con los valores por punto en la columna gc.</p>
+<p><em>Nota</em>: he usado <code>sapply</code> en lugar de un bucle pues son funciones mucho más rápidas.</p>
 <pre class="r"><code># Funcion por_circulo:
 # Calcula el área de interseccion del circulo con elpoligono de  tierra de la isla
 #   punto: punto del contorno 
@@ -68,17 +76,20 @@ por_circulo&lt;-function(punto,isla,tolerancia){
 #   isla: sf con poligono cerrado de tierra
 #   R: radio del circulo = tolerancia
 #   seg: unidades para segmentar la linea de costa
-gc&lt;-function(isla,radio=2000,seg=200){
+gc&lt;-function(isla,radio=2000){#},seg=200){
     # unidades en m
     # segmentiza la linea de costa
     # crea un punto cada 200 m maximo
-    c1&lt;-st_segmentize(st_geometry(isla),seg)
+    #c1&lt;-st_segmentize(st_geometry(isla),seg)
+    c1&lt;-isla
     # convierte la capa a puntos
     pts_c1&lt;-st_cast(c1, &quot;POINT&quot;)
     # calcula el algoritmo con sapply en cada punto
-    gc1&lt;-sapply(pts_c1,por_circulo,isla=isla,tolerancia=radio)
+    gc1&lt;-sapply(pts_c1,por_circulo,isla=c1,tolerancia=radio)
+    gc1&lt;-as.data.frame(gc1)
+    names(gc1)&lt;-c(&quot;gc&quot;)
     # genera una capa sf de resultado con los puntos y los valores
-    pts_c2&lt;-st_sf(data.frame(gc=gc1), st_geometry(pts_c1))
+    pts_c2&lt;-st_sf(gc1, st_geometry(pts_c1))
     #retorna el resultado como capa
     return(pts_c2)
 }
@@ -90,19 +101,23 @@ n_puntos&lt;-function(poli){
         cnt_poli &lt;- sapply(pts_poli, length)
         sum(cnt_poli)
         }</code></pre>
-<p>También hay una función <code>n_puntos</code>, que es meramente informativa, con los puntos que salen de la capa, solo para comparar <code>st_simplify</code>.</p>
-<p>Manos a la obra, vamos a generar una isla aleatoria, usando las funciones del artículo de mapa del tesoro:</p>
+<p>También hay una función <code>n_puntos</code>, que es meramente informativa, con los puntos que salen de la capa, para comparar como simplifica <code>st_simplify</code>.</p>
+<p>Manos a la obra: vamos a generar una isla aleatoria, usando las funciones del artículo de mapa del tesoro:</p>
 <pre class="r"><code># generamos una isla
     radio=8000
     islagrande&lt;-crea_isla(R=radio)%&gt;% pol_to_sf() #%&gt;%validar_contorno()
     plot(islagrande, col=&quot;darksalmon&quot;, main=&quot;Isla ejemplo&quot;)</code></pre>
 <p><img src="/post/2019-03-04-algoritmo-golfo-cabo_files/figure-html/c_isla-1.png" width="672" /></p>
-<p>Simplificamos la capa para que tenga menos puntos y no de problemas de memoria en el calculo:</p>
-<pre class="r"><code>#   Simplificamos el poligono para reducir tiempo de calculo 
-    i1&lt;-st_simplify(islagrande, preserveTopology = FALSE, dTolerance = radio/100)
+<div id="identificar-cabos-y-golfos-principales" class="section level3">
+<h3>Identificar cabos y golfos principales</h3>
+<p>A partir de esta isla aleatoria, lo primero que haremos es aplicar un <code>st_simplify</code>, lo que nos identifica ya unos puntos clave que hay que identificar como cabos y golfos.</p>
+<p>A esta capa simplificada le aplicamos el algoritmo golfo cabo y obtenemos unos valores en la columna <em>gc</em>, que como explicamos identifica si es un cabo o un golfo según su valor esté cerca de 0 (cabo) o cerca de 1 (golfo).</p>
+<pre class="r"><code>#   Simplificamos el poligono origen
+    i1&lt;-st_simplify(islagrande, preserveTopology = FALSE, dTolerance = 1000)
+
 # comparamos los puntos de ambas capas
     n_puntos(i1)</code></pre>
-<pre><code>## [1] 240</code></pre>
+<pre><code>## [1] 22</code></pre>
 <pre class="r"><code>    n_puntos(islagrande)</code></pre>
 <pre><code>## [1] 386</code></pre>
 <pre class="r"><code># calculamos el algoritmo en la capa simplificada
@@ -113,38 +128,48 @@ n_puntos&lt;-function(poli){
 <pre><code>## Simple feature collection with 6 features and 1 field
 ## geometry type:  POINT
 ## dimension:      XY
-## bbox:           xmin: 7444.19 ymin: -771.523 xmax: 8000 ymax: 0
+## bbox:           xmin: -8006.278 ymin: -6967.381 xmax: 8000 ymax: 5647.622
 ## epsg (SRID):    NA
 ## proj4string:    NA
-##          gc        st_geometry.pts_c1.
-## 1 0.3782639             POINT (8000 0)
-## 2 0.3970355 POINT (7888.838 -154.3046)
-## 3 0.4155781 POINT (7777.676 -308.6092)
-## 4 0.4359675 POINT (7666.514 -462.9138)
-## 5 0.4578272 POINT (7555.352 -617.2184)
-## 6 0.4788988   POINT (7444.19 -771.523)</code></pre>
+##          gc            st_geometry.pts_c1.
+## 1 0.4061323                 POINT (8000 0)
+## 2 0.6021625     POINT (4853.172 -2822.559)
+## 3 0.1328132     POINT (4022.619 -6967.381)
+## 4 0.6077783     POINT (528.2558 -2241.867)
+## 5 0.2006587 POINT (-8006.278 9.804538e-13)
+## 6 0.6069260     POINT (-4410.982 5647.622)</code></pre>
 <pre class="r"><code># pintamos el resultado
     plot(st_geometry(islagrande), col=&quot;lightgrey&quot;)
-    # sañalamos el golfo más claro
-    plot(a[which.max(a$gc),],pch=19,cex=2, col=&quot;red&quot;,add=T)
+    plot(st_geometry(a),add=T)
+    plot(a[a$gc&gt;0.5,],pch=19,cex=2, col=&quot;red&quot;,add=T)
+    plot(a[a$gc&lt;0.5,],pch=16,cex=2, col=&quot;blue&quot;,add=T)
+    
+    # señalamos el golfo más evidente
+    plot(a[which.max(a$gc),],pch=0,cex=2, col=&quot;red&quot;,add=T)
     text(st_coordinates(a[which.max(a$gc),]), labels = &quot;playa&quot;, col = &#39;red&#39;,pos = 4)
     # señalamos el cabo más evidente
-    plot(a[which.min(a$gc),],pch=19,cex=2, col=&quot;blue&quot;,add=T)
+    plot(a[which.min(a$gc),],pch=0,cex=2, col=&quot;blue&quot;,add=T)
     text(st_coordinates(a[which.min(a$gc),]), labels = &quot;cabo&quot;, col = &#39;blue&#39;,pos = 4)</code></pre>
 <p><img src="/post/2019-03-04-algoritmo-golfo-cabo_files/figure-html/c_isla2-1.png" width="672" /></p>
-<pre class="r"><code># pintamos el resultado variando el color,el grueso del punto
-    # y las escalas
+</div>
+<div id="aplicar-a-todo-el-perimetro" class="section level3">
+<h3>Aplicar a todo el perímetro</h3>
+<p>Si buscamos no identificar los cabos y golfos principales, sino saber que tendencia tiene cada punto del perímetro, aplicaremos el algoritmo a la capa origen.</p>
+<p>En este ejemplo hacemos además una amplificación del grosor del punto.</p>
+<pre class="r"><code>    a&lt;-gc(islagrande)
+  # pintamos el resultado variando el color,el grueso del punto
+  # y las escalas
     plot(a[&quot;gc&quot;],key.pos = 1,pch=19,main=&quot;Resultados algoritmo golfo-cabo de Vilber&quot;,
          pal=topo.colors,cex=(1/a$gc),axes = T, key.width = lcm(2), key.length = 1.0)    </code></pre>
-<p><img src="/post/2019-03-04-algoritmo-golfo-cabo_files/figure-html/c_isla2-2.png" width="672" /></p>
-<p>Los resultados gráficos indican que la función es bastante acertada y permite reconocer fácilmente las zonas de cabos y las playas en golfos o bahías de la isla.</p>
+<p><img src="/post/2019-03-04-algoritmo-golfo-cabo_files/figure-html/capa_origen-1.png" width="672" /></p>
+<p>Los resultados gráficos muestran que la función es bastante acertada y permite reconocer fácilmente las zonas de cabos y las playas en golfos o bahías de la isla.</p>
 <p>Una forma alternativa de ver los resultados podría ser limitando la escala con <code>breaks</code> y así delimitar cada zona:</p>
 <pre class="r"><code>    # zona playa y cabo
     plot(a[&quot;gc&quot;],key.pos = 1,pch=19,main=&quot;zona playa-cabo&quot;,breaks = c(0,.25,.50,1), axes = T, key.width = lcm(2), key.length = 1.0)   </code></pre>
-<p><img src="/post/2019-03-04-algoritmo-golfo-cabo_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<p><img src="/post/2019-03-04-algoritmo-golfo-cabo_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
 </div>
-<div id="ggplot" class="section level2">
-<h2>ggplot</h2>
+<div id="ggplot" class="section level3">
+<h3>ggplot</h3>
 <p>Otra interpretación gráfica interesante se puede hacer con <code>ggplot</code>, con el grosor de línea variable según el índice <em>gc</em>. En este caso, la línea gruesa indica cabo, la fina bahía.</p>
 <pre class="r"><code>library(ggplot2)
 #CReamos un data frame
@@ -154,7 +179,8 @@ n_puntos&lt;-function(poli){
     # pintamos la ruta
     ggplot(aux, aes(aux$x,aux$y,size=(1/aux$z))) +
       geom_path(linejoin = &quot;round&quot;,lineend=&quot;round&quot;)</code></pre>
-<p><img src="/post/2019-03-04-algoritmo-golfo-cabo_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p><img src="/post/2019-03-04-algoritmo-golfo-cabo_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+</div>
 </div>
 <div id="resultados-para-diferentes-radios" class="section level2">
 <h2>Resultados para diferentes radios</h2>
@@ -163,795 +189,10 @@ n_puntos&lt;-function(poli){
 <pre class="r"><code># pintamos con varios radios
 radios&lt;-list(1000, 2500, 5000, 8000)
 #. aplicamos el bucle
-lapply(radios, function(x) {plot(gc(i1,radio=x),pch=19,
+pl&lt;-lapply(radios, function(x) {plot(gc(islagrande,radio=x),pch=19,cex=2,
                                        main=paste(&quot;plot&quot;, x[[1]]))})</code></pre>
-<p><img src="/post/2019-03-04-algoritmo-golfo-cabo_files/figure-html/comparacion-1.png" width="672" /><img src="/post/2019-03-04-algoritmo-golfo-cabo_files/figure-html/comparacion-2.png" width="672" /><img src="/post/2019-03-04-algoritmo-golfo-cabo_files/figure-html/comparacion-3.png" width="672" /><img src="/post/2019-03-04-algoritmo-golfo-cabo_files/figure-html/comparacion-4.png" width="672" /></p>
-<pre><code>## [[1]]
-## [[1]]$xlog
-## [1] FALSE
-## 
-## [[1]]$ylog
-## [1] FALSE
-## 
-## [[1]]$adj
-## [1] 0.5
-## 
-## [[1]]$ann
-## [1] TRUE
-## 
-## [[1]]$ask
-## [1] FALSE
-## 
-## [[1]]$bg
-## [1] &quot;white&quot;
-## 
-## [[1]]$bty
-## [1] &quot;o&quot;
-## 
-## [[1]]$cex
-## [1] 1
-## 
-## [[1]]$cex.axis
-## [1] 1
-## 
-## [[1]]$cex.lab
-## [1] 1
-## 
-## [[1]]$cex.main
-## [1] 1.2
-## 
-## [[1]]$cex.sub
-## [1] 1
-## 
-## [[1]]$col
-## [1] &quot;black&quot;
-## 
-## [[1]]$col.axis
-## [1] &quot;black&quot;
-## 
-## [[1]]$col.lab
-## [1] &quot;black&quot;
-## 
-## [[1]]$col.main
-## [1] &quot;black&quot;
-## 
-## [[1]]$col.sub
-## [1] &quot;black&quot;
-## 
-## [[1]]$crt
-## [1] 0
-## 
-## [[1]]$err
-## [1] 0
-## 
-## [[1]]$family
-## [1] &quot;&quot;
-## 
-## [[1]]$fg
-## [1] &quot;black&quot;
-## 
-## [[1]]$fin
-## [1] 6.999999 4.999999
-## 
-## [[1]]$font
-## [1] 1
-## 
-## [[1]]$font.axis
-## [1] 1
-## 
-## [[1]]$font.lab
-## [1] 1
-## 
-## [[1]]$font.main
-## [1] 2
-## 
-## [[1]]$font.sub
-## [1] 1
-## 
-## [[1]]$lab
-## [1] 5 5 7
-## 
-## [[1]]$las
-## [1] 0
-## 
-## [[1]]$lend
-## [1] &quot;round&quot;
-## 
-## [[1]]$lheight
-## [1] 1
-## 
-## [[1]]$ljoin
-## [1] &quot;round&quot;
-## 
-## [[1]]$lmitre
-## [1] 10
-## 
-## [[1]]$lty
-## [1] &quot;solid&quot;
-## 
-## [[1]]$lwd
-## [1] 1
-## 
-## [[1]]$mai
-## [1] 0.20 0.20 0.24 0.20
-## 
-## [[1]]$mar
-## [1] 5.1 4.1 4.1 2.1
-## 
-## [[1]]$mex
-## [1] 1
-## 
-## [[1]]$mfcol
-## [1] 1 1
-## 
-## [[1]]$mfg
-## [1] 1 1 1 1
-## 
-## [[1]]$mfrow
-## [1] 1 1
-## 
-## [[1]]$mgp
-## [1] 3 1 0
-## 
-## [[1]]$mkh
-## [1] 0.001
-## 
-## [[1]]$new
-## [1] TRUE
-## 
-## [[1]]$oma
-## [1] 0 0 0 0
-## 
-## [[1]]$omd
-## [1] 0 1 0 1
-## 
-## [[1]]$omi
-## [1] 0 0 0 0
-## 
-## [[1]]$pch
-## [1] 1
-## 
-## [[1]]$pin
-## [1] 5.759999 3.159999
-## 
-## [[1]]$plt
-## [1] 0.08857144 0.91142856 0.18400002 0.81599998
-## 
-## [[1]]$ps
-## [1] 12
-## 
-## [[1]]$pty
-## [1] &quot;m&quot;
-## 
-## [[1]]$smo
-## [1] 1
-## 
-## [[1]]$srt
-## [1] 0
-## 
-## [[1]]$tck
-## [1] NA
-## 
-## [[1]]$tcl
-## [1] -0.5
-## 
-## [[1]]$usr
-## [1] -18922.13  11443.78 -12414.38  11089.37
-## 
-## [[1]]$xaxp
-## [1] 0 1 5
-## 
-## [[1]]$xaxs
-## [1] &quot;r&quot;
-## 
-## [[1]]$xaxt
-## [1] &quot;s&quot;
-## 
-## [[1]]$xpd
-## [1] FALSE
-## 
-## [[1]]$yaxp
-## [1] 0 1 5
-## 
-## [[1]]$yaxs
-## [1] &quot;r&quot;
-## 
-## [[1]]$yaxt
-## [1] &quot;s&quot;
-## 
-## [[1]]$ylbias
-## [1] 0.2
-## 
-## 
-## [[2]]
-## [[2]]$xlog
-## [1] FALSE
-## 
-## [[2]]$ylog
-## [1] FALSE
-## 
-## [[2]]$adj
-## [1] 0.5
-## 
-## [[2]]$ann
-## [1] TRUE
-## 
-## [[2]]$ask
-## [1] FALSE
-## 
-## [[2]]$bg
-## [1] &quot;white&quot;
-## 
-## [[2]]$bty
-## [1] &quot;o&quot;
-## 
-## [[2]]$cex
-## [1] 1
-## 
-## [[2]]$cex.axis
-## [1] 1
-## 
-## [[2]]$cex.lab
-## [1] 1
-## 
-## [[2]]$cex.main
-## [1] 1.2
-## 
-## [[2]]$cex.sub
-## [1] 1
-## 
-## [[2]]$col
-## [1] &quot;black&quot;
-## 
-## [[2]]$col.axis
-## [1] &quot;black&quot;
-## 
-## [[2]]$col.lab
-## [1] &quot;black&quot;
-## 
-## [[2]]$col.main
-## [1] &quot;black&quot;
-## 
-## [[2]]$col.sub
-## [1] &quot;black&quot;
-## 
-## [[2]]$crt
-## [1] 0
-## 
-## [[2]]$err
-## [1] 0
-## 
-## [[2]]$family
-## [1] &quot;&quot;
-## 
-## [[2]]$fg
-## [1] &quot;black&quot;
-## 
-## [[2]]$fin
-## [1] 6.999999 4.999999
-## 
-## [[2]]$font
-## [1] 1
-## 
-## [[2]]$font.axis
-## [1] 1
-## 
-## [[2]]$font.lab
-## [1] 1
-## 
-## [[2]]$font.main
-## [1] 2
-## 
-## [[2]]$font.sub
-## [1] 1
-## 
-## [[2]]$lab
-## [1] 5 5 7
-## 
-## [[2]]$las
-## [1] 0
-## 
-## [[2]]$lend
-## [1] &quot;round&quot;
-## 
-## [[2]]$lheight
-## [1] 1
-## 
-## [[2]]$ljoin
-## [1] &quot;round&quot;
-## 
-## [[2]]$lmitre
-## [1] 10
-## 
-## [[2]]$lty
-## [1] &quot;solid&quot;
-## 
-## [[2]]$lwd
-## [1] 1
-## 
-## [[2]]$mai
-## [1] 0.20 0.20 0.24 0.20
-## 
-## [[2]]$mar
-## [1] 5.1 4.1 4.1 2.1
-## 
-## [[2]]$mex
-## [1] 1
-## 
-## [[2]]$mfcol
-## [1] 1 1
-## 
-## [[2]]$mfg
-## [1] 1 1 1 1
-## 
-## [[2]]$mfrow
-## [1] 1 1
-## 
-## [[2]]$mgp
-## [1] 3 1 0
-## 
-## [[2]]$mkh
-## [1] 0.001
-## 
-## [[2]]$new
-## [1] TRUE
-## 
-## [[2]]$oma
-## [1] 0 0 0 0
-## 
-## [[2]]$omd
-## [1] 0 1 0 1
-## 
-## [[2]]$omi
-## [1] 0 0 0 0
-## 
-## [[2]]$pch
-## [1] 1
-## 
-## [[2]]$pin
-## [1] 5.759999 3.159999
-## 
-## [[2]]$plt
-## [1] 0.08857144 0.91142856 0.18400002 0.81599998
-## 
-## [[2]]$ps
-## [1] 12
-## 
-## [[2]]$pty
-## [1] &quot;m&quot;
-## 
-## [[2]]$smo
-## [1] 1
-## 
-## [[2]]$srt
-## [1] 0
-## 
-## [[2]]$tck
-## [1] NA
-## 
-## [[2]]$tcl
-## [1] -0.5
-## 
-## [[2]]$usr
-## [1] -18922.13  11443.78 -12414.38  11089.37
-## 
-## [[2]]$xaxp
-## [1] 0 1 5
-## 
-## [[2]]$xaxs
-## [1] &quot;r&quot;
-## 
-## [[2]]$xaxt
-## [1] &quot;s&quot;
-## 
-## [[2]]$xpd
-## [1] FALSE
-## 
-## [[2]]$yaxp
-## [1] 0 1 5
-## 
-## [[2]]$yaxs
-## [1] &quot;r&quot;
-## 
-## [[2]]$yaxt
-## [1] &quot;s&quot;
-## 
-## [[2]]$ylbias
-## [1] 0.2
-## 
-## 
-## [[3]]
-## [[3]]$xlog
-## [1] FALSE
-## 
-## [[3]]$ylog
-## [1] FALSE
-## 
-## [[3]]$adj
-## [1] 0.5
-## 
-## [[3]]$ann
-## [1] TRUE
-## 
-## [[3]]$ask
-## [1] FALSE
-## 
-## [[3]]$bg
-## [1] &quot;white&quot;
-## 
-## [[3]]$bty
-## [1] &quot;o&quot;
-## 
-## [[3]]$cex
-## [1] 1
-## 
-## [[3]]$cex.axis
-## [1] 1
-## 
-## [[3]]$cex.lab
-## [1] 1
-## 
-## [[3]]$cex.main
-## [1] 1.2
-## 
-## [[3]]$cex.sub
-## [1] 1
-## 
-## [[3]]$col
-## [1] &quot;black&quot;
-## 
-## [[3]]$col.axis
-## [1] &quot;black&quot;
-## 
-## [[3]]$col.lab
-## [1] &quot;black&quot;
-## 
-## [[3]]$col.main
-## [1] &quot;black&quot;
-## 
-## [[3]]$col.sub
-## [1] &quot;black&quot;
-## 
-## [[3]]$crt
-## [1] 0
-## 
-## [[3]]$err
-## [1] 0
-## 
-## [[3]]$family
-## [1] &quot;&quot;
-## 
-## [[3]]$fg
-## [1] &quot;black&quot;
-## 
-## [[3]]$fin
-## [1] 6.999999 4.999999
-## 
-## [[3]]$font
-## [1] 1
-## 
-## [[3]]$font.axis
-## [1] 1
-## 
-## [[3]]$font.lab
-## [1] 1
-## 
-## [[3]]$font.main
-## [1] 2
-## 
-## [[3]]$font.sub
-## [1] 1
-## 
-## [[3]]$lab
-## [1] 5 5 7
-## 
-## [[3]]$las
-## [1] 0
-## 
-## [[3]]$lend
-## [1] &quot;round&quot;
-## 
-## [[3]]$lheight
-## [1] 1
-## 
-## [[3]]$ljoin
-## [1] &quot;round&quot;
-## 
-## [[3]]$lmitre
-## [1] 10
-## 
-## [[3]]$lty
-## [1] &quot;solid&quot;
-## 
-## [[3]]$lwd
-## [1] 1
-## 
-## [[3]]$mai
-## [1] 0.20 0.20 0.24 0.20
-## 
-## [[3]]$mar
-## [1] 5.1 4.1 4.1 2.1
-## 
-## [[3]]$mex
-## [1] 1
-## 
-## [[3]]$mfcol
-## [1] 1 1
-## 
-## [[3]]$mfg
-## [1] 1 1 1 1
-## 
-## [[3]]$mfrow
-## [1] 1 1
-## 
-## [[3]]$mgp
-## [1] 3 1 0
-## 
-## [[3]]$mkh
-## [1] 0.001
-## 
-## [[3]]$new
-## [1] TRUE
-## 
-## [[3]]$oma
-## [1] 0 0 0 0
-## 
-## [[3]]$omd
-## [1] 0 1 0 1
-## 
-## [[3]]$omi
-## [1] 0 0 0 0
-## 
-## [[3]]$pch
-## [1] 1
-## 
-## [[3]]$pin
-## [1] 5.759999 3.159999
-## 
-## [[3]]$plt
-## [1] 0.08857144 0.91142856 0.18400002 0.81599998
-## 
-## [[3]]$ps
-## [1] 12
-## 
-## [[3]]$pty
-## [1] &quot;m&quot;
-## 
-## [[3]]$smo
-## [1] 1
-## 
-## [[3]]$srt
-## [1] 0
-## 
-## [[3]]$tck
-## [1] NA
-## 
-## [[3]]$tcl
-## [1] -0.5
-## 
-## [[3]]$usr
-## [1] -18922.13  11443.78 -12414.38  11089.37
-## 
-## [[3]]$xaxp
-## [1] 0 1 5
-## 
-## [[3]]$xaxs
-## [1] &quot;r&quot;
-## 
-## [[3]]$xaxt
-## [1] &quot;s&quot;
-## 
-## [[3]]$xpd
-## [1] FALSE
-## 
-## [[3]]$yaxp
-## [1] 0 1 5
-## 
-## [[3]]$yaxs
-## [1] &quot;r&quot;
-## 
-## [[3]]$yaxt
-## [1] &quot;s&quot;
-## 
-## [[3]]$ylbias
-## [1] 0.2
-## 
-## 
-## [[4]]
-## [[4]]$xlog
-## [1] FALSE
-## 
-## [[4]]$ylog
-## [1] FALSE
-## 
-## [[4]]$adj
-## [1] 0.5
-## 
-## [[4]]$ann
-## [1] TRUE
-## 
-## [[4]]$ask
-## [1] FALSE
-## 
-## [[4]]$bg
-## [1] &quot;white&quot;
-## 
-## [[4]]$bty
-## [1] &quot;o&quot;
-## 
-## [[4]]$cex
-## [1] 1
-## 
-## [[4]]$cex.axis
-## [1] 1
-## 
-## [[4]]$cex.lab
-## [1] 1
-## 
-## [[4]]$cex.main
-## [1] 1.2
-## 
-## [[4]]$cex.sub
-## [1] 1
-## 
-## [[4]]$col
-## [1] &quot;black&quot;
-## 
-## [[4]]$col.axis
-## [1] &quot;black&quot;
-## 
-## [[4]]$col.lab
-## [1] &quot;black&quot;
-## 
-## [[4]]$col.main
-## [1] &quot;black&quot;
-## 
-## [[4]]$col.sub
-## [1] &quot;black&quot;
-## 
-## [[4]]$crt
-## [1] 0
-## 
-## [[4]]$err
-## [1] 0
-## 
-## [[4]]$family
-## [1] &quot;&quot;
-## 
-## [[4]]$fg
-## [1] &quot;black&quot;
-## 
-## [[4]]$fin
-## [1] 6.999999 4.999999
-## 
-## [[4]]$font
-## [1] 1
-## 
-## [[4]]$font.axis
-## [1] 1
-## 
-## [[4]]$font.lab
-## [1] 1
-## 
-## [[4]]$font.main
-## [1] 2
-## 
-## [[4]]$font.sub
-## [1] 1
-## 
-## [[4]]$lab
-## [1] 5 5 7
-## 
-## [[4]]$las
-## [1] 0
-## 
-## [[4]]$lend
-## [1] &quot;round&quot;
-## 
-## [[4]]$lheight
-## [1] 1
-## 
-## [[4]]$ljoin
-## [1] &quot;round&quot;
-## 
-## [[4]]$lmitre
-## [1] 10
-## 
-## [[4]]$lty
-## [1] &quot;solid&quot;
-## 
-## [[4]]$lwd
-## [1] 1
-## 
-## [[4]]$mai
-## [1] 0.20 0.20 0.24 0.20
-## 
-## [[4]]$mar
-## [1] 5.1 4.1 4.1 2.1
-## 
-## [[4]]$mex
-## [1] 1
-## 
-## [[4]]$mfcol
-## [1] 1 1
-## 
-## [[4]]$mfg
-## [1] 1 1 1 1
-## 
-## [[4]]$mfrow
-## [1] 1 1
-## 
-## [[4]]$mgp
-## [1] 3 1 0
-## 
-## [[4]]$mkh
-## [1] 0.001
-## 
-## [[4]]$new
-## [1] TRUE
-## 
-## [[4]]$oma
-## [1] 0 0 0 0
-## 
-## [[4]]$omd
-## [1] 0 1 0 1
-## 
-## [[4]]$omi
-## [1] 0 0 0 0
-## 
-## [[4]]$pch
-## [1] 1
-## 
-## [[4]]$pin
-## [1] 5.759999 3.159999
-## 
-## [[4]]$plt
-## [1] 0.08857144 0.91142856 0.18400002 0.81599998
-## 
-## [[4]]$ps
-## [1] 12
-## 
-## [[4]]$pty
-## [1] &quot;m&quot;
-## 
-## [[4]]$smo
-## [1] 1
-## 
-## [[4]]$srt
-## [1] 0
-## 
-## [[4]]$tck
-## [1] NA
-## 
-## [[4]]$tcl
-## [1] -0.5
-## 
-## [[4]]$usr
-## [1] -18922.13  11443.78 -12414.38  11089.37
-## 
-## [[4]]$xaxp
-## [1] 0 1 5
-## 
-## [[4]]$xaxs
-## [1] &quot;r&quot;
-## 
-## [[4]]$xaxt
-## [1] &quot;s&quot;
-## 
-## [[4]]$xpd
-## [1] FALSE
-## 
-## [[4]]$yaxp
-## [1] 0 1 5
-## 
-## [[4]]$yaxs
-## [1] &quot;r&quot;
-## 
-## [[4]]$yaxt
-## [1] &quot;s&quot;
-## 
-## [[4]]$ylbias
-## [1] 0.2</code></pre>
+<p><img src="/post/2019-03-04-algoritmo-golfo-cabo_files/figure-html/comparacion-1.png" width="50%" /><img src="/post/2019-03-04-algoritmo-golfo-cabo_files/figure-html/comparacion-2.png" width="50%" /><img src="/post/2019-03-04-algoritmo-golfo-cabo_files/figure-html/comparacion-3.png" width="50%" /><img src="/post/2019-03-04-algoritmo-golfo-cabo_files/figure-html/comparacion-4.png" width="50%" /></p>
+<pre class="r"><code>#knitr::include_graphics(pl)</code></pre>
 </div>
 <div id="conclusiones" class="section level2">
 <h2>Conclusiones</h2>

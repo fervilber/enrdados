@@ -17,8 +17,8 @@
       <pubDate>Mon, 04 Mar 2019 00:00:00 +0000</pubDate>
       
       <guid>/post/algoritmo-golfo-cabo/</guid>
-      <description>Hace unas semanas dejé un artículo de cómo generar un polígono de isla aleatoria, después lo complementamos con habilidades gráficas para crear una aplicación que hace mapas del tesoro aleatorios con varias islas y muchos adornos… lo puedes ver aquí.
-Cuando estuve programando la aplicación, busqué un algoritmo que me ayudara a localizar los puntos de la linea de perímetro de las isla que son cabos y los puntos que son bahías o golfos.</description>
+      <description>Hace unas semanas escribí un artículo de cómo generar un polígono de isla aleatoria, después lo complementamos con habilidades gráficas para crear una aplicación que hace mapas del tesoro aleatorios con varias islas y muchos adornos, lo puedes ver aquí.
+Cuando estuve programando el mapa del tesoro busqué un algoritmo que ayudara a localizar los puntos en el perímetro que fueran cabos y los puntos que fueran bahías o golfos, con la idea de poner nombres a estos puntos singulares, para que el mapa fuera realista.</description>
     </item>
     
     <item>
