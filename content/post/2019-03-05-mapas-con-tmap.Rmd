@@ -1,0 +1,159 @@
+---
+title: Mapas con tmap
+author: F.VilBer
+date: '2019-03-05'
+slug: mapas-con-tmap
+categories:
+  - mapas
+  - GIS
+  - R
+tags:
+  - mapas
+  - R
+  - sf
+  - SIG
+description: 'Introducción a la librería tmap'
+thumbnail: '/post/2019-03-05-mapas-con-tmap_files/tmap1.png'
+toc: no
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+```
+
+Vamos a hacer una breve exposición de la `library(tmap)`, un paquete de mapas con sintaxis estilo `ggplot` y bastante simple de usar.
+
+Es un paquete que está en cran, pero también puedes descargarlo de [github](https://github.com/mtennekes/tmap).
+
+Como ejemplo tomaremos los datos de una capa shp bajada de la web del Ministerio, con las comunidades autónomas de España. 
+
+## tmap
+El primer problema que veo es con Cataluña, bueno me explico, la capa debía estar con otro código y no con UTF-8 por lo que la letra *ñ*, la ha lee mal, y por eso he tenido que arreglar esto antes de continuar.
+
+
+```{r introtmap}
+    library(tmap)
+    library(sf)
+  # Leemos capa GIS
+    autonomias <- st_read("../../static/capas/Comunidades autonomas.shp")
+    #head(autonomias)
+  
+  # extraemos solo la tabla de datos
+    tabla_auto<-st_set_geometry(autonomias,NULL)
+    head(tabla_auto,8)
+  #tabla_auto[which(tabla_auto[,3] == "CATALU\xd1A")] <- "CATALU&ntildeA"
+    levels(tabla_auto[,3])[9]<-"CATALUÑA"
+    levels(tabla_auto[,2])[8]<-"COMUNIDAD AUTONOMA DE CATALUÑA"
+  
+  # lo convierto en capa sf de nuevo
+    auton1<-st_sf(tabla_auto,st_geometry(autonomias))
+```
+
+Una vez solucionado el asunto con *Cataluña* (jeje), tenemos una capa sf con objetos geométricos y otros de base de datos.
+
+Solo por curiosidad podemos ver que la mayoría de las CCAA son objetos gráficos multipolygon anillados, es decir complejos. 
+
+```{r anillo}
+# qué CCAA tienen mas de un poligono en anillo
+    w <- which(sapply(st_geometry(autonomias), length) > 1)
+    #plot(autonomias[w,1])
+    w
+```
+
+Para pintar un mapa con *tmap* es como en *ggplot*, la fucnión principal es `tm_shape()` y se añaden con + los siguentes objetos por capas al dibujo. `tm_fill()` añade un fondo, `tm_borders()`, los bordes, `tm_polygon()` las dos cosas anteriores a la vez.. y así. Las  escalas son otro objeto más `tm_scale_bar()`, la felcha de norte otro `tm_compass()`.
+Para añadir una capa de texto `tm_text`.
+
+
+```{r tmap_1}
+# Pintamos la capa de ccaa
+tm_shape(auton1) +
+  tm_fill() 
+
+tm_shape(auton1) +
+  tm_borders() 
+
+tm_shape(auton1) +
+   tm_polygons(col = "COD_CCAA", palette = "BuGn")
+
+tm_shape(auton1) +
+   tm_polygons(col = "NOM_CCAA")
+
+# mapa completo
+tm_shape(auton1) +
+    tm_polygons(col = "NOM_CCAA")+
+    tm_compass(type = "8star", position = c("left", "top")) +
+    tm_scale_bar(breaks = c(0, 100, 400), size = 2)+
+    tm_layout(title = "España")+
+    tm_layout(bg.color = "lightblue")+
+    tm_layout(frame = FALSE)+
+    tm_text("NOM_CCAA", size="AREA", scale=1.5)
+#    +tm_style("bw")
+    
+library(dplyr)
+    # todas las CCAA menos Canarias    
+    canarias<-autonomias %>% select(COD_CCAA)%>% filter(COD_CCAA=="04")
+    
+    c1<-st_cast(canarias,"POLYGON")
+    #Seleccionamos solo las 7 islas o polígonos más grandes
+    islas_principales<-c1[[2]][1:7]
+    # calculamos el área
+    area<-unclass(st_area(islas_principales))
+    
+    #convertimos de nuevo en sf pues era sfc
+    islas_principales<-st_sf(islas_principales)
+      class(islas_principales)
+      # añadimos el area
+      islas_principales$area<-area
+    
+    #pintamos los mapas
+      tm_shape(islas_principales) +
+            tm_fill("area") +tm_borders()
+    #almacenamos un mapa de canarias
+        cana<-tm_shape(canarias) +
+            tm_fill() +tm_borders()
+    # calculamos un buffer de as islas
+    mar<-st_union(canarias) %>% st_buffer(0.1) #%>% st_cast(to = "LINESTRING")
+    # Pinto esto junto     
+    cana + tm_shape(mar) + tm_borders(col="blue",lty = 2) 
+```
+
+## Juntar varios mapas
+Una opcion interesante es que se pueden juntar mapas, por ejemplo acercar Canarias para que no salga tanto mar:
+
+```{r acercaCanarias}
+  #seleciono too menos canarias
+      peninsula<-auton1 %>% select(COD_CCAA,NOM_CCAA)%>% filter(COD_CCAA!="04")
+  # creo un mapa de la peninsula etc..
+      pen_map<-tm_shape(peninsula)+tm_polygons() + 
+                  tm_layout(title = "España", frame = TRUE, bg.color = "lightblue")
+  # creo un mapa de Canarias    
+      canarias_map<-tm_shape(canarias) +
+          tm_fill() +tm_borders()+
+          tm_layout(title = "Canarias", frame = TRUE, bg.color = "lightblue")#+
+          #tm_scale_bar(breaks = c(0, 50, 200), size = 1)
+  
+  # junto los dos    
+      pen_map
+      print(canarias_map, vp = grid::viewport(0.75, 0.12, width = 0.25, height = 0.18))
+```
+
+## Modo interactivo
+Otra opcion es el modo interactivo que se activa con `tmap_mode()`, o la función `qtm()` que simula el funcionamiento d qplot.
+
+```{r interactivo}
+  # cambiamos el modo
+    tmap_mode("view")
+  # pintamos
+    tm_basemap("Stamen.Watercolor") +
+    tm_shape(islas_principales) +tm_fill("area",alpha = 0.5,palette = "YlOrBr")+ 
+    tm_tiles("Stamen.TonerLabels")
+  
+  
+  # volvemos a estatico
+    tmap_mode("plot")
+  # con la llamada qtm
+    qtm(islas_principales,"area",fill.pallete = "RdYlGn")
+```
+

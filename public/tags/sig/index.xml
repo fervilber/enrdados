@@ -6,10 +6,22 @@
     <description>Recent content in Sig on EnRdados</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>es</language>
-    <lastBuildDate>Tue, 26 Feb 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 05 Mar 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/sig/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Mapas con tmap</title>
+      <link>/post/mapas-con-tmap/</link>
+      <pubDate>Tue, 05 Mar 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/mapas-con-tmap/</guid>
+      <description>Vamos a hacer una breve exposición de la library(tmap), un paquete de mapas con sintaxis estilo ggplot y bastante simple de usar.
+Es un paquete que está en cran, pero también puedes descargarlo de github.
+Como ejemplo tomaremos los datos de una capa shp bajada de la web del Ministerio, con las comunidades autónomas de España.
+tmapEl primer problema que veo es con Cataluña, bueno me explico, la capa debía estar con otro código y no con UTF-8 por lo que la letra ñ, la ha lee mal, y por eso he tenido que arreglar esto antes de continuar.</description>
+    </item>
     
     <item>
       <title>Manual de sf para SIG</title>
