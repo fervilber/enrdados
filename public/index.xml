@@ -6,10 +6,20 @@
     <description>Recent content on EnRdados</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>es</language>
-    <lastBuildDate>Tue, 05 Mar 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 07 Mar 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Gráficos Snakey con R</title>
+      <link>/post/graficos-snakey-con-r/</link>
+      <pubDate>Thu, 07 Mar 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/graficos-snakey-con-r/</guid>
+      <description>Hace unos días ví un informe con un tipo de gráficos poco habitual. Se trataba de una gráfica de flujo que se suelen denominar como diagramas de Sankey.
+Se ha quedado con ese nombre por el ingeniero militar irlandés Matthew Henry Phineas Riall Sankey, que aunque no fue el inventor del gráfico, lo usó con acierto para una representación gráfica del flujo de energía en la máquina de vapor.</description>
+    </item>
     
     <item>
       <title>Mapas con tmap</title>

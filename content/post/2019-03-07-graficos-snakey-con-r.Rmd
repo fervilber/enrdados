@@ -1,0 +1,116 @@
+---
+title: Gráficos Snakey con R
+author: F.VilBer
+date: '2019-03-07'
+slug: graficos-snakey-con-r
+categories:
+  - R
+  - diseño
+tags:
+  - R
+  - graficas
+description: 'Cómo hacer diagramas de flujo Sankey '
+thumbnail: '/post/2019-03-07-graficos-snakey-con-r_files/sankey.png'
+toc: no
+editor_options: 
+  chunk_output_type: console
+---
+
+Hace unos días ví un informe con un tipo de gráficos poco habitual. Se trataba de una gráfica de flujo que se suelen denominar como diagramas de *Sankey*.
+
+Se ha quedado con ese nombre por el ingeniero militar irlandés [Matthew Henry Phineas Riall Sankey](https://en.wikipedia.org/wiki/Matthew_Henry_Phineas_Riall_Sankey), que aunque no fue el inventor del gráfico, lo usó con acierto para una representación gráfica del flujo de energía en la máquina de vapor.
+
+El caso es que me puse a buscar como hacer este tipo de gráficos en R y encontré una librería llamada *networkD3* que, de manera sencilla, permite representar estos diagramas.
+
+## Como usar networkD3 para hacer un diagrama Sankey
+
+Lo mejor es que hagamos un ejemplo. Queremos representar el flujo de agua desde las fuentes a los abastecimientos y riegos en una zona y lo haremos con el *diagrama Sankey* y el paquete `networkD3`
+
+Básicamente se trata de preparar los datos en una tabla de 3 columnas: origen, destino y volumen de flujo. También tendremos una tabla con los nombres de los nodos.
+
+El código es el siguiente:
+
+```{r diagrama_simple_sankey}
+ # Ejemplo de diagrama de flujo SANKEY
+ library(networkD3)      # cargamos librería
+
+ # Definimos los nodos de la red, que se numeran automáticamente de 0 a ..
+ nodes = data.frame("name" = 
+                   c("Fuente clara",  # Node 0
+                     "Bombeo 1",      # Node 1
+                     "Ayt. Villalocos",  # Node 2
+                     "Ayt. Torrecilla",         # Nodo 3
+                     "C.RR 1",        # Nodo 4
+                     "C.RR 2",        # Nodo 5
+                     "Embalse alto",  # Nodo 6
+                     "Ayt. Puerto Plata", # Nodo 7
+                     "Ayt. Jerjes",   # Nodo 8
+                     "Fuente Negra"   # Nodo 9
+                   ))
+ # Definimos ahora los flujos en la forma siguiente:
+ # nodo origen, nodo final, cantidad de flujo
+ links = as.data.frame(matrix(c(
+                        0, 1, 53, # desde, a, cuanto
+                        0, 3, 5, 
+                        0, 4, 10,
+                        1, 3, 5,
+                        1, 8, 3,
+                        1, 5, 7,
+                        1, 4, 5,
+                        1, 6, 32,
+                        6,2,25,
+                        6,7,7,
+                        6,3,2,
+                        9,3,40,
+                        9,1,3),
+ byrow = TRUE, ncol = 3))
+ # nombramos las columnas con los nombres estándar de la librería networkD3
+  names(links) = c("source", "target", "value")
+  # Llamamos a la funcion de dibujo del diagrama
+  sankeyNetwork(Links = links, Nodes = nodes,
+          Source = "source", Target = "target",
+          Value = "value", NodeID = "name",
+          fontSize= 10, nodeWidth = 50,nodePadding = 10,
+          colourScale = JS("d3.scaleOrdinal(d3.schemeCategory10);"
+          )
+  )  
+```
+
+## Colorear flujo
+
+Entre las opciones de la librería está el colorear los flujos, que se denominan `Links`.
+
+Vamos a ver un ejemplo del gasto energético entre las fuentes de energía y los sectores que la gastan.
+Los datos originales son una tabla con: origen, destino, nombre, valor, del flujo, y tipo de energía.
+
+
+
+```{r warning=FALSE,message=FALSE}
+  # Descargamos los datos 
+    URL <- paste0('https://cdn.rawgit.com/christophergandrud/networkD3/',
+          'master/JSONdata/energy.json')
+    energy <- jsonlite::fromJSON(URL)
+ 
+    #knitr::kable(head(energy),"html")
+    str(energy)
+
+    # Pintamos la grafica simple sin colorear flujos
+    sankeyNetwork(Links = energy$links, Nodes = energy$nodes, Source = 'source',
+          Target = 'target', Value = 'value', NodeID = 'name',
+          units = 'TWh', fontSize = 12, nodeWidth = 30)
+
+  # flujo coloreados
+    energy$links$energy_type <- sub(' .*', '',
+                            energy$nodes[energy$links$source + 1, 'name'])
+  
+    # los colores del flujo los definimos segun los valores de energy$links$energy_type
+    knitr::kable(head(energy$links$energy_type))
+    
+  # pintamos la grafica con flujo coloreados
+    sankeyNetwork(Links = energy$links, Nodes = energy$nodes, Source = 'source',
+          Target = 'target', Value = 'value', NodeID = 'name',
+          LinkGroup = 'energy_type', NodeGroup = NULL)
+```
+
+Esto es todo amigos.
+
