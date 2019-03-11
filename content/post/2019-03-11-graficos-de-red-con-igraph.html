@@ -1,0 +1,444 @@
+---
+title: graficos de red con igraph
+author: F.VilBer
+date: '2019-03-11'
+slug: graficos-de-red-con-igraph
+categories:
+  - R
+tags:
+  - graficas
+  - gráficos
+  - plot
+  - R
+  - redes bayesianas
+  - red
+description: 'graficos de tipo red o enlazados con igraph'
+thumbnail: '/post/2019-03-11-graficos-de-red-con-igraph_files/igraph1.png'
+toc: no
+editor_options: 
+  chunk_output_type: console
+---
+
+
+
+<p>Los gráficos de red son un tipo de diagramas en los que se pintan las relaciones entre nodos, por lo que sirven para representar datos con vínculos cruzados tipo red.</p>
+<p>Vamos a explicar cómo realizar un gráfico de red con la librería <code>igraph</code>, como siempre en R, tenemos varias opciones y librerías que los hacen, pero esta me ha parecido bastante buena y con opciones de personalización suficientes.</p>
+<div id="igraph" class="section level2">
+<h2>igraph</h2>
+<p>La pasada semana realizamos un ejemplo de <a href="../graficos-snakey-con-r">gráfica Sankey</a>, y en cierta forma los gráficos de red son el tipo generalizado de gráficos Sankey, con muchas más opciones.</p>
+<p>La librería <em>igraph</em> es muy completa, tiene mil opciones de personalización y trazado, hay también muchas web con información de cómo hacer estos gráficos, por ejemplo <a href="http://kateto.net/network-visualization">aquí</a>, pero la introducción y la forma de organizar los datos puede ser el mayor impedimento para usarlos, así que voy a hacer un ejemplo completo con datos de flujo de agua.</p>
+<p>Los datos que quiero representar son la producción y reparto de agua desde la fuente de origen, hasta los usuarios finales en una red. Estos datos se ofrecen en cantidades mensuales y quiero hace un resumen gráfico de red para el informe mensual de turno.</p>
+<p>Los datos originales obtenidos de una Excel y son los siguientes, e indican la producción y flujo desde la planta desaladora de origen a cada destino:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:right;">
+origen
+</th>
+<th style="text-align:right;">
+destino
+</th>
+<th style="text-align:left;">
+punto_destino
+</th>
+<th style="text-align:left;">
+Volumen
+</th>
+<th style="text-align:left;">
+Grupo
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+16
+</td>
+<td style="text-align:right;">
+15
+</td>
+<td style="text-align:left;">
+Captacion planta
+</td>
+<td style="text-align:left;">
+12155.437
+</td>
+<td style="text-align:left;">
+PLANTA
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+C.RR.A planta
+</td>
+<td style="text-align:left;">
+64.585
+</td>
+<td style="text-align:left;">
+C.RR.A
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+C.RR.A Salinares
+</td>
+<td style="text-align:left;">
+682.884
+</td>
+<td style="text-align:left;">
+C.RR.A
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+14
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:left;">
+C.RR.A Fuente del Pobre
+</td>
+<td style="text-align:left;">
+442.198
+</td>
+<td style="text-align:left;">
+C.RR.A
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+14
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:left;">
+C.RR.A toma nueva
+</td>
+<td style="text-align:left;">
+307.868
+</td>
+<td style="text-align:left;">
+C.RR.A
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:left;">
+C.RR.P Toma1
+</td>
+<td style="text-align:left;">
+125.661
+</td>
+<td style="text-align:left;">
+C.RR.P
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+14
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:left;">
+C.RR.P bombeo
+</td>
+<td style="text-align:left;">
+453.680
+</td>
+<td style="text-align:left;">
+C.RR.P
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+14
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:left;">
+C.RR.P Toma vagon
+</td>
+<td style="text-align:left;">
+384.699
+</td>
+<td style="text-align:left;">
+C.RR.P
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+9
+</td>
+<td style="text-align:left;">
+Ayuntamiento
+</td>
+<td style="text-align:left;">
+0.000
+</td>
+<td style="text-align:left;">
+Ayuntamiento
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+13
+</td>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:left;">
+C.RR.T
+</td>
+<td style="text-align:left;">
+685.458
+</td>
+<td style="text-align:left;">
+C.RR.T
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+13
+</td>
+<td style="text-align:right;">
+11
+</td>
+<td style="text-align:left;">
+C.RR.T2
+</td>
+<td style="text-align:left;">
+272.581
+</td>
+<td style="text-align:left;">
+C.RR.T
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+13
+</td>
+<td style="text-align:right;">
+12
+</td>
+<td style="text-align:left;">
+C.RR.L
+</td>
+<td style="text-align:left;">
+1942.262
+</td>
+<td style="text-align:left;">
+C.RR.L
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+14
+</td>
+<td style="text-align:right;">
+13
+</td>
+<td style="text-align:left;">
+Embalse
+</td>
+<td style="text-align:left;">
+2900.301
+</td>
+<td style="text-align:left;">
+PLANTA
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+14
+</td>
+<td style="text-align:left;">
+Bombeo
+</td>
+<td style="text-align:left;">
+4614.407
+</td>
+<td style="text-align:left;">
+PLANTA
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+15
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+Producto planta
+</td>
+<td style="text-align:left;">
+5361.876
+</td>
+<td style="text-align:left;">
+PLANTA
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+16
+</td>
+<td style="text-align:left;">
+Mar
+</td>
+<td style="text-align:left;">
+6793.561
+</td>
+<td style="text-align:left;">
+PLANTA
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="grafico-de-red" class="section level2">
+<h2>Grafico de red</h2>
+<p>Con estos datos lo importante es que disponemos de una relación de enlaces en las columnas 1 y 2 que nos indican el origen y destino de la producción. Además disponemos de los datos de los nodos de la red, que en este caso es la misma tabla de datos original, pero que en caso de tener relaciones dobles será otra tabla similar con la descripción de cada nodo y algunas variables importantes.</p>
+<p>Vamos a crear dos tablas una de enlaces y otra de nodos:</p>
+<pre class="r"><code>library(igraph)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;igraph&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:stats&#39;:
+## 
+##     decompose, spectrum</code></pre>
+<pre><code>## The following object is masked from &#39;package:base&#39;:
+## 
+##     union</code></pre>
+<pre class="r"><code># tabla de enlaces
+  enlaces&lt;-data.frame(stringsAsFactors=FALSE,
+            from = c(16, 1, 1, 14, 14, 1, 14, 14, 1, 13, 13, 13, 14, 1, 15, 1),
+              to = c(15, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 1, 16))
+
+# tabla de nodos
+  nodos&lt;-data.frame(stringsAsFactors=FALSE,
+         to = c(15, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 1, 16),
+         punto_destino = c(&quot;Captacion planta&quot;, &quot;C.RR.A naranjos&quot;, &quot;Balsa C.RR.A&quot;,
+                     &quot;Fuente Pobre&quot;, &quot;Toma nueva C.RR.A&quot;,
+                     &quot;C.RR.P 1&quot;, &quot;C.RR.P bombeo&quot;, &quot;C.RR.P 2&quot;, &quot;Ayuntamiento&quot;,
+                     &quot;C.RR.T&quot;, &quot;C.RR.T 2&quot;, &quot;C.RR.L&quot;, &quot;Embalse&quot;, &quot;Bombeo&quot;,
+                     &quot;Producto planta&quot;, &quot;Mar&quot;),
+         Volumen = c(&quot;12155.437&quot;, &quot;64.585&quot;, &quot;682.884&quot;, &quot;442.198&quot;, &quot;307.868&quot;,
+                     &quot;125.661&quot;, &quot;453.680&quot;, &quot;384.699&quot;, &quot;0.000&quot;, &quot;685.458&quot;, &quot;272.581&quot;,
+                     &quot;1942.262&quot;, &quot;2900.301&quot;, &quot;4614.407&quot;, &quot;5361.876&quot;, &quot;6793.561&quot;),
+           Grupo = c(&quot;PLANTA&quot;, &quot;C.RR.A&quot;, &quot;C.RR.A&quot;, &quot;C.RR.A&quot;, &quot;C.RR.A&quot;,
+                     &quot;C.RR.P&quot;, &quot;C.RR.P&quot;, &quot;C.RR.P&quot;, &quot;Ayuntamiento&quot;, &quot;C.RR.T&quot;,
+                     &quot;C.RR.T&quot;, &quot;C.RR.L&quot;, &quot;PLANTA&quot;, &quot;PLANTA&quot;, &quot;PLANTA&quot;, &quot;PLANTA&quot;))
+
+# convierto en hm3 la variable de volumen
+    nodos$Volumen&lt;-as.numeric(nodos$Volumen)/1000
+
+# Creo la red con la función graph_from_data_frame
+  red &lt;- graph_from_data_frame(enlaces, directed=TRUE, vertices=nodos)
+
+# vemos la estructura e= enlaces o edge, v= vertices o nodos  
+  print(red, e=TRUE, v=TRUE)  </code></pre>
+<pre><code>## IGRAPH feb5536 DN-- 16 16 -- 
+## + attr: name (v/c), punto_destino (v/c), Volumen (v/n), Grupo
+## | (v/c)
+## + edges from feb5536 (vertex names):
+##  [1] 16-&gt;15 1 -&gt;2  1 -&gt;3  14-&gt;4  14-&gt;5  1 -&gt;6  14-&gt;7  14-&gt;8  1 -&gt;9  13-&gt;10
+## [11] 13-&gt;11 13-&gt;12 14-&gt;13 1 -&gt;14 15-&gt;1  1 -&gt;16</code></pre>
+<pre class="r"><code>  # tambien podemos ver los enlaces o edge
+    E(red)</code></pre>
+<pre><code>## + 16/16 edges from feb5536 (vertex names):
+##  [1] 16-&gt;15 1 -&gt;2  1 -&gt;3  14-&gt;4  14-&gt;5  1 -&gt;6  14-&gt;7  14-&gt;8  1 -&gt;9  13-&gt;10
+## [11] 13-&gt;11 13-&gt;12 14-&gt;13 1 -&gt;14 15-&gt;1  1 -&gt;16</code></pre>
+<pre class="r"><code>  # y los nodos o V  
+    V(red)</code></pre>
+<pre><code>## + 16/16 vertices, named, from feb5536:
+##  [1] 15 2  3  4  5  6  7  8  9  10 11 12 13 14 1  16</code></pre>
+<pre class="r"><code># pinto la red
+plot(red)</code></pre>
+<p><img src="/post/2019-03-11-graficos-de-red-con-igraph_files/figure-html/igraph1-1.png" width="672" /></p>
+<p>Ya tenemos montada la red básica, pero el gráfico deja mucho que desear.</p>
+<p>Buscamos algo más visual y fácil de interpretar, y lo conseguimos con los parámetros gráficos de la red. Veremos que hay parámetros para los nodos (<em>vertex</em>) y para los enlaces (<em>edge</em>), con lo que podemos personalizar la forma de enlaces, color, tamaño del nodo etc., vamos a ello:</p>
+<pre class="r"><code>par(mfrow=c(1,1), mar=c(0,0,1,0)) 
+# Ajusto algunos parametros de la red  
+plot(red,vertex.label= nodos$punto_destino,
+     vertex.color=&quot;lightblue&quot;,
+     vertex.size=nodos$Volumen*2,
+        edge.arrow.size=1,edge.color=&quot;darkblue&quot;,
+        edge.curved=.1,
+        edge.width=nodos$Volumen*3)</code></pre>
+<p><img src="/post/2019-03-11-graficos-de-red-con-igraph_files/figure-html/personalizacion-1.png" width="672" /></p>
+<p>Esto ya tiene otra pinta, pero vamos a seguir intentando mejoras</p>
+<pre class="r"><code># creamos unos colores
+#library(&quot;RColorBrewer&quot;)
+#pal3 &lt;- brewer.pal(10, &quot;Set3&quot;)
+#colrs &lt;- rev(pal3)
+# Reamos colores personalizados
+colrs &lt;- c(&quot;gray50&quot;, &quot;tomato&quot;, &quot;gold&quot;, &quot;orange&quot;, &quot;green&quot;,&quot;lightblue&quot;)
+# creamos una variable con los colores en los vertices
+V(red)$color&lt;-colrs[as.factor(nodos$Grupo)]
+#V(red_aguilas)$label&lt;-&quot;&quot; #Paste0(punto_destino$nombre,&quot;f&quot;)
+# tambien creamos otra variable para eltamñano del nodo que dependa del volumen
+V(red)$size &lt;- nodos$Volumen
+    
+# para conservar la forma, se puede dar un formato específico con  layout_with... y varias opciones    
+l &lt;- layout_with_fr(red)    
+
+    plot(red,layout=l,main=&quot;Distribución agua en la red - feb 2019&quot;,
+        vertex.label= paste(nodos$punto_destino,&quot;\n&quot;,signif(nodos$Volumen,digits=2),&quot;Hm3&quot;),
+        vertex.label.cex=.7, 
+        vertex.label.color=&quot;black&quot;, # V(red)$color,
+        vertex.color= V(red)$color,
+        vertex.size=nodos$Volumen*2,
+        edge.color=V(red)$color,
+        edge.curved=.1,
+        edge.width=nodos$Volumen*2
+        )
+# añadimos la leyenda
+legend(x=-1, y=1.1,levels(as.factor(nodos$Grupo)), pch=21,
+       col=&quot;#777777&quot;, pt.bg=colrs, pt.cex=2, cex=.8, bty=&quot;n&quot;, ncol=1)</code></pre>
+<p><img src="/post/2019-03-11-graficos-de-red-con-igraph_files/figure-html/personalizacion2-1.png" width="672" /></p>
+<p>El gráfico anterior expresa de manera bastante clara el flujo de producción que hemos tenido el mes de febrero de 2019. Es un ejemplo de uso de gráficos de red bastante simple, pero estos diagramas están pensados para grupos y tablas mucho más complejos y proporcionan herramientas de selección y trazado profesionales.</p>
+<p>Por ver solo un ejemplo más, con la opción de cluster podemos agrupar automáticamente los datos:</p>
+<pre class="r"><code># creamos un cluster optimo de los datos automático
+    clp &lt;- cluster_optimal(red)
+
+# anañimos el resultado anterior como nueva variable de los vertices
+    V(red)$grup1 &lt;- clp$membership
+    
+    colorescluster &lt;- adjustcolor( c(&quot;blue&quot;, &quot;tomato&quot;, &quot;gold&quot;), alpha=.6)
+    plot(red,
+         vertex.size=15,
+         vertex.color=colorescluster[V(red)$grup1],
+         vertex.label.cex=0.5,
+         vertex.label= paste(nodos$punto_destino,&quot;\n&quot;,signif(nodos$Volumen,digits=2),&quot;Hm3&quot;)
+         )</code></pre>
+<p><img src="/post/2019-03-11-graficos-de-red-con-igraph_files/figure-html/cluster-1.png" width="672" /></p>
+</div>

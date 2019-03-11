@@ -6,10 +6,21 @@
     <description>Recent content in Posts on EnRdados</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>es</language>
-    <lastBuildDate>Thu, 07 Mar 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 11 Mar 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>graficos de red con igraph</title>
+      <link>/post/graficos-de-red-con-igraph/</link>
+      <pubDate>Mon, 11 Mar 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/graficos-de-red-con-igraph/</guid>
+      <description>Los gráficos de red son un tipo de diagramas en los que se pintan las relaciones entre nodos, por lo que sirven para representar datos con vínculos cruzados tipo red.
+Vamos a explicar cómo realizar un gráfico de red con la librería igraph, como siempre en R, tenemos varias opciones y librerías que los hacen, pero esta me ha parecido bastante buena y con opciones de personalización suficientes.
+igraphLa pasada semana realizamos un ejemplo de gráfica Sankey, y en cierta forma los gráficos de red son el tipo generalizado de gráficos Sankey, con muchas más opciones.</description>
+    </item>
     
     <item>
       <title>Gráficos Snakey con R</title>

@@ -84,7 +84,6 @@ Vamos a ver un ejemplo del gasto energético entre las fuentes de energía y los
 Los datos originales son una tabla con: origen, destino, nombre, valor, del flujo, y tipo de energía.
 
 
-
 ```{r warning=FALSE,message=FALSE}
   # Descargamos los datos 
     URL <- paste0('https://cdn.rawgit.com/christophergandrud/networkD3/',

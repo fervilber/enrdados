@@ -1,0 +1,177 @@
+---
+title: graficos de red con igraph
+author: F.VilBer
+date: '2019-03-11'
+slug: graficos-de-red-con-igraph
+categories:
+  - R
+tags:
+  - graficas
+  - gráficos
+  - plot
+  - R
+  - redes bayesianas
+  - red
+description: 'graficos de tipo red o enlazados con igraph'
+thumbnail: '/post/2019-03-11-graficos-de-red-con-igraph_files/igraph1.png'
+toc: no
+editor_options: 
+  chunk_output_type: console
+---
+
+Los gráficos de red son un tipo de diagramas en los que se pintan las relaciones entre nodos, por lo que sirven para representar datos con vínculos cruzados tipo red.
+
+Vamos a explicar cómo realizar un gráfico de red con la librería `igraph`, como siempre en R, tenemos varias opciones y librerías que los hacen, pero esta me ha parecido bastante buena y con opciones de personalización suficientes.
+
+## igraph
+
+La pasada semana realizamos un ejemplo de [gráfica Sankey](../graficos-snakey-con-r), y en cierta forma los gráficos de red son el tipo generalizado de gráficos Sankey, con muchas más opciones.
+
+La librería *igraph* es muy completa, tiene mil opciones de personalización y trazado, hay también muchas web con información de cómo hacer estos gráficos, por ejemplo [aquí](http://kateto.net/network-visualization), pero la introducción y la forma de organizar los datos puede ser el mayor impedimento para usarlos, así que voy a hacer un ejemplo completo con datos de flujo de agua.
+
+Los datos que quiero representar son la producción y reparto de agua desde la fuente de origen, hasta los usuarios finales en una red. Estos datos se ofrecen en cantidades mensuales y quiero hace un resumen gráfico de red para el informe mensual de turno.
+
+
+Los datos originales obtenidos de una Excel y son los siguientes, e indican la producción y flujo desde la planta desaladora de origen a cada destino: 
+
+```{r, echo=FALSE}
+tabla<-tibble::tribble(
+  ~origen, ~destino,             ~punto_destino,    ~Volumen,         ~Grupo,
+       16,       15,         "Captacion planta", "12155.437",       "PLANTA",
+        1,        2,           "C.RR.A planta",    "64.585",       "C.RR.A",
+        1,        3,        "C.RR.A Salinares",   "682.884",       "C.RR.A",
+       14,        4, "C.RR.A Fuente del Pobre",   "442.198",       "C.RR.A",
+       14,        5,       "C.RR.A toma nueva",   "307.868",       "C.RR.A",
+        1,        6,            "C.RR.P Toma1",   "125.661",       "C.RR.P",
+       14,        7,             "C.RR.P bombeo",   "453.680",       "C.RR.P",
+       14,        8,         "C.RR.P Toma vagon",   "384.699",       "C.RR.P",
+        1,        9,                      "Ayuntamiento",     "0.000", "Ayuntamiento",
+       13,       10,            "C.RR.T",   "685.458",       "C.RR.T",
+       13,       11,                   "C.RR.T2",   "272.581",       "C.RR.T",
+       13,       12,                    "C.RR.L",  "1942.262",       "C.RR.L",
+       14,       13,           "Embalse",  "2900.301",       "PLANTA",
+        1,       14,                 "Bombeo",  "4614.407",       "PLANTA",
+       15,        1,          "Producto planta",  "5361.876",       "PLANTA",
+        1,       16,                      "Mar",  "6793.561",       "PLANTA"
+  )
+
+knitr::kable(tabla, "html")
+
+```
+
+## Grafico de red
+Con estos datos lo importante es que disponemos de una relación de enlaces en las columnas 1 y 2 que nos indican el origen y destino de la producción. Además disponemos de los datos de los nodos de la red, que en este caso es la misma tabla de datos original, pero que en caso de tener relaciones dobles será otra tabla similar con la descripción de cada nodo y algunas variables importantes.
+
+Vamos a crear dos tablas una de enlaces y otra de nodos:
+
+```{r igraph1}
+
+library(igraph)
+# tabla de enlaces
+  enlaces<-data.frame(stringsAsFactors=FALSE,
+            from = c(16, 1, 1, 14, 14, 1, 14, 14, 1, 13, 13, 13, 14, 1, 15, 1),
+              to = c(15, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 1, 16))
+
+# tabla de nodos
+  nodos<-data.frame(stringsAsFactors=FALSE,
+         to = c(15, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 1, 16),
+         punto_destino = c("Captacion planta", "C.RR.A naranjos", "Balsa C.RR.A",
+                     "Fuente Pobre", "Toma nueva C.RR.A",
+                     "C.RR.P 1", "C.RR.P bombeo", "C.RR.P 2", "Ayuntamiento",
+                     "C.RR.T", "C.RR.T 2", "C.RR.L", "Embalse", "Bombeo",
+                     "Producto planta", "Mar"),
+         Volumen = c("12155.437", "64.585", "682.884", "442.198", "307.868",
+                     "125.661", "453.680", "384.699", "0.000", "685.458", "272.581",
+                     "1942.262", "2900.301", "4614.407", "5361.876", "6793.561"),
+           Grupo = c("PLANTA", "C.RR.A", "C.RR.A", "C.RR.A", "C.RR.A",
+                     "C.RR.P", "C.RR.P", "C.RR.P", "Ayuntamiento", "C.RR.T",
+                     "C.RR.T", "C.RR.L", "PLANTA", "PLANTA", "PLANTA", "PLANTA"))
+
+# convierto en hm3 la variable de volumen
+    nodos$Volumen<-as.numeric(nodos$Volumen)/1000
+
+# Creo la red con la función graph_from_data_frame
+  red <- graph_from_data_frame(enlaces, directed=TRUE, vertices=nodos)
+
+# vemos la estructura e= enlaces o edge, v= vertices o nodos  
+  print(red, e=TRUE, v=TRUE)  
+  # tambien podemos ver los enlaces o edge
+    E(red)
+  # y los nodos o V  
+    V(red)
+# pinto la red
+plot(red)
+
+```
+
+Ya tenemos montada la red básica, pero el gráfico deja mucho que desear. 
+
+Buscamos algo más visual y fácil de interpretar, y lo conseguimos con los parámetros gráficos de la red. Veremos que hay parámetros para los nodos (*vertex*) y para los enlaces (*edge*), con lo que podemos personalizar la forma de enlaces, color, tamaño del nodo etc., vamos a ello:
+
+```{r personalizacion}
+par(mfrow=c(1,1), mar=c(0,0,1,0)) 
+# Ajusto algunos parametros de la red  
+plot(red,vertex.label= nodos$punto_destino,
+     vertex.color="lightblue",
+     vertex.size=nodos$Volumen*2,
+        edge.arrow.size=1,edge.color="darkblue",
+        edge.curved=.1,
+        edge.width=nodos$Volumen*3)
+```
+
+Esto ya tiene otra pinta, pero vamos a seguir intentando mejoras
+
+```{r personalizacion2}
+# creamos unos colores
+#library("RColorBrewer")
+#pal3 <- brewer.pal(10, "Set3")
+#colrs <- rev(pal3)
+# Reamos colores personalizados
+colrs <- c("gray50", "tomato", "gold", "orange", "green","lightblue")
+# creamos una variable con los colores en los vertices
+V(red)$color<-colrs[as.factor(nodos$Grupo)]
+#V(red_aguilas)$label<-"" #Paste0(punto_destino$nombre,"f")
+# tambien creamos otra variable para eltamñano del nodo que dependa del volumen
+V(red)$size <- nodos$Volumen
+    
+# para conservar la forma, se puede dar un formato específico con  layout_with... y varias opciones    
+l <- layout_with_fr(red)    
+
+    plot(red,layout=l,main="Distribución agua en la red - feb 2019",
+        vertex.label= paste(nodos$punto_destino,"\n",signif(nodos$Volumen,digits=2),"Hm3"),
+        vertex.label.cex=.7, 
+        vertex.label.color="black", # V(red)$color,
+        vertex.color= V(red)$color,
+        vertex.size=nodos$Volumen*2,
+        edge.color=V(red)$color,
+        edge.curved=.1,
+        edge.width=nodos$Volumen*2
+        )
+# añadimos la leyenda
+legend(x=-1, y=1.1,levels(as.factor(nodos$Grupo)), pch=21,
+       col="#777777", pt.bg=colrs, pt.cex=2, cex=.8, bty="n", ncol=1)
+```
+
+El gráfico anterior expresa de manera bastante clara el flujo de producción que hemos tenido el mes de febrero de 2019. Es un ejemplo de uso de gráficos de red bastante simple, pero estos diagramas están pensados para grupos y tablas mucho más complejos y proporcionan herramientas de selección y trazado profesionales.
+
+Por ver solo un ejemplo más, con la opción de cluster podemos agrupar automáticamente los datos:
+
+```{r cluster}
+# creamos un cluster optimo de los datos automático
+    clp <- cluster_optimal(red)
+
+# anañimos el resultado anterior como nueva variable de los vertices
+    V(red)$grup1 <- clp$membership
+    
+    colorescluster <- adjustcolor( c("blue", "tomato", "gold"), alpha=.6)
+    plot(red,
+         vertex.size=15,
+         vertex.color=colorescluster[V(red)$grup1],
+         vertex.label.cex=0.5,
+         vertex.label= paste(nodos$punto_destino,"\n",signif(nodos$Volumen,digits=2),"Hm3")
+         )
+
+```
+
+
+
