@@ -112,5 +112,7 @@ Los datos originales son una tabla con: origen, destino, nombre, valor, del fluj
           LinkGroup = 'energy_type', NodeGroup = NULL)
 ```
 
+
+
 Esto es todo amigos.
 

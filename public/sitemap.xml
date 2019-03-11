@@ -232,26 +232,26 @@
   </url>
   
   <url>
-    <loc>/categories/mapas/</loc>
-    <lastmod>2019-03-05T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>/tags/mapas/</loc>
     <lastmod>2019-03-05T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/categories/markdown/</loc>
-    <lastmod>2018-12-06T00:00:00+00:00</lastmod>
+    <loc>/categories/mapas/</loc>
+    <lastmod>2019-03-05T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/markdown/</loc>
     <lastmod>2019-01-16T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/categories/markdown/</loc>
+    <lastmod>2018-12-06T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -268,14 +268,14 @@
   </url>
   
   <url>
-    <loc>/categories/modelos/</loc>
-    <lastmod>2019-03-04T00:00:00+00:00</lastmod>
+    <loc>/tags/modelos/</loc>
+    <lastmod>2019-02-13T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/tags/modelos/</loc>
-    <lastmod>2019-02-13T00:00:00+00:00</lastmod>
+    <loc>/categories/modelos/</loc>
+    <lastmod>2019-03-04T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -304,13 +304,13 @@
   </url>
   
   <url>
-    <loc>/categories/r/</loc>
+    <loc>/tags/r/</loc>
     <lastmod>2019-03-07T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/tags/r/</loc>
+    <loc>/categories/r/</loc>
     <lastmod>2019-03-07T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
