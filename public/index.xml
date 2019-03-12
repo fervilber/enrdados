@@ -6,10 +6,20 @@
     <description>Recent content on EnRdados</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>es</language>
-    <lastBuildDate>Mon, 11 Mar 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 03 Apr 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Enlaces</title>
+      <link>/enlaces/</link>
+      <pubDate>Wed, 03 Apr 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/enlaces/</guid>
+      <description>Página con enlaces interesantes
+Mis libros  Manual de R para el científico de datos, este es mi libro de consulta que sigo usando a diario. Aprendizaje supervisado en R, otro manual que hice para saber cómo hacer modelos supervisados en R.  Enlaces recomendados para mapeo con R  https://geocompr.robinlovelace.net/intro.html hoja resumen a imprimirse siempre ejemplos devarias librerias paleolimbot.github - ggspatial Sistemas de coordenadas en R pdf Libro de GIS en R, bueno y caro Libro de un español de SIG algo simple -Cartografía del censo electoral 2011 Sistemas de información geográfica, libro con teoría de SIG avanzado, muchos algoritmos geográficos y amplias descripciones en Español.</description>
+    </item>
     
     <item>
       <title>graficos de red con igraph</title>

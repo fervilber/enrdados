@@ -43,6 +43,9 @@
 	</button>
 	<ul class="menu__list">
 		<li class="menu__item">
+			<a class="menu__link" href="/enlaces/">Enlaces</a>
+		</li>
+		<li class="menu__item">
 			<a class="menu__link" href="/about/">Sobre mi</a>
 		</li>
 		<li class="menu__item">
@@ -206,7 +209,15 @@ Quiero hacer algo parecido con R, talleres sencillos, y que llamen la atención 
 
 			</div>
 			
-<aside class="sidebar">
+<aside class="sidebar"><div class="widget-search widget">
+	<form class="widget-search__form" role="search" method="get" action="https://google.com/search">
+		<label>
+			<input class="widget-search__field" type="search" placeholder="Buscar..." value="" name="q" aria-label="Buscar...">
+		</label>
+		<input class="widget-search__submit" type="submit" value="Search">
+		<input type="hidden" name="sitesearch" value="/" />
+	</form>
+</div>
 <div class="widget-recent widget">
 	<h4 class="widget__title">Más Recientes</h4>
 	<div class="widget__content">
