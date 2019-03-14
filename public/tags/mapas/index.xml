@@ -6,10 +6,19 @@
     <description>Recent content in Mapas on EnRdados</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>es</language>
-    <lastBuildDate>Tue, 05 Mar 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 14 Mar 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/mapas/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Leaflet mapas dinamicos </title>
+      <link>/post/leaflet-mapas-dinamicos/</link>
+      <pubDate>Thu, 14 Mar 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/leaflet-mapas-dinamicos/</guid>
+      <description>IndiceLeafletPrimeros pasosCargar capas en el mapaAñadir capas shp y kmlmapviewOpciones de personalizaciónCapa baseAñadir gruposOtras opciones zoom etcpopupsColoresleaflet.extrasLeafletLeaflet es indiscutiblemente el lider de las librerías de código abierto para la creación de mapas dinámicos libres. Está escrita en JavaScript y por tanto pensada para internet desde sus entrañas.</description>
+    </item>
     
     <item>
       <title>Mapas con tmap</title>

@@ -22,6 +22,15 @@ Mis libros  Manual de R para el científico de datos, este es mi libro de consul
     </item>
     
     <item>
+      <title>Leaflet mapas dinamicos </title>
+      <link>/post/leaflet-mapas-dinamicos/</link>
+      <pubDate>Thu, 14 Mar 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/leaflet-mapas-dinamicos/</guid>
+      <description>IndiceLeafletPrimeros pasosCargar capas en el mapaAñadir capas shp y kmlmapviewOpciones de personalizaciónCapa baseAñadir gruposOtras opciones zoom etcpopupsColoresleaflet.extrasLeafletLeaflet es indiscutiblemente el lider de las librerías de código abierto para la creación de mapas dinámicos libres. Está escrita en JavaScript y por tanto pensada para internet desde sus entrañas.</description>
+    </item>
+    
+    <item>
       <title>graficos de red con igraph</title>
       <link>/post/graficos-de-red-con-igraph/</link>
       <pubDate>Mon, 11 Mar 2019 00:00:00 +0000</pubDate>

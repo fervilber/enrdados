@@ -1,0 +1,409 @@
+---
+title: 'Leaflet mapas dinamicos '
+author: F.VilBer
+date: '2019-03-14'
+slug: leaflet-mapas-dinamicos
+categories:
+  - mapas
+  - GIS
+  - R
+tags:
+  - CRS
+  - mapas
+  - R
+  - sf
+  - SIG
+description: 'Como hacer mapas dinámicos con Leaflet y R'
+thumbnail: '/post/2019-03-14-leaflet-mapas-dinamicos_files/leafletp.png'
+toc: no
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,fig.height=4,warning = FALSE,message = FALSE)
+```
+
+## Indice {#indice}
+
+  * [Leaflet](#leaflet)
+  * [Primeros pasos](#primeros-pasos)
+  * [Cargar capas en el mapa](#cargar-capas-en-el-mapa) 
+  * [Añadir capas shp y kml](#a%C3%B1adir-capas-shp-y-kml) 
+  * [mapview](#mapview) 
+  * [Opciones de personalización](#opciones-de-personalizacion)
+  * [Capa base](#capa-base)
+  * [Añadir grupos](#a%C3%B1adir-grupos)
+  * [Otras opciones zoom etc](#opciones)
+  * [popups](#popups)
+  * [Colores](#colores)
+  * [leaflet.extras](#leaflet.extras)
+
+
+## Leaflet
+*Leaflet* es indiscutiblemente el lider de las librerías de código abierto para la creación de **mapas dinámicos** libres. Está escrita en *JavaScript* y por tanto pensada para internet desde sus entrañas.
+
+Esta maravilla de código se puede acceder y gestionar desde R con la librería *library(leaflet)* de manera super simple y al complementarse con R tenemos enormes posibilidades de creacción.
+
+## Primeros pasos
+Hacer un plano con *leaflet* es muy fácil: 
+
+ 1. cargar la librería: `leaflet()`
+ 2. llamar a la función que carga la capa base: `addTiles()`
+    
+Una nota previa, *leaflet* hace uso intensivo de la función tubería (*pipe* in english), por lo que es conveniente que sepas de qué va el símbolo *%>%* de los paquetes *dplyr* o *tidyverse*.
+
+
+```{r primeros_pasos}
+    # para instalar leaflet:    
+    #   install.packages("leaflet")
+    
+    # Cargamos el paquete    
+      library(leaflet)
+    # carga del plano base
+      leaflet()  %>%  addTiles() 
+      
+```
+
+A partir de aquí todo consiste en añadir funciones de carga de capas o funciones que personalizan la forma de visualizar el mapa o las capas.
+
+[Volver al índice](#indice)
+
+## Cargar capas en el mapa
+Vamos explicar cómo visualizar datos en un mapa. Los más sencillos son pintar los datos de una tabla xy. Partimos de una tabla (*data.frame*) que tiene dos campos con las coordenadas *lon-lat* (x-y). 
+
+Pasando la tabla como argumento a la función *leaflet* y añadiendo una función de trazado de marcas podemos pintarlo en un mapa dinámico. Leaflet detecta los campos con nombres como lat lon, pero en caso de no detectarlos siempre se puede especificar con en la función: `addMarkers(lng=df$lon,lat=df$lat...)`
+
+Para el caso de puntos como una tabla x-y podemos usar las funciones `addMarkers` o `addCircleMarkers` indistintamente. Cada una tiene varias opciones de personalización. Veamos un ejemplo:
+
+```{r xy_to_map}
+    # creamos una data.frame con puntos aleatorios en la zona de Levante (España)
+    df = data.frame(
+      lat = rnorm(50, mean=39,sd=0.5),
+      lng = rnorm(50,mean=0,sd=1),
+      size = runif(50, 5, 20),
+      color= sample(colors(),50)
+    )
+    
+    # creamos un objeto de mapa leaflet
+    m = leaflet(df) %>% addTiles() # añade el mapa por defecto de OpenStreetMap
+    # añadimos Una capa de marcas con los datos 
+    # la capa tendrá una popup con el texto marcado
+    m %>% addMarkers(popup= ~paste("Hola mundo", size) )    
+    
+    # Cambiamos las marcas por circulos, que tengan un tamaño y color diferente según los valores 
+    # creamos una paleta de color continua colorNumeric es funcion de leaflet
+    pal <- colorNumeric(palette = "Spectral", domain = c(df$size), reverse = TRUE)
+    
+    m %>% addCircleMarkers(radius = ~size, color = ~pal(size), fill = ~pal(size),popup= ~paste0("mi tamaño es:",size))
+```
+
+Con los comandos `addMarkers`, y `addCircleMarkers` hemos añadido una capa de puntos, pero podemos añadir polígonos, lineas...controles, capas WMS, cada una tiene su función específica delectura de los datos origen:
+
+ * `addControl`: Añade controles HTML al mapa
+ * `addTiles`: Añade la capa base
+ * `addWMSTiles`: Añade capa WMS al mapa
+ * `addPopups`: Añade popups a una capa
+ * `addMarkers`: Añade marcas de posición e iconos al mapa
+ * `addLabelOnlyMarkers`: Añade etiquetas al mapa
+ * `addCircleMarkers`: Añade marcas de circulos al mapa
+ * `highlightOptions`: añade las opciones de subrayado al pasar por encima de una capa (highligh)
+ * `addCircles`: Añade circulos al mapa
+ * `addPolylines`: Añade capa de polilíneas al mapa
+ * `addRectangles`: Añade rectangulos al mapa
+ * `addPolygons`: Añade capa de poligonos al mapa
+ * `addGeoJSON`: Añade datos GeoJSON al mapa
+ * `addTopoJSON`: Añade capas TopoJSON al mapa
+
+[Volver al índice](#indice)
+
+### Añadir capas shp y kml
+La forma más sencilla de leer y pintar una capa en *leaflet* es usando la función `st_read()` del paquete `sf`. Esta función lee multitud de formatos de SIG y convierte la capa en objeto sf.
+
+Vamos a ver dos ejemplos de capas una de puntos en fomato kml y otra de polígonos en formato shp.
+
+```{r leer_kml}
+    library(sf)
+ 
+    # lectura de una capa kml
+    capa_kml<-st_read('../../static/capas/Restaurantes.kml')
+    # vemos los nombres de las variables
+    names(capa_kml)
+    #pintar las capas
+    leaflet() %>% 
+        addTiles() %>% 
+        addMarkers(data = capa_kml,
+                label = capa_kml$Name,
+                labelOptions = 
+                    labelOptions(style = list("font-weight" = "normal",
+                              padding = "3px 8px"),textsize = "12px"))
+    
+
+    # lectura de un shp
+    capa_shp<-st_read('../../static/capas/confederaciones.shp')
+    names(capa_shp)
+    # como no tiene un sistema de referencia debemos ponerle uno
+    # la capa es en UTM en España y probeblemente epgs 25830
+    st_crs(capa_shp)<-25830
+    # transformamos las coordenadas a geográficas lon-lat 
+    capa_shp<-st_transform(capa_shp,crs=4326)
+
+        m<-leaflet() %>% 
+        addTiles() %>% 
+        addPolygons(data = capa_shp,stroke = TRUE, fillOpacity = 0.8,
+                highlight = highlightOptions(weight = 3,
+                                              color = "red",
+                                              bringToFront = TRUE))
+    m
+
+```
+
+Si nos fijamos hemos cambiado la funcion de lectura, para en un caso pintar marcas con `addMarkers` y en otro pintar poligonos con `addPolygons`.
+
+El problema con los objetos sf es que hay un bug en la librería de leaflet y a veces una cada da problemas principalmente con la clase de objetos de polígonos y polilíneas.
+
+Hay dos maneras de solucionar el problema, leer la capa como sp en lugar de sf, eso se puede hacer de varias formas os dejamos un par de ejemlos:
+
+```{r leer_sp, eval=FALSE}
+# con la libraría rgdal
+    library(rgdal)
+    # usando la función readOGR se pueden leer shp, 
+    # leemos la capa Rios.shp en la carpeta data
+    capa_rios<-readOGR(dsn = 'C:/data',layer = 'Rios',verbose=FALSE)
+
+# con la libraría raster          
+    library(raster)
+    capa_rios2 <- raster::shapefile("data/Rios.shp") 
+    
+# Otra opcion es convertir en GEOJSON
+    capaGeoJSON<-toGeoJSON(system.file(package="leafletR", "files", "data/Rios.kml"))
+
+```
+
+[Volver al índice](#indice)
+
+### mapview
+A mi, personalmente me parece una mejor solución usar la librería `mapview`. Este paquete añade una nueva función a leaflet que permite leer un objeto sf sin problemas `addFeatures()`. Vamos a ver un ejemplo con una capa de lineas que da problemas con la lectura con la función de `addPolylines()`
+
+
+```{r mapview}
+# cargamos lalibrería mapview
+   library(mapview)
+    # lectura de una capa kml
+    capa_kml<-st_read('../../static/capas/canal_postrasvase.kml')
+    # vemos los nombres de las variables
+    names(capa_kml)
+    capa_kml$Name<-"red postrasvase"
+    leaflet(capa_kml)%>% 
+        addProviderTiles("Esri.WorldTopoMap") %>%
+        addFeatures(capa_kml,color = "red",weight=12,label = ~capa_kml$Name)
+```
+
+[Volver al índice](#indice)
+
+## Opciones de personalización
+Para personalizar un mapa existen multitud de opciones de configuración, vamos a ver solo las más habituales. 
+
+[Volver al índice](#indice)
+
+### Capa base
+Una de las caracteristicas más interesantes es cambiar el mapa de fondo por defecto a cualquiera de los mapas libres disponibles. Esto se hace con el comando sutituyendo `addTiles()`por ` addProviderTiles()`. 
+
+```{r}
+# Cambiamos fondo a tipo toner
+    leaflet(df) %>% addProviderTiles(providers$Stamen.Toner) %>%
+        addCircleMarkers(radius = 7, color = "red",
+                         popup= paste("adios",df$size) )
+
+```
+
+En estos momentos existen 137 mapas de fondo disponibles, ¿ cómo saberlo?, pues ejecutando el comando `names(providers)`, que enumera todos los proveedores de capas base.
+
+```{r capas base, echo=FALSE}
+    # todos los nombres de mapas de fondo disponibles en leaflet    
+    a<-names(providers)  
+    a<-data.frame(a)
+    knitr::kable(head(a,10),"html")
+```
+
+[Volver al índice](#indice)
+
+### Añadir Grupos
+Para dejar a la elección del usuario el mapa de fondo, podemos hacer grupos y mostrar un selector de capa base en el plano, también podemos hacer grupos en las capas que vams añadiendo al mapa como marcas, poligonos, lineas. Los grupos se forman con la función `addLayersControl`, en la que está el parámetro `baseGroups` para las capas de fondos y `overlayGroups` para el resto de capas:
+
+```{r grupos_base}
+    leaflet(df) %>% 
+        addProviderTiles("Stamen.TonerLite",group = "Toner") %>%
+        addProviderTiles("HikeBike", group = "Bike") %>% 
+        addProviderTiles("Esri", group = "Esri") %>%
+    addProviderTiles("Stamen.Watercolor", group="Acuarela") %>%
+    addCircleMarkers(radius = 4, color = "red",group="capapuntos", popup= ~paste0("mi tamaño es:",size)) %>%
+    addLayersControl(overlayGroups = c("capapuntos"),baseGroups = c("Toner", "Bike", "Esri","Acuarela")) 
+```
+
+[Volver al índice](#indice)
+
+### Otras opciones generales: zoom, busqueda, medida, escala {#opciones}
+Los mapas con Leaflet son personalizables en muchos aspectos, podemos añadir un escala gráfica, el norte, leyendas, fijar el zoom máximo y mínimo, fijar una caja de visualización del mapa (*fitBounds*), fijar el punto central de inicio del mapa (*setView*) ...
+
+
+```{r otras_opcines, eval=FALSE, fig.height=4}
+    # fijar un punto central y un zoom 
+    leaflet() %>% 
+     addTiles() %>% 
+     setView(lng = -73.98575, 
+             lat = 40.74856, 
+             zoom = 13)
+    # fijar una caja de inicio, fitbounds
+        leaflet() %>% 
+            addTiles() %>% 
+             fitBounds(
+              lng1 = -73.910, lat1 = 40.773, 
+              lng2 = -74.060, lat2 = 40.723)
+    # limitar zooms y permitir o no el dragging con la mano
+    leaflet(options = 
+         leafletOptions(dragging = FALSE,
+                        minZoom = 14, 
+                        maxZoom = 18))  %>% 
+         addProviderTiles("CartoDB")  %>% 
+         setView(lng = -73.98575, lat = 40.74856, zoom = 18) 
+
+# Establecer max caja en un mapa 
+    leaflet() %>%
+      setMaxBounds(lng1 = dc_hq$lon[2] + .05, 
+                   lat1 = dc_hq$lat[2] + .05, 
+                   lng2 = dc_hq$lon[2] - .05, 
+                   lat2 = dc_hq$lat[2] - .05)
+
+# opcion de limpiar el mapa 
+        m %>% clearBounds() %>% clearMarkers()
+```
+
+Ejemplo completo con algunas personalizaciones:
+
+```{r ejemplomapa}
+     # establer valores generales de zoom minimo y maximo
+    leaflet(df) %>% 
+        setView(lng = -0.15, lat = 40.14, zoom = 8)%>%
+        addProviderTiles("Stamen.TonerLite",group = "Toner") %>%
+        addProviderTiles("HikeBike", group = "Bike") %>% 
+        addProviderTiles("Esri", group = "Esri") %>%
+        addProviderTiles("Stamen.Watercolor", group="Acuarela") %>%
+    addLayersControl(baseGroups = c("OSM", "Bike", "Esri","Acuarela")) %>%                addCircleMarkers(radius = 5, color = ~pal(size),                                                       opacity = 0.8,
+                     popup= ~paste0("mi tamaño es: ",signif(size,2)))%>%
+    addLegend(pal = pal,
+                   values = df$size,
+                   opacity = 0.75,
+                   title = "Tamaño",
+                   position = "topleft")%>%    
+    # añade el pluggin con opciones de medicion
+    addMeasure(position = "bottomleft",
+        primaryLengthUnit = "meters",
+        primaryAreaUnit = "sqmeters",
+        activeColor = "#3D535D",
+        completedColor = "#7D4479")
+
+```
+
+[Volver al índice](#indice)
+
+## Popups con html {#popups}
+Otra funcionalidad importante es que podemos usar html en la popups y hacerlas muy atractivas. Por ejemplo usando el tag `<br/>` para crear una linea de corte.
+o usar la función `sprintf` para generar una lista completa de las eqtiquetas formateadas a partir de los valores de la tabla o capa de origen. 
+
+```{r}
+# Añadimos directamente código html
+m<-leaflet(df) %>% addTiles() %>%
+    addCircleMarkers(data = df, radius = 2, color = ~color,
+                     popup = ~paste0("el color es:", "<br/>", color))
+m
+
+
+# creamos una etiqueta compleja en html con sprintf
+labels <- sprintf(
+  "Color:<strong>%s</strong><br/> tamaño: %g m<sup>2</sup>",
+  df$color, df$size
+) %>% lapply(htmltools::HTML)
+
+    m %>% addCircleMarkers(data = df, radius = 2, color = ~color,
+                     label = labels)
+
+```
+
+[Volver al índice](#indice)
+
+## Colores 
+Leaflet tiene funciones específicas para colorear escalas en los mapas. Hay tres funciones básicas:
+
+ - `colorFactor`  para colorear variables discretas
+ - `colorNumeric`para escalas continuas numéricas 
+ - `colorQuantile` para mejorar la coloracion en conjuntos con sesgo
+
+```{r color_escala}
+# creamos escala discreta
+str(df)
+# creamos un factor sobre el valor size con 3 cortes de valores
+df$tamano<-cut(df$size,3)
+
+# Creo una escala discreta
+pal <- colorFactor(palette = c("red", "blue", "#9b4a11"), 
+                   levels = levels(df$tamano))
+# pinto el mapa con leaflet
+ leaflet(df) %>% 
+        addProviderTiles(providers$Stamen.Terrain) %>% 
+        addCircleMarkers(radius = 5,
+                         color = ~pal(tamano),
+                         popup = ~paste0("Tamano=", "<br/>", signif(size,2))) %>%
+    addLegend(position = "bottomright",
+              title = "Leyenda dato",
+              pal = pal, 
+              values = levels(df$tamano))
+```
+
+Si lo que queremos es añadir una escala continua usaremos `colorNUmeric()`.
+
+```{r escala_continua}
+# ejemplo de escala continua
+  palcontinua <- colorNumeric(palette = "Reds", domain = df$size, reverse = TRUE)
+
+      leaflet(df) %>% 
+      addProviderTiles(providers$Stamen.TonerLite)  %>% 
+      addCircleMarkers(radius = 7, color = ~palcontinua(size), label = ~size)  %>%
+      addLegend(title = "Leyenda escala continua", pal = palcontinua, values = df$size,
+            position = "bottomright")
+```
+
+en el argumento palette poemos especificar el nombre de alguna de las paletas predefinidas del paquete `RColorBrewer`, para verlas:
+
+```{r eval=FALSE}
+    # see http://colorbrewer2.org/ for interactive examples
+    library(RColorBrewer)
+    display.brewer.all()
+```
+
+[Volver al índice](#indice)
+
+#leaflet.extras 
+leaflet.extras es una librería complementaria a Leaflet que aporta algunos *widget* (artilugios) interesantes como funciones de busqueda en el mapa.
+
+
+```{r}
+library(leaflet.extras)
+library(htmltools) #a para htmlescape que limpia los datos de html
+
+#Lee la capa restaurantes
+restaurantes<-st_read("../../static/capas/Restaurantes.kml")
+# pinta el mapa con opcion de busqueda
+leaflet(restaurantes) %>%
+    addProviderTiles(providers$Esri.WorldImagery) %>% 
+    addCircleMarkers(radius = 7, group="comida",
+                     color ="blue", label = ~htmlEscape(Name)) %>%
+     setView(lng = -1.128575, 
+             lat = 37.984047, 
+             zoom = 14)%>%
+  addSearchFeatures(targetGroups = "comida")
+```
+
+Podemos decirle que busque en un grupo determinado con el parametro tagetGruop
+y además indicar opciones como el zoom
+
+[Volver al índice](#indice)
+
