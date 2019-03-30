@@ -6,10 +6,20 @@
     <description>Recent content in Posts on EnRdados</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>es</language>
-    <lastBuildDate>Thu, 14 Mar 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 30 Mar 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Ojos </title>
+      <link>/post/ojos/</link>
+      <pubDate>Sat, 30 Mar 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/ojos/</guid>
+      <description>He estado con lío esta semana, pero hace tiempo que quería hacer algo divertido como un generador de caras.. como eso lo veo complejo, vamos a empezar por un generador de ojos.
+Me sorprendió lo sencillo que ha resultado hacer un ojo humano con funciones gráficas en R, casi en 5 minutos teníamos una ecuación que daba el pego, resultaba aparente y bastante fácil, hasta mi hija de 7 años se quedó encantada y empezó a jugar con los colores del iris.</description>
+    </item>
     
     <item>
       <title>Leaflet mapas dinamicos </title>

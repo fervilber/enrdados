@@ -1,0 +1,284 @@
+---
+title: 'Ojos '
+author: F.VilBer
+date: '2019-03-30'
+slug: ojos
+categories:
+  - educación
+tags:
+  - gráficos
+  - divertido
+  - dibujo
+  - R
+description: 'Cómo hacer un ojo con mates y R'
+thumbnail: '/post/2019-03-30-ojos_files/OJO.png'
+toc: no
+editor_options: 
+  chunk_output_type: console
+output: 
+  html_document: 
+    fig_height: 7
+---
+
+He estado con lío esta semana, pero hace tiempo que quería hacer algo divertido como un generador de caras.. como eso lo veo complejo, vamos a empezar por un generador de ojos.
+
+Me sorprendió lo sencillo que ha resultado hacer un ojo humano con funciones gráficas en R, casi en 5 minutos teníamos una ecuación que daba el pego, resultaba aparente y bastante fácil, hasta mi hija de 7 años se quedó encantada y empezó a jugar con los colores del iris.
+
+R no es un lenguaje de diseño gráfico, otros como *processing* son fantásticos para eso, pero a veces me sorprenden los resultados con R.
+
+Como veis tengo especial predilección por los gráficos generativos, podéis buscar bajo el hashtag `#generative`, son diseños que dependen de funciones matemáticas y con cierto grado de aleatoriedad. En este blog hemos hecho varios ejemplos con estilo propio como:
+
+ - [generador de ciudades con R](../pintar-un-edificio-con-r)
+ - [hacer un bosque con R](../hacer-un-bosque-con-r)
+ - [crea un mapa del tesoro](../mapa-del-tesoro)
+ - [islas aleatorias](../Generador-de-islas-aleatorias)
+
+Hoy vamos a hacer un ensayo del generador de caras, y lo empezaremos haciendo una función creadora de la forma de un ojo humano a partir de funciones simples de R, como las que pintan círculos, líneas y splines.
+ 
+## Programar una gráfica de un ojo
+
+Aunque pensé hacerlo con un circulo simple, la primera prueba con splines ha quedado tan perfecta que así se quedó. La idea es crear el ojo a partir de unos puntos básicos que definan la forma y trazar un *spline* entre ellos.
+
+Un *spline* es una curva suavizada que pasa por los puntos definidos. 
+
+El iris y la pupila si que son dos círculos simples centrados y para dar un poco de gracia pintamos un circulo dentro de la pupila como un reflejo de luz.
+
+Veamos el código de esta primera prueba, los círculos en el paquete base se dibujan con la función `symbols`:
+
+```{r ojo1, eval=FALSE}
+# parametros del lienzo:
+par(bg = 'white')
+par(oma=c(0,0,0,0)+ 1.2)  # all sides have 3 lines of space  
+par(mar=c(0,0,0,0) + 1)
+# Creamos un OJO con splines
+# Definimos los puntos base del ojo
+    x<-c(0,1,2,3,3,2,1,0)
+    y<-c(0,0.8,0.8,0,0,-0.7,-0.9,0)
+    # creamos un spline de los párpados
+    ojo <- xspline(x, y, 1, draw = FALSE)
+    # pintamos los puntos base anteriores
+    plot(x, y, pch = 19, col="red",main="Pintamos un ojo con R")
+    # tambien el poligono que forma el blanco del ojo
+    polygon(ojo, col=gray(0.90))
+    # y el spline
+    lines(ojo, lwd=2)
+    
+    # iris
+    symbols(1.5, y=0, circles=.6,add = TRUE,bg="lightblue",lwd=2, inches = FALSE)
+    # pupila
+    symbols(1.5, y=0, circles=.2,add = TRUE,bg="black", inches = FALSE)
+    # reflejo
+    symbols(1.45, y=0.12, circles=.05,add = TRUE,bg="white", inches = FALSE)
+    #párpados
+      parpados <- xspline(x, y, shape =0.5, draw = FALSE)
+    lines(parpados, lwd=2)
+
+```
+
+![Ojo inicial, con los puntos de control marcados en rojo](/post/2019-03-30-ojos_files/ojo0.png)
+
+Vemos que el resultado es gracioso y se parece a un ojo de verdad.
+
+La función *xsplines* crea una curva a partir de unos puntos de control, en este caso los 8 puntos que hemos definido, y el parámetro *shape* toma valores de -1 a 1 y nos marca la forma del spline respecto a esos puntos de control. Puedes probar diferentes valores para ver cómo cambia la línea.
+
+# Iris
+Para añadir más realismo vamos a hacer las marcas del iris mediante lineas radiales. Haremos una función en la que generaremos un número determinado de radios entre el círculo interior de la pupila y el exterior del iris. El color de las líneas lo haremos aleatorio con diferentes tonos de grises.
+
+La función iris tiene varios argumentos: el radio del iris, el de la pupila, el punto central del ojo y el número de líneas radiales generadas:
+
+```{r iris, echo=FALSE}
+# Función genera rayas en iris
+  iris<-function(rext=.6,rint=0.2,x0=1.5,y0=0,n_lineas=30){
+      # dividimos el círculo en tantos sectores como lineas
+      p_lin<-runif(n_lineas,0,(2*pi))
+      # para cada punto trazamos una linea
+      for(i in 1:n_lineas){
+          ang<-p_lin[i] # angulo de la linea
+          plong<-runif(1) # parametro aleatorio de a longitud de la linea
+          #plong<-ifelse(any(plong>1,plong<(rint/rext)) ,0.9,plong)
+          
+          #calculamos los puntos inicial y final de la linea
+          x1<-x0 + rint*cos(ang)
+          y1<-y0 +  rint*sin(ang)
+          x2<- x0 + plong*(rext*cos(ang))
+          y2<- y0 +  plong*(rext*sin(ang))
+          # pintamos la linea
+          lines(x=c(x1,x2),y=c(y1,y2),col=gray(plong))
+        }
+  }
+```
+
+```{r iris1, eval=FALSE}
+# Función genera rayas en iris
+  iris<-function(rext=.6,rint=0.2,x0=1.5,y0=0,n_lineas=30){
+      # dividimos el círculo en tantos sectores como lineas
+      p_lin<-runif(n_lineas,0,(2*pi))
+      # para cada punto trazamos una linea
+      for(i in 1:n_lineas){
+          ang<-p_lin[i] # angulo de la linea
+          plong<-runif(1) # parametro aleatorio de a longitud de la linea
+          #plong<-ifelse(any(plong>1,plong<(rint/rext)) ,0.9,plong)
+          
+          #calculamos los puntos inicial y final de la linea
+          x1<-x0 + rint*cos(ang)
+          y1<-y0 +  rint*sin(ang)
+          x2<- x0 + plong*(rext*cos(ang))
+          y2<- y0 +  plong*(rext*sin(ang))
+          # pintamos la linea
+          lines(x=c(x1,x2),y=c(y1,y2),col=gray(plong))
+        }
+  }
+
+# pintamos en la imagen
+iris(rext=0.6,x0=1.5,n_lineas=150)
+```
+
+![Mismo ojo, con manchas-rayas en el iris](/post/2019-03-30-ojos_files/iris1.png)
+
+## Pestañas
+Por último pintamos unas pestañas, aunque no han quedado nada bien. La idea es, sobre la línea de arriba del párpado, dividirla en puntos y pintar en cada uno una línea vertical. 
+
+```{r echo=FALSE}
+# Funcion pestañas
+pestanas<-function(linea_pes,n_lineas=50, long=0.2){
+  # numeor de puntos o pestañas
+  p_lin<-sample(seq(10,length(lin_arriba$x)-10),size=n_lineas,replace = TRUE)
+        
+  for(i in p_lin){
+    plong<-abs(rnorm(1,0.1))
+    # dos puntos que definen la linea de cada pestaña
+    x1<-linea_pes$x[i]
+    y1<-linea_pes$y[i]
+    x2<- x1#+0.04
+    y2<- y1+long*plong
+    # pintamos cada pestaña
+    lines(c(x1,x2),c(y1,y2))
+    }
+}
+```
+
+
+```{r pestana, eval=FALSE}
+# Funcion pestañas
+pestanas<-function(linea_pes,n_lineas=50, long=0.2){
+  # numeor de puntos o pestañas
+  p_lin<-sample(seq(10,length(lin_arriba$x)-10),size=n_lineas,replace = TRUE)
+        
+  for(i in p_lin){
+    plong<-abs(rnorm(1,0.1))
+    # dos puntos que definen la linea de cada pestaña
+    x1<-linea_pes$x[i]
+    y1<-linea_pes$y[i]
+    x2<- x1#+0.04
+    y2<- y1+long*plong
+    # pintamos cada pestaña
+    lines(c(x1,x2),c(y1,y2))
+    }
+}
+
+# calculamos la linea de arriba del parpado con los puntos base anteriores
+    x<-c(0,1,2,3)
+    y<-c(0,0.8,0.8,0)
+    lin_arriba <- xspline(x, y, 1, draw = FALSE)
+
+    # llamamos a la fucnión pestaña
+pestanas(linea_pes = lin_arriba,n_lineas=120)
+  
+```
+
+![Prueba de pestaña... que no me gusta](/post/2019-03-30-ojos_files/pestana.png)
+
+
+## Juntamos todo
+Nos falta generalizar el punto de inicio de coordenadas del ojo, por lo que ahora creamos una nueva función que añade x0,y0, también hemos cambiado, solo por probar la función *symbols* para pintar círculos por `draw.circle` del paquete `plotrix`.
+
+Esta librería tienen multitud de funciones gráficas, que nos pueden ser útiles como la que pinta lineas radiales. Puedes encontrar más información [aquí](https://cran.r-project.org/web/packages/plotrix/plotrix.pdf)
+
+Hemos añadido alguna aleatoriedad con funciones como `rnorm()` en los puntos generadores. También un parámetro `p` que define la escala general y otro `pap` que define la longitud de la línea de parpado secundaria.
+
+Para probarla además de la función, creamos una pintura con varios ojos aleatorios:
+
+```{r funojo, warning=FALSE, message=FALSE}
+library(plotrix)
+
+# Función general que pinta un ojo
+f.ojo1<-function(x0=5,y0=5,p=1, color="lightblue",pap=0.2){
+    x<-c(0,1,2,3,3,2,1,0)*p
+    y<-c(0,0.8+rnorm(1,0,0.1),0.8+rnorm(1,0,0.1),0,0,-0.7+rnorm(1,0,0.1),-0.9+rnorm(1,0,0.1),0)*p
+    #max(x)-min(y)
+    ojo <- xspline(x, y, 1, draw = FALSE)
+    x<-x0+x
+    y<-y0+y
+    ojo$x<-x0+ojo$x
+    ojo$y<-y0+ojo$y
+    #points(x, y, pch = 19, col="red")
+    polygon(ojo, col=gray(runif(1,0.20,1)))
+    lines(ojo, lwd=1)
+    
+    # iris
+    riris<-p*(0.55)#+rnorm(1,0,0.1))
+    #symbols(x0+1.5, y=y0, circles=.5*p,add = TRUE,bg="lightblue",lwd=2, inches = T)
+    draw.circle(x0+1.5*p,y=y0,radius=riris,col=color,lwd=1)
+    # pupila
+    #symbols(x0+1.5, y=y0, circles=.2*p,add = TRUE,bg="black", inches = T)
+    iris(rext=riris,rint=0.2*p,x0=x0+1.5*p,y0=y0,n_lineas=105)
+    draw.circle(x0+1.5*p,y=y0,0.2*p,col="black",lwd=2)
+    # reflejo
+    #symbols(x0+1.45, y=y0+0.12*p, circles=.05,add = TRUE,bg="white", inches = T)
+    draw.circle(x0+1.45*p,y=y0+0.12*p,0.05*p,col="white",lwd=1)
+    #parpados
+    parpados <- xspline(x, y, 0.5, draw = FALSE)
+    lines(parpados, lwd=2)
+    #lines(parpados$x,parpados$y*1.2, lwd=2,col="red")
+    parpa_y<-c(y[1],y[2]+pap,y[3]+pap,y[4])
+    parpa_x<-c(x[1],x[2],x[3],x[4])
+    #parpado superior
+     lines(xspline(parpa_x, parpa_y, 1, draw = FALSE), lwd=3,col="black")
+    # pestanas(linea_pes = xspline(parpa_x, parpa_y, 1, draw = FALSE),n_lineas=100)
+    parpa_y<-c(y[1],y[7]-pap,y[6]-pap,y[4])  
+    #parpado superior
+     lines(xspline(parpa_x, parpa_y, 1, draw = FALSE), lwd=3,col="black")
+}
+
+# vamos con un ejemplo
+
+# hacemos un vector de colores
+  colores<-c("lightblue","aliceblue","burlywood4","bisque3","bisque4","azure2","darkolivegreen3","aquamarine1","aquamarine3","antiquewhite3", "red", "blue","violet")
+
+  plot(1, type="n", xlab="", ylab="", xlim=c(0, 7), ylim=c(0, 7))
+    for (i in 1:6){
+        f.ojo1(x0=runif(1,0,5-2),y0=runif(1,0.5,5.5),color=sample(colores,1),p=runif(1,0.5,2))
+    }
+```
+
+## Cuadro de iris
+Otro obra artística que hemos hecho de ejemplo, con nuestras funciones, es un cuadro con varios iris y pupilas juntos, solo por diversión:
+
+Lo haremos haciendo una nueva función `irisE()` que pinta solo el centro del ojo sin párpados, después con un bucle pintaremos varios iris sobre el lienzo en colores aleatorios:
+
+```{r}
+irisE<-function(x0=2,y0=2,p=1, color="lightblue"){
+        # iris
+    riris<-p*(0.6)
+    draw.circle(x0,y=y0,radius=riris,col=color,lwd=1)
+    # pupila
+     iris(rext=riris,rint=0.2*p,x0=x0,y0=y0,n_lineas=100)
+    draw.circle(x0,y=y0,0.2*p,col="black",lwd=2)
+    # reflejo
+    draw.circle(x0-0.035,y=y0+0.1,0.05*p,col="white",lwd=1)
+}
+
+colores<-c("lightblue","aliceblue","burlywood4","bisque4","azure2","darkolivegreen3","aquamarine3","antiquewhite3", "red", "blue","violet")
+par(bg = 'black')
+par(oma=c(0,0,0,0))  # all sides have 3 lines of space  
+par(mar=c(0,0,0,0) + 0.1)
+plot(1, type="n", xlab="", ylab="", xlim=c(1, 6), ylim=c(1, 6))
+for (i in 1:6){
+    for (j in 1:6){
+     irisE(x0=i,y0=j,color=sample(colores,1),p=0.7)    
+    }
+}
+```
+
+
+Esto es todo por hoy, espero que os guste el OJO!!!
