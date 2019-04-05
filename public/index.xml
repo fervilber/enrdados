@@ -6,10 +6,20 @@
     <description>Recent content on EnRdados</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>es</language>
-    <lastBuildDate>Wed, 03 Apr 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 05 Apr 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Guia para imprimir en pdf desde R</title>
+      <link>/post/guia-para-imprimir-en-pdf-desde-r/</link>
+      <pubDate>Fri, 05 Apr 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/guia-para-imprimir-en-pdf-desde-r/</guid>
+      <description>He hecho una recolipación de indicaciones, trucos y preguntas para poder imprimir informes de calidad superior desde R con RSTUDIO, knitr y \LaTeX . Creo que es un tema imprescindible para los científicos o ingenieros pues al final, nuestro trabajo debe ser plasmado en documentos y las posibilidades que ofrece R con rmarkdown y \LaTeX son realmente sorprendentes.
+\LaTex es el procesador de textos por excelencia, pero hemos de reconocer que no es facil de iniciarse en él, por eso es tan importante los lenguajes intermedios como rmarkdown, un lenguaje sencillo de marcado que permite dar formato a cualquier documento con simples reglas y símbolos.</description>
+    </item>
     
     <item>
       <title>Enlaces</title>
