@@ -1,0 +1,386 @@
+---
+title: Graficas con ggplot
+author: F.VilBer
+date: '2019-04-08'
+slug: graficas-con-ggplot
+categories:
+  - R
+tags:
+  - gráficos
+  - graficas
+  - dibujo
+  - R
+  - plot
+  - ggplot
+description: 'Manual de consulta graficas con ggplot '
+thumbnail: '../img/ggplot_1.png'
+toc: no
+editor_options: 
+  chunk_output_type: console
+---
+
+
+
+<p>Manual breve de cómo hacer gráficos con la librería <code>ggplot2</code>, que es el más usado y completo paquete gráfico de R, con la ventaja de usar los criterios de gramática gráfica en su estructura.</p>
+<p>La gramática gráfica es un sistema de representación ordenado del trazado de gráficos. Consiste en dividir las partes que intervienen en pintar datos y analizarlo como si de la gramática ortográfica se tratase, otorgando a cada elemento una función característica. Los objetos así generados se definen por capas superpuestas de características.</p>
+<p>La ventaja de esto es que trata a los gráficos como objetos. Cuando pintamos con <code>plot</code> lo que hacemos es un dibujo, al que añadimos capas de pinturas nuevas, pero en <code>ggplot</code> la idea es diferente, pues creamos un objeto al que añadimos o quitamos propiedades-capas por lo que al pintarlo siempre tenemos la realidad del objeto y no la última capa de la pintura como ocurre cuando usamos <code>plot</code>.</p>
+<p>La librería <code>ggplot2</code> que contiene la función gráfica <code>ggplot</code>, forma parte del entorno <code>tidyverse</code>, esto muy importante pues nos indica una relación directa entre el manejo, orden y limpieza de los datos con su representación. Es fundamental que antes de pintar los datos ordenemos la tabla origen de acuerdo a nuestros intereses gráficos y para ello las funciones de <code>tidyverse</code> y las de agrupamiento o sección de los datos son tan importantes como las mismas funciones gráficas de representación. Un buen trabajo previo sobre los datos, facilita la representación de estos.</p>
+<p>Para cargar <code>ggplot</code> podemos hacerlo:</p>
+<pre class="r"><code># Instalando tidyverse
+    install.packages(&quot;tidyverse&quot;)
+    library(tidyverse) # lo que carga por defecto ggplot2
+
+# Alternativamente, podemos instalar solo ggplot2:
+    install.packages(&quot;ggplot2&quot;)
+    library(ggplot2)</code></pre>
+<div id="gramatica-grafica" class="section level2">
+<h2>Gramática gráfica</h2>
+<p>La gramática gráfica que usa <code>ggplot</code> consiste en ordenar y crear objetos gráficos según una estructura de ensamblado predefinida. Según las definiciones creadas por <em>Leland Wilkinson</em> en 1999 los gráficos son objetos creados por supreposición de capas. Estas capas son principalmente:</p>
+<ul>
+<li><code>data:</code> los datos que se desean pintar</li>
+<li><code>aesthetics:</code> esta capa indica las variables que pintamos.</li>
+<li><code>geometries:</code> los elementos visuales usados para representar los datos.</li>
+<li><code>facet:</code> multigráficas pequeñas.</li>
+<li><code>statistics:</code> representación agregada de los datos.</li>
+<li><code>coordinates:</code> el espacio en el que se pintan los datos.</li>
+<li><code>themes:</code> el formato de la tinta o lienzo.</li>
+</ul>
+<p>Quizás la definición de <code>aesthetics</code> sea la más compleja y diferente, pues nos permite una amplia variedad en los gráficos. En particular, con este elemento podemos incluir variables nuevas en la gráfica que se suman a las dos de ordenadas y abcisas. Con <code>aesthetics</code> podemos representar 7 características gráficas: <em>x, y, color, fill, size, alpha, labels</em> y <em>shape</em>.</p>
+<p>Para usar algunas de estas carcterísticas, las variables deben ser factores, o convertidas a factor, pues por ejemplo las formas con <code>shape</code> no son infinitas y solo admite un número pequeño de variaciones.</p>
+</div>
+<div id="resumen" class="section level2">
+<h2>Resumen</h2>
+<p>Empezamos por el final, pero es que siempre vienebien tener un resumen de algunas funciones de personalización de <code>ggplot</code> válidas para todos los gráficos que creamos:</p>
+<ul>
+<li>Título:
+<ul>
+<li><code>labs(title = &quot;titulo gráfico&quot;)</code></li>
+<li><code>labs(subtitle = &quot;subtitulo&quot;)</code></li>
+<li><code>labs(x = &quot;eje x&quot;, y = &quot;eje ordenadas&quot;)</code></li>
+<li><code>labs(y = expression('texto eje Y m'^3))</code></li>
+</ul></li>
+<li>Leyenda:
+<ul>
+<li><code>theme(legend.position=&quot;bottom&quot;)</code></li>
+<li><code>theme(legend.text = element_text(colour=&quot;blue&quot;, size=6))</code></li>
+</ul></li>
+<li>escalas:
+<ul>
+<li><code>scale_color_manual(values=c(&quot;navy&quot;, &quot;red2&quot;))</code></li>
+</ul></li>
+<li>temas:
+<ul>
+<li><code>theme_minimal()</code></li>
+<li><code>theme_bw()</code> -limites ejes:<br />
+</li>
+<li><code>xlim(0,150) + ylim(5,15)</code> define los límites de los ejes</li>
+</ul></li>
+<li>escalas x-y log
+<ul>
+<li><code>scale_x_log10()</code> convierte la escala eje x en logarítmica</li>
+<li><code>scale_y_log10()</code></li>
+<li><code>scale_y_log10()</code>
+<ul>
+<li><code>breaks = trans_breaks(&quot;log10&quot;, function(x) 10^x),</code></li>
+<li><code>labels = trans_format(&quot;log10&quot;, math_format(10^.x)))</code></li>
+</ul></li>
+<li><code>scale_x_continuous(breaks=pretty(dtnilo$ano, n = 10), name=&quot;año&quot;)</code></li>
+</ul></li>
+</ul>
+</div>
+<div id="graficos-de-1-variable" class="section level2">
+<h2>Gráficos de 1 variable</h2>
+<p>Son gráficos que representan los valores de una sola variable de forma resumida o agregada, los más habituales son los <em>histogramas</em> que suman el número de apariciones de un valor y lo representan gráficamente. También los gráficos <em>boxplot</em>.</p>
+<p>Cuando solo hay una variable en <code>aes()</code> especificamos solo la que vamos a representar.</p>
+<p>Vamos a usar los datos de ejemplo de la base de datos <code>diamonds</code> que indica diferentes características de diamantes reales medidos.</p>
+<div id="histogramas" class="section level3">
+<h3>Histogramas</h3>
+<p>Los histogramas se hacen con <code>geom_histogram()</code>, como parámetros podemos pasar el numero de bandas o barras <code>bins= 6</code>o el ancho de cada barra en valores de la variable <code>binwidth=0.5</code>.</p>
+<p>Aunque sean gráficas de una variable, podemos usar otra de las variable como parámetro de color o tamaño para distinguir los resultados. Esta nueva variable deben ser factores según el caso.Ejemplo:</p>
+<pre class="r"><code>require(ggplot2)
+
+str(diamonds)</code></pre>
+<pre><code>## Classes &#39;tbl_df&#39;, &#39;tbl&#39; and &#39;data.frame&#39;:    53940 obs. of  10 variables:
+##  $ carat  : num  0.23 0.21 0.23 0.29 0.31 0.24 0.24 0.26 0.22 0.23 ...
+##  $ cut    : Ord.factor w/ 5 levels &quot;Fair&quot;&lt;&quot;Good&quot;&lt;..: 5 4 2 4 2 3 3 3 1 3 ...
+##  $ color  : Ord.factor w/ 7 levels &quot;D&quot;&lt;&quot;E&quot;&lt;&quot;F&quot;&lt;&quot;G&quot;&lt;..: 2 2 2 6 7 7 6 5 2 5 ...
+##  $ clarity: Ord.factor w/ 8 levels &quot;I1&quot;&lt;&quot;SI2&quot;&lt;&quot;SI1&quot;&lt;..: 2 3 5 4 2 6 7 3 4 5 ...
+##  $ depth  : num  61.5 59.8 56.9 62.4 63.3 62.8 62.3 61.9 65.1 59.4 ...
+##  $ table  : num  55 61 65 58 58 57 57 55 61 61 ...
+##  $ price  : int  326 326 327 334 335 336 336 337 337 338 ...
+##  $ x      : num  3.95 3.89 4.05 4.2 4.34 3.94 3.95 4.07 3.87 4 ...
+##  $ y      : num  3.98 3.84 4.07 4.23 4.35 3.96 3.98 4.11 3.78 4.05 ...
+##  $ z      : num  2.43 2.31 2.31 2.63 2.75 2.48 2.47 2.53 2.49 2.39 ...</code></pre>
+<pre class="r"><code># graficos de una variable con geom_histogram
+
+ggplot(diamonds, aes(carat)) +
+    labs(title=&#39;Histograma caras de diamantes&#39;)+
+    geom_histogram(fill=&quot;blue&quot;)</code></pre>
+<p><img src="/post/2019-04-08-graficas-con-ggplot_files/figure-html/1variable-1.png" width="672" /></p>
+<pre class="r"><code># agrupamos los valores de carat en anchos de banda de 0.5
+ggplot(diamonds, aes(carat)) +
+    geom_histogram(binwidth = 0.5)</code></pre>
+<p><img src="/post/2019-04-08-graficas-con-ggplot_files/figure-html/1variable-2.png" width="672" /></p>
+<pre class="r"><code># distinguimos por el corte como color
+ggplot(diamonds, aes(carat,fill = cut)) +
+  geom_histogram(bins = 10)+
+  labs(title=&#39;Frecuencias de caras de diamantes según corte&#39;) +
+  geom_text(aes(x=3,y = 20000, label=&quot;en 3, 20000, pintamos hola&quot;),color = &quot;blue&quot;)</code></pre>
+<p><img src="/post/2019-04-08-graficas-con-ggplot_files/figure-html/1variable-3.png" width="672" /></p>
+<p>Veamos otro ejemplo con una serie temporal de caudales del río Nilo. Introducimos <code>geom_rug()</code> para marcar cada ocurrencia real en el eje x.</p>
+<pre class="r"><code>    # datos de ejemplo de la dataset Nile
+    # los transformamos en un dataframe
+    dtnilo&lt;-data.frame(caudal=as.matrix(Nile), ano=time(Nile))
+    maximo&lt;-c(dtnilo$ano[which.max(dtnilo$caudal)],max(dtnilo$caudal))
+    
+    # vemos los datos como linea
+    ggplot(data = dtnilo, aes(x=ano, y=caudal))+
+      geom_line(color = &quot;#00AFBB&quot;, size = 2)+
+      labs(title=&#39;Serie de caudales maximos del Nilo&#39;)+
+      labs(x = &#39;Año&#39;, y = expression(&#39;Caudal en m&#39;^3))+
+        geom_point(aes(x=maximo[1],y=maximo[2]))+
+        geom_text(aes(x=maximo[1],y=maximo[2], label=maximo[2]),nudge_x = 2, color=&quot;blue&quot;)</code></pre>
+<p><img src="/post/2019-04-08-graficas-con-ggplot_files/figure-html/nilo-1.png" width="672" /></p>
+<pre class="r"><code>    # vemos un histograma de frecuencias
+    ggplot(dtnilo, aes(caudal))+
+        geom_histogram(bins=10, fill=&quot;bisque4&quot;, color=&quot;black&quot;)+
+        labs(title=&#39;Frecuencia de caudales máximos del Nilo&#39;)+
+        geom_rug()</code></pre>
+<p><img src="/post/2019-04-08-graficas-con-ggplot_files/figure-html/nilo-2.png" width="672" /></p>
+<p>Los histogramas pueden complicarse con ggplot:</p>
+<pre class="r"><code>    library(ggplot2)
+    set.seed(5556)
+    
+    df&lt;-data.frame(x=runif(500),y=rnorm(500,12))
+    
+    # pintamos histograma de y con opciones gráficas
+    ggplot(df, aes(y)) +
+      geom_histogram(aes(fill=..count..)) +
+      scale_fill_gradient(&quot;Count&quot;, low = &quot;green&quot;, high = &quot;red&quot;)+
+      geom_density(position = &quot;stack&quot;)</code></pre>
+<p><img src="/post/2019-04-08-graficas-con-ggplot_files/figure-html/histograma1-1.png" width="672" /></p>
+<pre class="r"><code>    # funcion de densidad
+    ggplot(df, aes(x=y)) +
+      geom_histogram(aes(y =..density.., fill=..count..)) +
+      geom_density(lwd=2,adjust = 1/2)     </code></pre>
+<p><img src="/post/2019-04-08-graficas-con-ggplot_files/figure-html/histograma1-2.png" width="672" /></p>
+</div>
+<div id="grafico-de-frecuencia" class="section level3">
+<h3>grafico de frecuencia</h3>
+<p>Otra posibilidad equivalente al histograma es el gráfico de frecuencias con <code>geom_freqpoly()</code></p>
+<pre class="r"><code>    ggplot(diamonds, aes(price, colour = cut)) +
+      geom_freqpoly(binwidth = 500, size=2) </code></pre>
+<p><img src="/post/2019-04-08-graficas-con-ggplot_files/figure-html/frecuencias-1.png" width="672" /></p>
+<pre class="r"><code>    ggplot(df, aes(x=y)) +
+      geom_freqpoly(size=2) </code></pre>
+<p><img src="/post/2019-04-08-graficas-con-ggplot_files/figure-html/frecuencias-2.png" width="672" /></p>
+</div>
+<div id="grafico-q-q" class="section level3">
+<h3>grafico q-q</h3>
+<p>Este gráfico representa la desviación respecto a la normal de los datos de una variable.</p>
+<pre class="r"><code>    library(tidyverse)
+    # hacemos una data frae con valores aleatorios de 3 funciones
+    df &lt;- data.frame(normal = rnorm(100),tsudent=rt(100, df = 5),uniforme=runif(100))
+    
+    # juntamos en una sola variable las 3 variables
+    df1&lt;- df %&gt;% gather(&quot;normal&quot;,&quot;tsudent&quot;,&quot;uniforme&quot;,key=&quot;tipo&quot;,value=&quot;valor&quot;)
+    # pintamos qqplot por variable
+    ggplot(df1, aes(sample = valor, colour = factor(tipo))) +
+      stat_qq() +
+      stat_qq_line()</code></pre>
+<p><img src="/post/2019-04-08-graficas-con-ggplot_files/figure-html/qq-1.png" width="672" /></p>
+</div>
+</div>
+<div id="dos-variables" class="section level2">
+<h2>Dos variables</h2>
+<div id="barras" class="section level3">
+<h3>Barras</h3>
+<p>Las barras muestran 2 o tres variables ya que podemos incluir el color como otro eje de diferenciación de los valores por grupos.</p>
+<pre class="r"><code>    # frecuencias según % de corte 
+    ggplot(data = diamonds) + 
+      geom_bar(mapping = aes(x = cut,  fill=cut))</code></pre>
+<p><img src="/post/2019-04-08-graficas-con-ggplot_files/figure-html/barras-1.png" width="672" /></p>
+<pre class="r"><code>    # añadimos otra variable como color
+    ggplot(data = diamonds) + 
+      geom_bar(mapping = aes(x = cut, fill = clarity,alpha = 0.6))</code></pre>
+<p><img src="/post/2019-04-08-graficas-con-ggplot_files/figure-html/barras-2.png" width="672" /></p>
+<pre class="r"><code>    # para comparar entre grupos podemos hacer 
+    ggplot(data = diamonds) + 
+      geom_bar(mapping = aes(x = cut, fill = clarity), position = &quot;fill&quot;)</code></pre>
+<p><img src="/post/2019-04-08-graficas-con-ggplot_files/figure-html/barras-3.png" width="672" /></p>
+</div>
+<div id="boxplot" class="section level3">
+<h3>boxplot</h3>
+<p>Aunque son de una variable, son útiles para comprar dos variables también al representar los rangos de cada grupo:</p>
+<pre class="r"><code>    # grafico boxplot
+    ggplot(data = mpg, mapping = aes(x = class, y = hwy, fill=class)) + 
+      geom_boxplot()</code></pre>
+<p><img src="/post/2019-04-08-graficas-con-ggplot_files/figure-html/boxplot1-1.png" width="672" /></p>
+</div>
+<div id="puntos-x-y" class="section level3">
+<h3>Puntos X-Y</h3>
+<p>Los gráficos de puntos se hacen con <code>geom_point()</code>. Usaremos de muestra los datos de la tabla <code>mpg</code> que se aportan con ggplot.</p>
+<p>Hay muchas opciones de personalización en las gráficas de puntos, la más habitual es usar otra variable (que sea factor) para representar los datos en 3 dimensiones. Es decir, usar además de x-y, otra variable como dimensión y representarla cambiando el color o el tamaño del punto.</p>
+<p>Veamos un ejemplo completo:</p>
+<pre class="r"><code>    # vemos las variables de mpg
+    str(mpg)</code></pre>
+<pre><code>## Classes &#39;tbl_df&#39;, &#39;tbl&#39; and &#39;data.frame&#39;:    234 obs. of  11 variables:
+##  $ manufacturer: chr  &quot;audi&quot; &quot;audi&quot; &quot;audi&quot; &quot;audi&quot; ...
+##  $ model       : chr  &quot;a4&quot; &quot;a4&quot; &quot;a4&quot; &quot;a4&quot; ...
+##  $ displ       : num  1.8 1.8 2 2 2.8 2.8 3.1 1.8 1.8 2 ...
+##  $ year        : int  1999 1999 2008 2008 1999 1999 2008 1999 1999 2008 ...
+##  $ cyl         : int  4 4 4 4 6 6 6 4 4 4 ...
+##  $ trans       : chr  &quot;auto(l5)&quot; &quot;manual(m5)&quot; &quot;manual(m6)&quot; &quot;auto(av)&quot; ...
+##  $ drv         : chr  &quot;f&quot; &quot;f&quot; &quot;f&quot; &quot;f&quot; ...
+##  $ cty         : int  18 21 20 21 16 18 18 18 16 20 ...
+##  $ hwy         : int  29 29 31 30 26 26 27 26 25 28 ...
+##  $ fl          : chr  &quot;p&quot; &quot;p&quot; &quot;p&quot; &quot;p&quot; ...
+##  $ class       : chr  &quot;compact&quot; &quot;compact&quot; &quot;compact&quot; &quot;compact&quot; ...</code></pre>
+<pre class="r"><code>    # pintamos una grafica de puntos de 4 variables x-y size y color
+    ggplot(data = mpg) + 
+        labs(title = &quot;Coches&quot;)+
+      geom_point(mapping = aes(x = displ, y = hwy, size = class, color=manufacturer))</code></pre>
+<p><img src="/post/2019-04-08-graficas-con-ggplot_files/figure-html/xy-1.png" width="672" /></p>
+<pre class="r"><code># usamos shape como diferencia    
+    ggplot(data = mpg) + 
+      labs(title = &quot;Coches&quot;)+
+      geom_point(mapping = aes(x = displ, y = hwy, shape = class), color=&quot;blue&quot;) </code></pre>
+<p><img src="/post/2019-04-08-graficas-con-ggplot_files/figure-html/xy-2.png" width="672" /></p>
+<p>Los símbolos de puntos pueden ser los siguientes:</p>
+<div class="figure">
+<img src="/post/2019-04-08-graficas-con-ggplot_files/shapes-1.png" alt="simbolos de puntos geom_point" />
+<p class="caption">simbolos de puntos geom_point</p>
+</div>
+<p>Hay que tener en cuenta que si queremos un color determinado no lo podemos meter dentro de <code>aes()</code> sino fuera, como en el ejemplo anterior.</p>
+</div>
+<div id="jitter" class="section level3">
+<h3>jitter</h3>
+<p>En muchas ocasiones al pintar gráficos x-y, existen superposición de muchos valores en el mismo punto , algo que no puede apreciarse en los gráficos. También dan la sensación de ser gráficos en malla o grid, como el caso anterior. Para evitar esto hay un tipo especial de gráfico x-y que es el jitter que introduce cierta aleatoriedad de forma que evita superposiciones de los puntos próximos y se puede ver donde está la mayor concentración.</p>
+<pre class="r"><code>  # diferencia entre jitter y sin esto
+  ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) + 
+    geom_point( alpha=0.6, size=2)+
+        labs(title = &quot;Sin jitter&quot;)</code></pre>
+<p><img src="/post/2019-04-08-graficas-con-ggplot_files/figure-html/jitter-1.png" width="672" /></p>
+<pre class="r"><code>  ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) + 
+      geom_jitter(alpha=0.6, size=2)+
+        labs(title = &quot;uso de jitter para evitar grafico con grid&quot;)</code></pre>
+<p><img src="/post/2019-04-08-graficas-con-ggplot_files/figure-html/jitter-2.png" width="672" /></p>
+</div>
+<div id="lineas---areas" class="section level3">
+<h3>Líneas - Áreas</h3>
+<p>Los gráficos de lineas se hacen con <code>geom_line()</code> y los de áreas con <code>geom_area()</code>. Usamos los datos del Nilo del primer ejemplo para una gráfica compleja.</p>
+<p>Como verás hacemos primero una transformación de los datos, para tener una tabla limpia con las variables que queremos representar. Nos inventamos dos puntos de aforo con los que hacemos la tabla original, que después juntamos con <code>gather</code> para tener una tabla con los valores deseados.</p>
+<pre class="r"><code>  require(tidyverse)
+    # nuevo punto de aforo
+    dtnilo$caudal2&lt;-dtnilo$caudal-400
+    # lipiamos la tabla y unimos en mismas columnas los datos de las 2 variables
+    dtnilo2&lt;- dtnilo %&gt;% gather(&quot;caudal&quot;,&quot;caudal2&quot;,key=&quot;aforo&quot;,value=&quot;valor&quot;,-ano)
+    # convertimos en factor la variable aforo
+    
+    dtnilo2$aforo&lt;-as.factor(dtnilo2$aforo)
+    str(dtnilo2)</code></pre>
+<pre><code>## &#39;data.frame&#39;:    200 obs. of  3 variables:
+##  $ ano  : Time-Series  from 1871 to 1970: 1871 1872 1873 1874 1875 ...
+##  $ aforo: Factor w/ 2 levels &quot;caudal&quot;,&quot;caudal2&quot;: 1 1 1 1 1 1 1 1 1 1 ...
+##  $ valor: num  1120 1160 963 1210 1160 1160 813 1230 1370 1140 ...</code></pre>
+<pre class="r"><code>    # Pintamos la gráfica como linea distinguiendo según aforo
+    
+    ggplot(data = dtnilo2, aes(x=ano, y=valor, group=aforo))+
+        geom_line(aes(linetype=aforo, color=aforo))+
+        geom_point(aes(shape=aforo, color=aforo))+
+          labs(title=&#39;Serie de caudales máximos del Nilo en dos aforos&#39;)+
+          labs(x = &#39;Año&#39;, y = expression(&#39;Caudal en m&#39;^3))+
+          scale_color_manual(values=c(&quot;navy&quot;, &quot;red2&quot;))+
+          theme(legend.position=&quot;bottom&quot;)</code></pre>
+<p><img src="/post/2019-04-08-graficas-con-ggplot_files/figure-html/lineas-1.png" width="672" /></p>
+<pre class="r"><code># de forma similar un gráfico de área
+# cambiando la opcion position=stack apila una encima de otra
+    ggplot(data = dtnilo2, aes(x=ano, y=valor, fill=aforo))+
+        #geom_area(color=&quot;black&quot;, alpha=0.6,position=&#39;stack&#39;)+
+        geom_area(color=&quot;black&quot;, alpha=0.6,position=&#39;identity&#39;)+
+          labs(title=&#39;Serie de caudales máximos del Nilo en dos aforos&#39;)+
+          labs(x = &#39;Año&#39;, y = expression(&#39;Caudal en m&#39;^3))+
+          scale_color_manual(values=c(&quot;navy&quot;, &quot;red2&quot;))+
+          theme(legend.position=&quot;right&quot;)</code></pre>
+<p><img src="/post/2019-04-08-graficas-con-ggplot_files/figure-html/lineas-2.png" width="672" /></p>
+<p>Se puede incluso cambiar el grosor de la gráfica según un valor:</p>
+<pre class="r"><code>    # Cambio de grosor de linea
+    ggplot(data=economics, aes(x=date, y=pop, size=unemploy/pop))+
+      geom_line()+
+        geom_point()</code></pre>
+<p><img src="/post/2019-04-08-graficas-con-ggplot_files/figure-html/lineagruesa-1.png" width="672" /></p>
+</div>
+</div>
+<div id="paneles---facets" class="section level2">
+<h2>Paneles - facets</h2>
+<p>Las funciones <code>facet_wrap()</code> y <code>facet_grid()</code> nos permiten dibujar multigráficas de los datos fácilmente.</p>
+<pre class="r"><code># Gráfica de paneles
+    ggplot(dtnilo2,aes(x=ano, y=valor, color=aforo))+
+        # facet_wrap ocupa todo y facet_grid hace una tabla x-y de paneles
+        # facet_grid(VARZ~VART,margins=TRUE)
+        facet_wrap(~ aforo )+
+        geom_line()</code></pre>
+<p><img src="/post/2019-04-08-graficas-con-ggplot_files/figure-html/facet1-1.png" width="672" /></p>
+<pre class="r"><code># Gráfica de paneles
+    iris&lt;-datasets::iris
+     ggplot(iris, aes(x = Sepal.Length, y = Sepal.Width)) +
+         geom_jitter(alpha = 0.6)+
+         facet_grid(. ~ Species)</code></pre>
+<p><img src="/post/2019-04-08-graficas-con-ggplot_files/figure-html/facet2-1.png" width="672" /></p>
+</div>
+<div id="anadir-estadisticos" class="section level2">
+<h2>Añadir estadísticos</h2>
+<p>Con <code>ggplot</code> es muy fácil añadr un modelo de ajuste a los datos, existen funciones para pintar y calcularlos como <code>stat_smooth()</code>. Los argumentos principales son el modelo (lm= linear model), y si pinta o no las lineas o banda de probabilidad con se=TRUE o FALSE.</p>
+<pre class="r"><code> ggplot(mammals, aes(x = body, y = brain)) +
+     geom_point(alpha = 0.6) +
+     coord_fixed() +
+     scale_x_log10() +
+     scale_y_log10() +
+     stat_smooth(method = &quot;lm&quot;,
+     col = &quot;#C42126&quot;,
+     se = FALSE, size = 1)</code></pre>
+<p>Por ejemplo vamos a añadir una linea de regreseión a los datos de caudales del Nilo y las bandas de certeza.</p>
+<pre class="r"><code>    # leyenda del gráfico
+ggplot(dtnilo,aes(x=ano, y=caudal))+
+    labs(title = &#39;Evolución de caudales del Nilo&#39;)+
+    geom_line(color=&quot;red&quot;)+ geom_point()+
+    theme(legend.position=&quot;top&quot;, legend.text = element_text(colour=&quot;blue&quot;, size=6)) +
+    # añade regresion lineal a cada conjunto de datos
+    geom_smooth(size = 1, linetype = 1, method = &quot;lm&quot;, se = TRUE)+
+    theme_bw()</code></pre>
+<p><img src="/post/2019-04-08-graficas-con-ggplot_files/figure-html/estadisticos-1.png" width="672" /></p>
+</div>
+<div id="cambio-de-ejes" class="section level2">
+<h2>Cambio de ejes</h2>
+<p>Podemos intercambiar los ejes a e y añadiendo la función <code>coord_flip()</code>.</p>
+</div>
+<div id="themes" class="section level2">
+<h2>Themes</h2>
+<p>Los temas son formatos predefinidos de las gráficas de ggplot. Podemos personalizarlo todo, pero hay muchos modelos ya hechos según el uso final de nuestra gráficas. Los themas incluidos por defecto son: <code>theme_bw()</code>,<code>theme_linedraw()</code>,<code>theme_light()</code>,<code>theme_minimal()</code>,<code>theme_classic()</code>, <code>theme_void()</code>, <code>theme_dark()</code>.</p>
+<p>Aparte si instalamos la librería <code>ggthemes</code> tendremos muchos más como : <code>theme_tufte()</code>,<code>theme_hc()</code>,<code>theme_calc()</code>,<code>theme_wsj()</code>…</p>
+<pre class="r"><code>    install.packages(&quot;ggthemes&quot;) # Install 
+    library(ggthemes) # Load</code></pre>
+</div>
+<div id="texto-y-tipo-de-letra" class="section level2">
+<h2>Texto y tipo de letra</h2>
+<p>Se puede añadir texto a los objetos gráficos con <code>geom_text()</code>, hay muchas características del texto que se pueden definir, ver <a href="https://ggplot2.tidyverse.org/reference/geom_text.html">esta web</a> para más detalles.</p>
+<p>También el tamaño y fuente se pueden cambiar con: <code>base_size:</code> y <code>base_family:</code>, aunque necesitamos la librería <code>extrafont</code> y cargar los tipos de letra de windows antes.</p>
+<pre class="r"><code>    library(extrafont)
+# hacer la primera vez:
+    #loadfonts(device = &quot;win&quot;)
+
+    ggplot(dtnilo,aes(x=ano, y=caudal))+
+        labs(title = &#39;Evolución de caudales del Nilo&#39;)+
+        labs(subtitle = &#39;con fuente calibri&#39;)+
+        geom_line(color=&quot;red&quot;)+ geom_point()+
+        scale_x_continuous(breaks=pretty(dtnilo$ano, n = 10), name=&quot;año&quot;)+
+        theme(legend.position=&quot;top&quot;, legend.text = element_text(colour=&quot;blue&quot;, size=6)) +
+        geom_text(aes(label=caudal),hjust = 0, nudge_x = 0.05, color=&quot;blue&quot;,size=3)+
+        theme(text=element_text(size=12, family=&quot;Calibri&quot;))+
+        theme_bw()</code></pre>
+<p><img src="/post/2019-04-08-graficas-con-ggplot_files/figure-html/tipoletra-1.png" width="672" /></p>
+</div>
+<div id="chuleta" class="section level2">
+<h2>Chuleta</h2>
+<p>Hay una chuleta de <em>ggplot</em> muy buena que conviene tener a mano para representar cualquier gráfico. Está disponible <a href="https://github.com/rstudio/cheatsheets/blob/master/data-visualization-2.1.pdf">aquí</a>.</p>
+</div>
