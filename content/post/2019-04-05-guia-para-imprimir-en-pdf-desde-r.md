@@ -13,38 +13,38 @@ tags:
   - tipografía
   - sintaxis
   - formato
-description: 'guia de personalizaciion de pdf desde RSTUDIO'
+description: 'Guía para imprimir documentos pdf de calidad desde RSTUDIO'
 thumbnail: ''
 toc: yes
 ---
 
-He hecho una recolipación de indicaciones, trucos y preguntas para poder imprimir informes de calidad superior desde R con RSTUDIO, knitr y *LaTeX* . Creo que es un tema imprescindible para los científicos o ingenieros pues al final, nuestro trabajo debe ser plasmado en documentos y las posibilidades que ofrece R con rmarkdown y *LaTeX* son realmente sorprendentes.
+He hecho una recopilación de indicaciones, trucos y preguntas para poder imprimir informes de calidad desde R con *RSTUDIO*, *knitr* y *LaTeX* . Creo que es un tema imprescindible para los científicos o ingenieros pues al final, nuestro trabajo debe ser plasmado en documentos y las posibilidades que ofrece R con *rmarkdown* y *LaTeX* son realmente sorprendentes.
 
-*LaTex* es el procesador de textos por excelencia, pero hemos de reconocer que no es facil de iniciarse en él, por eso es tan importante los lenguajes intermedios como rmarkdown, un lenguaje sencillo de marcado que permite dar formato a cualquier documento con simples reglas y símbolos. Rmarkdown fue, para mi, un gran descubrimiento, pues ponía al alcance del público generalista una manera increiblemente fácil de dar formatos a los documentos y por otro lado de aprovechar toda la fortaleza de editores complejos como *LaTeX* sin entrar en sus entrañas.
+*LaTex* es el procesador de textos por excelencia, pero hemos de reconocer que no es fácil de iniciarse en él, por eso es tan importante los lenguajes intermedios como rmarkdown, un lenguaje sencillo de marcado que permite dar formato a cualquier documento con simples reglas y símbolos. Rmarkdown fue, para mi, un gran descubrimiento, pues ponía al alcance del público generalista una manera increíblemente fácil de dar formatos a los documentos y por otro lado de aprovechar toda la fortaleza de editores complejos como *LaTeX* sin entrar en sus entrañas.
 
 Acostumbrado a los problemas de los procesadores de texto habituales como word, que eran una verdadera pesadilla para documentos grandes y complejos como un proyecto de construcción, el uso de markdown es una luz que me asombra no tenga mayor difusión y uso.
 
-Tengo que confesar que hacer proyectos, pliegos o libros en el entorno de RSTUDIO con herramientas como blogdown o bookdown, o simplemente con Rmarkdown clásico es mucho más sencillo y tiene salidas gráficas e impresas de mucha mayor calidad que las obtenidas con microsoft word.
+Tengo que confesar que hacer proyectos, pliegos o libros en el entorno de RSTUDIO con herramientas como `blogdown` o `bookdown`, o simplemente con *Rmarkdown* clásico es mucho más sencillo y tiene salidas gráficas e impresas de mucha mayor calidad que las obtenidas con microsoft word.
 
-Como comenzar es dificil, os voy a mostrar cómo hago yo los documentos, los trucos que uso para obtener *pdf* impresos de calidad excelcional.
+Como comenzar es difícil, os voy a mostrar cómo hago yo los documentos, los trucos que uso para obtener *pdf* impresos de calidad excepcional.
 
 
 ## Herramientas para empezar
-Es necesario que tengas instalado R, RSTUDIO y además alguna verión de *LaTeX* en tu PC. La recomendada por [Yihui Xie](https://bookdown.org/yihui/rmarkdown/installation.html) es *TinyTeX* pues se puede realizar desde el propio entorno de RSTUDIO de la siguiente manera:
+Es necesario que tengas instalado R, RSTUDIO y además alguna versión de *LaTeX* en tu PC. La recomendada por [Yihui Xie](https://bookdown.org/yihui/rmarkdown/installation.html) es *TinyTeX* pues se puede realizar desde el propio entorno de RSTUDIO de la siguiente manera:
 
 ```
   install.packages("tinytex")
   tinytex::install_tinytex()  # install TinyTeX
 ```
-En mi caso, como ya usaba LaTex hace años con el editor LyX, tengo instalada [MiKTeX](https://miktex.org/) con la que me apaño bien de momento.
+En mi caso, como ya usaba *LaTeX* hace años con el editor *LyX*, tengo instalada [MiKTeX](https://miktex.org/) con la que me apaño bien de momento.
 
-Puede que tengas un lío de nombres en la cabeza (R, rmarkdown, Knitr, pandoc, latex..), pero es que hay un montón de lenguajes que se relacionan mutuamente y hace posible el flujo de documentación y su integración, la siguiente imagen lo describe muy bien:
+Puede que tengas un lío de nombres en la cabeza (R, *rmarkdown*, *Knitr*, *pandoc*, latex..), pero es que hay un montón de lenguajes que se relacionan mutuamente y hace posible el flujo de documentación y su integración, la siguiente imagen lo describe muy bien:
 
 ![Proceso de creación de un documento](/img/knitr_pandoc.png)
 
 
 
-Como ves una de las ventajas de todo esto, es que puedes mexclar código y programación con texto en un documento, y que además la salida final de ese documento puede ser en múltiples formatos, con un mismo fichero base. Es decir, que podrías sacar un fichero pdf hecho con latex o un fichero de word con el mismo fichero inicial de rmarkdown.
+Como ves una de las ventajas de todo esto, es que puedes mezclar código y programación con texto en un documento, y que además la salida final de ese documento puede ser en múltiples formatos, con un mismo fichero base. Es decir, que podrías sacar un fichero pdf hecho con latex o un fichero de word con el mismo fichero inicial de rmarkdown.
 
 ## Cómo se crea un pdf con R
 
@@ -52,9 +52,9 @@ Mirando el diagrama anterior nos vamos a centrar en la salida de documento pdf, 
 
 El flujo es el siguiente:
 
-  - *knitr* transforma el código R en formato markdown, es decir inserta las imagenes generadas o las salidas de texto en texto formateado.
+  - *knitr* transforma el código R en formato markdown, es decir inserta las imágenes generadas o las salidas de texto en texto formateado.
   - *pandoc* es el gran desconocido, pero es el corazón de la bestia, pues transforma el texto markdown en otro texto formateado según la salida final elegida (pdf latex, word, html...). Para especificar el formato de salida metemos unos encabezados en el fichero rmarkdown que se llaman *YAML*.
-  - *LaTeX* coge el código salida de pandoc y lo convierte en por ejemplo un fichero pdf completamente acabado. Latex se ocupa de cosas como insertar un indice, meter el encabezado o pie de página, ordenar los párrafos con el borde....
+  - *LaTeX* coge el código salida de pandoc y lo convierte en por ejemplo un fichero pdf completamente acabado. LaTeX se ocupa de cosas como insertar un indice, meter el encabezado o pie de página, ordenar los párrafos con el borde....
   
 Vamos a centrarnos en la parte práctica que se reduce principalmente al encabezado **YAML** que cada fichero de rmarkdown lleva. Se trata de unas palabras clave que definen el tipo de salida y los formatos y va delimitada por 3 marcas de signo menos: ---. 
 
@@ -97,8 +97,8 @@ La mayoría de los parámetros son autoexplicativos, título, autor, fecha. Como
 
 Si usamos nuestro amado idioma castellano, debemos especificar `lang: es` para que los capítulos e índices automáticos generados no sean en inglés. 
 
- - *papersize: a4* especifica el tamaño de la página final en este caso A4, el por defecto de *LaTeX* suele ser el americano `letter`. Cambiando a a5 por ejemplo y ejecutando preview nos transformaría el documento completo a una página más pequeña.
- - *documentclass:* especifica el tipo de documento. Latex tiene múltiples plantillas de documento, y normalmente se instalan desde el gestor de paquetes,(el *Package Manager* de *MiKTeX* por ejemplo). Los tipos de documento habituales son artículo, libro, carta. Son cambios importantes, por ejemplo el tipo libro `book` hace que cada capítulo vaya en una pagina nueva, mientras que con `article` va todo el texto seguido. También hay formatos de más versátiles predefinidos como el [koma-script](https://ctan.org/pkg/koma-script) muy completo y utilizado por la comunidad, pero que requiere su instalación en *LaTeX* previa.
+ - *papersize: a4* especifica el tamaño de la página final en este caso A4, el por defecto de *LaTeX* suele ser el americano `letter`. Cambiando a a5 por ejemplo y ejecutando *preview* nos transformaría el documento completo a una página más pequeña.
+ - *documentclass:* especifica el tipo de documento. LaTeX tiene múltiples plantillas de documento, y normalmente se instalan desde el gestor de paquetes,(el *Package Manager* de *MiKTeX* por ejemplo). Los tipos de documento habituales son artículo, libro, carta. Son cambios importantes, por ejemplo el tipo libro `book` hace que cada capítulo vaya en una pagina nueva, mientras que con `article` va todo el texto seguido. También hay formatos de más versátiles predefinidos como el [koma-script](https://ctan.org/pkg/koma-script) muy completo y utilizado por la comunidad, pero que requiere su instalación en *LaTeX* previa.
  - *output:* este parámetro indica el tipo de documento de salida, si va a ser una web, un fichero word o un pdf. Para cada caso hay varias opciones de configuración, por ejemplo los parámetros `lof: yes` y `lot: yes` y `toc=yes` *que están indentados*, nos dicen que se generarán indices automáticos de figuras, tablas y de títulos en el documento *pdf* final. `number_sections: yes` indica que se numerarán los títulos automáticamente, y después decimos hasta qué profundidad de título saldrá en el índice `toc_depth: 2`.
  - `latex_engine: xelatex` esto si es importante, aquí indicamos el motor de *LaTeX* que vamos a usar para transformar el markdown simple en código *LaTeX*. El que viene por defecto con RSTUDIO es *pdflatex* y *xelatex*. Recomendamos encarecidamente usar este ultimo, pues pdflatex se ha quedado un poco desfasado y puede implicar algunos cambios respecto a lo que vamos a indicar en los siguientes aparatados.
  
