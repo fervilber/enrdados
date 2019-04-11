@@ -1,0 +1,143 @@
+---
+title: TinyTeX tener LaTeX desde R sin esfuerzo
+author: F.VilBer
+date: '2019-04-11'
+slug: tinytex-tener-latex-desde-r-sin-esfuerzo
+categories:
+  - editar documentos
+  - R
+tags:
+  - formato
+  - markdown
+  - pdf
+  - tipografía
+description: 'Instalar TinyTeX y tener LaTeX desde R'
+thumbnail: ''
+toc: yes
+---
+
+
+<div id="TOC">
+true
+</div>
+
+<p>Con el último artículo he aprovechado para actualizar RSTUDIO y de paso, probar <a href="https://yihui.name/tinytex/">TinyTeX</a> la versión de ligera para R que ha hecho <em>Yihui Xie</em>.</p>
+<p>La verdad que, hasta ahora me he apañado bien con <em>MikTeX</em>, pero esta versión de requiere cierta paciencia y un aprendizaje que no todo el mundo es capaz de sacrificar para la utilidad que obtiene, por eso la idea de una versión de sencilla y manejable desde R me pareció fantástica y esa es <a href="https://yihui.name/tinytex/">TinyTeX</a>.</p>
+<div id="instalar-tinytex" class="section level2">
+<h2>Instalar TinyTeX</h2>
+<p>He aprovechado la última actualización de R y RSTUDIO, para des-instalar <em>MikTeX</em> de un PC y probar la instalación de <em>TinyTeX</em> desde el mismo RSTUDIO.</p>
+<p><em>MiKTeX</em> es una versión completa de de tropecientos megas e instalación dificil.. una vez hecho va bastante bien, pero es complejo, algo duro al principio. Como ya solo uso desde R, creo que la mejor opción es usar esta versión ligera de <em>Xie</em> que se puede instalar desde el mismo entorno de RSTUDIO.</p>
+<p>Manos a la obra.</p>
+<p>… un rato más tarde…..</p>
+<p>La prueba ha salido bien, simple y funcional, así que os voy a explicar cómo se hace.</p>
+</div>
+<div id="paso-previo-compueba-que-tienes-rtools" class="section level2">
+<h2>Paso previo-compueba que tienes RTOOLS</h2>
+<p>Antes de nada hay que tener instalado <a href="https://cran.r-project.org/bin/windows/Rtools/">RTOOLS</a>, si no lo tienes descárgalo, ya que hace falta para la instalación de muchos paquetes, entre ellos este de <em>TinyTeX</em>.</p>
+<p>RTOOLs es un programa de librerías que complementa R, se descarga e instala de forma independiente, no tiene interfaz, es solo por las <em>dll</em> que trae. Al descargar he instalar, he optado por la versión ligera y en mi caso solo la de 64 bits.</p>
+</div>
+<div id="instalacion-de-tinytex" class="section level2">
+<h2>Instalación de TinyTeX</h2>
+<p>Ahora si, para instalar <em>TinyTeX</em>, ejecuta el código siguiente desde R. Primero instala la librería <code>library(tinytex)</code>, después ejecuta la función de instalación de :<code>tinytex::install_tinytex()</code>. Lo normal es que tarde un par de minutos en descargar e instalar todos los paquetes básicos. Después te pedirá que reinicies la sesión de R, compruebas que se ha instalado correctamente con <code>tinytex:::is_tinytex()</code> y listo.</p>
+<pre class="r"><code># instalacion de TinyTeX
+    install.packages(&#39;tinytex&#39;)
+    tinytex::install_tinytex()
+    
+    # comprobar la instalación
+    tinytex:::is_tinytex()</code></pre>
+<p>La principal ventaja de <em>TinyTeX</em> es que instala automáticamente los paquetes de que necesitas, ya que detecta los que son necesarios por si mismo y no tienes que cambiar de programa para esto, buscar el paquete etc… Esto ya es mucho, porque es complicadete. Si hay cualquier problema te lo dirá en la ventana de avisos. Con MikTeX por ejemplo tenía que estar revisando los ficheros <code>*.log</code>, para ver qué paquetes faltaban, en TinyTeX esto lo hace solo.</p>
+</div>
+<div id="comprueba-la-instalacion" class="section level2">
+<h2>Comprueba la instalación</h2>
+<p>Una vez hecho el paso anterior, tendrás en tu PC, y también <em>pdflatex</em>, <em>xelatex</em> y <em>lualatex</em>. Estas son algunas de las impresoras que podrás usar para transformar tu código <em>rmarkdown</em> en pdf.</p>
+<p>Yo me inclino por <em>xelatex</em> que me ha dado buenos resultados y pocos problemas. Podemos establecer la impresora <em>pdf</em> en el encabezado <em>YAML</em> como vimos en el post <a href="../guia-para-imprimir-en-pdf-desde-r">guia-para-imprimir-en-pdf-desde-r</a>, y también desde las opciones de salida del documento en RSTUDIO.</p>
+<div class="figure">
+<img src="/post/2019-04-11-tinytex-tener-latex-desde-r-sin-esfuerzo_files/opciones_salida.png" alt="impresora pdf desde RSTUDIO" />
+<p class="caption">impresora pdf desde RSTUDIO</p>
+</div>
+</div>
+<div id="uso-de-latex-par-impresion-en-pdf" class="section level2">
+<h2>Uso de LaTeX par impresión en pdf</h2>
+<p>Como vimos en el post <a href="../guia-para-imprimir-en-pdf-desde-r">guia-para-imprimir-en-pdf-desde-r</a>, un lenguaje llamado <em>pandoc</em> es el encargado de convertir nuestro documento escrito en <em>Rmarkdown</em> a la salida final que deseemos, que puede ser <em>pdf</em>, <em>html</em>, <em>word</em>,….. Si la opción es <em>pdf</em>, <em>pandoc</em> lo que hace es generar un fichero <code>*.tex</code>, es decir un fichero en lenguaje de edicion de textos , que después imprime a <em>pdf</em> con las impresoras que hemos nombrado antes.</p>
+<p>Con la instalación de , se crean varias impresoras virtuales en el PC de las que hemos hablado: <em>pdflatex</em>, <em>xelatex</em> y <em>lualatex.</em> Cada una tiene sus características que puedes investigar, pero nos quedaremos con <em>xelatex</em> de momento.</p>
+</div>
+<div id="ejemplo" class="section level2">
+<h2>Ejemplo</h2>
+<p>Para probar una salida de documento puedes copiar el siguiente encabezado YAML y meter un texto con capítulos e imprimir a <em>pdf</em>. Verás que la calidad del documento generado en pdf es muy buena.</p>
+<pre class="r"><code>---
+title: &quot;El libro si forma&quot;
+author: &quot;FVB&quot;
+date: &quot;abril 2019&quot;
+keywords: &quot;como no tener forma&quot;
+geometry:
+- top=1in
+- bottom=1in
+- right=0.5in
+- left=1in
+graphics: yes
+lang: es
+link-citations: yes
+linkcolor: blue
+documentclass: article
+papersize: a5
+citecolor: blue
+urlcolor: blue
+fontsize: 12pt
+header-includes:
+- \usepackage{graphicx}
+- \usepackage{fancyhdr}
+- \pagestyle{fancy}
+- \fancyhead[L]{\slshape \rightmark}
+- \fancyfoot[R]{\textit{\scriptsize www.enrdados.net }}
+- \fancyfoot[C]{\thepage}
+- \renewcommand{\headrulewidth}{0.2pt}
+- \usepackage{fontspec}
+- \defaultfontfeatures{Mapping=tex-text,Scale=MatchLowercase}
+- \setmainfont{Courier}
+- \setmonofont{Times}
+output:
+  pdf_document: 
+    latex_engine: xelatex
+    number_sections: yes
+    toc: yes
+    toc_depth: 2
+editor_options: 
+  chunk_output_type: console
+---</code></pre>
+</div>
+<div id="cambiar-el-tipo-de-letra" class="section level2">
+<h2>Cambiar el tipo de letra</h2>
+<p>Vamos a indicar solo una cosay es que el tipo de letra que usa es un quebradero de cabeza, pues no valen los mismos tipos de letra del sistema que en <em>Windows</em>. Solo se pueden especificar aquellos que estén en instalados. Normalmente en archivos <code>*.sty</code> que se instalan con el desarrollo y los que trae por defecto son: <em>palatino, helvet, utopia, times, pifont, courier, bookman, newcent</em> y <em>avant</em>.</p>
+<p>Para elegir cualquiera de estos es suficiente con poner en el encabezado YAML esto:</p>
+<pre class="r"><code>---
+fontsize: 11pt
+fontfamily: bookman
+---</code></pre>
+<p>También podemos especificar por separado el tipo de letra principal, y el de las que se usan en los bloques de código (monofont) o sans así:</p>
+<pre class="r"><code>---
+mainfont: times
+sansfont: palatino
+monofont: courier
+---</code></pre>
+<p>Otra opción, con más posibilidades de uso de tipos de letra es meterlo en el encabezado de YAML en <code>header-includes:</code> con código directo, por ejemplo con <code>\setmainfont{Calibri}</code> establecemos la fuente principal en <em>Calibri</em> y con <code>\setmonofont{Tahoma}</code> la <em>monofont</em> es decir la de las porciones de código en <em>Tahoma</em>, siempre que las tengamos en el sistema:</p>
+<pre class="r"><code>header-includes:
+- \usepackage{fontspec}
+- \defaultfontfeatures{Mapping=tex-text,Scale=MatchLowercase}
+- \setmainfont{Calibri}
+- \setmonofont{Tahoma}</code></pre>
+<p>¡Ojo!, antes deberías ejecutar la librería <code>extrafont</code> para leer todos los tipos de letra que tienes en el ordenador, e importarlas a R con <code>font_import()</code>, para poderlas usar. Esto puede tardar un rato.</p>
+<p>Después de esto si quieres saber los que están disponibles para documentos <em>pdf</em> ejecuta <code>names(pdfFonts())</code></p>
+<pre class="r"><code>library(extrafont)
+font_import()
+
+# ver letras disponibles para pdf:
+names(pdfFonts())</code></pre>
+<pre class="r"><code># fuentes disponibles en el dispositivo para pdf
+head(names(pdfFonts()), 30)</code></pre>
+</div>
+<div id="conclusiones" class="section level2">
+<h2>Conclusiones</h2>
+<p>La calidad de los documentos que se generan con este sistema es muy superior a los que obtenemos con procesadores normales e texto como word. Me refiero a calidad de edición, pues el resultado es realmente profesional, sin que tengamos que perder el tiempo en cosas como la generación de indices, numeraciones encaje de fotografías o gráficas, etc.. vamos que nos evitamos todos los molestos trabajos a los que los habituales de microchof están acostrumbrados.</p>
+<p>Soy un entusiasta de <em>rmarkdown</em>, es maravilloso que puedas escribir un documento complejo, largo y lleno de código y texto como una <strong>tesis doctoral</strong> con herramientas tan sencillas y fáciles como el marcado de rmarkdown. La impresión final es fantástica y lo mejor es que puedes cambiar de tipo de salida cuando quieras sin tener que hacer cambios en el documento original, es decir, lo mismo puedes sacar el libro en A4 o en A5 y ver cómo queda en un segundo, o cambiar la salida de pdf a word, o en html, sin modificar una coma del texto original. ESTO ES FANTÁSTICO !, aunque tu jefe no lo entienda, es fantástico.</p>
+<p>Espero que esto te anime a usarlo, pruébalo, encima es !grátis!.</p>
+</div>

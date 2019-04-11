@@ -6,10 +6,20 @@
     <description>Recent content in Markdown on EnRdados</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>es</language>
-    <lastBuildDate>Wed, 16 Jan 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 11 Apr 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/markdown/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>TinyTeX tener LaTeX desde R sin esfuerzo</title>
+      <link>/post/tinytex-tener-latex-desde-r-sin-esfuerzo/</link>
+      <pubDate>Thu, 11 Apr 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/tinytex-tener-latex-desde-r-sin-esfuerzo/</guid>
+      <description>trueCon el último artículo he aprovechado para actualizar RSTUDIO y de paso, probar TinyTeX la versión de ligera para R que ha hecho Yihui Xie.
+La verdad que, hasta ahora me he apañado bien con MikTeX, pero esta versión de requiere cierta paciencia y un aprendizaje que no todo el mundo es capaz de sacrificar para la utilidad que obtiene, por eso la idea de una versión de sencilla y manejable desde R me pareció fantástica y esa es TinyTeX.</description>
+    </item>
     
     <item>
       <title>Geoposicionar fotografias</title>
