@@ -13,20 +13,23 @@ tags:
   - tipografía
   - sintaxis
   - formato
-description: 'Guía para imprimir documentos pdf de calidad desde RSTUDIO'
-thumbnail: ''
+description: 'Guía para imprimir documentos pdf de calidad con R y LaTeX'
+thumbnail: '/img/pag_1.jpg'
+math: true
 toc: yes
 ---
 
-He hecho una recopilación de indicaciones, trucos y preguntas para poder imprimir informes de calidad desde R con *RSTUDIO*, *knitr* y *LaTeX* . Creo que es un tema imprescindible para los científicos o ingenieros pues al final, nuestro trabajo debe ser plasmado en documentos y las posibilidades que ofrece R con *rmarkdown* y *LaTeX* son realmente sorprendentes.
+He hecho una recopilación de indicaciones, trucos y preguntas para aprender a imprimir informes de calidad desde R con *RSTUDIO*, *knitr* y **LaTeX** . Creo que es un tema imprescindible para los científicos o ingenieros pues al final, nuestro trabajo debe ser plasmado en documentos y las posibilidades que ofrece R con *rmarkdown* y *LaTeX* son realmente sorprendentes.
 
-*LaTex* es el procesador de textos por excelencia, pero hemos de reconocer que no es fácil de iniciarse en él, por eso es tan importante los lenguajes intermedios como rmarkdown, un lenguaje sencillo de marcado que permite dar formato a cualquier documento con simples reglas y símbolos. Rmarkdown fue, para mi, un gran descubrimiento, pues ponía al alcance del público generalista una manera increíblemente fácil de dar formatos a los documentos y por otro lado de aprovechar toda la fortaleza de editores complejos como *LaTeX* sin entrar en sus entrañas.
+[**LaTeX**](https://www.latex-project.org/) es el procesador de textos por excelencia, pero hemos de reconocer que no es fácil iniciarse, es un lenguaje de marcado poderoso, pero muy complejo, por eso es tan importante la aprición de otros lenguajes intermedios como *rmarkdown*, que simplifican las reglas de marcado y hacen de traductores. 
 
-Acostumbrado a los problemas de los procesadores de texto habituales como word, que eran una verdadera pesadilla para documentos grandes y complejos como un proyecto de construcción, el uso de markdown es una luz que me asombra no tenga mayor difusión y uso.
+Con markdown solo es necesario aprender unas pocas reglas de marcado o etiquetas sencillas y eso nos permite dar formato complejo a cualquier documento. *Rmarkdown* fue, para mi, un gran descubrimiento, pues ponía al alcance del público generalista una manera fácil de dar formatos y calidad a los documentos aprovechando toda la fortaleza de editores poderosos como *LaTeX*.
 
-Tengo que confesar que hacer proyectos, pliegos o libros en el entorno de RSTUDIO con herramientas como `blogdown` o `bookdown`, o simplemente con *Rmarkdown* clásico es mucho más sencillo y tiene salidas gráficas e impresas de mucha mayor calidad que las obtenidas con microsoft word.
+Acostumbrado a los problemas de los procesadores de texto tipo windows como word, que eran una verdadera pesadilla para documentos grandes y complejos como un Proyecto de Construcción, el uso de markdown es una luz en el camino, lo que me sorprende es que no tenga mayor difusión y uso.
 
-Como comenzar es difícil, os voy a mostrar cómo hago yo los documentos, los trucos que uso para obtener *pdf* impresos de calidad excepcional.
+Tengo que confesar que hacer proyectos, pliegos, contratos o libros en el entorno de RSTUDIO con herramientas como `blogdown` o `bookdown`, o simplemente con *Rmarkdown* clásico es mucho más sencillo y tiene salidas gráficas e impresas de mucha mayor calidad que las obtenidas con microsoft word, y son ¡**herramientas gratuitas**!.
+
+Comenzar es difícil, por eso voy a mostrar cómo hago yo los documentos, los trucos que uso para obtener *pdf* impresos de calidad excepcional.
 
 
 ## Herramientas para empezar
@@ -38,27 +41,27 @@ Es necesario que tengas instalado R, RSTUDIO y además alguna versión de *LaTeX
 ```
 En mi caso, como ya usaba *LaTeX* hace años con el editor *LyX*, tengo instalada [MiKTeX](https://miktex.org/) con la que me apaño bien de momento.
 
-Puede que tengas un lío de nombres en la cabeza (R, *rmarkdown*, *Knitr*, *pandoc*, latex..), pero es que hay un montón de lenguajes que se relacionan mutuamente y hace posible el flujo de documentación y su integración, la siguiente imagen lo describe muy bien:
+Puede que tengas un lío de nombres en la cabeza (R, *rmarkdown*, *Knitr*, *pandoc*, *latex*..), pero es que hay un montón de lenguajes que se relacionan mutuamente y hace posible el flujo de documentación y su integración, la siguiente imagen lo describe muy bien:
 
 ![Proceso de creación de un documento](/img/knitr_pandoc.png)
 
-
-
-Como ves una de las ventajas de todo esto, es que puedes mezclar código y programación con texto en un documento, y que además la salida final de ese documento puede ser en múltiples formatos, con un mismo fichero base. Es decir, que podrías sacar un fichero pdf hecho con latex o un fichero de word con el mismo fichero inicial de rmarkdown.
+Como ves una de las ventajas de todo esto, es que puedes mezclar código y programación con texto en un documento, y que además la salida final de ese documento puede ser en múltiples formatos, con un mismo fichero base. Es decir, que podrías sacar un fichero *pdf* hecho con LaTeX o un fichero de word con el mismo fichero inicial de *Rmarkdown*.
 
 ## Cómo se crea un pdf con R
 
-Mirando el diagrama anterior nos vamos a centrar en la salida de documento pdf, y vemos que desde el fichero de rmarkdown al pdf hay 3 pasos y 3 lenguajes que intervienen: knitr --> pandoc -->  *LaTeX*.
+Mirando el diagrama anterior nos vamos a centrar en la salida de documento *pdf*, y vemos que desde el fichero de *rmarkdown* al *pdf* hay 3 pasos que transforman internamente el fichero origen: *knitr* --> *pandoc* -->  *LaTeX*.
 
 El flujo es el siguiente:
 
-  - *knitr* transforma el código R en formato markdown, es decir inserta las imágenes generadas o las salidas de texto en texto formateado.
-  - *pandoc* es el gran desconocido, pero es el corazón de la bestia, pues transforma el texto markdown en otro texto formateado según la salida final elegida (pdf latex, word, html...). Para especificar el formato de salida metemos unos encabezados en el fichero rmarkdown que se llaman *YAML*.
-  - *LaTeX* coge el código salida de pandoc y lo convierte en por ejemplo un fichero pdf completamente acabado. LaTeX se ocupa de cosas como insertar un indice, meter el encabezado o pie de página, ordenar los párrafos con el borde....
+  - *knitr* transforma el código R en formato *markdown*, es decir inserta las imágenes generadas o las salidas de R en texto formateado etiquetado como *markdown*.
+  - *pandoc* es el gran desconocido, pero es el corazón de la bestia, pues transforma el texto *markdown* en otro texto formateado según la salida final elegida (*pdf* LaTeX, word, html...). Para especificar el formato de salida metemos unos encabezados en el fichero rmarkdown que se llaman *YAML*.
+  - *LaTeX* toma el código salida de *pandoc* y lo convierte en por ejemplo un fichero *pdf* completamente acabado. <a href="https://es.wikipedia.org/wiki/LaTeX" target="_blank">LaTeX</a> se ocupa de cosas como insertar un índice de capítulos o de figuras, meter el encabezado o pie de página, ordenar los párrafos con el borde, usar tipografía adecuada, ordenar las imagenes para que quepan en el documento, insertar un pie de imagen....
   
-Vamos a centrarnos en la parte práctica que se reduce principalmente al encabezado **YAML** que cada fichero de rmarkdown lleva. Se trata de unas palabras clave que definen el tipo de salida y los formatos y va delimitada por 3 marcas de signo menos: ---. 
+Vamos a centrarnos en la parte práctica de crear un pdf desde R y todo se reduce al encabezado **YAML** que cada fichero de *rmarkdown* lleva. 
 
-Un ejemplo simple de encabezado YAML es el siguiente:
+Se trata de unas palabras-etiquetas que definen caracteristicas del documento y el tipo de salida, formatos etc.. 
+
+El código YAML  va delimitado por 3 marcas de signo menos seguidas: `---`. Un ejemplo de encabezado YAML es el siguiente:
 
 ```
 --- 
@@ -91,9 +94,9 @@ output:
 ```
 ## Parámetros YAML
 
-En este encabezado que ponemos al principio de cada documento rmarkdown en RSTUDIO definimos las características de formato, mediante *etiquetas*. Un listado completo de las etiquetas disponibles lo vemos en la web oficial de <a href="https://pandoc.org/MANUAL.html#templates" target="_blank">pandoc</a>.
+En este encabezado que ponemos al principio de cada documento *rmarkdown* en RSTUDIO definimos las características de formato, mediante *etiquetas*. Un listado completo de las etiquetas disponibles lo vemos en la web oficial de <a href="https://pandoc.org/MANUAL.html#templates" target="_blank">pandoc</a>.
 
-La mayoría de los parámetros son autoexplicativos, título, autor, fecha. Como vemos en el ejemplo anterior la fecha la escribimos directamente con código R, aunque se podría poner directamente con texto.
+La mayoría de los parámetros se definen con su nombre: título, autor, fecha. Como vemos en el ejemplo anterior la fecha la escribimos directamente con código R, aunque se podría poner directamente con texto entrecomillado.
 
 Si usamos nuestro amado idioma castellano, debemos especificar `lang: es` para que los capítulos e índices automáticos generados no sean en inglés. 
 
@@ -106,8 +109,8 @@ Vamos a exponer más parámetros interesantes con los que definir al detalle nue
 
  ```
 --- 
-title: "Informe ....."
-author: "Fernando Villalba"
+title: "Loren Ipsum"
+author: "FVB"
 date: "`r format(Sys.time(), '%B %d, %Y')`"
 classoption: oneside
 keywords: "pandoc, r markdown, knitr"
@@ -219,16 +222,32 @@ Con `\fancyfoot[R]` definimos el pie de página derecho, en el que se pone un li
 
 La separación entre el texto de página y el encabezado se define como una linea fina 0,4 de grueso mediante el comando: `\renewcommand{\headrulewidth}{0.2pt}`. En este caso no hay linea en el pie de página, pero si quisiéramos poner una de separación lo haríamos con: `\renewcommand{\footrulewidth}{0.4pt}`.
 
-En documentos a doble cara, podemos especificar incluso diferentes encabezados para las páginas par o impares simplemente indicándolo en la definición. Recordemos que en inglés par es even e impar odd, por lo que izquierda de pagina par es [LE], centro de pagina impar [CO]. Ejemplo:
+En documentos a doble cara, podemos especificar incluso diferentes encabezados para las páginas par o impares simplemente indicándolo en la definición. Recordemos que en inglés par es even e impar odd, por lo que izquierda de pagina par es `[LE]`, centro de pagina impar `[CO]`. Ejemplo:
 
 ```
 \fancyhead[LE,RO]{\slshape \rightmark}
 \fancyhead[LO,RE]{\slshape \leftmark}
 \fancyfoot[C]{\thepage}
 ```
+## Ejemplo
+
+Os dejo en imagen algunas paginas del documento *pdf* generado de ejemplo con un encabezado YAML como el descrito en apartados anteriores e impreso en A5, el indice se crea automáticamente y como vemos los encabezados y pies van acordes con los capítulos:
+
+
+![indice](/img/pag_1.jpg)
+
+![Primera página](/img/pag_2.jpg)
+
+![página 5 del artículo](/img/pag_5.jpg)
+
 
 ## LaTeX puro
-Otra opción interesante de los documentos *rmarkdown* es que admiten código LaTeX directamente en el texto, por ejemplo si después del encabezado *YAML* escribimos lo siguiente, crearemos una página inicial solo con el título y meteremos manualmente un índice de figuras y de títulos:
+
+Los documentos *rmarkdown* admiten código *LaTeX* directo. El código LaTeX va precedido de la barra inclinada `\` y a continuación la etiqueta correspondiente. 
+
+Este código se puede introducir en cualquier parte del documento, y complementa al que metemos en el encabezado YAML  que va dentro de `header-includes`como vimos antes.
+
+Por ejemplo si después del encabezado *YAML*  y antes de comenzar con el texto escribimos lo siguiente, crearemos una página inicial solo con el título y meteremos **manualmente** un índice de figuras y de títulos:
 
 ```
 <!-- pag sin encabezado para portada  -->
@@ -245,7 +264,7 @@ Otra opción interesante de los documentos *rmarkdown* es que admiten código La
         \includegraphics[width=0.8\linewidth]{imag/luces.jpg}
     \end{center}
     \begin{large}
-        \textit{-Informe analisis de luces nocturnas-}
+        \textit{-Informe análisis de luces nocturnas-}
     \end{large}
     \begin{flushright}
         \textit{F.Villalba \\
@@ -269,3 +288,31 @@ Otra opción interesante de los documentos *rmarkdown* es que admiten código La
 \pagebreak
 ```
 
+Veamos algunas expresiones de LaTeX:
+
+  - `\pagebreak` incluye un salto de página.
+  - `\newpage` y `\clearpage` meten una nueva pagina en blanco
+  - `\\*` inserta un salto de línea y rohibe el salto de pagina posterior.
+  - `\hfill\break` inserta un salto de línea.
+  - `\includegraphics[width=3cm, height=4cm]{imag/universe.jpg}` inserta una imagen, para ello antes debe cargarse el paquete `\usepackage{graphicx}`
+  -  insertar referencias cruzadas.  `\label{fig:imagen_1}` y después si queremos hacer referencia a esta imagen hacemos:  `\ref{fig:imagen_1}`.
+  
+Las medidas pueden darse en unidades o usar referencias como:
+
+  * `\columnsep`	distancia entre las columnas
+  * `\columnwidth`	anchura de una columna
+  * `\linewidth`	amplitud de línea en el ambiente actual
+  * `\paperwidth`	anchura del papel
+  * `\paperheight`	altura del papel
+  * `\textwidth`	anchura del texto
+  * `\textheight`	altura del texto
+  * `\unitleght`	unidades de longitud en el ambiente picture
+
+Quizás nos interese también conocer el paquete *fancy* que es el que permite en LaTeX hacer los encabezados y pies de página de los documentos, la información completa está aquí ( 
+<a href="https://osl.ugr.es/CTAN/macros/latex/contrib/fancyhdr/fancyhdr.pdf" target="_blank">fancyhdr</a> ) en resumen:
+
+  * `\thepage` el número de la página
+  * `\chaptermark` el título del capítulo
+  * `\chaptername` el nombre "Capítulo", (chapter en ingles) el literal no el titulo
+  * `\thechapter` el número del capítulo
+  * `\leftmark`y `\rightmark` contienen las referencias últimas al capítulo, que van cambiando a medida que avanza el documento. 
