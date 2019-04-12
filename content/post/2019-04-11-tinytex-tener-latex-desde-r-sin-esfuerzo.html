@@ -13,20 +13,17 @@ tags:
   - tipografía
 description: 'Instalar TinyTeX y tener LaTeX desde R'
 thumbnail: ''
-toc: yes
+toc: no
 ---
 
 
-<div id="TOC">
-true
-</div>
 
-<p>Con el último artículo he aprovechado para actualizar RSTUDIO y de paso, probar <a href="https://yihui.name/tinytex/">TinyTeX</a> la versión de ligera para R que ha hecho <em>Yihui Xie</em>.</p>
-<p>La verdad que, hasta ahora me he apañado bien con <em>MikTeX</em>, pero esta versión de requiere cierta paciencia y un aprendizaje que no todo el mundo es capaz de sacrificar para la utilidad que obtiene, por eso la idea de una versión de sencilla y manejable desde R me pareció fantástica y esa es <a href="https://yihui.name/tinytex/">TinyTeX</a>.</p>
+<p>Con el último artículo he aprovechado para actualizar RSTUDIO y de paso, probar <a href="https://yihui.name/tinytex/">TinyTeX</a> la versión de <span class="math inline">\(\LaTeX\)</span> ligera para R que ha hecho <em>Yihui Xie</em>.</p>
+<p>La verdad que, hasta ahora me he apañado bien con <em>MikTeX</em>, pero esta versión de <span class="math inline">\(\LaTeX\)</span> requiere cierta paciencia y un aprendizaje que no todo el mundo es capaz de sacrificar para la utilidad que obtiene, por eso la idea de una versión de <span class="math inline">\(\LaTeX\)</span> sencilla y manejable desde R me pareció fantástica y esa es <a href="https://yihui.name/tinytex/">TinyTeX</a>.</p>
 <div id="instalar-tinytex" class="section level2">
 <h2>Instalar TinyTeX</h2>
 <p>He aprovechado la última actualización de R y RSTUDIO, para des-instalar <em>MikTeX</em> de un PC y probar la instalación de <em>TinyTeX</em> desde el mismo RSTUDIO.</p>
-<p><em>MiKTeX</em> es una versión completa de de tropecientos megas e instalación dificil.. una vez hecho va bastante bien, pero es complejo, algo duro al principio. Como ya solo uso desde R, creo que la mejor opción es usar esta versión ligera de <em>Xie</em> que se puede instalar desde el mismo entorno de RSTUDIO.</p>
+<p><em>MiKTeX</em> es una versión completa de <span class="math inline">\(\LaTeX\)</span> de tropecientos megas e instalación dificil.. una vez hecho va bastante bien, pero es complejo, algo duro al principio. Como ya solo uso <span class="math inline">\(\LaTeX\)</span> desde R, creo que la mejor opción es usar esta versión ligera de <em>Xie</em> que se puede instalar desde el mismo entorno de RSTUDIO.</p>
 <p>Manos a la obra.</p>
 <p>… un rato más tarde…..</p>
 <p>La prueba ha salido bien, simple y funcional, así que os voy a explicar cómo se hace.</p>
@@ -38,18 +35,18 @@ true
 </div>
 <div id="instalacion-de-tinytex" class="section level2">
 <h2>Instalación de TinyTeX</h2>
-<p>Ahora si, para instalar <em>TinyTeX</em>, ejecuta el código siguiente desde R. Primero instala la librería <code>library(tinytex)</code>, después ejecuta la función de instalación de :<code>tinytex::install_tinytex()</code>. Lo normal es que tarde un par de minutos en descargar e instalar todos los paquetes básicos. Después te pedirá que reinicies la sesión de R, compruebas que se ha instalado correctamente con <code>tinytex:::is_tinytex()</code> y listo.</p>
+<p>Ahora si, para instalar <em>TinyTeX</em>, ejecuta el código siguiente desde R. Primero instala la librería <code>library(tinytex)</code>, después ejecuta la función de instalación de <span class="math inline">\(\LaTeX\)</span> :<code>tinytex::install_tinytex()</code>. Lo normal es que tarde un par de minutos en descargar e instalar todos los paquetes <span class="math inline">\(\LaTeX\)</span> básicos. Después te pedirá que reinicies la sesión de R, compruebas que se ha instalado correctamente con <code>tinytex:::is_tinytex()</code> y listo.</p>
 <pre class="r"><code># instalacion de TinyTeX
     install.packages(&#39;tinytex&#39;)
     tinytex::install_tinytex()
     
     # comprobar la instalación
     tinytex:::is_tinytex()</code></pre>
-<p>La principal ventaja de <em>TinyTeX</em> es que instala automáticamente los paquetes de que necesitas, ya que detecta los que son necesarios por si mismo y no tienes que cambiar de programa para esto, buscar el paquete etc… Esto ya es mucho, porque es complicadete. Si hay cualquier problema te lo dirá en la ventana de avisos. Con MikTeX por ejemplo tenía que estar revisando los ficheros <code>*.log</code>, para ver qué paquetes faltaban, en TinyTeX esto lo hace solo.</p>
+<p>La principal ventaja de <em>TinyTeX</em> es que instala automáticamente los paquetes de <span class="math inline">\(\LaTeX\)</span> que necesitas, ya que detecta los que son necesarios por si mismo y no tienes que cambiar de programa para esto, buscar el paquete etc… Esto ya es mucho, porque <span class="math inline">\(\LaTeX\)</span> es complicadete. Si hay cualquier problema te lo dirá en la ventana de avisos. Con MikTeX por ejemplo tenía que estar revisando los ficheros <code>*.log</code>, para ver qué paquetes faltaban, en TinyTeX esto lo hace solo.</p>
 </div>
 <div id="comprueba-la-instalacion" class="section level2">
 <h2>Comprueba la instalación</h2>
-<p>Una vez hecho el paso anterior, tendrás en tu PC, y también <em>pdflatex</em>, <em>xelatex</em> y <em>lualatex</em>. Estas son algunas de las impresoras que podrás usar para transformar tu código <em>rmarkdown</em> en pdf.</p>
+<p>Una vez hecho el paso anterior, tendrás <span class="math inline">\(\LaTeX\)</span> en tu PC, y también <em>pdflatex</em>, <em>xelatex</em> y <em>lualatex</em>. Estas son algunas de las impresoras que podrás usar para transformar tu código <em>rmarkdown</em> en pdf.</p>
 <p>Yo me inclino por <em>xelatex</em> que me ha dado buenos resultados y pocos problemas. Podemos establecer la impresora <em>pdf</em> en el encabezado <em>YAML</em> como vimos en el post <a href="../guia-para-imprimir-en-pdf-desde-r">guia-para-imprimir-en-pdf-desde-r</a>, y también desde las opciones de salida del documento en RSTUDIO.</p>
 <div class="figure">
 <img src="/post/2019-04-11-tinytex-tener-latex-desde-r-sin-esfuerzo_files/opciones_salida.png" alt="impresora pdf desde RSTUDIO" />
@@ -59,7 +56,7 @@ true
 <div id="uso-de-latex-par-impresion-en-pdf" class="section level2">
 <h2>Uso de LaTeX par impresión en pdf</h2>
 <p>Como vimos en el post <a href="../guia-para-imprimir-en-pdf-desde-r">guia-para-imprimir-en-pdf-desde-r</a>, un lenguaje llamado <em>pandoc</em> es el encargado de convertir nuestro documento escrito en <em>Rmarkdown</em> a la salida final que deseemos, que puede ser <em>pdf</em>, <em>html</em>, <em>word</em>,….. Si la opción es <em>pdf</em>, <em>pandoc</em> lo que hace es generar un fichero <code>*.tex</code>, es decir un fichero en lenguaje de edicion de textos , que después imprime a <em>pdf</em> con las impresoras que hemos nombrado antes.</p>
-<p>Con la instalación de , se crean varias impresoras virtuales en el PC de las que hemos hablado: <em>pdflatex</em>, <em>xelatex</em> y <em>lualatex.</em> Cada una tiene sus características que puedes investigar, pero nos quedaremos con <em>xelatex</em> de momento.</p>
+<p>Con la instalación de <span class="math inline">\(\LaTeX\)</span>, se crean varias impresoras virtuales en el PC de las que hemos hablado: <em>pdflatex</em>, <em>xelatex</em> y <em>lualatex.</em> Cada una tiene sus características que puedes investigar, pero nos quedaremos con <em>xelatex</em> de momento.</p>
 </div>
 <div id="ejemplo" class="section level2">
 <h2>Ejemplo</h2>
@@ -107,7 +104,7 @@ editor_options:
 </div>
 <div id="cambiar-el-tipo-de-letra" class="section level2">
 <h2>Cambiar el tipo de letra</h2>
-<p>Vamos a indicar solo una cosay es que el tipo de letra que usa es un quebradero de cabeza, pues no valen los mismos tipos de letra del sistema que en <em>Windows</em>. Solo se pueden especificar aquellos que estén en instalados. Normalmente en archivos <code>*.sty</code> que se instalan con el desarrollo y los que trae por defecto son: <em>palatino, helvet, utopia, times, pifont, courier, bookman, newcent</em> y <em>avant</em>.</p>
+<p>Vamos a indicar solo una cosay es que el tipo de letra que usa <span class="math inline">\(\LaTeX\)</span> es un quebradero de cabeza, pues no valen los mismos tipos de letra del sistema que en <em>Windows</em>. Solo se pueden especificar aquellos que estén en <span class="math inline">\(\LaTeX\)</span> instalados. Normalmente en archivos <code>*.sty</code> que se instalan con el desarrollo <span class="math inline">\(\LaTeX\)</span> y los que trae por defecto son: <em>palatino, helvet, utopia, times, pifont, courier, bookman, newcent</em> y <em>avant</em>.</p>
 <p>Para elegir cualquiera de estos es suficiente con poner en el encabezado YAML esto:</p>
 <pre class="r"><code>---
 fontsize: 11pt
@@ -119,7 +116,7 @@ mainfont: times
 sansfont: palatino
 monofont: courier
 ---</code></pre>
-<p>Otra opción, con más posibilidades de uso de tipos de letra es meterlo en el encabezado de YAML en <code>header-includes:</code> con código directo, por ejemplo con <code>\setmainfont{Calibri}</code> establecemos la fuente principal en <em>Calibri</em> y con <code>\setmonofont{Tahoma}</code> la <em>monofont</em> es decir la de las porciones de código en <em>Tahoma</em>, siempre que las tengamos en el sistema:</p>
+<p>Otra opción, con más posibilidades de uso de tipos de letra es meterlo en el encabezado de YAML en <code>header-includes:</code> con código <span class="math inline">\(\LaTeX\)</span> directo, por ejemplo con <code>\setmainfont{Calibri}</code> establecemos la fuente principal en <em>Calibri</em> y con <code>\setmonofont{Tahoma}</code> la <em>monofont</em> es decir la de las porciones de código en <em>Tahoma</em>, siempre que las tengamos en el sistema:</p>
 <pre class="r"><code>header-includes:
 - \usepackage{fontspec}
 - \defaultfontfeatures{Mapping=tex-text,Scale=MatchLowercase}

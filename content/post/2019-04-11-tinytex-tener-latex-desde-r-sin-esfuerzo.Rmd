@@ -13,7 +13,7 @@ tags:
   - tipografía
 description: 'Instalar TinyTeX y tener LaTeX desde R'
 thumbnail: ''
-toc: yes
+toc: no
 ---
 
 
@@ -21,16 +21,16 @@ toc: yes
 knitr::opts_chunk$set(echo = TRUE, eval=FALSE)
 ```
 
-Con el último artículo he aprovechado para actualizar RSTUDIO y de paso, probar [TinyTeX](https://yihui.name/tinytex/) la versión de \LaTeX ligera para R que ha hecho *Yihui Xie*.
+Con el último artículo he aprovechado para actualizar RSTUDIO y de paso, probar [TinyTeX](https://yihui.name/tinytex/) la versión de $\LaTeX$ ligera para R que ha hecho *Yihui Xie*.
 
-La verdad que, hasta ahora me he apañado bien con *MikTeX*, pero esta versión de \LaTeX requiere cierta paciencia y un aprendizaje que no todo el mundo es capaz de sacrificar para la utilidad que obtiene, por eso la idea de una versión de \LaTeX sencilla y manejable desde R me pareció fantástica y esa es [TinyTeX](https://yihui.name/tinytex/).
+La verdad que, hasta ahora me he apañado bien con *MikTeX*, pero esta versión de $\LaTeX$ requiere cierta paciencia y un aprendizaje que no todo el mundo es capaz de sacrificar para la utilidad que obtiene, por eso la idea de una versión de $\LaTeX$ sencilla y manejable desde R me pareció fantástica y esa es [TinyTeX](https://yihui.name/tinytex/).
 
 
 ## Instalar TinyTeX 
 
 He aprovechado la última actualización de R y RSTUDIO, para des-instalar *MikTeX* de un PC y probar la instalación de *TinyTeX* desde el mismo RSTUDIO.
 
-*MiKTeX* es una versión completa de \LaTeX de tropecientos megas e instalación dificil.. una vez hecho va bastante bien, pero es complejo, algo duro al principio. Como ya solo uso \LaTeX desde R, creo que la mejor opción es usar esta versión ligera de *Xie* que se puede instalar desde el mismo entorno de RSTUDIO.
+*MiKTeX* es una versión completa de $\LaTeX$ de tropecientos megas e instalación dificil.. una vez hecho va bastante bien, pero es complejo, algo duro al principio. Como ya solo uso $\LaTeX$ desde R, creo que la mejor opción es usar esta versión ligera de *Xie* que se puede instalar desde el mismo entorno de RSTUDIO.
 
 Manos a la obra.
 
@@ -46,7 +46,7 @@ RTOOLs es un programa de librerías que complementa R, se descarga e instala de 
 
 ## Instalación de TinyTeX
 
-Ahora si, para instalar *TinyTeX*, ejecuta el código siguiente desde R. Primero instala la librería `library(tinytex)`, después ejecuta la función de instalación de \LaTeX :`tinytex::install_tinytex()`. Lo normal es que tarde un par de minutos en descargar e instalar todos los paquetes \LaTeX  básicos. Después te pedirá que reinicies la sesión de R, compruebas que se ha instalado correctamente con `tinytex:::is_tinytex()` y listo.
+Ahora si, para instalar *TinyTeX*, ejecuta el código siguiente desde R. Primero instala la librería `library(tinytex)`, después ejecuta la función de instalación de $\LaTeX$  :`tinytex::install_tinytex()`. Lo normal es que tarde un par de minutos en descargar e instalar todos los paquetes $\LaTeX$  básicos. Después te pedirá que reinicies la sesión de R, compruebas que se ha instalado correctamente con `tinytex:::is_tinytex()` y listo.
 
 ```{r pressure, eval=FALSE}
 # instalacion de TinyTeX
@@ -57,11 +57,11 @@ Ahora si, para instalar *TinyTeX*, ejecuta el código siguiente desde R. Primero
     tinytex:::is_tinytex()
 ```
 
-La principal ventaja de *TinyTeX* es que instala automáticamente los paquetes de \LaTeX que necesitas, ya que detecta los que son necesarios por si mismo y no tienes que cambiar de programa para esto, buscar el paquete etc... Esto ya es mucho, porque \LaTeX es complicadete. Si hay cualquier problema te lo dirá en la ventana de avisos. Con MikTeX por ejemplo tenía que estar revisando los ficheros `*.log`, para ver qué paquetes faltaban, en TinyTeX esto lo hace solo.
+La principal ventaja de *TinyTeX* es que instala automáticamente los paquetes de $\LaTeX$  que necesitas, ya que detecta los que son necesarios por si mismo y no tienes que cambiar de programa para esto, buscar el paquete etc... Esto ya es mucho, porque $\LaTeX$  es complicadete. Si hay cualquier problema te lo dirá en la ventana de avisos. Con MikTeX por ejemplo tenía que estar revisando los ficheros `*.log`, para ver qué paquetes faltaban, en TinyTeX esto lo hace solo.
 
 ## Comprueba la instalación
 
-Una vez hecho el paso anterior, tendrás \LaTeX en tu PC, y también *pdflatex*, *xelatex* y *lualatex*. Estas son algunas de las impresoras que podrás usar para transformar tu código *rmarkdown* en pdf.
+Una vez hecho el paso anterior, tendrás $\LaTeX$  en tu PC, y también *pdflatex*, *xelatex* y *lualatex*. Estas son algunas de las impresoras que podrás usar para transformar tu código *rmarkdown* en pdf.
 
 Yo me inclino por *xelatex* que me ha dado buenos resultados y pocos problemas. Podemos establecer la impresora *pdf* en el encabezado *YAML* como vimos en el post [guia-para-imprimir-en-pdf-desde-r](../guia-para-imprimir-en-pdf-desde-r), y también desde las opciones de salida del documento en RSTUDIO.
 
@@ -72,7 +72,7 @@ Yo me inclino por *xelatex* que me ha dado buenos resultados y pocos problemas. 
 
 Como vimos en el post [guia-para-imprimir-en-pdf-desde-r](../guia-para-imprimir-en-pdf-desde-r), un lenguaje llamado *pandoc* es el encargado de convertir nuestro documento escrito en *Rmarkdown* a la salida final que deseemos, que puede ser *pdf*, *html*, *word*,..... Si la opción es *pdf*, *pandoc* lo que hace es generar un fichero `*.tex`, es decir un fichero en lenguaje de edicion de textos \LaTeX, que después imprime a *pdf* con las impresoras que hemos nombrado antes.
 
-Con la instalación de \LaTeX, se crean varias impresoras virtuales en el PC de las que hemos hablado: *pdflatex*, *xelatex* y *lualatex.* Cada una tiene sus características que puedes investigar, pero nos quedaremos con *xelatex* de momento.
+Con la instalación de $\LaTeX$, se crean varias impresoras virtuales en el PC de las que hemos hablado: *pdflatex*, *xelatex* y *lualatex.* Cada una tiene sus características que puedes investigar, pero nos quedaremos con *xelatex* de momento.
 
 
 ## Ejemplo
@@ -125,7 +125,7 @@ editor_options:
 
 
 ## Cambiar el tipo de letra
-Vamos a indicar solo una cosay es que el tipo de letra que usa \LaTeX es un quebradero de cabeza, pues no valen los mismos tipos de letra del sistema que en *Windows*. Solo se pueden especificar aquellos que estén en \LaTeX instalados. Normalmente en archivos `*.sty` que se instalan con el desarrollo \LaTeX y los que trae por defecto son: *palatino, helvet, utopia, times, pifont, courier, bookman, newcent* y *avant*.
+Vamos a indicar solo una cosay es que el tipo de letra que usa $\LaTeX$  es un quebradero de cabeza, pues no valen los mismos tipos de letra del sistema que en *Windows*. Solo se pueden especificar aquellos que estén en $\LaTeX$  instalados. Normalmente en archivos `*.sty` que se instalan con el desarrollo $\LaTeX$  y los que trae por defecto son: *palatino, helvet, utopia, times, pifont, courier, bookman, newcent* y *avant*.
 
 Para elegir cualquiera de estos es suficiente con poner en el encabezado YAML esto:
 
@@ -146,7 +146,7 @@ monofont: courier
 ---
 ```
 
-Otra opción, con más posibilidades de uso de tipos de letra es meterlo en el encabezado de YAML en `header-includes:` con código \LaTeX directo, por ejemplo con `\setmainfont{Calibri}` establecemos la fuente principal en *Calibri* y con `\setmonofont{Tahoma}` la *monofont* es decir la de las porciones de código en *Tahoma*, siempre que las tengamos en el sistema:
+Otra opción, con más posibilidades de uso de tipos de letra es meterlo en el encabezado de YAML en `header-includes:` con código $\LaTeX$  directo, por ejemplo con `\setmainfont{Calibri}` establecemos la fuente principal en *Calibri* y con `\setmonofont{Tahoma}` la *monofont* es decir la de las porciones de código en *Tahoma*, siempre que las tengamos en el sistema:
 
 ```{r eval=FALSE}
 header-includes:
