@@ -6,10 +6,20 @@
     <description>Recent content in Posts on EnRdados</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>es</language>
-    <lastBuildDate>Thu, 11 Apr 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 27 Apr 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Instalar R en la nube con amazon </title>
+      <link>/post/instalar-r-en-la-nube-con-amazon/</link>
+      <pubDate>Sat, 27 Apr 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/instalar-r-en-la-nube-con-amazon/</guid>
+      <description>Llevo tiempo con la idea de en comprar un servidor de Shiny para casa, la idea está, pero el tiempo para hacerlo no así que esta Semana Santa he aprovechado el los días lluviosos para reciclar unos PCs viejos, de esos del 2003 e instalar Ubuntu, R y ponerla en marcha.
+Aunque me lo he pasado bien cacharreando, no he conseguido nada decente, esos ordenadores de 32 bits hay que poner puppylinux y ya no tiran ni para ver un película avi.</description>
+    </item>
     
     <item>
       <title>TinyTeX tener LaTeX desde R sin esfuerzo</title>
