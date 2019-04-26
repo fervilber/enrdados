@@ -1,7 +1,7 @@
 ---
-title: 'Instalar R en la nube con amazon '
+title: 'Instalar R en la nube con amazon'
 author: F.VilBer
-date: '2019-04-27'
+date: '2019-04-26'
 slug: instalar-r-en-la-nube-con-amazon
 categories:
   - R
