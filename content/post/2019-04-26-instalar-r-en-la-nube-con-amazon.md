@@ -16,24 +16,26 @@ thumbnail: '/img/AWS/aws.png'
 toc: yes
 ---
 
-Llevo tiempo con la idea de  en comprar un servidor de *Shiny* para casa, la idea está, pero el tiempo para hacerlo no así que esta Semana Santa he aprovechado el los días lluviosos para reciclar unos PCs viejos, de esos del 2003 e instalar Ubuntu, R y ponerla en marcha.
+Llevo tiempo con la idea de comprar un servidor-PC con *Shiny* para casa, la idea está, pero el tiempo para hacerlo no, así que en Semana Santa he aprovechado los días lluviosos para reciclar unos PCs viejos, de esos del 2003 e instalar Ubuntu, R y ponerlos en marcha.
 
-Aunque me lo he pasado bien cacharreando, no he conseguido nada decente, esos ordenadores de 32 bits hay que poner [puppylinux](http://puppylinux.com/) y ya no tiran ni para ver un película avi. Como seguía lloviendo fuera se me ocurrió probar eso de instalar RSTUDIO en la nube y a ahí vamos.
+Aunque me lo he pasado bien cacharreando, no he conseguido nada decente, esos ordenadores de 32 bits con 16 años, hay que poner [puppylinux](http://puppylinux.com/) y ya no tiran ni para ver un película. Como seguía lloviendo fuera, se me ocurrió probar eso de instalar RSTUDIO en la nube de amazon... 
+
+Empecemos!!.
 
 ## AWS
-[Amazon Web Service](https://aws.amazon.com/es/) o [AWS](https://aws.amazon.com/es/) es un servicio muy completo de computación en la nube. La verdad que es difícil hasta definirlo porque es de estas cosas nuevas que revolucionan todo, pero todavía no las asimilamos muy bien. 
+[Amazon Web Service](https://aws.amazon.com/es/) o [AWS](https://aws.amazon.com/es/) es un servicio muy completo de computación en la nube. La verdad que es difícil hasta definirlo, porque es de estas cosas nuevas que revolucionan todo, pero todavía no las asimilamos muy bien. 
 
-Para mi es como tener un PC en la nube, la máquina está en algún centro de datos de amazon y la pantalla es la de mi casa, así de simple. Entonces con Internet puedo acceder a mi ordenador desde cualquier sitio y el mantenimiento, copia de seguridad y muchas otras cosas se las cedo a la empresa Amazon. Esto tiene muchas ventajas, la más evidente es la escalabilidad, pues si veo que mi ordenador se ha quedado pequeño, con un simple click amplio las características y listo, sin necesidad de reinstalar nada de nada... es como tener coche nuevo siempre.
+Para mi es como tener un PC sin tenerlo,es decir la máquina está en algún centro de datos de Amazon y la pantalla en mi casa, así de simple. Entonces con Internet puedo acceder a mi ordenador desde cualquier sitio y el mantenimiento, copia de seguridad y muchas otras cosas se las cedo a la empresa (Amazon). Esto tiene muchas ventajas, la más evidente es la escalabilidad, pues si veo que mi ordenador se ha quedado pequeño,.... con un simple click amplio las características y listo, sin necesidad de reinstalar nada de nada... es como tener coche nuevo siempre con renting.
 
-A cambio le cedo todo el control de mis programas y datos a una empresa lo que me puede dejar en pañales de un momento a otro...
+A cambio le cedo todo el control de mis programas y datos a una empresa multinacional, lo que me puede dejar en pañales de un momento a otro... o no.
 
-La experiencia de instalación ha sido más simple de lo que pensaba, aunque entraña cierta dificultad. El servicio **AWS es gratuito en los primeros 12 meses** solo si usas la capa básica de computación, suficiente para este primer contacto de coste 0.
+La experiencia de instalación ha sido más simple de lo que pensaba, aunque tien cierta dificultad. El servicio **AWS es gratuito en los primeros 12 meses** solo si usas la capa básica de computación, suficiente para este primer contacto de **coste 0**, gratis, free!!!..
 
 
 ### Amazon EC2
-Dentro de AWS nosotros usaremos para esta prueba el *Amazon Elastic Compute Cloud* o (Amazon **EC2**) que es un servicio web que proporciona capacidad informática en la nube elástica, vamos que se adapta a tus necesidades, lo que se dice un ordenador en la nube sin límite de potencia.
+Dentro de AWS nosotros usaremos para esta prueba el *Amazon Elastic Compute Cloud* o (Amazon **EC2**) que es un servicio web que proporciona capacidad informática *elástica* en la nube, vamos, que se adapta a tus necesidades, que lo puedes ampliar o reducir a tu gusto y necesidad, un ordenador en la nube sin límite de potencia.
 
-Hay otros servicios como S3 que además permiten almacenar datos, pero empezaremos por crear un servidor.
+Hay otros muchos servicios el siguiente en complejidad sería S3 que además permiten almacenar datos dinámicos, pero empezaremos por EC2 y crear un servidor de R.
 
 ## Paso 1. Darse de alta
 El primer paso es darse de alta en el [Amazon Web Service](https://aws.amazon.com/es/), lo que lleva un par de minutos. Hay que tener un teléfono móvil a mano y una cuenta de email.
