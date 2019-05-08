@@ -6,10 +6,20 @@
     <description>Recent content on EnRdados</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>es</language>
-    <lastBuildDate>Fri, 26 Apr 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 08 May 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Instalar R Shiny en AWS </title>
+      <link>/post/instalar-r-shiny-en-aws/</link>
+      <pubDate>Wed, 08 May 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/instalar-r-shiny-en-aws/</guid>
+      <description>Tras unos días de prueba de la instalación de R en la nube de amazon AWS, he pasado por fases de todo tipo. Al principio fue bastante bien, pero en cuanto quise instalar librerías de GIS o incluso algunas básicas todo fueron problemas.
+Estas semanas de trabajo en AWS me ha dado cierta experiencia que me gustaría compartir, pues apenas he encontrado información en la web, y desde luego nada en Español.</description>
+    </item>
     
     <item>
       <title>Instalar R en la nube con amazon</title>

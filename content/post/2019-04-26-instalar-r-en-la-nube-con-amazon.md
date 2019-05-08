@@ -136,10 +136,13 @@ Lo primero es que nos pide entrar con un usuario, el que hay por defecto es: *ub
 
 
 ### Instalar R
-Aunque R se instala bien por defecto, puede que no lo haga con la última versión por tener desactualizado el fichero de links en ubuntu. Es conveniente actualizar este fichero de fuentes que está:`/etc/apt/sources.list` o links con las rutas indicadas [en la web de instalación de R de CRAN para ubuntu](https://cran.r-project.org/bin/linux/ubuntu/), se trata de añadir una o varias líneas. También y según la instalación recomendada hay que dar una clave de seguridad. En definitiva hacer lo siguiente:
+Aunque R se instala bien por defecto, puede que no lo haga con la última versión por tener desactualizado el fichero de links en ubuntu. Es conveniente actualizar este fichero de fuentes que está:`/etc/apt/sources.list` o links con las rutas indicadas [en la web de instalación de R de CRAN para ubuntu](https://cran.r-project.org/bin/linux/ubuntu/), se trata de añadir una o varias líneas. También y según la instalación recomendada hay que dar una clave de seguridad con la que se firman algunas librerías o paquetes de CRAN. En definitiva hacer lo siguiente:
 
 ```
 sudo sh -c 'echo "deb http://cran.rstudio.com/bin/linux/ubuntu xenial/" >> /etc/apt/sources.list'
+
+# para R 3.6 mejor esta:
+sudo sh -c 'echo "deb https://cloud.r-project.org/bin/linux/ubuntu bionic-cran35/" >> /etc/apt/sources.list'
 
 gpg --keyserver keyserver.ubuntu.com --recv-key E084DAB9
 gpg -a --export E084DAB9 | sudo apt-key add -
