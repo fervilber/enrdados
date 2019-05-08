@@ -35,7 +35,7 @@ un cambio en el argumento nos transforma el dibujo:
  
  Veamos un ejemplo sencillo de árbol familiar:
 
-```{r pintar_arbol}
+```{r pintar_arbol, eval=FALSE}
   library(DiagrammeR)
   # arbol genealógico sencillo
   DiagrammeR("graph TD;
@@ -57,6 +57,9 @@ un cambio en el argumento nos transforma el dibujo:
   )
 
 ```
+
+![arbol genealogico cn DiagrammeR](/img/arbolgen1.png)
+
 
 ## Genealogía científica en R
 Si no solo queremos hacer un árbol gráfico, sino que buscamos algo más hay varias librerías especializadas en el tratamiento matemático de los lazos familiares, para fines genéticos.

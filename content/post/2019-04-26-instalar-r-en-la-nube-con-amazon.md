@@ -134,23 +134,31 @@ Lo primero es que nos pide entrar con un usuario, el que hay por defecto es: *ub
 
 ![aws](/img/AWS/aws_10.png)
 
-Ahora toca seguir las instrucciones para instalar [RSTUDIO](https://www.rstudio.com/products/rstudio/download-server/), que se describen en su web. En nuestro caso al ser Ubuntu 18 tendremos que escribir en la linea de comandos cada una de las siguientes lineas de código y ejecutar:
+
+### Instalar R
+Aunque R se instala bien por defecto, puede que no lo haga con la última versión por tener desactualizado el fichero de links en ubuntu. Es conveniente actualizar este fichero de fuentes que está:`/etc/apt/sources.list` o links con las rutas indicadas [en la web de instalación de R de CRAN para ubuntu](https://cran.r-project.org/bin/linux/ubuntu/), se trata de añadir una o varias líneas. También y según la instalación recomendada hay que dar una clave de seguridad. En definitiva hacer lo siguiente:
 
 ```
-sudo apt-get install gdebi-core
-wget https://download2.rstudio.org/server/bionic/amd64/rstudio-server-1.2.1335-amd64.deb
-sudo gdebi rstudio-server-1.2.1335-amd64.deb
-```
+sudo sh -c 'echo "deb http://cran.rstudio.com/bin/linux/ubuntu xenial/" >> /etc/apt/sources.list'
 
-Yo antes me he metido en R desde consola (que ya viene instalado por defecto en Ubuntu) y he actualizado los paquetes así:
+gpg --keyserver keyserver.ubuntu.com --recv-key E084DAB9
+gpg -a --export E084DAB9 | sudo apt-key add -
 
-```
-# actualizamos 
 sudo apt-get update
+sudo apt-get -y install r-base
+```
+Si fuera R 3.6 las rutas a añadir sería `deb https://cloud.r-project.org/bin/linux/ubuntu disco-cran35/`.
 
-# si R no estubiera instalado ejecutar:
-sudo apt-get install r-base r-base-dev
+Además es necesario instalar las librerías de compilación de `devtools` que necesitan otros muchos paquetes para R. 
 
+```
+sudo apt-get -y install libcurl4-gnutls-dev libxml2-dev libssl-dev
+sudo su - -c "R -e \"install.packages('devtools', repos='http://cran.rstudio.com/')\""
+sudo su - -c "R -e \"devtools::install_github('daattali/shinyjs')\""
+```
+Podemos ya abrir R desde consola así:
+
+```
 #Entramos a R como usuario root
 sudo -i R
 
@@ -160,8 +168,17 @@ update.packages()
 # salimos de R
 q()
 ```
-Nos irán saliendo cosas y de vez en cuando hay que pulsar `y` (yes) y continuar.
-Con esto tendremos instalado 
+
+### RSTUDIO
+
+Ahora toca seguir las instrucciones para instalar [RSTUDIO](https://www.rstudio.com/products/rstudio/download-server/), que se describen en su web. En nuestro caso al ser Ubuntu 18 tendremos que escribir en la linea de comandos cada una de las siguientes lineas de código y ejecutar:
+
+```
+sudo apt-get install gdebi-core
+wget https://download2.rstudio.org/server/bionic/amd64/rstudio-server-1.2.1335-amd64.deb
+sudo gdebi rstudio-server-1.2.1335-amd64.deb
+```
+
 
 ### Crear nuevo usuario
 Ojo que este paso me ha costado un rato, pues no podía entrar en RSTUDIO al no saber meter la clave del usuario root. Para solucionarlo, os recomiendo crear ahora en este paso un usuario nuevo que será con el que accedamos al RSTUDIO SERVER, para eso:
