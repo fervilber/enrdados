@@ -29,9 +29,9 @@ Página con enlaces interesantes
 ## RPubs
 RPubs es una web en la que se puede subir código  informes directamentes desde RSTUDIO, hay miles de ejemplos de usuarios que suben sus informes con R allí:
 
- -[rpubs de volkanoban](https://rpubs.com/volkanoban)
- -[Openair ejemplo](https://rpubs.com/NateByers/Openair)
- -[rpubs de fervilber](https://rpubs.com/fervilber/)
+ - [rpubs de volkanoban](https://rpubs.com/volkanoban)
+ - [Openair ejemplo](https://rpubs.com/NateByers/Openair)
+ - [rpubs de fervilber](https://rpubs.com/fervilber/)
 
 ## Shiny
 Algunos enlaces a aplicaciones y código shiny interesantes:

@@ -6,13 +6,23 @@
     <description>Recent content in Posts on EnRdados</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>es</language>
-    <lastBuildDate>Wed, 08 May 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 20 May 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Instalar R Shiny en AWS </title>
+      <title>Instalar R en la nube 2 La forma facil</title>
+      <link>/post/instalar-r-en-la-nube-2-la-forma-facil/</link>
+      <pubDate>Mon, 20 May 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/instalar-r-en-la-nube-2-la-forma-facil/</guid>
+      <description>En los dos anteriores artículos he explicado cómo instalé R, RSTUDIO y Shiny en la nube de amazon web service AWS. El proceso, aunque aparentemente fue fácil, me ha llevado muchos quebraderos de cabeza, fundamentalmente por temas de instalación en linux ubuntu, que no domino lo suficiente.
+Problemas de instalación Hay que tener alguna experiencia previa o echarle valor para enfrentarse a cada paso a una nueva contrariedad, que por ejemplo me hacía imposible instalar algunas librerías, o que Shiny no reconociera la carpeta de trabajo del usuario etc&amp;hellip;</description>
+    </item>
+    
+    <item>
+      <title>Instalar R Shiny en AWS</title>
       <link>/post/instalar-r-shiny-en-aws/</link>
       <pubDate>Wed, 08 May 2019 00:00:00 +0000</pubDate>
       

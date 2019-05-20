@@ -1,5 +1,5 @@
 ---
-title: 'Instalar R Shiny en AWS '
+title: 'Instalar R Shiny en AWS'
 author: F.VilBer
 date: '2019-05-08'
 slug: instalar-r-shiny-en-aws
