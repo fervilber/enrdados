@@ -5,7 +5,7 @@ defaultContentLanguage = "es"
 paginate = "10" # Number of posts per page
 theme = "Mainroad"
 disqusShortname = "www-enrdados-net" # Enable comments by entering your Disqus shortname
-googleAnalytics = "" # Enable Google Analytics by entering your tracking id
+googleAnalytics = "UA-141606881-1" # Enable Google Analytics by entering your tracking id
 ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
 
 
@@ -47,3 +47,4 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
 [Params.widgets.social]
   # Enable parts of social widget
   email = "fervilber@gmail.com"
+  github = "fervilber"
