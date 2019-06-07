@@ -6,10 +6,20 @@
     <description>Recent content on EnRdados</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>es</language>
-    <lastBuildDate>Mon, 20 May 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 06 Jun 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Chuleta de purrr</title>
+      <link>/post/chuleta-de-purrr/</link>
+      <pubDate>Thu, 06 Jun 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/chuleta-de-purrr/</guid>
+      <description>¿Qué es purrr?purrr es un paquete que permite realizar bucles de una manera no convencional, diferente, quizás más fácil de entender, al tratarlos como funciones naturales.
+Se trata de una librería creada por RSTUDIO dentro del universo tidyverse, cada vez más completo y poderoso. Este paquete purrr entra en el campo de programación funcional. Básicamente trata de sustituir código de programación base por órdenes “humanas”, es decir con funciones.</description>
+    </item>
     
     <item>
       <title>Instalar R en la nube 2 La forma facil</title>

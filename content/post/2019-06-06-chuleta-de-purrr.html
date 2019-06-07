@@ -1,0 +1,510 @@
+---
+title: Chuleta de purrr
+author: F.VilBer
+date: '2019-06-06'
+slug: chuleta-de-purrr
+categories:
+  - R
+tags:
+  - programas
+description: 'Manejo de listas y bucles con el paquete purrr'
+thumbnail: ''
+toc: no
+editor_options: 
+  chunk_output_type: console
+---
+
+
+
+<div id="que-es-purrr" class="section level2">
+<h2>¿Qué es purrr?</h2>
+<p><code>purrr</code> es un paquete que permite realizar bucles de una manera no convencional, diferente, quizás más fácil de entender, al tratarlos como funciones naturales.</p>
+<p>Se trata de una librería creada por RSTUDIO dentro del universo <em>tidyverse</em>, cada vez más completo y poderoso. Este paquete <code>purrr</code> entra en el campo de programación funcional. Básicamente trata de sustituir código de programación base por órdenes “<em>humanas</em>”, es decir con funciones.</p>
+<p>Para hacernos una idea <code>purrr</code>es como una extensión, generalización y mejora de las funciones <em>lapply</em> de R que son tan poderosas. En realidad hacen lo mismo de estas funciones, pero <code>purrr</code> tiene algunas ventajas, para mi la principal es que es sintáctica-mente estable, y más sencillo de recordar y completar, además tiene la opción de usar la función tubería <code>%&gt;%</code> y muchas simplificaciones de código de <em>tidyverse</em>, que las <code>lapply</code> (<code>sapply</code>, <code>tapply</code> y <code>mapply</code>) no tienen. Por contra su ejecución es más lenta que estas funciones.</p>
+</div>
+<div id="instalacion" class="section level2">
+<h2>Instalación</h2>
+<p>La instalación de <code>purrr</code> es sencilla, y se puede hacer en solitario o como parte de <code>tidyverse</code>.</p>
+<pre class="r"><code>  # esta es la forma mas sencilla
+  install.packages(&quot;tidyverse&quot;)
+  
+  # AComo alternativa puedes cargar el paquete solo
+  install.packages(&quot;purrr&quot;)
+  # O la versión de desarrollo en GitHub:
+  # install.packages(&quot;devtools&quot;)
+  devtools::install_github(&quot;tidyverse/purrr&quot;)</code></pre>
+</div>
+<div id="funcion-basica-map" class="section level2">
+<h2>Función básica: map()</h2>
+<p>La función básica de <code>purrr</code> es <code>map(lista, funcion)</code>. El resultado es simple, coge cada elemento de la lista de entrada,de uno en uno, y le aplica la función que ponemos de segundo argumento, al final da otra lista, pero - y aquí viene una de las mejoras respecto a <code>apply</code>- existen apellidos de <code>map_*</code> que permiten obtener directamente el resultado en otro formato, como por ejemplo:</p>
+<ul>
+<li><code>map_lgl()</code> salida como vector lógico.</li>
+<li><code>map_int()</code> salida como vector de enteros.</li>
+<li><code>map_dbl()</code> número doble.</li>
+<li><code>map_chr()</code> vector de texto.</li>
+<li><code>map_df()</code> una tabla data frame.</li>
+</ul>
+<p>Otra cosa importante de la función es que se puede usar de dos formas: la simple <code>map(lista, funcion)</code> y la compleja, pero más completa <code>map(lista, ~funcion(.x))</code>.</p>
+<p>Este formato especifica con <code>.x</code> la variable que toma el valor de cada elemento de la lista, pero ¡ojo! que antes hay que poner el símbolo <code>~</code>. Además podemos usar la función tubería dentro del argumento. Veamos un ejemplo que es más claro:</p>
+<pre class="r"><code>    require(tidyverse)
+  # creamos una lista
+    lista.compra&lt;-list(comida=c(&quot;manzanas&quot;, &quot;peras&quot;, &quot;chocolate&quot;, &quot;pollo&quot;),
+                     bebida=c(&quot;leche&quot;,&quot;vino&quot;),
+                     numtef=c(912345678,912783782,939287833))
+  #Calculamos el numero de elementos de cada sublista 
+    map_int(lista.compra, length)</code></pre>
+<pre><code>## comida bebida numtef 
+##      4      2      3</code></pre>
+<pre class="r"><code>  #o tambien así usando la forma compleja:
+    map_int(lista.compra, ~.x %&gt;% length())</code></pre>
+<pre><code>## comida bebida numtef 
+##      4      2      3</code></pre>
+<pre class="r"><code>  # Ejemplo:
+  # seleccionamos solo el segundo elemento de cada elemento de la lista
+    map(lista.compra, ~.x[2])</code></pre>
+<pre><code>## $comida
+## [1] &quot;peras&quot;
+## 
+## $bebida
+## [1] &quot;vino&quot;
+## 
+## $numtef
+## [1] 912783782</code></pre>
+<p>Sin la notación simplificada este último ejemplo requeriría hacer una función específica. Sin embargo la notación de <code>purrr</code> permite hacer cosas muy complicadas con poco código.</p>
+</div>
+<div id="recordatorio-de-listas" class="section level2">
+<h2>Recordatorio de listas</h2>
+<p>Para manejar <code>purrr</code> al máximo es mejor dar un breve repaso al tipo de datos lista, que en R es el objeto más completo pues actúa como una colección de cosas variadas.</p>
+<p>Para seleccionar un elemento dentro de una lista tenemos que acceder con doble corchete [[..]].</p>
+<pre class="r"><code>  # el segundo elemento
+  lista.compra[[2]]</code></pre>
+<pre><code>## [1] &quot;leche&quot; &quot;vino&quot;</code></pre>
+<pre class="r"><code>  # el 1er elemento de la lista segunda
+  lista.compra[[2]][1]</code></pre>
+<pre><code>## [1] &quot;leche&quot;</code></pre>
+<div id="nombres-de-una-lista" class="section level3">
+<h3>Nombres de una lista</h3>
+<p>En lugar de los dobles corchetes, se puede hacer uso de nombres, en caso de que tengan nombres. En ese caso puede accederse a ellos igual que como si se tratase de un data frame con el símbolo <code>$_nombre</code>:</p>
+<pre class="r"><code>  # la lista anterior tenia nombres:
+  names(lista.compra)</code></pre>
+<pre><code>## [1] &quot;comida&quot; &quot;bebida&quot; &quot;numtef&quot;</code></pre>
+<pre class="r"><code>  # acedemos al segundo valor del elemento de la lista llamado comida
+  lista.compra$bebida[1]</code></pre>
+<pre><code>## [1] &quot;leche&quot;</code></pre>
+<p>Las listas que usamos en el mundo real suelen ser anidadas, es decir listas de listas, muchas generadas tras la lectura de bases de datos o consultas a <em>APIS</em> que dan resultados en JSON. En muchos de estos casos la lista viene sin nombre, pero hay un campo dentro de cada elemento lista que nos puede valer de nombre válido.</p>
+<p>Por ejemplo, la lista de ejemplo de usuarios de gitHub que viene en el paquete <code>repurrrsive</code>. Vamos a ponerle nombre a los objetos lista, pues hay un campo llamado <code>name</code> que nos vale y así facilitamos el acceso a los datos:</p>
+<pre class="r"><code>  library(repurrrsive)
+  #cargamos los dato
+  data(gh_users)
+  # Checamos si tiene nombre
+  names(gh_users)</code></pre>
+<pre><code>## NULL</code></pre>
+<pre class="r"><code>  # Como no tiene leemos el subelemento name
+  # de cada elemento de la lista y lo asignamos como nombre.
+  map(gh_users, ~.x[[&quot;name&quot;]])</code></pre>
+<pre><code>## [[1]]
+## [1] &quot;Gábor Csárdi&quot;
+## 
+## [[2]]
+## [1] &quot;Jennifer (Jenny) Bryan&quot;
+## 
+## [[3]]
+## [1] &quot;Jeff L.&quot;
+## 
+## [[4]]
+## [1] &quot;Julia Silge&quot;
+## 
+## [[5]]
+## [1] &quot;Thomas J. Leeper&quot;
+## 
+## [[6]]
+## [1] &quot;Maëlle Salmon&quot;</code></pre>
+<pre class="r"><code>  gh_users_nom &lt;- gh_users %&gt;% 
+      set_names(map_chr(gh_users, &quot;name&quot;))
+  
+  # ahora ya tiene nombres:
+  names(gh_users_nom)</code></pre>
+<pre><code>## [1] &quot;Gábor Csárdi&quot;           &quot;Jennifer (Jenny) Bryan&quot;
+## [3] &quot;Jeff L.&quot;                &quot;Julia Silge&quot;           
+## [5] &quot;Thomas J. Leeper&quot;       &quot;Maëlle Salmon&quot;</code></pre>
+<pre class="r"><code>  #accedemos con el nombre
+  gh_users_nom$`Julia Silge`[3]</code></pre>
+<pre><code>## $avatar_url
+## [1] &quot;https://avatars.githubusercontent.com/u/12505835?v=3&quot;</code></pre>
+</div>
+</div>
+<div id="walk" class="section level2">
+<h2>walk()</h2>
+<p>Las listas son difíciles de ver, por eso en <em>purrr</em> hay un comando llamado <code>walk()</code> que las imprime de manera resumida y simplificada:</p>
+<pre class="r"><code>  lista3&lt;-list(10:1, &quot;hola&quot;, 123:133, c(T,F,F,F,T))
+  
+  # forma normal de impresión
+  lista3</code></pre>
+<pre><code>## [[1]]
+##  [1] 10  9  8  7  6  5  4  3  2  1
+## 
+## [[2]]
+## [1] &quot;hola&quot;
+## 
+## [[3]]
+##  [1] 123 124 125 126 127 128 129 130 131 132 133
+## 
+## [[4]]
+## [1]  TRUE FALSE FALSE FALSE  TRUE</code></pre>
+<pre class="r"><code>  # Forma simplificada con walk()
+  walk(lista3, print)</code></pre>
+<pre><code>##  [1] 10  9  8  7  6  5  4  3  2  1
+## [1] &quot;hola&quot;
+##  [1] 123 124 125 126 127 128 129 130 131 132 133
+## [1]  TRUE FALSE FALSE FALSE  TRUE</code></pre>
+</div>
+<div id="map2-y-pmap" class="section level2">
+<h2>map2() y pmap()</h2>
+<p>La función <code>map()</code> nos permite usar una lista como secuenciador del bucle, pero si necesitamos más de una lista, o lo que es lo mismo, hacer un bucle anidado, debemos usar otra función de <code>purrr</code> llamada <code>map2(lista1, lista2, función(.x, .y))</code>.</p>
+<p>Si como entrada necesitamos más de dos listas usaremos la función genérica <code>pmap(input_list, funcion)</code>, cuyo argumento de entrada es una lista de listas llamada <code>input_list</code> que tenemos que definir antes de llamar a <code>pmap()</code></p>
+</div>
+<div id="ejemplo-generacion-de-series-sinteticas" class="section level2">
+<h2>Ejemplo: generacion de series sintéticas</h2>
+<p>Para mi, las funciones <code>map()</code> son útiles para hacer datos de simulación y prueba, por ejemplo pongamos que necesito datos de gastos e ingresos de unas personas y no tengo, pero si tango los valores medios de esos datos, valor medio de ingresos, de gastos al mes y la variación, pues me invento una serie:</p>
+<pre class="r"><code>  # Ejemplo de generacion de datos simulados a partir de medias
+  require(purrr)
+  
+  # lista de los valores medios que conozco
+  input_list &lt;- list(
+      nombre= c(&quot;Juan&quot;, &quot;Ana&quot;, &quot;Pepe&quot;),
+      ingresos.mes = c(1000, 1500, 3000),
+      gastos.mes = c(600, 670, 1800),
+      variacion= c(200, 100, 1000))
+  
+  str(input_list)</code></pre>
+<pre><code>## List of 4
+##  $ nombre      : chr [1:3] &quot;Juan&quot; &quot;Ana&quot; &quot;Pepe&quot;
+##  $ ingresos.mes: num [1:3] 1000 1500 3000
+##  $ gastos.mes  : num [1:3] 600 670 1800
+##  $ variacion   : num [1:3] 200 100 1000</code></pre>
+<pre class="r"><code>  # Valores simulados
+  simdata &lt;- pmap(input_list, 
+       function(ingresos.mes,gastos.mes, variacion, nombre)
+       data.frame(ingresos=rnorm(mean=ingresos.mes,
+                              n= 48, 
+                              sd= variacion/3),
+                  gastos = rnorm(mean=gastos.mes,
+                              n= 48, 
+                              sd= variacion),
+                  persona = nombre))
+    head(simdata[[1]])</code></pre>
+<pre><code>##    ingresos   gastos persona
+## 1 1036.9554 499.9461    Juan
+## 2  925.2721 702.7358    Juan
+## 3  966.4187 778.1069    Juan
+## 4  923.3468 382.9528    Juan
+## 5  954.6797 619.7367    Juan
+## 6 1094.4298 590.2776    Juan</code></pre>
+<pre class="r"><code>  # Unimos las listas generadas con dplyr
+  # en un solo dataframe con la funcion bind_rows
+  require(dplyr)
+  dt_gastos&lt;-bind_rows(simdata)
+  
+  require(ggplot2)
+  #  ggplot(dt_gastos) +aes(x=persona,y=ingresos)+
+  #      geom_col(aes(fill=persona))
+    ggplot(dt_gastos) +aes(x=ingresos,fill=persona)+
+      labs(title = &quot;Ingresos mensuales por persona&quot;)+
+        geom_histogram()+geom_rug()</code></pre>
+<p><img src="/post/2019-06-06-chuleta-de-purrr_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<pre class="r"><code>    ggplot(dt_gastos) +aes(x=persona,y=ingresos, fill=persona)+
+      labs(title = &quot;Ingresos medios por persona&quot;)+
+      labs(subtitle = &quot;a partir de los datos generados&quot;)+
+      labs(y = &quot;ingreso medio al mes en €&quot;)+
+     stat_summary(fun.y = &quot;mean&quot;, geom = &quot;bar&quot;)</code></pre>
+<p><img src="/post/2019-06-06-chuleta-de-purrr_files/figure-html/unnamed-chunk-5-2.png" width="672" /></p>
+</div>
+<div id="ejemplo-con-map2" class="section level2">
+<h2>Ejemplo con map2()</h2>
+<p>Con <code>map2</code> podemos usar la notación simplificada de función es decir <code>.x</code> e <code>.y</code>. En este caso queremos generar otra serie aleatoria de muestreo. Tenemos datos de caudales medios de 3 ríos y de su nombre.</p>
+<p>Vamos a generar automáticamente una serie de 10 datos de cada río.</p>
+<pre class="r"><code>  # Muestras de caudal de tamaño diferente
+  caudales_medios &lt;- map(c(5,100,12),~.x)
+  
+  # Localizaciones
+  cuenca &lt;- list(&quot;Norte&quot;, &quot;Este&quot;,&quot;Sur&quot;)
+  
+  # pongo los nombres
+  set_names(caudales_medios,cuenca)</code></pre>
+<pre><code>## $Norte
+## [1] 5
+## 
+## $Este
+## [1] 100
+## 
+## $Sur
+## [1] 12</code></pre>
+<pre class="r"><code>  # Map over two arguments: sites and means
+  l_caudales &lt;- map2(cuenca,caudales_medios, ~data.frame(cuenca = .x,
+                             caudales = rnorm(mean = .y, n = 10, sd = .y/5)))
+  
+  # para unir las listas creadas en un solo dataframe usaremos dplyr
+  require(dplyr)
+  dt_caudales&lt;-bind_rows(l_caudales)
+  
+  ggplot(dt_caudales) +aes(x=cuenca,y=caudales, color=cuenca)+
+      labs(title = &quot;Caudales medios&quot;)+
+      labs(subtitle = &quot;a partir de los datos generados&quot;)+
+      labs(y = &quot;Caudal en m3/s&quot;)+
+     geom_boxplot()</code></pre>
+<p><img src="/post/2019-06-06-chuleta-de-purrr_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+</div>
+<div id="manejo-de-errores-safely-y-possibly" class="section level2">
+<h2>Manejo de errores safely() y possibly()</h2>
+<p>Si algún elemento de la lista no es del tipo correcto para la función, <code>map</code> va a dar error. En listas grandes localizar el error es difícil, por eso han creado las funciones <code>safely()</code> y <code>possibly()</code>, que localizan los errores y sustituyen los resultados por un valor por defecto.</p>
+<p>Si añadimos <code>safely()</code> a la función <code>map()</code>, se crea una lista que contiene resultados y errores, mientras que <code>possibly()</code> sustituye directamente los errores por un valor por defecto, dando una salida limpia.</p>
+<p>La función <code>tranpose()</code>, nos sirve para pasar de una lista de listas a otra cosa más fácil de representar:</p>
+<pre class="r"><code>  # Ejemplo de uso de safely 
+  require(tidyverse)
+  
+  # Uso de possibly
+  list(-20, 10, 100) %&gt;%
+    map_dbl(possibly(log, NA_real_))</code></pre>
+<pre><code>## [1]      NaN 2.302585 4.605170</code></pre>
+<pre class="r"><code>  # Uso de possibly
+  a&lt;-list(&quot;fernando&quot;, 10, 100) %&gt;%
+    map(safely(log, NA_real_)) %&gt;% transpose()
+  # vemos el resultado
+  a$result</code></pre>
+<pre><code>## [[1]]
+## [1] NA
+## 
+## [[2]]
+## [1] 2.302585
+## 
+## [[3]]
+## [1] 4.60517</code></pre>
+<pre class="r"><code>  # Vemos el error
+  a$error</code></pre>
+<pre><code>## [[1]]
+## &lt;simpleError in .Primitive(&quot;log&quot;)(x, base): non-numeric argument to mathematical function&gt;
+## 
+## [[2]]
+## NULL
+## 
+## [[3]]
+## NULL</code></pre>
+</div>
+<div id="consultas-en-listas" class="section level2">
+<h2>Consultas en listas</h2>
+<p>Otro de los usos habituales de <code>purrr</code> es para hacer consultas sobre listas. Vamos a ver un ejemplo de consultas a la lista <code>gh_users</code> que trae de ejemplo el paquete <code>repurrrsive</code>. Esta lista contiene mucha información de varios usuarios de la plataforma gitHub. Mediante código vamos a responder a algunas preguntas como:</p>
+<ol style="list-style-type: decimal">
+<li>¿quien se unió primero a gitHub?</li>
+<li>¿Cuál de los usuarios tiene más repositorios públicos?</li>
+<li>hacer una gráfica con los seguidores de cada usuario</li>
+</ol>
+<p>esto lo haremos simplemente seleccionando el campo de la lista que contiene los datos y ordenando el vector resultado:</p>
+<pre class="r"><code>  require(repurrrsive)
+  #cargamos la lista en memoria
+  data(gh_users)
+  
+  # 1. ¿quien se unió primero a gitHub?
+  map_chr(gh_users, ~.[[&quot;created_at&quot;]]) %&gt;%
+        set_names(map_chr(gh_users, &quot;name&quot;)) %&gt;%
+      sort()</code></pre>
+<pre><code>## Jennifer (Jenny) Bryan           Gábor Csárdi                Jeff L. 
+## &quot;2011-02-03T22:37:41Z&quot; &quot;2011-03-09T17:29:25Z&quot; &quot;2012-03-24T18:16:43Z&quot; 
+##       Thomas J. Leeper          Maëlle Salmon            Julia Silge 
+## &quot;2013-02-07T21:07:00Z&quot; &quot;2014-08-05T08:10:04Z&quot; &quot;2015-05-19T02:51:23Z&quot;</code></pre>
+<pre class="r"><code>  #  2. ¿Cuál de los usuarios tiene más repositorios públicos?
+  map_int(gh_users, ~.[[&quot;public_repos&quot;]]) %&gt;%
+      set_names(map_chr(gh_users, &quot;name&quot;)) %&gt;%
+      sort()</code></pre>
+<pre><code>##            Julia Silge          Maëlle Salmon           Gábor Csárdi 
+##                     26                     31                     52 
+##                Jeff L.       Thomas J. Leeper Jennifer (Jenny) Bryan 
+##                     67                     99                    168</code></pre>
+<pre class="r"><code># 3-  grafica con el numero de seguidores vs repos publicas
+  ggplot(data = map_df(gh_users, ~data_frame(
+          public_repos =.x[[&quot;public_repos&quot;]],
+          followers = .x[[&quot;followers&quot;]],
+          nombre  = .x[[&quot;name&quot;]])),
+        aes(x = public_repos, y = followers))+
+        geom_point(mapping=aes(color = nombre),size=7)+
+        geom_text(aes(label=nombre),
+                  hjust = 1, nudge_x = 0,size=4)+
+        labs(title = &#39;Seguidores vs public_repo&#39;)</code></pre>
+<p><img src="/post/2019-06-06-chuleta-de-purrr_files/figure-html/consultas-1.png" width="672" /></p>
+<p>También hay funciones para hacer resúmenes de los datos (numéricos) como <code>summary</code> o otras funciones de selección como <code>select_if()</code></p>
+<pre class="r"><code>  # llista de ejemplo
+  per_df &lt;- list(peso=rnorm(10,mean=80,sd=20), 
+          altura=rnorm(10,mean=180,sd=20))
+  summary(per_df)</code></pre>
+<pre><code>##        Length Class  Mode   
+## peso   10     -none- numeric
+## altura 10     -none- numeric</code></pre>
+</div>
+<div id="ejemplo-star-wars" class="section level2">
+<h2>Ejemplo Star Wars</h2>
+<p>Vamos a usar de ejemplo una base de datos en formato <em>lista</em>, sacada de la web <a href="https://swapi.co/" class="uri">https://swapi.co/</a> que ha recopilado <strong>TODOS</strong> los datos de las películas de la saga <em>Star Wars</em> y creado una API para su consulta… qué cosas hacen los frikis.</p>
+<p>No tenemos que hacer las consultas a la API, pues en el paquete <code>repurrrsive</code> han incluido varias de ejemplo: <em>sw_people, sw_films, sw_planets, sw_species, sw_vehicles</em> y <em>sw_starships</em>.</p>
+<p>Cada una de estas listas contiene la información completa de los personajes, películas, planetas, especies, vehículos y naves espaciales que aparecen en todas las pelis de la saga.</p>
+<p>Echemos un vistazo, a la lista de películas <em>sw_films</em>:</p>
+<pre class="r"><code>  #require(purrr)
+  require(tidyverse)
+  require(repurrrsive)
+  
+  # vemos si tiene nombres.. NO
+  names(sw_films)</code></pre>
+<pre><code>## NULL</code></pre>
+<pre class="r"><code>  #Vemos cuantos elementos tiene
+  length(sw_films)</code></pre>
+<pre><code>## [1] 7</code></pre>
+<pre class="r"><code>  # vemos cuantos elementos tiene cada elemento principal
+  lengths(sw_films)</code></pre>
+<pre><code>## [1] 14 14 14 14 14 14 13</code></pre>
+<pre class="r"><code>  # vemos uno de esos subelementos de 14 campos a ver que tienen
+  summary(sw_films[[1]])</code></pre>
+<pre><code>##               Length Class  Mode     
+## title          1     -none- character
+## episode_id     1     -none- numeric  
+## opening_crawl  1     -none- character
+## director       1     -none- character
+## producer       1     -none- character
+## release_date   1     -none- character
+## characters    18     -none- character
+## planets        3     -none- character
+## starships      8     -none- character
+## vehicles       4     -none- character
+## species        5     -none- character
+## created        1     -none- character
+## edited         1     -none- character
+## url            1     -none- character</code></pre>
+<pre class="r"><code>  # vemos lo que contiene el primero
+  #walk(sw_films[[1]],print))
+  # comprobamos que los subelementos tienen nombre
+  names(sw_films[[1]])</code></pre>
+<pre><code>##  [1] &quot;title&quot;         &quot;episode_id&quot;    &quot;opening_crawl&quot; &quot;director&quot;     
+##  [5] &quot;producer&quot;      &quot;release_date&quot;  &quot;characters&quot;    &quot;planets&quot;      
+##  [9] &quot;starships&quot;     &quot;vehicles&quot;      &quot;species&quot;       &quot;created&quot;      
+## [13] &quot;edited&quot;        &quot;url&quot;</code></pre>
+<p>Con esto hemos echado un vistazo y sabemos cómo está estructurada la lista de películas. Ahora vamos a sacar el jugo, extraeremos una tabla con los datos del nombre de la película y el de los actores que participan en ella. De esta forma podremos hacer alguna gráfica interesante. Usaremos la función pipe y una nueva <code>unnest()</code> muy interesante.</p>
+<p><code>unnest()</code> nos convierte una lista de 2 elementos y misma longitud en cada uno de subelementos (7) a una tabla que coge una fila por cada combinación uno a uno de elementos.</p>
+<p>De la lista de actores sacaremos los campo <em>nombre</em> y <em>url</em> que nos vale para hacer un <code>inner_join</code> a la tabla de películas.</p>
+<pre class="r"><code>  # vamos a hacer una data frame a partir de la lista
+  # primero extraemos la lista de títulos de las peliculas que están en el campo title
+  # despues creamos un nuevo campo y extraemos de cada pelicula los actores que han participado
+  sw_df &lt;- data.frame(pelicula = map_chr(sw_films, ~.x$title)) %&gt;%
+      mutate(pelicula, actor = map(sw_films, ~.x$characters))%&gt;%
+      unnest()
+  
+  # De la lista sw_people sacamos la correspondencia entre url y nombre del actor
+  sw_actores &lt;- map_df(sw_people, `[`, c(&quot;name&quot;, &quot;url&quot;))
+  
+  # juntamos las tablas
+  sw_dt&lt;-inner_join(sw_df, sw_actores, by = c(&quot;actor&quot; = &quot;url&quot;)) 
+  str(sw_dt)</code></pre>
+<pre><code>## &#39;data.frame&#39;:    173 obs. of  3 variables:
+##  $ pelicula: Factor w/ 7 levels &quot;A New Hope&quot;,&quot;Attack of the Clones&quot;,..: 1 1 1 1 1 1 1 1 1 1 ...
+##  $ actor   : chr  &quot;http://swapi.co/api/people/1/&quot; &quot;http://swapi.co/api/people/2/&quot; &quot;http://swapi.co/api/people/3/&quot; &quot;http://swapi.co/api/people/4/&quot; ...
+##  $ name    : chr  &quot;Luke Skywalker&quot; &quot;C-3PO&quot; &quot;R2-D2&quot; &quot;Darth Vader&quot; ...</code></pre>
+<pre class="r"><code>  # borramos la segunda columna, pues las url ya no nos valen
+  sw_dt&lt;-sw_dt[-2]
+  #cambiamos de nombre
+  colnames(sw_dt)&lt;-c(&quot;pelicula&quot;, &quot;actor&quot;)
+  class(sw_dt)</code></pre>
+<pre><code>## [1] &quot;data.frame&quot;</code></pre>
+<pre class="r"><code>  str(sw_dt)</code></pre>
+<pre><code>## &#39;data.frame&#39;:    173 obs. of  2 variables:
+##  $ pelicula: Factor w/ 7 levels &quot;A New Hope&quot;,&quot;Attack of the Clones&quot;,..: 1 1 1 1 1 1 1 1 1 1 ...
+##  $ actor   : chr  &quot;Luke Skywalker&quot; &quot;C-3PO&quot; &quot;R2-D2&quot; &quot;Darth Vader&quot; ...</code></pre>
+<pre class="r"><code>  # ahora podemos sacar algunas gráficas
+  
+  ggplot(sw_dt, aes(x = actor,fill = pelicula)) +
+    geom_histogram(stat = &quot;count&quot;,alpha = 0.6)+
+      labs(x = &#39;actor&#39;, y = &#39;nº peliculas&#39;) +
+      labs(title=&#39;Numero de peliculas que hace cada actor de Star Wars&#39;)+
+    theme(axis.text.x = element_text(angle = 90, hjust = 1,size=6))</code></pre>
+<p><img src="/post/2019-06-06-chuleta-de-purrr_files/figure-html/actoresSW-1.png" width="672" /></p>
+<pre class="r"><code>  # pero quiero ver solo los actores principales los que aparecen en 2 o mas pelis
+  # ad_count es una manera simplificada de group_by y tally
+  # ver aqui https://dplyr.tidyverse.org/reference/tally.html
+  #a&lt;- sw_dt %&gt;% group_by(actor)%&gt;% tally()
+  
+  # añadimos una columna con el num de veces total que aparece cada
+  sw_dt&lt;-sw_dt %&gt;% add_count(actor)
+  
+  # pintamos ahora solo los actores que participan en mas de 2 peliculas
+  ggplot(sw_dt[sw_dt$n&gt;2,], aes(x = actor,fill = pelicula)) +
+    geom_histogram(stat = &quot;count&quot;,alpha = 0.6)+
+      labs(x = &#39;actor&#39;, y = &#39;nº peliculas&#39;) +
+      labs(title=&#39;Actores en las peliculas de Star Wars&#39;)+
+    theme(axis.text.x = element_text(angle = 90, hjust = 1,size=8))</code></pre>
+<p><img src="/post/2019-06-06-chuleta-de-purrr_files/figure-html/actoresSW-2.png" width="672" /></p>
+<pre class="r"><code>  # Ahora pintamos una gráfica con el 
+  # numero de actores que participan en cada pelicula
+  ggplot(sw_dt, aes(x = pelicula,fill = pelicula)) +
+    geom_histogram(stat = &quot;count&quot;,alpha = 0.6)+
+      labs(x = &#39;Película&#39;, y = &#39;nº actores&#39;) +
+      labs(title=&#39;nº de actores por pelicula de Star Wars&#39;)+
+      theme(legend.position = &quot;none&quot;)+
+      theme(axis.text.x = element_text(angle = 90, hjust = 1))</code></pre>
+<p><img src="/post/2019-06-06-chuleta-de-purrr_files/figure-html/actoresSW-3.png" width="672" /></p>
+<p>Vamos a dar otra vuelta sobre las listas de <strong>Star Wars</strong>, ahora sacaremos de la lista de actores datos físicos altura, colore de pelo, haremos alguna gráfica resumen:</p>
+<pre class="r"><code>  # Añadimos más información a la tabla sacando los datos físicos
+  # peso, altura, color de pelo, año nacimiento, nombre y url
+  #de los actores desde sw_people
+  
+  #str(sw_dt)
+  
+  dt_fisicos &lt;- map_df(sw_people, `[`, c(&quot;height&quot;, &quot;mass&quot;,&quot;hair_color&quot;,&quot;birth_year&quot;,&quot;name&quot;))
+  # resultados
+  head(dt_fisicos)</code></pre>
+<pre><code>## # A tibble: 6 x 5
+##   height mass  hair_color  birth_year name          
+##   &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;       &lt;chr&gt;      &lt;chr&gt;         
+## 1 172    77    blond       19BBY      Luke Skywalker
+## 2 167    75    n/a         112BBY     C-3PO         
+## 3 96     32    n/a         33BBY      R2-D2         
+## 4 202    136   none        41.9BBY    Darth Vader   
+## 5 150    49    brown       19BBY      Leia Organa   
+## 6 178    120   brown, grey 52BBY      Owen Lars</code></pre>
+<pre class="r"><code>  # Juntamos los datos con la tabla anterior sw_dt, ya que coinciden el campo actor y name
+  sw_dt1 &lt;- inner_join(sw_dt, dt_fisicos, by = c(&quot;actor&quot; = &quot;name&quot;))
+  head(sw_dt1)</code></pre>
+<pre><code>## # A tibble: 6 x 7
+##   pelicula   actor              n height mass  hair_color  birth_year
+##   &lt;fct&gt;      &lt;chr&gt;          &lt;int&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;       &lt;chr&gt;     
+## 1 A New Hope Luke Skywalker     5 172    77    blond       19BBY     
+## 2 A New Hope C-3PO              6 167    75    n/a         112BBY    
+## 3 A New Hope R2-D2              7 96     32    n/a         33BBY     
+## 4 A New Hope Darth Vader        4 202    136   none        41.9BBY   
+## 5 A New Hope Leia Organa        5 150    49    brown       19BBY     
+## 6 A New Hope Owen Lars          3 178    120   brown, grey 52BBY</code></pre>
+<pre class="r"><code>  # vemos que las columnas peso y altura son de texto, por lo que transformamos a numero
+  sw_dt1&lt;-sw_dt1 %&gt;% mutate(altura = as.numeric(height), peso = as.numeric(mass))
+  
+  # numero de actores por película
+  sw_dt1 %&gt;% group_by(pelicula) %&gt;% tally()</code></pre>
+<pre><code>## # A tibble: 7 x 2
+##   pelicula                    n
+##   &lt;fct&gt;                   &lt;int&gt;
+## 1 A New Hope                 62
+## 2 Attack of the Clones       97
+## 3 Return of the Jedi         70
+## 4 Revenge of the Sith       105
+## 5 The Empire Strikes Back    63
+## 6 The Force Awakens          33
+## 7 The Phantom Menace         83</code></pre>
+<pre class="r"><code>  # peso medio de los actores en cada pelicula
+  pesosxfilm&lt;-aggregate(peso ~ pelicula, sw_dt1, mean)
+  pesosxfilm</code></pre>
+<pre><code>##                  pelicula     peso
+## 1              A New Hope 80.56250
+## 2    Attack of the Clones 70.70345
+## 3      Return of the Jedi 70.95000
+## 4     Revenge of the Sith 78.52414
+## 5 The Empire Strikes Back 81.01250
+## 6       The Force Awakens 72.16667
+## 7      The Phantom Menace 64.31818</code></pre>
+<pre class="r"><code>  # Plot the heights, faceted by film title
+  ggplot(sw_dt1, aes(x = peso)) +
+    geom_histogram(stat = &quot;count&quot;) +
+    facet_wrap(~ pelicula)</code></pre>
+<p><img src="/post/2019-06-06-chuleta-de-purrr_files/figure-html/sw2-1.png" width="672" /></p>
+</div>
