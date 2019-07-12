@@ -18,9 +18,9 @@
 
 
 
-  <link crossorigin="anonymous" media="all" integrity="sha512-dsqgdBtnWun6oxDg9q1xezEyITXQ8QsMdFm+JDoDk6Tzx9AEE1XcUEhWff/M2Jv85ucTVJCjp/2fGbh6Omtrgg==" rel="stylesheet" href="https://github.githubassets.com/assets/frameworks-41c2037bf12f1e46d8f08b88a04a8d8f.css" />
+  <link crossorigin="anonymous" media="all" integrity="sha512-67V2J9Se2CifJlftk9/cExHGvxd7N9b9EdGnQEpszu99Ogeecilu9jIDxoCkx3zNLfB9ArraXW0J03qyVmN0Uw==" rel="stylesheet" href="https://github.githubassets.com/assets/frameworks-e7318add1f7e055d040edb0f75aaa0ba.css" />
   
-    <link crossorigin="anonymous" media="all" integrity="sha512-DHPd04868I2cDO/anhfvMRkVCkIpDLn1w8Bx3X29mdEO3q97NHckxeXb8QnsGBKAc+qwmw3h094ou+0pTtVMJg==" rel="stylesheet" href="https://github.githubassets.com/assets/github-7ae6860eb5af163579d77defa9430b21.css" />
+    <link crossorigin="anonymous" media="all" integrity="sha512-m3Ej6i/Pcrccby7PC+1McGjyuF9icy/BSv8IAj6kU0sgVl3Pf6ZIBwb01ST1x2Rb+q5z5trV9y2W8woD58qK0A==" rel="stylesheet" href="https://github.githubassets.com/assets/github-f4279344f797f282848193392bae6f6f.css" />
     
     
     
@@ -38,10 +38,10 @@
     <meta property="og:image" content="https://avatars1.githubusercontent.com/u/21033483?s=400&amp;v=4" /><meta property="og:site_name" content="GitHub" /><meta property="og:type" content="object" /><meta property="og:title" content="Vimux/Mainroad" /><meta property="og:url" content="https://github.com/Vimux/Mainroad" /><meta property="og:description" content="Responsive, simple, clean and content-focused Hugo theme based on the MH Magazine lite WordPress theme - Vimux/Mainroad" />
 
   <link rel="assets" href="https://github.githubassets.com/">
-  <link rel="web-socket" href="wss://live.github.com/_sockets/VjI6MzQ0OTUwMDkxOjFiMDBjYjM0NTFjZjRhYzdjMDJjMjAzNTE4Y2Y5ZmM1ZGU2OGU1ZTg5MTEwYTAyYTUzNjNmYTBkMmJkM2ViMzA=--20733666fefd9c477e0c4976b5e2852a5ffebe11">
+  <link rel="web-socket" href="wss://live.github.com/_sockets/VjI6NDI0NDA5OTI0OjA5MWJmNWI5NzE5YmJjYmE2MjI5MzMwYTZkYTk2OTBlNzIzOTExNTM4MTQ2YmE5N2FlYjZjNDI0YTNiNTJhZjQ=--a425e42dd4ef3c5ba8833f595149152bf1e260f5">
   <meta name="pjax-timeout" content="1000">
   <link rel="sudo-modal" href="/sessions/sudo_modal">
-  <meta name="request-id" content="FA62:3D684:EEB752:169F79E:5CF8EE3D" data-pjax-transient>
+  <meta name="request-id" content="CDF1:9A5A:26549BD:3AC0C4B:5D287A6D" data-pjax-transient>
 
 
   
@@ -52,7 +52,7 @@
     <meta name="google-site-verification" content="ZzhVyEFwb7w3e0-uOTltm8Jsck2F5StVihD0exw2fsA">
     <meta name="google-site-verification" content="GXs5KoUUkNCoaAZn7wPN-t01Pywp9M3sEjnt_3_ZWPc">
 
-  <meta name="octolytics-host" content="collector.githubapp.com" /><meta name="octolytics-app-id" content="github" /><meta name="octolytics-event-url" content="https://collector.githubapp.com/github-external/browser_event" /><meta name="octolytics-dimension-request_id" content="FA62:3D684:EEB752:169F79E:5CF8EE3D" /><meta name="octolytics-dimension-region_edge" content="ams" /><meta name="octolytics-dimension-region_render" content="iad" /><meta name="octolytics-actor-id" content="22473587" /><meta name="octolytics-actor-login" content="fervilber" /><meta name="octolytics-actor-hash" content="a3d6485402520e7879675fb09132029b227453d3a357b2efbb4858e46ec46a61" />
+  <meta name="octolytics-host" content="collector.githubapp.com" /><meta name="octolytics-app-id" content="github" /><meta name="octolytics-event-url" content="https://collector.githubapp.com/github-external/browser_event" /><meta name="octolytics-dimension-request_id" content="CDF1:9A5A:26549BD:3AC0C4B:5D287A6D" /><meta name="octolytics-dimension-region_edge" content="ams" /><meta name="octolytics-dimension-region_render" content="iad" /><meta name="octolytics-actor-id" content="22473587" /><meta name="octolytics-actor-login" content="fervilber" /><meta name="octolytics-actor-hash" content="a3d6485402520e7879675fb09132029b227453d3a357b2efbb4858e46ec46a61" />
 <meta name="analytics-location" content="/&lt;user-name&gt;/&lt;repo-name&gt;/blob/show" data-pjax-transient="true" />
 
 
@@ -71,13 +71,13 @@
     <meta name="user-login" content="fervilber">
 
       <meta name="expected-hostname" content="github.com">
-    <meta name="js-proxy-site-detection-payload" content="OWQ0NGI5YzM1ODFiNzE2YmI5MzgzYjJmNjAyNGZlYWI0OTQxYmQxOTliZjc1MDhkOGM1NzRjMzQ1N2IxNzUxMXx7InJlbW90ZV9hZGRyZXNzIjoiMjEyLjgwLjE2Ni4yMTIiLCJyZXF1ZXN0X2lkIjoiRkE2MjozRDY4NDpFRUI3NTI6MTY5Rjc5RTo1Q0Y4RUUzRCIsInRpbWVzdGFtcCI6MTU1OTgxNzc5NiwiaG9zdCI6ImdpdGh1Yi5jb20ifQ==">
+    <meta name="js-proxy-site-detection-payload" content="ZjBkZjZlY2RiZDAxM2IzZjA0YjZkYWFlNGFiNDJiNzIzYzgwN2Q5Y2IwYzgyNTZhNjkwYjFkNTU4NjdlNzViOHx7InJlbW90ZV9hZGRyZXNzIjoiMjEyLjgwLjE2Ni4yMTIiLCJyZXF1ZXN0X2lkIjoiQ0RGMTo5QTVBOjI2NTQ5QkQ6M0FDMEM0Qjo1RDI4N0E2RCIsInRpbWVzdGFtcCI6MTU2MjkzMzg4MSwiaG9zdCI6ImdpdGh1Yi5jb20ifQ==">
 
-    <meta name="enabled-features" content="UNIVERSE_BANNER,MARKETPLACE_INVOICED_BILLING,MARKETPLACE_SOCIAL_PROOF_CUSTOMERS,MARKETPLACE_TRENDING_SOCIAL_PROOF,MARKETPLACE_RECOMMENDATIONS,NOTIFY_ON_BLOCK,RELATED_ISSUES">
+    <meta name="enabled-features" content="MARKETPLACE_FEATURED_BLOG_POSTS,MARKETPLACE_INVOICED_BILLING,MARKETPLACE_SOCIAL_PROOF_CUSTOMERS,MARKETPLACE_TRENDING_SOCIAL_PROOF,MARKETPLACE_RECOMMENDATIONS,MARKETPLACE_PULL_PANDA_HOMEPAGE,MARKETPLACE_PENDING_INSTALLATIONS,NOTIFY_ON_BLOCK,RELATED_ISSUES,DISPLAY_COMMENTER_FULL_NAME">
 
-  <meta name="html-safe-nonce" content="c688c9fd802a90a0efbc20f5ede5453708e63e96">
+  <meta name="html-safe-nonce" content="88873376e4f283b89a9fecf8e4ffebcb8d599991">
 
-  <meta http-equiv="x-pjax-version" content="7f9d1e2741e709acb1751065105e0b9d">
+  <meta http-equiv="x-pjax-version" content="22ea349ac3aacaaada1668b3028f14f8">
   
 
       <link href="https://github.com/Vimux/Mainroad/commits/master.atom" rel="alternate" title="Recent Commits to Mainroad:master" type="application/atom+xml">
@@ -157,7 +157,7 @@
           aria-autocomplete="list"
           aria-controls="jump-to-results"
           aria-label="Search or jump to…"
-          data-jump-to-suggestions-path="/_graphql/GetSuggestedNavigationDestinations#csrf-token=b5f9zgyWQDLmBAZnB53N3xNsPTXmujaCzBB0AjipvuCAF/3uA3ZJjPGaQ3O59DBiE7eG/TgPaQKB4uIm384OEA=="
+          data-jump-to-suggestions-path="/_graphql/GetSuggestedNavigationDestinations#csrf-token=Ug9E/TWUtmaFidgXMsaA0xhpbd3xA8ometjF5yezV0aJse1mrRoGZrqcxX0mY6U++9wohLE1MoGwPx5pX0Tt0g=="
           spellcheck="false"
           autocomplete="off"
           >
@@ -294,8 +294,8 @@
   <a class="js-selected-navigation-item Header-link  mr-0 mr-lg-3 py-2 py-lg-0 border-top border-lg-top-0 border-white-fade-15" data-hotkey="g i" data-ga-click="Header, click, Nav menu - item:issues context:user" aria-label="Issues you created" data-selected-links="/issues /issues/assigned /issues/mentioned /issues" href="/issues">
     Issues
 </a>
-    <div>
-      <a class="js-selected-navigation-item Header-link  mr-0 mr-lg-3 py-2 py-lg-0 border-top border-lg-top-0 border-white-fade-15" data-ga-click="Header, click, Nav menu - item:marketplace context:user" data-octo-click="marketplace_click" data-octo-dimensions="location:nav_bar" data-selected-links=" /marketplace" href="/marketplace">
+    <div class="mr-0 mr-lg-3 py-2 py-lg-0 border-top border-lg-top-0 border-white-fade-15">
+      <a class="js-selected-navigation-item Header-link" data-ga-click="Header, click, Nav menu - item:marketplace context:user" data-octo-click="marketplace_click" data-octo-dimensions="location:nav_bar" data-selected-links=" /marketplace" href="/marketplace">
         Marketplace
 </a>      
     </div>
@@ -303,11 +303,12 @@
   <a class="js-selected-navigation-item Header-link  mr-0 mr-lg-3 py-2 py-lg-0 border-top border-lg-top-0 border-white-fade-15" data-ga-click="Header, click, Nav menu - item:explore" data-selected-links="/explore /trending /trending/developers /integrations /integrations/feature/code /integrations/feature/collaborate /integrations/feature/ship showcases showcases_search showcases_landing /explore" href="/explore">
     Explore
 </a>
+
     <a class="Header-link d-block d-lg-none mr-0 mr-lg-3 py-2 py-lg-0 border-top border-lg-top-0 border-white-fade-15" aria-label="View profile and more" aria-expanded="false" aria-haspopup="false" href="https://github.com/fervilber">
       <img class="avatar" src="https://avatars0.githubusercontent.com/u/22473587?s=40&amp;v=4" width="20" height="20" alt="@fervilber" />
       fervilber
 </a>
-    <!-- '"` --><!-- </textarea></xmp> --></option></form><form action="/logout" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="O3HBRwwPwjOmGw622Zi843NdBnEku7J36Hn6Pjt4pl4piOE94TXIYif6Qpus58pS+FsvwMDs6k6QT9GkCnVs3w==" />
+    <!-- '"` --><!-- </textarea></xmp> --></option></form><form action="/logout" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="GV1uLtub8WbFEwgp512jy8Mk8nF/TiMWop5q+LHtvcDjEj4IAcXLvB6Vd6mwm7zAB2hIoQp65UyYilFsTteIXA==" />
       <button type="submit" class="Header-link mr-0 mr-lg-3 py-2 py-lg-0 border-top border-lg-top-0 border-white-fade-15 d-lg-none btn-link d-block width-full text-left" data-ga-click="Header, sign out, icon:logout" style="padding-left: 2px;">
         <svg class="octicon octicon-sign-out v-align-middle" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 9V7H8V5h4V3l4 3-4 3zm-2 3H6V3L2 1h8v3h1V1c0-.55-.45-1-1-1H1C.45 0 0 .45 0 1v11.38c0 .39.22.73.55.91L6 16.01V13h4c.55 0 1-.45 1-1V8h-1v4z"/></svg>
         Sign out
@@ -333,6 +334,7 @@
 
     <div class="Header-item mr-0 mr-lg-3 flex-order-1 flex-lg-order-none">
       
+
     <a aria-label="You have unread notifications" class="Header-link notification-indicator position-relative tooltipped tooltipped-s js-socket-channel js-notification-indicator" data-hotkey="g n" data-ga-click="Header, go to notifications, icon:unread" data-channel="notification-changed:22473587" href="/notifications">
         <span class="mail-status unread"></span>
         <svg class="octicon octicon-bell" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M14 12v1H0v-1l.73-.58c.77-.77.81-2.55 1.19-4.42C2.69 3.23 6 2 6 2c0-.55.45-1 1-1s1 .45 1 1c0 0 3.39 1.23 4.16 5 .38 1.88.42 3.66 1.19 4.42l.66.58H14zm-7 4c1.11 0 2-.89 2-2H5c0 1.11.89 2 2 2z"/></svg>
@@ -400,7 +402,7 @@
     border
   " data-team-hovercards-enabled>
   <details class="js-user-status-details details-reset details-overlay details-overlay-dark">
-    <summary class="btn-link btn-block link-gray no-underline js-toggle-user-status-edit toggle-user-status-edit " aria-haspopup="dialog" role="menuitem" data-hydro-click="{&quot;event_type&quot;:&quot;user_profile.click&quot;,&quot;payload&quot;:{&quot;profile_user_id&quot;:21033483,&quot;target&quot;:&quot;EDIT_USER_STATUS&quot;,&quot;user_id&quot;:22473587,&quot;client_id&quot;:&quot;322846777.1538395624&quot;,&quot;originating_request_id&quot;:&quot;FA62:3D684:EEB752:169F79E:5CF8EE3D&quot;,&quot;originating_url&quot;:&quot;https://github.com/Vimux/Mainroad/blob/master/package.json&quot;,&quot;referrer&quot;:&quot;https://github.com/Vimux/Mainroad&quot;}}" data-hydro-click-hmac="a14f59b2844a9f28cdab30e1932649240d219c8bc20da406fdaef44771e51425">
+    <summary class="btn-link btn-block link-gray no-underline js-toggle-user-status-edit toggle-user-status-edit " aria-haspopup="dialog" role="menuitem" data-hydro-click="{&quot;event_type&quot;:&quot;user_profile.click&quot;,&quot;payload&quot;:{&quot;profile_user_id&quot;:21033483,&quot;target&quot;:&quot;EDIT_USER_STATUS&quot;,&quot;user_id&quot;:22473587,&quot;client_id&quot;:&quot;322846777.1538395624&quot;,&quot;originating_request_id&quot;:&quot;CDF1:9A5A:26549BD:3AC0C4B:5D287A6D&quot;,&quot;originating_url&quot;:&quot;https://github.com/Vimux/Mainroad/blob/master/package.json&quot;,&quot;referrer&quot;:&quot;https://github.com/Vimux/Mainroad&quot;}}" data-hydro-click-hmac="baad9a29a22f67d3cd8149e28840bce7e598313cd9fa2b9345c6ef159081f4c8">
       <div class="d-flex">
         <div class="f6 lh-condensed user-status-header
           d-inline-block v-align-middle
@@ -426,7 +428,7 @@
         </div>
       </div>
 </summary>    <details-dialog class="details-dialog rounded-1 anim-fade-in fast Box Box--overlay" role="dialog" tabindex="-1">
-      <!-- '"` --><!-- </textarea></xmp> --></option></form><form class="position-relative flex-auto js-user-status-form" action="/users/status?compact=1&amp;link_mentions=0&amp;truncate=1" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="_method" value="put" /><input type="hidden" name="authenticity_token" value="6GTrSbZOAa3Uh7J0JsAC52ZkbMGtNEdNrP5F3J+4dB7h2K7Dxxs9M9UV3FDJSUAF0kQfbzIYV/lLH4xDF5a5NQ==" />
+      <!-- '"` --><!-- </textarea></xmp> --></option></form><form class="position-relative flex-auto js-user-status-form" action="/users/status?compact=1&amp;link_mentions=0&amp;truncate=1" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="_method" value="put" /><input type="hidden" name="authenticity_token" value="58QGotjN0jtaPnkjuIYRqNVCkEVzvB90t3fgE+28rsjeIAfkb6nXGfUx5ybCmtr5/WHJWb3XJYsny+GDPlRXAA==" />
         <div class="Box-header bg-gray border-bottom p-3">
           <button class="Box-btn-octicon js-toggle-user-status-edit btn-octicon float-right" type="reset" aria-label="Close dialog" data-close-dialog>
             <svg class="octicon octicon-x" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48L7.48 8z"/></svg>
@@ -447,19 +449,19 @@
                   </span>
                 </button>
               </span>
-              <input
-                type="text"
-                autocomplete="off"
-                data-suggest-emoji="/autocomplete/emoji"
-                data-suggest-mention="/autocomplete/user-suggestions"
-                data-no-org-url="/autocomplete/user-suggestions"
-                data-org-url="/suggestions?mention_suggester=1"
-                data-maxlength="80"
-                class="d-table-cell width-full form-control js-user-status-message-field js-characters-remaining-field"
-                placeholder="What's happening?"
-                name="message"
-                value=""
-                aria-label="What is your current status?">
+              <text-expander keys=": @" data-mention-url="/autocomplete/user-suggestions" data-emoji-url="/autocomplete/emoji">
+                <input
+                  type="text"
+                  autocomplete="off"
+                  data-no-org-url="/autocomplete/user-suggestions"
+                  data-org-url="/suggestions?mention_suggester=1"
+                  data-maxlength="80"
+                  class="d-table-cell width-full form-control js-user-status-message-field js-characters-remaining-field"
+                  placeholder="What's happening?"
+                  name="message"
+                  value=""
+                  aria-label="What is your current status?">
+              </text-expander>
               <div class="error">Could not update your status, please try again.</div>
             </div>
             <div style="margin-left: 53px" class="my-1 text-small label-characters-remaining js-characters-remaining" data-suffix="remaining" hidden>
@@ -546,27 +548,27 @@
       </li>
       <li class="dropdown-divider" role="none"></li>
         <li>
-          <button type="button" class="btn-link dropdown-item ws-normal js-user-status-expire-button" title="in 30 minutes" value="2019-06-06T13:13:16+02:00">
+          <button type="button" class="btn-link dropdown-item ws-normal js-user-status-expire-button" title="in 30 minutes" value="2019-07-12T14:48:01+02:00">
             in 30 minutes
           </button>
         </li>
         <li>
-          <button type="button" class="btn-link dropdown-item ws-normal js-user-status-expire-button" title="in 1 hour" value="2019-06-06T13:43:16+02:00">
+          <button type="button" class="btn-link dropdown-item ws-normal js-user-status-expire-button" title="in 1 hour" value="2019-07-12T15:18:01+02:00">
             in 1 hour
           </button>
         </li>
         <li>
-          <button type="button" class="btn-link dropdown-item ws-normal js-user-status-expire-button" title="in 4 hours" value="2019-06-06T16:43:16+02:00">
+          <button type="button" class="btn-link dropdown-item ws-normal js-user-status-expire-button" title="in 4 hours" value="2019-07-12T18:18:01+02:00">
             in 4 hours
           </button>
         </li>
         <li>
-          <button type="button" class="btn-link dropdown-item ws-normal js-user-status-expire-button" title="today" value="2019-06-06T23:59:59+02:00">
+          <button type="button" class="btn-link dropdown-item ws-normal js-user-status-expire-button" title="today" value="2019-07-12T23:59:59+02:00">
             today
           </button>
         </li>
         <li>
-          <button type="button" class="btn-link dropdown-item ws-normal js-user-status-expire-button" title="this week" value="2019-06-09T23:59:59+02:00">
+          <button type="button" class="btn-link dropdown-item ws-normal js-user-status-expire-button" title="this week" value="2019-07-14T23:59:59+02:00">
             this week
           </button>
         </li>
@@ -599,12 +601,13 @@
     <a role="menuitem" class="dropdown-item" href="/fervilber?tab=projects" data-ga-click="Header, go to projects, text:your projects">Your projects</a>
 
     <a role="menuitem" class="dropdown-item" href="/fervilber?tab=stars" data-ga-click="Header, go to starred repos, text:your stars">Your stars</a>
-      <a role="menuitem" class="dropdown-item" href="https://gist.github.com/" data-ga-click="Header, your gists, text:your gists">Your gists</a>
+      <a role="menuitem" class="dropdown-item" href="https://gist.github.com/mine" data-ga-click="Header, your gists, text:your gists">Your gists</a>
+
 
     <div role="none" class="dropdown-divider"></div>
     <a role="menuitem" class="dropdown-item" href="https://help.github.com" data-ga-click="Header, go to help, text:help">Help</a>
     <a role="menuitem" class="dropdown-item" href="/settings/profile" data-ga-click="Header, go to settings, icon:settings">Settings</a>
-    <!-- '"` --><!-- </textarea></xmp> --></option></form><form class="logout-form" action="/logout" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="XC6rz8Jt1yT1+0+0yAxJ3aJBlR6Nf9txzx5qR2AafuJO14u1L1fddXQaA5m9cz9sKUe8r2kog0i3KEHdURe0Yw==" />
+    <!-- '"` --><!-- </textarea></xmp> --></option></form><form class="logout-form" action="/logout" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="oSta9k9JWq9uM2Rf6HIl3v96IVxB2N6AnJsZb/lpKMFbZArQlRdgdbW1G9+/tDrVOzabjDTsGNqmjyL7BlMdXQ==" />
       
       <button type="submit" class="dropdown-item dropdown-signout" data-ga-click="Header, sign out, icon:logout" role="menuitem">
         Sign out
@@ -642,6 +645,8 @@
 
 
 
+
+
   <div class="pagehead repohead instapaper_ignore readability-menu experiment-repo-nav pt-0 pt-lg-4 ">
     <div class="repohead-details-container clearfix container-lg p-responsive d-none d-lg-block">
 
@@ -652,10 +657,10 @@
 
   <li>
     
-    <!-- '"` --><!-- </textarea></xmp> --></option></form><form data-remote="true" class="clearfix js-social-form js-social-container" action="/notifications/subscribe" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="5xOYc8S5r3epxADObLA9ovo+ucfiY4xa3E3JAI7ucmZDksQQaJIkuR4i+HT/f3fvvsZQVIKZeT0kTHKJQiRsfA==" />      <input type="hidden" name="repository_id" value="76561407">
+    <!-- '"` --><!-- </textarea></xmp> --></option></form><form data-remote="true" class="clearfix js-social-form js-social-container" action="/notifications/subscribe" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="UIc/SBxSmkUu5PXl0B64vp0tXnfWOugdNd8NbvC6I/P9A7DhRDGWde9ZPUMIY/nd/+7/2ePiESG/OyoA0m13gQ==" />      <input type="hidden" name="repository_id" value="76561407">
 
       <details class="details-reset details-overlay select-menu float-left">
-        <summary class="select-menu-button float-left btn btn-sm btn-with-count" data-hydro-click="{&quot;event_type&quot;:&quot;repository.click&quot;,&quot;payload&quot;:{&quot;target&quot;:&quot;WATCH_BUTTON&quot;,&quot;repository_id&quot;:76561407,&quot;client_id&quot;:&quot;322846777.1538395624&quot;,&quot;originating_request_id&quot;:&quot;FA62:3D684:EEB752:169F79E:5CF8EE3D&quot;,&quot;originating_url&quot;:&quot;https://github.com/Vimux/Mainroad/blob/master/package.json&quot;,&quot;referrer&quot;:&quot;https://github.com/Vimux/Mainroad&quot;,&quot;user_id&quot;:22473587}}" data-hydro-click-hmac="9341b4e771b7c1c4c090605721df526fa5b3c1b943a2a91f305b36e9eb21d154" data-ga-click="Repository, click Watch settings, action:blob#show">          <span data-menu-button>
+        <summary class="select-menu-button float-left btn btn-sm btn-with-count" data-hydro-click="{&quot;event_type&quot;:&quot;repository.click&quot;,&quot;payload&quot;:{&quot;target&quot;:&quot;WATCH_BUTTON&quot;,&quot;repository_id&quot;:76561407,&quot;client_id&quot;:&quot;322846777.1538395624&quot;,&quot;originating_request_id&quot;:&quot;CDF1:9A5A:26549BD:3AC0C4B:5D287A6D&quot;,&quot;originating_url&quot;:&quot;https://github.com/Vimux/Mainroad/blob/master/package.json&quot;,&quot;referrer&quot;:&quot;https://github.com/Vimux/Mainroad&quot;,&quot;user_id&quot;:22473587}}" data-hydro-click-hmac="acbd9221cb72e48b7131e0e61683b0706d5a37946232e7f1db91df3f7b8ede8c" data-ga-click="Repository, click Watch settings, action:blob#show">          <span data-menu-button>
               <svg class="octicon octicon-eye v-align-text-bottom" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M8.06 2C3 2 0 8 0 8s3 6 8.06 6C13 14 16 8 16 8s-3-6-7.94-6zM8 12c-2.2 0-4-1.78-4-4 0-2.2 1.8-4 4-4 2.22 0 4 1.8 4 4 0 2.22-1.78 4-4 4zm2-4c0 1.11-.89 2-2 2-1.11 0-2-.89-2-2 0-1.11.89-2 2-2 1.11 0 2 .89 2 2z"/></svg>
               Watch
           </span>
@@ -718,43 +723,43 @@
       </details>
         <a class="social-count js-social-count"
           href="/Vimux/Mainroad/watchers"
-          aria-label="13 users are watching this repository">
-          13
+          aria-label="15 users are watching this repository">
+          15
         </a>
 </form>
   </li>
 
   <li>
       <div class="js-toggler-container js-social-container starring-container on">
-    <!-- '"` --><!-- </textarea></xmp> --></option></form><form class="starred js-social-form" action="/Vimux/Mainroad/unstar" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="h797NUAxkqIz+dENvkZ7KvDHvbXtsZcAKL1OQG1m0l2oPa6I2x0qwthYMFpJWJMPMIb37QmVWuzURU/zrr8Yew==" />
+    <!-- '"` --><!-- </textarea></xmp> --></option></form><form class="starred js-social-form" action="/Vimux/Mainroad/unstar" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="tV02idCp+rJlo/BPNFYWVj14ToFBdnykZFVvWpk030viwpDvcH896zgS2Z4FUTf9C3XP5QSBhzt9CP/7U5cbKA==" />
       <input type="hidden" name="context" value="repository"></input>
-      <button type="submit" class="btn btn-sm btn-with-count js-toggler-target" aria-label="Unstar this repository" title="Unstar Vimux/Mainroad" data-hydro-click="{&quot;event_type&quot;:&quot;repository.click&quot;,&quot;payload&quot;:{&quot;target&quot;:&quot;UNSTAR_BUTTON&quot;,&quot;repository_id&quot;:76561407,&quot;client_id&quot;:&quot;322846777.1538395624&quot;,&quot;originating_request_id&quot;:&quot;FA62:3D684:EEB752:169F79E:5CF8EE3D&quot;,&quot;originating_url&quot;:&quot;https://github.com/Vimux/Mainroad/blob/master/package.json&quot;,&quot;referrer&quot;:&quot;https://github.com/Vimux/Mainroad&quot;,&quot;user_id&quot;:22473587}}" data-hydro-click-hmac="a4ef883f2211c661580290ab09ba26ccf1495e360e32ff95b785d184f3578a85" data-ga-click="Repository, click unstar button, action:blob#show; text:Unstar">        <svg class="octicon octicon-star v-align-text-bottom" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M14 6l-4.9-.64L7 1 4.9 5.36 0 6l3.6 3.26L2.67 14 7 11.67 11.33 14l-.93-4.74L14 6z"/></svg>
+      <button type="submit" class="btn btn-sm btn-with-count js-toggler-target" aria-label="Unstar this repository" title="Unstar Vimux/Mainroad" data-hydro-click="{&quot;event_type&quot;:&quot;repository.click&quot;,&quot;payload&quot;:{&quot;target&quot;:&quot;UNSTAR_BUTTON&quot;,&quot;repository_id&quot;:76561407,&quot;client_id&quot;:&quot;322846777.1538395624&quot;,&quot;originating_request_id&quot;:&quot;CDF1:9A5A:26549BD:3AC0C4B:5D287A6D&quot;,&quot;originating_url&quot;:&quot;https://github.com/Vimux/Mainroad/blob/master/package.json&quot;,&quot;referrer&quot;:&quot;https://github.com/Vimux/Mainroad&quot;,&quot;user_id&quot;:22473587}}" data-hydro-click-hmac="0c1f9d1aee1e4d0fc0883eb58195fa401d60cc7af35fb16abab9a39275f543a7" data-ga-click="Repository, click unstar button, action:blob#show; text:Unstar">        <svg class="octicon octicon-star v-align-text-bottom" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M14 6l-4.9-.64L7 1 4.9 5.36 0 6l3.6 3.26L2.67 14 7 11.67 11.33 14l-.93-4.74L14 6z"/></svg>
         Unstar
 </button>        <a class="social-count js-social-count" href="/Vimux/Mainroad/stargazers"
-           aria-label="224 users starred this repository">
-          224
+           aria-label="243 users starred this repository">
+           243
         </a>
 </form>
-    <!-- '"` --><!-- </textarea></xmp> --></option></form><form class="unstarred js-social-form" action="/Vimux/Mainroad/star" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="QcctpdzpKjfJC3I2FQXEqqbDeZ3KkBd5Aqsip71mnNHTI5aSJn7V7Co8i74ofhoVPtxls0uAUhHNCkmunsdoJA==" />
+    <!-- '"` --><!-- </textarea></xmp> --></option></form><form class="unstarred js-social-form" action="/Vimux/Mainroad/star" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="ngbgy0xhJWfcIGkE2viG/rxLYyW3GKMmAGVS7gNUE2cwgI2EN1mhY2yYEn0Fqz4+R7UyxzFJAC/467gUkhLuIg==" />
       <input type="hidden" name="context" value="repository"></input>
-      <button type="submit" class="btn btn-sm btn-with-count js-toggler-target" aria-label="Unstar this repository" title="Star Vimux/Mainroad" data-hydro-click="{&quot;event_type&quot;:&quot;repository.click&quot;,&quot;payload&quot;:{&quot;target&quot;:&quot;STAR_BUTTON&quot;,&quot;repository_id&quot;:76561407,&quot;client_id&quot;:&quot;322846777.1538395624&quot;,&quot;originating_request_id&quot;:&quot;FA62:3D684:EEB752:169F79E:5CF8EE3D&quot;,&quot;originating_url&quot;:&quot;https://github.com/Vimux/Mainroad/blob/master/package.json&quot;,&quot;referrer&quot;:&quot;https://github.com/Vimux/Mainroad&quot;,&quot;user_id&quot;:22473587}}" data-hydro-click-hmac="a1e1132cb5198362d91f712cb4a2bcf6655f332a2a9f1f67fb2b13d74a81babc" data-ga-click="Repository, click star button, action:blob#show; text:Star">        <svg class="octicon octicon-star v-align-text-bottom" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M14 6l-4.9-.64L7 1 4.9 5.36 0 6l3.6 3.26L2.67 14 7 11.67 11.33 14l-.93-4.74L14 6z"/></svg>
+      <button type="submit" class="btn btn-sm btn-with-count js-toggler-target" aria-label="Unstar this repository" title="Star Vimux/Mainroad" data-hydro-click="{&quot;event_type&quot;:&quot;repository.click&quot;,&quot;payload&quot;:{&quot;target&quot;:&quot;STAR_BUTTON&quot;,&quot;repository_id&quot;:76561407,&quot;client_id&quot;:&quot;322846777.1538395624&quot;,&quot;originating_request_id&quot;:&quot;CDF1:9A5A:26549BD:3AC0C4B:5D287A6D&quot;,&quot;originating_url&quot;:&quot;https://github.com/Vimux/Mainroad/blob/master/package.json&quot;,&quot;referrer&quot;:&quot;https://github.com/Vimux/Mainroad&quot;,&quot;user_id&quot;:22473587}}" data-hydro-click-hmac="95e167e3aec050b3b2a6753e9d4f79a4dd25b5bd2213a2f58decd388ff0c4985" data-ga-click="Repository, click star button, action:blob#show; text:Star">        <svg class="octicon octicon-star v-align-text-bottom" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M14 6l-4.9-.64L7 1 4.9 5.36 0 6l3.6 3.26L2.67 14 7 11.67 11.33 14l-.93-4.74L14 6z"/></svg>
         Star
 </button>        <a class="social-count js-social-count" href="/Vimux/Mainroad/stargazers"
-           aria-label="224 users starred this repository">
-          224
+           aria-label="243 users starred this repository">
+          243
         </a>
 </form>  </div>
 
   </li>
 
   <li>
-          <!-- '"` --><!-- </textarea></xmp> --></option></form><form class="btn-with-count" action="/Vimux/Mainroad/fork" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="sLkGPfvGIBWeOm5a+mplxr5dx04B2aCtRU0XYE9vWxIbHLBdzEcWgapg94s/HiNq74PWFZi0E+jIz1hHDh0+Bw==" />
-            <button class="btn btn-sm btn-with-count" data-hydro-click="{&quot;event_type&quot;:&quot;repository.click&quot;,&quot;payload&quot;:{&quot;target&quot;:&quot;FORK_BUTTON&quot;,&quot;repository_id&quot;:76561407,&quot;client_id&quot;:&quot;322846777.1538395624&quot;,&quot;originating_request_id&quot;:&quot;FA62:3D684:EEB752:169F79E:5CF8EE3D&quot;,&quot;originating_url&quot;:&quot;https://github.com/Vimux/Mainroad/blob/master/package.json&quot;,&quot;referrer&quot;:&quot;https://github.com/Vimux/Mainroad&quot;,&quot;user_id&quot;:22473587}}" data-hydro-click-hmac="80d06d8d8fb3aa297577925f96a03dd24e3f9cda057779eabd42de851f1644b6" data-ga-click="Repository, show fork modal, action:blob#show; text:Fork" type="submit" title="Fork your own copy of Vimux/Mainroad to your account" aria-label="Fork your own copy of Vimux/Mainroad to your account">              <svg class="octicon octicon-repo-forked v-align-text-bottom" viewBox="0 0 10 16" version="1.1" width="10" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M8 1a1.993 1.993 0 0 0-1 3.72V6L5 8 3 6V4.72A1.993 1.993 0 0 0 2 1a1.993 1.993 0 0 0-1 3.72V6.5l3 3v1.78A1.993 1.993 0 0 0 5 15a1.993 1.993 0 0 0 1-3.72V9.5l3-3V4.72A1.993 1.993 0 0 0 8 1zM2 4.2C1.34 4.2.8 3.65.8 3c0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2zm3 10c-.66 0-1.2-.55-1.2-1.2 0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2zm3-10c-.66 0-1.2-.55-1.2-1.2 0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2z"/></svg>
+          <!-- '"` --><!-- </textarea></xmp> --></option></form><form class="btn-with-count" action="/Vimux/Mainroad/fork" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="lqtvOci2xZF8IOWlw/pvIAA045A5A0C07X+OX/vpuB/w/ZOfr3H5XHV6gGZv9DDYH5kEUdMwfV/6cDDtfFPJ9w==" />
+            <button class="btn btn-sm btn-with-count" data-hydro-click="{&quot;event_type&quot;:&quot;repository.click&quot;,&quot;payload&quot;:{&quot;target&quot;:&quot;FORK_BUTTON&quot;,&quot;repository_id&quot;:76561407,&quot;client_id&quot;:&quot;322846777.1538395624&quot;,&quot;originating_request_id&quot;:&quot;CDF1:9A5A:26549BD:3AC0C4B:5D287A6D&quot;,&quot;originating_url&quot;:&quot;https://github.com/Vimux/Mainroad/blob/master/package.json&quot;,&quot;referrer&quot;:&quot;https://github.com/Vimux/Mainroad&quot;,&quot;user_id&quot;:22473587}}" data-hydro-click-hmac="6a834fe0f400f523d7170da96b9a19c00886682c7a3dbe45db384ec3ad0ca870" data-ga-click="Repository, show fork modal, action:blob#show; text:Fork" type="submit" title="Fork your own copy of Vimux/Mainroad to your account" aria-label="Fork your own copy of Vimux/Mainroad to your account">              <svg class="octicon octicon-repo-forked v-align-text-bottom" viewBox="0 0 10 16" version="1.1" width="10" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M8 1a1.993 1.993 0 0 0-1 3.72V6L5 8 3 6V4.72A1.993 1.993 0 0 0 2 1a1.993 1.993 0 0 0-1 3.72V6.5l3 3v1.78A1.993 1.993 0 0 0 5 15a1.993 1.993 0 0 0 1-3.72V9.5l3-3V4.72A1.993 1.993 0 0 0 8 1zM2 4.2C1.34 4.2.8 3.65.8 3c0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2zm3 10c-.66 0-1.2-.55-1.2-1.2 0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2zm3-10c-.66 0-1.2-.55-1.2-1.2 0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2z"/></svg>
               Fork
 </button></form>
     <a href="/Vimux/Mainroad/network/members" class="social-count"
-       aria-label="134 users forked this repository">
-      134
+       aria-label="142 users forked this repository">
+      142
     </a>
   </li>
 </ul>
@@ -787,7 +792,7 @@
       <a itemprop="url" data-hotkey="g i" class="js-selected-navigation-item reponav-item" data-selected-links="repo_issues repo_labels repo_milestones /Vimux/Mainroad/issues" href="/Vimux/Mainroad/issues">
         <svg class="octicon octicon-issue-opened" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-3.14 2.56-5.7 5.7-5.7zM7 1C3.14 1 0 4.14 0 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7zm1 3H6v5h2V4zm0 6H6v2h2v-2z"/></svg>
         <span itemprop="name">Issues</span>
-        <span class="Counter">4</span>
+        <span class="Counter">5</span>
         <meta itemprop="position" content="2">
 </a>    </span>
 
@@ -804,11 +809,7 @@
 
 
     <a data-skip-pjax="true" class="js-selected-navigation-item reponav-item" data-selected-links="security alerts policy /Vimux/Mainroad/security/advisories" href="/Vimux/Mainroad/security/advisories">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" class="octicon" height="16px" width="16px">
-    <path fill-rule="evenodd" clip-rule="evenodd" d="M1 2l7-2 7 2v6.02C15 12.69 9.69 16 8 16c-1.69 0-7-3.31-7-7.98V2zm1 .75L8 1l6 1.75v5.268C14 12.104 9.45 15 8 15c-1.45 0-6-2.896-6-6.982V2.75z"></path>
-    <path d="M3 3.5L8 2v12c-1.207 0-5-2.482-5-5.985V3.5z"></path>
-</svg>
-
+      <svg class="octicon octicon-shield" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M0 2l7-2 7 2v6.02C14 12.69 8.69 16 7 16c-1.69 0-7-3.31-7-7.98V2zm1 .75L7 1l6 1.75v5.268C13 12.104 8.449 15 7 15c-1.449 0-6-2.896-6-6.982V2.75zm1 .75L7 2v12c-1.207 0-5-2.482-5-5.985V3.5z"/></svg>
       Security
 </a>
     <a class="js-selected-navigation-item reponav-item" data-selected-links="repo_graphs repo_contributors dependency_graph pulse people /Vimux/Mainroad/pulse" href="/Vimux/Mainroad/pulse">
@@ -832,7 +833,7 @@
       <span itemscope itemtype="http://schema.org/ListItem" itemprop="itemListElement">
         <a itemprop="url" class="js-selected-navigation-item reponav-item" data-selected-links="repo_issues repo_labels repo_milestones /Vimux/Mainroad/issues" href="/Vimux/Mainroad/issues">
           <span itemprop="name">Issues</span>
-          <span class="Counter">4</span>
+          <span class="Counter">5</span>
           <meta itemprop="position" content="2">
 </a>      </span>
 
@@ -869,11 +870,10 @@
     
 
 
-
   
-    <a class="d-none js-permalink-shortcut" data-hotkey="y" href="/Vimux/Mainroad/blob/c77d32ad457eb71193802e1e8f9fdf9095e29d86/package.json">Permalink</a>
+    <a class="d-none js-permalink-shortcut" data-hotkey="y" href="/Vimux/Mainroad/blob/faee0253f5e0d4f14e40dc7e41c010fd178920d2/package.json">Permalink</a>
 
-    <!-- blob contrib key: blob_contributors:v21:4cc75ace83582d2a63a40eccbd28ebfd -->
+    <!-- blob contrib key: blob_contributors:v21:067df141ee4ad30b8277f0761de82298 -->
       
 
     <div class="d-flex flex-items-start flex-shrink-0 mb-2 flex-column flex-md-row">
@@ -940,15 +940,14 @@
 
 
 
-
     <div class="Box mt-3 position-relative">
       
 <div class="Box-header py-2 d-flex flex-column flex-shrink-0 flex-md-row flex-md-items-center">
 
   <div class="text-mono f6 flex-auto pr-3 flex-order-2 flex-md-order-1 mt-2 mt-md-0">
-      39 lines (38 sloc)
+      36 lines (35 sloc)
       <span class="file-info-divider"></span>
-    1.34 KB
+    1.1 KB
   </div>
 
   <div class="d-flex py-1 py-md-0 flex-auto flex-order-1 flex-md-order-2 flex-sm-grow-0 flex-justify-between">
@@ -968,13 +967,13 @@
                 <svg class="octicon octicon-device-desktop" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M15 2H1c-.55 0-1 .45-1 1v9c0 .55.45 1 1 1h5.34c-.25.61-.86 1.39-2.34 2h8c-1.48-.61-2.09-1.39-2.34-2H15c.55 0 1-.45 1-1V3c0-.55-.45-1-1-1zm0 9H1V3h14v8z"/></svg>
             </a>
 
-            <!-- '"` --><!-- </textarea></xmp> --></option></form><form class="inline-form js-update-url-with-hash" action="/Vimux/Mainroad/edit/master/package.json" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="FwsN01xXv9OOQYwKkT8899FkiVx/GN7JBzTdTeS9Efz/9Tdmb087/hoARFeyduoZ6PHT0Gtms8g6lLCm5VZw4w==" />
+            <!-- '"` --><!-- </textarea></xmp> --></option></form><form class="inline-form js-update-url-with-hash" action="/Vimux/Mainroad/edit/master/package.json" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="PeELH0SSunK+nKru/Ra0VjIcDwn3PBH4OtG5wKcx6uNWo1Fnm0bzcD+X16seZ8fhh22waQyfGfcEAMFOOl6Byw==" />
               <button class="btn-octicon tooltipped tooltipped-nw" type="submit"
                 aria-label="Fork this project and edit the file" data-hotkey="e" data-disable-with>
                 <svg class="octicon octicon-pencil" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M0 12v3h3l8-8-3-3-8 8zm3 2H1v-2h1v1h1v1zm10.3-9.3L12 6 9 3l1.3-1.3a.996.996 0 0 1 1.41 0l1.59 1.59c.39.39.39 1.02 0 1.41z"/></svg>
               </button>
 </form>
-          <!-- '"` --><!-- </textarea></xmp> --></option></form><form class="inline-form" action="/Vimux/Mainroad/delete/master/package.json" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="zoK1Jyftsczy+lLXBcrdQmW4Zr1QEgGldDd56SKXSne1GYROZ5eW5hSra37n4UrzbEDknpoI/GKxvtMOXxJLUQ==" />
+          <!-- '"` --><!-- </textarea></xmp> --></option></form><form class="inline-form" action="/Vimux/Mainroad/delete/master/package.json" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="X7WZbh/p9p0FoRxXJtlvQB4oeaB8YWdY2dlAdu6+Crszt87LLd0fcyfGDgPgYQIi8VFDcBGLYvfuLEkHYW0ddA==" />
             <button class="btn-octicon btn-octicon-danger tooltipped tooltipped-nw" type="submit"
               aria-label="Fork this project and delete the file" data-disable-with>
               <svg class="octicon octicon-trashcan" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M11 2H9c0-.55-.45-1-1-1H5c-.55 0-1 .45-1 1H2c-.55 0-1 .45-1 1v1c0 .55.45 1 1 1v9c0 .55.45 1 1 1h7c.55 0 1-.45 1-1V5c.55 0 1-.45 1-1V3c0-.55-.45-1-1-1zm-1 12H3V5h1v8h1V5h1v8h1V5h1v8h1V5h1v9zm1-10H2V3h9v1z"/></svg>
@@ -982,6 +981,9 @@
 </form>    </div>
   </div>
 </div>
+
+
+
 
       
 
@@ -1022,99 +1024,99 @@
       </tr>
       <tr>
         <td id="L9" class="blob-num js-line-number" data-line-number="9"></td>
-        <td id="LC9" class="blob-code blob-code-inner js-file-line">    <span class="pl-s"><span class="pl-pds">&quot;</span>eclint<span class="pl-pds">&quot;</span></span>: <span class="pl-s"><span class="pl-pds">&quot;</span>^2.8.1<span class="pl-pds">&quot;</span></span>,</td>
+        <td id="LC9" class="blob-code blob-code-inner js-file-line">    <span class="pl-s"><span class="pl-pds">&quot;</span>eslint<span class="pl-pds">&quot;</span></span>: <span class="pl-s"><span class="pl-pds">&quot;</span>^5.15.3<span class="pl-pds">&quot;</span></span>,</td>
       </tr>
       <tr>
         <td id="L10" class="blob-num js-line-number" data-line-number="10"></td>
-        <td id="LC10" class="blob-code blob-code-inner js-file-line">    <span class="pl-s"><span class="pl-pds">&quot;</span>eslint<span class="pl-pds">&quot;</span></span>: <span class="pl-s"><span class="pl-pds">&quot;</span>^5.15.3<span class="pl-pds">&quot;</span></span>,</td>
+        <td id="LC10" class="blob-code blob-code-inner js-file-line">    <span class="pl-s"><span class="pl-pds">&quot;</span>eslint-config-airbnb-base<span class="pl-pds">&quot;</span></span>: <span class="pl-s"><span class="pl-pds">&quot;</span>^13.1.0<span class="pl-pds">&quot;</span></span>,</td>
       </tr>
       <tr>
         <td id="L11" class="blob-num js-line-number" data-line-number="11"></td>
-        <td id="LC11" class="blob-code blob-code-inner js-file-line">    <span class="pl-s"><span class="pl-pds">&quot;</span>eslint-config-airbnb-base<span class="pl-pds">&quot;</span></span>: <span class="pl-s"><span class="pl-pds">&quot;</span>^13.1.0<span class="pl-pds">&quot;</span></span>,</td>
+        <td id="LC11" class="blob-code blob-code-inner js-file-line">    <span class="pl-s"><span class="pl-pds">&quot;</span>eslint-plugin-import<span class="pl-pds">&quot;</span></span>: <span class="pl-s"><span class="pl-pds">&quot;</span>^2.16.0<span class="pl-pds">&quot;</span></span>,</td>
       </tr>
       <tr>
         <td id="L12" class="blob-num js-line-number" data-line-number="12"></td>
-        <td id="LC12" class="blob-code blob-code-inner js-file-line">    <span class="pl-s"><span class="pl-pds">&quot;</span>eslint-plugin-import<span class="pl-pds">&quot;</span></span>: <span class="pl-s"><span class="pl-pds">&quot;</span>^2.16.0<span class="pl-pds">&quot;</span></span>,</td>
+        <td id="LC12" class="blob-code blob-code-inner js-file-line">    <span class="pl-s"><span class="pl-pds">&quot;</span>eslint-plugin-node<span class="pl-pds">&quot;</span></span>: <span class="pl-s"><span class="pl-pds">&quot;</span>^7.0.1<span class="pl-pds">&quot;</span></span>,</td>
       </tr>
       <tr>
         <td id="L13" class="blob-num js-line-number" data-line-number="13"></td>
-        <td id="LC13" class="blob-code blob-code-inner js-file-line">    <span class="pl-s"><span class="pl-pds">&quot;</span>eslint-plugin-node<span class="pl-pds">&quot;</span></span>: <span class="pl-s"><span class="pl-pds">&quot;</span>^7.0.1<span class="pl-pds">&quot;</span></span>,</td>
+        <td id="LC13" class="blob-code blob-code-inner js-file-line">    <span class="pl-s"><span class="pl-pds">&quot;</span>postcss-cli<span class="pl-pds">&quot;</span></span>: <span class="pl-s"><span class="pl-pds">&quot;</span>^6.1.2<span class="pl-pds">&quot;</span></span>,</td>
       </tr>
       <tr>
         <td id="L14" class="blob-num js-line-number" data-line-number="14"></td>
-        <td id="LC14" class="blob-code blob-code-inner js-file-line">    <span class="pl-s"><span class="pl-pds">&quot;</span>postcss-cli<span class="pl-pds">&quot;</span></span>: <span class="pl-s"><span class="pl-pds">&quot;</span>^6.1.2<span class="pl-pds">&quot;</span></span>,</td>
+        <td id="LC14" class="blob-code blob-code-inner js-file-line">    <span class="pl-s"><span class="pl-pds">&quot;</span>stylelint<span class="pl-pds">&quot;</span></span>: <span class="pl-s"><span class="pl-pds">&quot;</span>^9.10.1<span class="pl-pds">&quot;</span></span>,</td>
       </tr>
       <tr>
         <td id="L15" class="blob-num js-line-number" data-line-number="15"></td>
-        <td id="LC15" class="blob-code blob-code-inner js-file-line">    <span class="pl-s"><span class="pl-pds">&quot;</span>stylelint<span class="pl-pds">&quot;</span></span>: <span class="pl-s"><span class="pl-pds">&quot;</span>^9.10.1<span class="pl-pds">&quot;</span></span>,</td>
+        <td id="LC15" class="blob-code blob-code-inner js-file-line">    <span class="pl-s"><span class="pl-pds">&quot;</span>stylelint-order<span class="pl-pds">&quot;</span></span>: <span class="pl-s"><span class="pl-pds">&quot;</span>^2.1.0<span class="pl-pds">&quot;</span></span></td>
       </tr>
       <tr>
         <td id="L16" class="blob-num js-line-number" data-line-number="16"></td>
-        <td id="LC16" class="blob-code blob-code-inner js-file-line">    <span class="pl-s"><span class="pl-pds">&quot;</span>stylelint-order<span class="pl-pds">&quot;</span></span>: <span class="pl-s"><span class="pl-pds">&quot;</span>^2.1.0<span class="pl-pds">&quot;</span></span></td>
+        <td id="LC16" class="blob-code blob-code-inner js-file-line">  },</td>
       </tr>
       <tr>
         <td id="L17" class="blob-num js-line-number" data-line-number="17"></td>
-        <td id="LC17" class="blob-code blob-code-inner js-file-line">  },</td>
+        <td id="LC17" class="blob-code blob-code-inner js-file-line">  <span class="pl-s"><span class="pl-pds">&quot;</span>scripts<span class="pl-pds">&quot;</span></span>: {</td>
       </tr>
       <tr>
         <td id="L18" class="blob-num js-line-number" data-line-number="18"></td>
-        <td id="LC18" class="blob-code blob-code-inner js-file-line">  <span class="pl-s"><span class="pl-pds">&quot;</span>scripts<span class="pl-pds">&quot;</span></span>: {</td>
+        <td id="LC18" class="blob-code blob-code-inner js-file-line">    <span class="pl-s"><span class="pl-pds">&quot;</span>lint:css<span class="pl-pds">&quot;</span></span>: <span class="pl-s"><span class="pl-pds">&quot;</span>stylelint static/css/*.css<span class="pl-pds">&quot;</span></span>,</td>
       </tr>
       <tr>
         <td id="L19" class="blob-num js-line-number" data-line-number="19"></td>
-        <td id="LC19" class="blob-code blob-code-inner js-file-line">    <span class="pl-s"><span class="pl-pds">&quot;</span>lint:css<span class="pl-pds">&quot;</span></span>: <span class="pl-s"><span class="pl-pds">&quot;</span>stylelint static/css/*.css<span class="pl-pds">&quot;</span></span>,</td>
+        <td id="LC19" class="blob-code blob-code-inner js-file-line">    <span class="pl-s"><span class="pl-pds">&quot;</span>lint:js<span class="pl-pds">&quot;</span></span>: <span class="pl-s"><span class="pl-pds">&quot;</span>eslint static/js/*.js<span class="pl-pds">&quot;</span></span>,</td>
       </tr>
       <tr>
         <td id="L20" class="blob-num js-line-number" data-line-number="20"></td>
-        <td id="LC20" class="blob-code blob-code-inner js-file-line">    <span class="pl-s"><span class="pl-pds">&quot;</span>lint:js<span class="pl-pds">&quot;</span></span>: <span class="pl-s"><span class="pl-pds">&quot;</span>eslint static/js/*.js<span class="pl-pds">&quot;</span></span>,</td>
+        <td id="LC20" class="blob-code blob-code-inner js-file-line">    <span class="pl-s"><span class="pl-pds">&quot;</span>lint<span class="pl-pds">&quot;</span></span>: <span class="pl-s"><span class="pl-pds">&quot;</span>npm run lint:css &amp;&amp; npm run lint:js<span class="pl-pds">&quot;</span></span>,</td>
       </tr>
       <tr>
         <td id="L21" class="blob-num js-line-number" data-line-number="21"></td>
-        <td id="LC21" class="blob-code blob-code-inner js-file-line">    <span class="pl-s"><span class="pl-pds">&quot;</span>lint:editorconfig<span class="pl-pds">&quot;</span></span>: <span class="pl-s"><span class="pl-pds">&quot;</span>eclint check &#39;**/*.{html,css,js,json,md,toml,yaml,yml}&#39;<span class="pl-pds">&quot;</span></span>,</td>
+        <td id="LC21" class="blob-code blob-code-inner js-file-line">    <span class="pl-s"><span class="pl-pds">&quot;</span>fix:prefixes<span class="pl-pds">&quot;</span></span>: <span class="pl-s"><span class="pl-pds">&quot;</span>postcss -r static/css/*.css<span class="pl-pds">&quot;</span></span>,</td>
       </tr>
       <tr>
         <td id="L22" class="blob-num js-line-number" data-line-number="22"></td>
-        <td id="LC22" class="blob-code blob-code-inner js-file-line">    <span class="pl-s"><span class="pl-pds">&quot;</span>lint<span class="pl-pds">&quot;</span></span>: <span class="pl-s"><span class="pl-pds">&quot;</span>npm run lint:css &amp;&amp; npm run lint:js &amp;&amp; npm run lint:editorconfig<span class="pl-pds">&quot;</span></span>,</td>
+        <td id="LC22" class="blob-code blob-code-inner js-file-line">    <span class="pl-s"><span class="pl-pds">&quot;</span>fix:css<span class="pl-pds">&quot;</span></span>: <span class="pl-s"><span class="pl-pds">&quot;</span>stylelint static/css/*.css --fix<span class="pl-pds">&quot;</span></span>,</td>
       </tr>
       <tr>
         <td id="L23" class="blob-num js-line-number" data-line-number="23"></td>
-        <td id="LC23" class="blob-code blob-code-inner js-file-line">    <span class="pl-s"><span class="pl-pds">&quot;</span>fix:prefixes<span class="pl-pds">&quot;</span></span>: <span class="pl-s"><span class="pl-pds">&quot;</span>postcss -r static/css/*.css<span class="pl-pds">&quot;</span></span>,</td>
+        <td id="LC23" class="blob-code blob-code-inner js-file-line">    <span class="pl-s"><span class="pl-pds">&quot;</span>fix:js<span class="pl-pds">&quot;</span></span>: <span class="pl-s"><span class="pl-pds">&quot;</span>eslint static/js/*.js --fix<span class="pl-pds">&quot;</span></span>,</td>
       </tr>
       <tr>
         <td id="L24" class="blob-num js-line-number" data-line-number="24"></td>
-        <td id="LC24" class="blob-code blob-code-inner js-file-line">    <span class="pl-s"><span class="pl-pds">&quot;</span>fix:css<span class="pl-pds">&quot;</span></span>: <span class="pl-s"><span class="pl-pds">&quot;</span>stylelint static/css/*.css --fix<span class="pl-pds">&quot;</span></span>,</td>
+        <td id="LC24" class="blob-code blob-code-inner js-file-line">    <span class="pl-s"><span class="pl-pds">&quot;</span>fix<span class="pl-pds">&quot;</span></span>: <span class="pl-s"><span class="pl-pds">&quot;</span>npm run fix:prefixes &amp;&amp; npm run fix:css &amp;&amp; npm run fix:js<span class="pl-pds">&quot;</span></span>,</td>
       </tr>
       <tr>
         <td id="L25" class="blob-num js-line-number" data-line-number="25"></td>
-        <td id="LC25" class="blob-code blob-code-inner js-file-line">    <span class="pl-s"><span class="pl-pds">&quot;</span>fix:js<span class="pl-pds">&quot;</span></span>: <span class="pl-s"><span class="pl-pds">&quot;</span>eslint static/js/*.js --fix<span class="pl-pds">&quot;</span></span>,</td>
+        <td id="LC25" class="blob-code blob-code-inner js-file-line">    <span class="pl-s"><span class="pl-pds">&quot;</span>test<span class="pl-pds">&quot;</span></span>: <span class="pl-s"><span class="pl-pds">&quot;</span>npm run lint<span class="pl-pds">&quot;</span></span></td>
       </tr>
       <tr>
         <td id="L26" class="blob-num js-line-number" data-line-number="26"></td>
-        <td id="LC26" class="blob-code blob-code-inner js-file-line">    <span class="pl-s"><span class="pl-pds">&quot;</span>fix:editorconfig<span class="pl-pds">&quot;</span></span>: <span class="pl-s"><span class="pl-pds">&quot;</span>eclint fix &#39;**/*.{html,css,js,json,md,toml,yaml,yml}&#39;<span class="pl-pds">&quot;</span></span>,</td>
+        <td id="LC26" class="blob-code blob-code-inner js-file-line">  },</td>
       </tr>
       <tr>
         <td id="L27" class="blob-num js-line-number" data-line-number="27"></td>
-        <td id="LC27" class="blob-code blob-code-inner js-file-line">    <span class="pl-s"><span class="pl-pds">&quot;</span>fix<span class="pl-pds">&quot;</span></span>: <span class="pl-s"><span class="pl-pds">&quot;</span>npm run fix:prefixes &amp;&amp; npm run fix:css &amp;&amp; npm run fix:js &amp;&amp; npm run fix:editorconfig<span class="pl-pds">&quot;</span></span>,</td>
+        <td id="LC27" class="blob-code blob-code-inner js-file-line">  <span class="pl-s"><span class="pl-pds">&quot;</span>repository<span class="pl-pds">&quot;</span></span>: {</td>
       </tr>
       <tr>
         <td id="L28" class="blob-num js-line-number" data-line-number="28"></td>
-        <td id="LC28" class="blob-code blob-code-inner js-file-line">    <span class="pl-s"><span class="pl-pds">&quot;</span>test<span class="pl-pds">&quot;</span></span>: <span class="pl-s"><span class="pl-pds">&quot;</span>npm run lint<span class="pl-pds">&quot;</span></span></td>
+        <td id="LC28" class="blob-code blob-code-inner js-file-line">    <span class="pl-s"><span class="pl-pds">&quot;</span>type<span class="pl-pds">&quot;</span></span>: <span class="pl-s"><span class="pl-pds">&quot;</span>git<span class="pl-pds">&quot;</span></span>,</td>
       </tr>
       <tr>
         <td id="L29" class="blob-num js-line-number" data-line-number="29"></td>
-        <td id="LC29" class="blob-code blob-code-inner js-file-line">  },</td>
+        <td id="LC29" class="blob-code blob-code-inner js-file-line">    <span class="pl-s"><span class="pl-pds">&quot;</span>url<span class="pl-pds">&quot;</span></span>: <span class="pl-s"><span class="pl-pds">&quot;</span>git+https://github.com/Vimux/Mainroad.git<span class="pl-pds">&quot;</span></span></td>
       </tr>
       <tr>
         <td id="L30" class="blob-num js-line-number" data-line-number="30"></td>
-        <td id="LC30" class="blob-code blob-code-inner js-file-line">  <span class="pl-s"><span class="pl-pds">&quot;</span>repository<span class="pl-pds">&quot;</span></span>: {</td>
+        <td id="LC30" class="blob-code blob-code-inner js-file-line">  },</td>
       </tr>
       <tr>
         <td id="L31" class="blob-num js-line-number" data-line-number="31"></td>
-        <td id="LC31" class="blob-code blob-code-inner js-file-line">    <span class="pl-s"><span class="pl-pds">&quot;</span>type<span class="pl-pds">&quot;</span></span>: <span class="pl-s"><span class="pl-pds">&quot;</span>git<span class="pl-pds">&quot;</span></span>,</td>
+        <td id="LC31" class="blob-code blob-code-inner js-file-line">  <span class="pl-s"><span class="pl-pds">&quot;</span>bugs<span class="pl-pds">&quot;</span></span>: {</td>
       </tr>
       <tr>
         <td id="L32" class="blob-num js-line-number" data-line-number="32"></td>
-        <td id="LC32" class="blob-code blob-code-inner js-file-line">    <span class="pl-s"><span class="pl-pds">&quot;</span>url<span class="pl-pds">&quot;</span></span>: <span class="pl-s"><span class="pl-pds">&quot;</span>git+https://github.com/Vimux/Mainroad.git<span class="pl-pds">&quot;</span></span></td>
+        <td id="LC32" class="blob-code blob-code-inner js-file-line">    <span class="pl-s"><span class="pl-pds">&quot;</span>url<span class="pl-pds">&quot;</span></span>: <span class="pl-s"><span class="pl-pds">&quot;</span>https://github.com/Vimux/Mainroad/issues<span class="pl-pds">&quot;</span></span></td>
       </tr>
       <tr>
         <td id="L33" class="blob-num js-line-number" data-line-number="33"></td>
@@ -1122,23 +1124,11 @@
       </tr>
       <tr>
         <td id="L34" class="blob-num js-line-number" data-line-number="34"></td>
-        <td id="LC34" class="blob-code blob-code-inner js-file-line">  <span class="pl-s"><span class="pl-pds">&quot;</span>bugs<span class="pl-pds">&quot;</span></span>: {</td>
+        <td id="LC34" class="blob-code blob-code-inner js-file-line">  <span class="pl-s"><span class="pl-pds">&quot;</span>homepage<span class="pl-pds">&quot;</span></span>: <span class="pl-s"><span class="pl-pds">&quot;</span>https://github.com/Vimux/Mainroad<span class="pl-pds">&quot;</span></span></td>
       </tr>
       <tr>
         <td id="L35" class="blob-num js-line-number" data-line-number="35"></td>
-        <td id="LC35" class="blob-code blob-code-inner js-file-line">    <span class="pl-s"><span class="pl-pds">&quot;</span>url<span class="pl-pds">&quot;</span></span>: <span class="pl-s"><span class="pl-pds">&quot;</span>https://github.com/Vimux/Mainroad/issues<span class="pl-pds">&quot;</span></span></td>
-      </tr>
-      <tr>
-        <td id="L36" class="blob-num js-line-number" data-line-number="36"></td>
-        <td id="LC36" class="blob-code blob-code-inner js-file-line">  },</td>
-      </tr>
-      <tr>
-        <td id="L37" class="blob-num js-line-number" data-line-number="37"></td>
-        <td id="LC37" class="blob-code blob-code-inner js-file-line">  <span class="pl-s"><span class="pl-pds">&quot;</span>homepage<span class="pl-pds">&quot;</span></span>: <span class="pl-s"><span class="pl-pds">&quot;</span>https://github.com/Vimux/Mainroad<span class="pl-pds">&quot;</span></span></td>
-      </tr>
-      <tr>
-        <td id="L38" class="blob-num js-line-number" data-line-number="38"></td>
-        <td id="LC38" class="blob-code blob-code-inner js-file-line">}</td>
+        <td id="LC35" class="blob-code blob-code-inner js-file-line">}</td>
       </tr>
 </table>
 
@@ -1150,7 +1140,7 @@
       <ul class="BlobToolbar-dropdown dropdown-menu dropdown-menu-se mt-2" style="width:185px">
         <li><clipboard-copy role="menuitem" class="dropdown-item" id="js-copy-lines" style="cursor:pointer;" data-original-text="Copy lines">Copy lines</clipboard-copy></li>
         <li><clipboard-copy role="menuitem" class="dropdown-item" id="js-copy-permalink" style="cursor:pointer;" data-original-text="Copy permalink">Copy permalink</clipboard-copy></li>
-        <li><a class="dropdown-item js-update-url-with-hash" id="js-view-git-blame" role="menuitem" href="/Vimux/Mainroad/blame/c77d32ad457eb71193802e1e8f9fdf9095e29d86/package.json">View git blame</a></li>
+        <li><a class="dropdown-item js-update-url-with-hash" id="js-view-git-blame" role="menuitem" href="/Vimux/Mainroad/blame/faee0253f5e0d4f14e40dc7e41c010fd178920d2/package.json">View git blame</a></li>
           <li><a class="dropdown-item" id="js-new-issue" role="menuitem" href="/Vimux/Mainroad/issues/new">Reference in new issue</a></li>
       </ul>
     </details-menu>
@@ -1187,7 +1177,7 @@
 <div class="footer container-lg width-full p-responsive" role="contentinfo">
   <div class="position-relative d-flex flex-row-reverse flex-lg-row flex-wrap flex-lg-nowrap flex-justify-center flex-lg-justify-between pt-6 pb-2 mt-6 f6 text-gray border-top border-gray-light ">
     <ul class="list-style-none d-flex flex-wrap col-12 col-lg-5 flex-justify-center flex-lg-justify-between mb-2 mb-lg-0">
-      <li class="mr-3 mr-lg-0">&copy; 2019 <span title="0.58376s from unicorn-b746f5d6-g587z">GitHub</span>, Inc.</li>
+      <li class="mr-3 mr-lg-0">&copy; 2019 <span title="0.62592s from unicorn-6b866fff94-9rbn4">GitHub</span>, Inc.</li>
         <li class="mr-3 mr-lg-0"><a data-ga-click="Footer, go to terms, text:terms" href="https://github.com/site/terms">Terms</a></li>
         <li class="mr-3 mr-lg-0"><a data-ga-click="Footer, go to privacy, text:privacy" href="https://github.com/site/privacy">Privacy</a></li>
         <li class="mr-3 mr-lg-0"><a data-ga-click="Footer, go to security, text:security" href="https://github.com/security">Security</a></li>
@@ -1225,9 +1215,9 @@
 
 
     
-    <script crossorigin="anonymous" integrity="sha512-0+68guJJDzG9JQbjnHx5B+wIXbJPwP7DCN1b0NYEKh0b3+KEPIA617vYC72vGyzdYlmxuMz0LhJdyHruXDEyPA==" type="application/javascript" src="https://github.githubassets.com/assets/frameworks-0063cdf2.js"></script>
+    <script crossorigin="anonymous" integrity="sha512-mxKcLKe1PSS00TpWBTYMDM5u/3N8fjH9TViQqKljWBkiZs0e3hXU4gTaJjqaopJliYDhnsgZKVwkbEuvbEX9TQ==" type="application/javascript" src="https://github.githubassets.com/assets/frameworks-96c669c6.js"></script>
     
-    <script crossorigin="anonymous" async="async" integrity="sha512-41xDh+Q9HrMf3vdcPBot3Rty639JvfapzbPDCVZ8MoS7TiswZvLkLNJ9aFOsE27cikhTpN9Po0JE+dtzkjKfQg==" type="application/javascript" src="https://github.githubassets.com/assets/github-bootstrap-e61b4714.js"></script>
+    <script crossorigin="anonymous" async="async" integrity="sha512-fGWKs1xKCBTTpsgg5C4/axMQGijlMBYE9papaEJGRY45RpgFihkhiUIATw2+C3aVJZ3wyeXz6MNSP9Eh4y+tOw==" type="application/javascript" src="https://github.githubassets.com/assets/github-bootstrap-4652d74a.js"></script>
     
     
     
