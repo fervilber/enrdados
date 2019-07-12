@@ -77,7 +77,7 @@ La base geométrica teórica la forman 4 elementos simples (subclases): el punto
 
 **OpenGIS** define la arquitectura del sistema geométrico espacial así:
 
-![esquema objetos sf](/post/2019-02-26-manual-de-sf-para-sig_files/esquema_sf.png)
+![esquema OPENGIS](/post/2019-02-26-manual-de-sf-para-sig_files/esquema_sf.png)
 
 Como vemos, la definición geométrica es una clase, y otra diferente los sistema de referencia y medida. Esto es importante y se aplica directamente en los objetos sf, que como veremos se descomponen en otros llamados sfc y sfg.
 
@@ -89,6 +89,7 @@ Los objetos *sf* se forman como integración de unas piezas o subclases que here
 Básicamente un objeto *sf* se descompone en un objeto *sfc* y de otro *data.frame*. A su vez un objeto *sfc* se descompone en un objeto *sfg* y otro *CRS* (sistema de coordenadas de referencia CRS). Y podemos continuar con la descomposición del *sfg* en otras clases como *POINT*, *LINESTRING*...
 
 El esquema básico es así:
+
 
 ```{r diagram, echo=FALSE}
 library(DiagrammeR)

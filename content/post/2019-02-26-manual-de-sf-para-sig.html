@@ -86,8 +86,8 @@ editor_options:
 <p>La base geométrica teórica la forman 4 elementos simples (subclases): el punto, la curva, la superficie y las colecciones espaciales. Las <strong>colecciones</strong> son solo listas de objetos.</p>
 <p><strong>OpenGIS</strong> define la arquitectura del sistema geométrico espacial así:</p>
 <div class="figure">
-<img src="/post/2019-02-26-manual-de-sf-para-sig_files/esquema_sf.png" alt="esquema objetos sf" />
-<p class="caption">esquema objetos sf</p>
+<img src="/post/2019-02-26-manual-de-sf-para-sig_files/esquema_sf.png" alt="esquema OPENGIS" />
+<p class="caption">esquema OPENGIS</p>
 </div>
 <p>Como vemos, la definición geométrica es una clase, y otra diferente los sistema de referencia y medida. Esto es importante y se aplica directamente en los objetos sf, que como veremos se descomponen en otros llamados sfc y sfg.</p>
 <p><a href="#indice">Volver al índice</a></p>
@@ -396,7 +396,7 @@ editor_options:
         pts_autonomias_simple &lt;- st_cast(autonomias_simple$geometry, &quot;MULTIPOINT&quot;)
         cnt_autonomias_simple &lt;- sapply(pts_autonomias_simple, length)
         sum(cnt_autonomias_simple)</code></pre>
-<pre><code>## [1] 38760</code></pre>
+<pre><code>## [1] 38762</code></pre>
 <p><a href="#indice">Volver al índice</a></p>
 </div>
 <div id="sp-a-sf" class="section level3">
