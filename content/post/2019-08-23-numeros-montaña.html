@@ -1,0 +1,146 @@
+---
+title: Numeros montaña
+author: F.VilBer
+date: '2019-08-23'
+slug: numeros-montaña
+categories:
+  - educación
+tags:
+  - curiosidades
+  - dibujo
+  - matemáticas
+description: 'Una curiosidad sobre numeros naturales'
+thumbnail: '/post/2019-08-23-numeros-montaña_files/figure-html/grafmon-1.png'
+toc: no
+---
+
+
+
+<div id="numeros-montana" class="section level2">
+<h2>Números montaña</h2>
+<p>Aunque he tenido poco tiempo de relax este verano <em>-los que teneis hijos sabeis de lo que hablo-,.. para el resto !disfrutad de vuestro tiempo! equivalente a 2 o tres vidas mías!!!,</em> he leído algunas cosas interesantes y curiosas que me han mantenido en forma mental.</p>
+<p>Una de ellas es este blog de matemáticas <a href="https://mathsedideas.blogspot.com/" class="uri">https://mathsedideas.blogspot.com/</a> en el que proponían <a href="https://mathsedideas.blogspot.com/2019/07/42-mathsy-things-to-do-this-summer.html?spref=tw">42 juegos matemáticos para el verano</a>. Como os imagináis no llegué más allá de las primeras propuestas, pero me hicieron disfrutar un buen rato: aprendí la existencia de <strong>hex</strong> un juego de mesa curioso, y descubrí los <em>números montaña</em>, a los que vamos a dedicar hoy este artículo experimento.</p>
+</div>
+<div id="numeros-montana-1" class="section level2">
+<h2>Números montaña</h2>
+<p>Pues resulta que los <em>números montaña</em> son aquellos que al representarlos como gráfica tienen forma de montaña, es decir, que empiezan a cota baja y van subiendo hasta una cima a partir de la cual descienden de nuevo hasta la base.</p>
+<p>Los números montaña originales son los que empiezan y terminan en 1, como el 14.721, o el 126.531, pero pueden interpretarse distintas versiones. Así los <em>montaña generalizados</em> son los que no empiezan o terminan en 1, sino en cualquier otro número, pero que sí mantienen la característica de subir continuamente hasta una cima y descender después, sin que el inicio y fin tengan que coincidir como el 23.620, o el 68.943, o el 456.786.421.</p>
+<p>Pensando en estos números recordé el artículo que escribí hace unos meses <a href="../waldeinsamkeit">Waldeinsamkeit</a> en el que hacíamos unas gráficas con R imitando a montañas y sierras.</p>
+</div>
+<div id="objetivo" class="section level2">
+<h2>Objetivo</h2>
+<p>Nuestro objetivo será hacer una función en R que permita identificar si un número es o no <strong>número montaña generalizado</strong>.</p>
+<p>El algoritmo que se me ha ocurrido después de darle unas cuantas vueltas es este, que aprovecha la función diferencia, de todas formas si se os ocurre otras forma de hacerlo, y más simple os agradecería que lo comentéis al final del post:</p>
+<ul>
+<li>Primero separamos cada cifra del número con la función <code>strsplit</code> que lo transforma en una lista de <em>caracteres</em> individuales.</li>
+<li>transformamos los caracteres de la lista a números y guardamos como un vector.</li>
+<li>Después quitamos las mesetas o duplicados de los números. Esto es algo que añadí después al ver que fallaba cuando se aplicaba la función a números con cifras repetidas como el 23.354, para esto usaremos la función <code>diff()</code> que resta las cifras seguidas de la serie por lo que si es 0 indica que se repite el número, y nos vale para identificar y eliminar los valores repes de la la serie.</li>
+<li>Calculamos el signo de cada valor de la serie <code>diff()</code> , con lo que solo nos queda un valor de 1 si sube o -1 si baja en cada paso.</li>
+</ul>
+<pre class="r"><code># Ejemplo de algoritmo para numeros montaña
+ num&lt;-14821 # ejemplo de num montala
+# separamos sus cifras
+ separa&lt;-strsplit(as.character(num), &quot;&quot;)[[1]]
+# lo volvemos a convertir en vector número 
+ separa&lt;-as.integer(separa)
+ separa</code></pre>
+<pre><code>## [1] 1 4 8 2 1</code></pre>
+<pre class="r"><code># calculamos diff
+ d_separa&lt;-diff(separa)
+ d_separa</code></pre>
+<pre><code>## [1]  3  4 -6 -1</code></pre>
+<pre class="r"><code># calculamos el signo de d_separa
+ signo&lt;-sign(d_separa)
+ signo</code></pre>
+<pre><code>## [1]  1  1 -1 -1</code></pre>
+<pre class="r"><code># calculamo la serie diff de signo
+ diff(signo)</code></pre>
+<pre><code>## [1]  0 -2  0</code></pre>
+<ul>
+<li>Para que sea un número montaña debe subir al principio, llegar a la cima y baja después, por lo que <code>diff()</code> debe ser una serie de unos (1) y luego de menos unos (-1), seguidos. La derivada de <code>diff()</code> es decir la diferencia de la diferencia, nos da una serie interesante, pues identifica con el valor <code>-2</code> las cimas como cambio de pendiente.</li>
+</ul>
+<p>A la inversa los valles se identifican con el valor 2… eso para otro día.</p>
+<p>Como buscamos los números montaña, tenemos que seleccionar solo aquellos en los que solo aparezca una cima, es decir un -2 y no varios como en el siguiente caso:</p>
+<pre class="r"><code># Ejemplo de algoritmo para numeros montaña
+  num&lt;-1243821
+  separa&lt;-strsplit(as.character(num), &quot;&quot;)[[1]]
+  separa&lt;-as.integer(separa)
+  d_separa&lt;-diff(separa)
+  signo&lt;-sign(d_separa)
+  diff(signo)</code></pre>
+<pre><code>## [1]  0 -2  2 -2  0</code></pre>
+<p>por lo que n la función tendremos que ver si como el caso anterior hay solo una cima o varias contando el número de (-2) en el vector diff(signo).</p>
+<p>Usando estas fórmulas tenemos una manera de identificar si un número es <em>montaña</em>, o incluso si es <em>valle</em> o <em>sierra</em>, pero para centrarnos en los montaña vamos a crear una función que junte lo que hemos averiguado y nos dé como resultado 1 si es número montaña y 0 si no lo es.</p>
+</div>
+<div id="funcion-que-identifica-un-numero-montana" class="section level2">
+<h2>Función que identifica un número montaña</h2>
+<p>Si unimos la descripción del proceso anterior y condensamos todo en una función obtenemos este código que sirve para detectar o identificar los <strong>números montaña generalizados</strong>:</p>
+<pre class="r"><code># función para identificar los num montaña generalizados
+montana&lt;-function(x){
+    y&lt;-strsplit(as.character(x), &quot;&quot;)[[1]]
+    y&lt;-as.integer(y)
+    quitaduplicados&lt;-diff(y)
+        # me quedo sin cifras repetidas
+    y&lt;-y[quitaduplicados!=0]
+        # derivada 2
+    y&lt;-diff(sign(diff(y)))
+    suma&lt;-sum(y)
+    negativos &lt;- length(y[y&lt;0])
+    si&lt;-0L
+    if(suma &lt; 0 &amp; negativos == 1){si&lt;-1L}
+    return(si)
+}
+
+# ejemplos
+    montana(133395551)</code></pre>
+<pre><code>## [1] 1</code></pre>
+<pre class="r"><code>    montana(5623)</code></pre>
+<pre><code>## [1] 0</code></pre>
+<p>Ahora ya podemos calcular cuantos números montaña hay en los 10.000 primeros números naturales:</p>
+<pre class="r"><code>  #library(purrr)
+  library(tidyverse)
+# num montaña entre 0 y 10.000
+  sum(map_int(0:10000,montana))</code></pre>
+<pre><code>## [1] 2100</code></pre>
+<p>Vamos a pintar algunos de ellos:</p>
+<pre class="r"><code>  # entre:
+  ale&lt;-1000:10000
+  # formamos un data frame con el numero y si es o no montaña
+  ale&lt;-data.frame(int=ale,montana=map_int(ale,montana))
+  # nos quedamos solo con los montaña
+  solomon_ale&lt;-ale[ale$montana==1,]
+  head(solomon_ale)</code></pre>
+<pre><code>##      int montana
+## 201 1200       1
+## 211 1210       1
+## 212 1211       1
+## 221 1220       1
+## 222 1221       1
+## 231 1230       1</code></pre>
+<pre class="r"><code>  # cojemos 5 ejemplos
+  ejemplos&lt;-sample(solomon_ale$int,5)
+  
+  # los pinto aunque antes los transformo para poder pintarlo
+   # separamos las cifras
+      ejemplo_l&lt;-strsplit(as.character(ejemplos), &quot;&quot;)
+      a1&lt;-map(ejemplo_l,~.x %&gt;% as.integer())
+   # lo guardo como data frame para pintar
+      a2&lt;- a1 %&gt;% set_names(as.character(ejemplos)) %&gt;% as.data.frame()     
+  
+  # pintamos
+  par(bg=gray(.05), oma=c(1,1,1,1), mar=c(1,1,1,1))
+  
+  plot(a2[,1],type=&quot;l&quot;,col=gray(0.95),axes=F,
+       ylim=c(0,9),xlim=c(0,5),lty=1,lwd=7,
+       main=&quot;Algunos números montaña&quot;)
+  #escribimos la cifra a la izq
+  text(1,max(a2[,1]), colnames(a2)[1], col=&quot;red&quot;,cex=0.6)
+  #añadimos linea base en cero y
+  abline(h=0,col=&quot;grey&quot;)
+  
+  for(i in 2:5){
+      lines(a2[,i],col=gray(0.9-i/10),lty=i,lwd=6-i)
+      text(1,max(a2[,i]), colnames(a2)[i], col=&quot;red&quot;,cex=0.6)
+  }</code></pre>
+<p><img src="/post/2019-08-23-numeros-montaña_files/figure-html/grafmon-1.png" width="672" /></p>
+</div>

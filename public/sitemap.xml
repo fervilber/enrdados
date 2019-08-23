@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>/post/numeros-monta%C3%B1a/</loc>
+    <lastmod>2019-08-23T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/post/chuleta-de-purrr/</loc>
     <lastmod>2019-06-06T00:00:00+00:00</lastmod>
   </url>
@@ -210,7 +215,7 @@
   
   <url>
     <loc>/tags/curiosidades/</loc>
-    <lastmod>2019-02-22T00:00:00+00:00</lastmod>
+    <lastmod>2019-08-23T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -222,7 +227,7 @@
   
   <url>
     <loc>/tags/dibujo/</loc>
-    <lastmod>2019-04-08T00:00:00+00:00</lastmod>
+    <lastmod>2019-08-23T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -246,13 +251,13 @@
   
   <url>
     <loc>/categories/educaci%C3%B3n/</loc>
-    <lastmod>2019-03-30T00:00:00+00:00</lastmod>
+    <lastmod>2019-08-23T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/</loc>
-    <lastmod>2019-06-06T00:00:00+00:00</lastmod>
+    <lastmod>2019-08-23T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -324,7 +329,7 @@
   
   <url>
     <loc>/tags/matem%C3%A1ticas/</loc>
-    <lastmod>2019-03-04T00:00:00+00:00</lastmod>
+    <lastmod>2019-08-23T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -372,7 +377,7 @@
   
   <url>
     <loc>/post/</loc>
-    <lastmod>2019-06-06T00:00:00+00:00</lastmod>
+    <lastmod>2019-08-23T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
