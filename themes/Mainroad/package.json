@@ -18,9 +18,9 @@
 
 
 
-  <link crossorigin="anonymous" media="all" integrity="sha512-67V2J9Se2CifJlftk9/cExHGvxd7N9b9EdGnQEpszu99Ogeecilu9jIDxoCkx3zNLfB9ArraXW0J03qyVmN0Uw==" rel="stylesheet" href="https://github.githubassets.com/assets/frameworks-e7318add1f7e055d040edb0f75aaa0ba.css" />
+  <link crossorigin="anonymous" media="all" integrity="sha512-UDS3MR1FfvqHmqZAs2MWSDCWPwLemVRLqCwld4/zfwH0vhv7I6RYmDnMnNAVQKP1YYvqnccOCH4iOhFaUUyrjw==" rel="stylesheet" href="https://github.githubassets.com/assets/frameworks-2e9090135c22aad5f56c2f72dcba7880.css" />
   
-    <link crossorigin="anonymous" media="all" integrity="sha512-m3Ej6i/Pcrccby7PC+1McGjyuF9icy/BSv8IAj6kU0sgVl3Pf6ZIBwb01ST1x2Rb+q5z5trV9y2W8woD58qK0A==" rel="stylesheet" href="https://github.githubassets.com/assets/github-f4279344f797f282848193392bae6f6f.css" />
+    <link crossorigin="anonymous" media="all" integrity="sha512-ip0PbDWWMX/xpzE2prEhR95RqVx8aDPUKvBEz691/7Isc3uapauorbb1zFXT2I5Go5BTzaev9qh/wKMj9pH95A==" rel="stylesheet" href="https://github.githubassets.com/assets/github-cbb49d8cd46cbc8c522a95d52b21ab53.css" />
     
     
     
@@ -38,10 +38,10 @@
     <meta property="og:image" content="https://avatars1.githubusercontent.com/u/21033483?s=400&amp;v=4" /><meta property="og:site_name" content="GitHub" /><meta property="og:type" content="object" /><meta property="og:title" content="Vimux/Mainroad" /><meta property="og:url" content="https://github.com/Vimux/Mainroad" /><meta property="og:description" content="Responsive, simple, clean and content-focused Hugo theme based on the MH Magazine lite WordPress theme - Vimux/Mainroad" />
 
   <link rel="assets" href="https://github.githubassets.com/">
-  <link rel="web-socket" href="wss://live.github.com/_sockets/VjI6NDI0NDA5OTI0OjA5MWJmNWI5NzE5YmJjYmE2MjI5MzMwYTZkYTk2OTBlNzIzOTExNTM4MTQ2YmE5N2FlYjZjNDI0YTNiNTJhZjQ=--a425e42dd4ef3c5ba8833f595149152bf1e260f5">
+  <link rel="web-socket" href="wss://live.github.com/_sockets/VjI6NDMzNDUyMjU5OjViNjg3NjZjZDBiMDUxZDE1ZDM5ZWI5ZThlZmMxZmUzOWI4ZTkxNzA1MmJiNWEwN2Q2MGE4NWIwNjE0OWYyODY=--56eaf75e629e4c09be4c0d3215e470c30343886f">
   <meta name="pjax-timeout" content="1000">
   <link rel="sudo-modal" href="/sessions/sudo_modal">
-  <meta name="request-id" content="CDF1:9A5A:26549BD:3AC0C4B:5D287A6D" data-pjax-transient>
+  <meta name="request-id" content="E653:335D8:7CCE9B:C0CC63:5D64CEF7" data-pjax-transient>
 
 
   
@@ -52,7 +52,7 @@
     <meta name="google-site-verification" content="ZzhVyEFwb7w3e0-uOTltm8Jsck2F5StVihD0exw2fsA">
     <meta name="google-site-verification" content="GXs5KoUUkNCoaAZn7wPN-t01Pywp9M3sEjnt_3_ZWPc">
 
-  <meta name="octolytics-host" content="collector.githubapp.com" /><meta name="octolytics-app-id" content="github" /><meta name="octolytics-event-url" content="https://collector.githubapp.com/github-external/browser_event" /><meta name="octolytics-dimension-request_id" content="CDF1:9A5A:26549BD:3AC0C4B:5D287A6D" /><meta name="octolytics-dimension-region_edge" content="ams" /><meta name="octolytics-dimension-region_render" content="iad" /><meta name="octolytics-actor-id" content="22473587" /><meta name="octolytics-actor-login" content="fervilber" /><meta name="octolytics-actor-hash" content="a3d6485402520e7879675fb09132029b227453d3a357b2efbb4858e46ec46a61" />
+  <meta name="octolytics-host" content="collector.githubapp.com" /><meta name="octolytics-app-id" content="github" /><meta name="octolytics-event-url" content="https://collector.githubapp.com/github-external/browser_event" /><meta name="octolytics-dimension-request_id" content="E653:335D8:7CCE9B:C0CC63:5D64CEF7" /><meta name="octolytics-dimension-region_edge" content="ams" /><meta name="octolytics-dimension-region_render" content="iad" /><meta name="octolytics-dimension-ga_id" content="" class="js-octo-ga-id" /><meta name="octolytics-dimension-visitor_id" content="1386616350372400616" /><meta name="octolytics-actor-id" content="22473587" /><meta name="octolytics-actor-login" content="fervilber" /><meta name="octolytics-actor-hash" content="a3d6485402520e7879675fb09132029b227453d3a357b2efbb4858e46ec46a61" />
 <meta name="analytics-location" content="/&lt;user-name&gt;/&lt;repo-name&gt;/blob/show" data-pjax-transient="true" />
 
 
@@ -71,13 +71,13 @@
     <meta name="user-login" content="fervilber">
 
       <meta name="expected-hostname" content="github.com">
-    <meta name="js-proxy-site-detection-payload" content="ZjBkZjZlY2RiZDAxM2IzZjA0YjZkYWFlNGFiNDJiNzIzYzgwN2Q5Y2IwYzgyNTZhNjkwYjFkNTU4NjdlNzViOHx7InJlbW90ZV9hZGRyZXNzIjoiMjEyLjgwLjE2Ni4yMTIiLCJyZXF1ZXN0X2lkIjoiQ0RGMTo5QTVBOjI2NTQ5QkQ6M0FDMEM0Qjo1RDI4N0E2RCIsInRpbWVzdGFtcCI6MTU2MjkzMzg4MSwiaG9zdCI6ImdpdGh1Yi5jb20ifQ==">
+    <meta name="js-proxy-site-detection-payload" content="YTMxZTVlYTExZTQ1ZjI3YzkxZmY1NWFiMjQ1ZDJlNzI2YjFmYWYyMTIxYzJmMzcyMTRhYmU2OGMyNGIzYWZiZXx7InJlbW90ZV9hZGRyZXNzIjoiMjEyLjgwLjE2Ni4yMTIiLCJyZXF1ZXN0X2lkIjoiRTY1MzozMzVEODo3Q0NFOUI6QzBDQzYzOjVENjRDRUY3IiwidGltZXN0YW1wIjoxNTY2ODg3NjgyLCJob3N0IjoiZ2l0aHViLmNvbSJ9">
 
-    <meta name="enabled-features" content="MARKETPLACE_FEATURED_BLOG_POSTS,MARKETPLACE_INVOICED_BILLING,MARKETPLACE_SOCIAL_PROOF_CUSTOMERS,MARKETPLACE_TRENDING_SOCIAL_PROOF,MARKETPLACE_RECOMMENDATIONS,MARKETPLACE_PULL_PANDA_HOMEPAGE,MARKETPLACE_PENDING_INSTALLATIONS,NOTIFY_ON_BLOCK,RELATED_ISSUES,DISPLAY_COMMENTER_FULL_NAME">
+    <meta name="enabled-features" content="ACTIONS_V2_ON_MARKETPLACE,MARKETPLACE_FEATURED_BLOG_POSTS,MARKETPLACE_INVOICED_BILLING,MARKETPLACE_SOCIAL_PROOF_CUSTOMERS,MARKETPLACE_TRENDING_SOCIAL_PROOF,MARKETPLACE_RECOMMENDATIONS,MARKETPLACE_PENDING_INSTALLATIONS,NOTIFY_ON_BLOCK,RELATED_ISSUES,GHE_CLOUD_TRIAL">
 
-  <meta name="html-safe-nonce" content="88873376e4f283b89a9fecf8e4ffebcb8d599991">
+  <meta name="html-safe-nonce" content="6c5c94c7fe494554b155dbfe16d2f36f2ded43cc">
 
-  <meta http-equiv="x-pjax-version" content="22ea349ac3aacaaada1668b3028f14f8">
+  <meta http-equiv="x-pjax-version" content="edab9775f05184c5e8468ff006955609">
   
 
       <link href="https://github.com/Vimux/Mainroad/commits/master.atom" rel="alternate" title="Recent Commits to Mainroad:master" type="application/atom+xml">
@@ -101,7 +101,9 @@
 
 
 
+  <meta name="webauthn-auth-enabled" content="true">
 
+  <meta name="webauthn-registration-enabled" content="true">
 
   <link rel="manifest" href="/manifest.json" crossOrigin="use-credentials">
 
@@ -157,7 +159,7 @@
           aria-autocomplete="list"
           aria-controls="jump-to-results"
           aria-label="Search or jump to…"
-          data-jump-to-suggestions-path="/_graphql/GetSuggestedNavigationDestinations#csrf-token=Ug9E/TWUtmaFidgXMsaA0xhpbd3xA8ometjF5yezV0aJse1mrRoGZrqcxX0mY6U++9wohLE1MoGwPx5pX0Tt0g=="
+          data-jump-to-suggestions-path="/_graphql/GetSuggestedNavigationDestinations#csrf-token=G7gTdemaYQLARl3g79sLoU+niS9GTsDm92o6Zoczwb5wgRfvjhmxQ28l20m8qJ8bT10v1eSp/5x+lqrHjjmpuA=="
           spellcheck="false"
           autocomplete="off"
           >
@@ -298,17 +300,19 @@
       <a class="js-selected-navigation-item Header-link" data-ga-click="Header, click, Nav menu - item:marketplace context:user" data-octo-click="marketplace_click" data-octo-dimensions="location:nav_bar" data-selected-links=" /marketplace" href="/marketplace">
         Marketplace
 </a>      
+
     </div>
 
   <a class="js-selected-navigation-item Header-link  mr-0 mr-lg-3 py-2 py-lg-0 border-top border-lg-top-0 border-white-fade-15" data-ga-click="Header, click, Nav menu - item:explore" data-selected-links="/explore /trending /trending/developers /integrations /integrations/feature/code /integrations/feature/collaborate /integrations/feature/ship showcases showcases_search showcases_landing /explore" href="/explore">
     Explore
 </a>
 
-    <a class="Header-link d-block d-lg-none mr-0 mr-lg-3 py-2 py-lg-0 border-top border-lg-top-0 border-white-fade-15" aria-label="View profile and more" aria-expanded="false" aria-haspopup="false" href="https://github.com/fervilber">
-      <img class="avatar" src="https://avatars0.githubusercontent.com/u/22473587?s=40&amp;v=4" width="20" height="20" alt="@fervilber" />
+
+    <a class="Header-link d-block d-lg-none mr-0 mr-lg-3 py-2 py-lg-0 border-top border-lg-top-0 border-white-fade-15" href="https://github.com/fervilber">
+      <img class="avatar" height="20" width="20" alt="@fervilber" src="https://avatars3.githubusercontent.com/u/22473587?s=60&amp;v=4" />
       fervilber
 </a>
-    <!-- '"` --><!-- </textarea></xmp> --></option></form><form action="/logout" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="GV1uLtub8WbFEwgp512jy8Mk8nF/TiMWop5q+LHtvcDjEj4IAcXLvB6Vd6mwm7zAB2hIoQp65UyYilFsTteIXA==" />
+    <!-- '"` --><!-- </textarea></xmp> --></option></form><form action="/logout" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="w+Os4YtWVQSQRWmC42QhWZ2c/HNURP1/YCZIZN3Qk2PZvpfu0kUemVCf+GgfYE62wkglMzd8NehYLffn6AdRWA==" />
       <button type="submit" class="Header-link mr-0 mr-lg-3 py-2 py-lg-0 border-top border-lg-top-0 border-white-fade-15 d-lg-none btn-link d-block width-full text-left" data-ga-click="Header, sign out, icon:logout" style="padding-left: 2px;">
         <svg class="octicon octicon-sign-out v-align-middle" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 9V7H8V5h4V3l4 3-4 3zm-2 3H6V3L2 1h8v3h1V1c0-.55-.45-1-1-1H1C.45 0 0 .45 0 1v11.38c0 .39.22.73.55.91L6 16.01V13h4c.55 0 1-.45 1-1V8h-1v4z"/></svg>
         Sign out
@@ -402,7 +406,8 @@
     border
   " data-team-hovercards-enabled>
   <details class="js-user-status-details details-reset details-overlay details-overlay-dark">
-    <summary class="btn-link btn-block link-gray no-underline js-toggle-user-status-edit toggle-user-status-edit " aria-haspopup="dialog" role="menuitem" data-hydro-click="{&quot;event_type&quot;:&quot;user_profile.click&quot;,&quot;payload&quot;:{&quot;profile_user_id&quot;:21033483,&quot;target&quot;:&quot;EDIT_USER_STATUS&quot;,&quot;user_id&quot;:22473587,&quot;client_id&quot;:&quot;322846777.1538395624&quot;,&quot;originating_request_id&quot;:&quot;CDF1:9A5A:26549BD:3AC0C4B:5D287A6D&quot;,&quot;originating_url&quot;:&quot;https://github.com/Vimux/Mainroad/blob/master/package.json&quot;,&quot;referrer&quot;:&quot;https://github.com/Vimux/Mainroad&quot;}}" data-hydro-click-hmac="baad9a29a22f67d3cd8149e28840bce7e598313cd9fa2b9345c6ef159081f4c8">
+    <summary class="btn-link btn-block link-gray no-underline js-toggle-user-status-edit toggle-user-status-edit "
+      role="menuitem" data-hydro-click="{&quot;event_type&quot;:&quot;user_profile.click&quot;,&quot;payload&quot;:{&quot;profile_user_id&quot;:21033483,&quot;target&quot;:&quot;EDIT_USER_STATUS&quot;,&quot;user_id&quot;:22473587,&quot;client_id&quot;:&quot;322846777.1538395624&quot;,&quot;originating_request_id&quot;:&quot;E653:335D8:7CCE9B:C0CC63:5D64CEF7&quot;,&quot;originating_url&quot;:&quot;https://github.com/Vimux/Mainroad/blob/master/package.json&quot;,&quot;referrer&quot;:&quot;https://github.com/Vimux/Mainroad&quot;}}" data-hydro-click-hmac="0850b14012b5b2e19d439a001e20fff891159e4b035e224411d6ab239bace9e3">
       <div class="d-flex">
         <div class="f6 lh-condensed user-status-header
           d-inline-block v-align-middle
@@ -427,8 +432,9 @@
           </div>
         </div>
       </div>
-</summary>    <details-dialog class="details-dialog rounded-1 anim-fade-in fast Box Box--overlay" role="dialog" tabindex="-1">
-      <!-- '"` --><!-- </textarea></xmp> --></option></form><form class="position-relative flex-auto js-user-status-form" action="/users/status?compact=1&amp;link_mentions=0&amp;truncate=1" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="_method" value="put" /><input type="hidden" name="authenticity_token" value="58QGotjN0jtaPnkjuIYRqNVCkEVzvB90t3fgE+28rsjeIAfkb6nXGfUx5ybCmtr5/WHJWb3XJYsny+GDPlRXAA==" />
+    </summary>
+    <details-dialog class="details-dialog rounded-1 anim-fade-in fast Box Box--overlay" role="dialog" tabindex="-1">
+      <!-- '"` --><!-- </textarea></xmp> --></option></form><form class="position-relative flex-auto js-user-status-form" action="/users/status?compact=1&amp;link_mentions=0&amp;truncate=1" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="_method" value="put" /><input type="hidden" name="authenticity_token" value="tyaCMpfspU67k1UxjtUV6DJha7xfYlyNfpWJXVJ3Xq4peFZFMFLX+/KN3egpkAzbZat0IYpe8FYA0GAZy/RINg==" />
         <div class="Box-header bg-gray border-bottom p-3">
           <button class="Box-btn-octicon js-toggle-user-status-edit btn-octicon float-right" type="reset" aria-label="Close dialog" data-close-dialog>
             <svg class="octicon octicon-x" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48L7.48 8z"/></svg>
@@ -548,27 +554,27 @@
       </li>
       <li class="dropdown-divider" role="none"></li>
         <li>
-          <button type="button" class="btn-link dropdown-item ws-normal js-user-status-expire-button" title="in 30 minutes" value="2019-07-12T14:48:01+02:00">
+          <button type="button" class="btn-link dropdown-item ws-normal js-user-status-expire-button" title="in 30 minutes" value="2019-08-27T09:04:42+02:00">
             in 30 minutes
           </button>
         </li>
         <li>
-          <button type="button" class="btn-link dropdown-item ws-normal js-user-status-expire-button" title="in 1 hour" value="2019-07-12T15:18:01+02:00">
+          <button type="button" class="btn-link dropdown-item ws-normal js-user-status-expire-button" title="in 1 hour" value="2019-08-27T09:34:42+02:00">
             in 1 hour
           </button>
         </li>
         <li>
-          <button type="button" class="btn-link dropdown-item ws-normal js-user-status-expire-button" title="in 4 hours" value="2019-07-12T18:18:01+02:00">
+          <button type="button" class="btn-link dropdown-item ws-normal js-user-status-expire-button" title="in 4 hours" value="2019-08-27T12:34:42+02:00">
             in 4 hours
           </button>
         </li>
         <li>
-          <button type="button" class="btn-link dropdown-item ws-normal js-user-status-expire-button" title="today" value="2019-07-12T23:59:59+02:00">
+          <button type="button" class="btn-link dropdown-item ws-normal js-user-status-expire-button" title="today" value="2019-08-27T23:59:59+02:00">
             today
           </button>
         </li>
         <li>
-          <button type="button" class="btn-link dropdown-item ws-normal js-user-status-expire-button" title="this week" value="2019-07-14T23:59:59+02:00">
+          <button type="button" class="btn-link dropdown-item ws-normal js-user-status-expire-button" title="this week" value="2019-09-01T23:59:59+02:00">
             this week
           </button>
         </li>
@@ -596,6 +602,9 @@
 
 
     <a role="menuitem" class="dropdown-item" href="/fervilber" data-ga-click="Header, go to profile, text:your profile">Your profile</a>
+
+
+
     <a role="menuitem" class="dropdown-item" href="/fervilber?tab=repositories" data-ga-click="Header, go to repositories, text:your repositories">Your repositories</a>
 
     <a role="menuitem" class="dropdown-item" href="/fervilber?tab=projects" data-ga-click="Header, go to projects, text:your projects">Your projects</a>
@@ -607,7 +616,7 @@
     <div role="none" class="dropdown-divider"></div>
     <a role="menuitem" class="dropdown-item" href="https://help.github.com" data-ga-click="Header, go to help, text:help">Help</a>
     <a role="menuitem" class="dropdown-item" href="/settings/profile" data-ga-click="Header, go to settings, icon:settings">Settings</a>
-    <!-- '"` --><!-- </textarea></xmp> --></option></form><form class="logout-form" action="/logout" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="oSta9k9JWq9uM2Rf6HIl3v96IVxB2N6AnJsZb/lpKMFbZArQlRdgdbW1G9+/tDrVOzabjDTsGNqmjyL7BlMdXQ==" />
+    <!-- '"` --><!-- </textarea></xmp> --></option></form><form class="logout-form" action="/logout" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="6SA+migYAv3zyxt+rhQkM335xXHXVycNeOyvfM5xqTXzfQWVcQtJYDMRipRSEEvcIi0cMbRv75pA5xD/+6ZrDg==" />
       
       <button type="submit" class="dropdown-item dropdown-signout" data-ga-click="Header, sign out, icon:logout" role="menuitem">
         Sign out
@@ -640,6 +649,23 @@
 
   
 
+      <div class="border-bottom shelf intro-shelf js-notice mb-0 pb-4">
+  <div class="width-full container">
+    <div class="width-full mx-auto shelf-content">
+      <h2 class="shelf-title">Learn Git and GitHub without any code!</h2>
+      <p class="shelf-lead">
+          Using the Hello World guide, you’ll start a branch, write comments, and open a pull request.
+      </p>
+      <a class="btn btn-primary shelf-cta" target="_blank" data-hydro-click="{&quot;event_type&quot;:&quot;repository.click&quot;,&quot;payload&quot;:{&quot;target&quot;:&quot;READ_GUIDE&quot;,&quot;repository_id&quot;:76561407,&quot;client_id&quot;:&quot;322846777.1538395624&quot;,&quot;originating_request_id&quot;:&quot;E653:335D8:7CCE9B:C0CC63:5D64CEF7&quot;,&quot;originating_url&quot;:&quot;https://github.com/Vimux/Mainroad/blob/master/package.json&quot;,&quot;referrer&quot;:&quot;https://github.com/Vimux/Mainroad&quot;,&quot;user_id&quot;:22473587}}" data-hydro-click-hmac="62907a15458c4aed38303bce43662788e53c683e8401a27f2dacc4769c878cb1" href="https://guides.github.com/activities/hello-world/">Read the guide</a>
+    </div>
+    <!-- '"` --><!-- </textarea></xmp> --></option></form><form class="shelf-dismiss js-notice-dismiss" action="/dashboard/dismiss_bootcamp" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="_method" value="delete" /><input type="hidden" name="authenticity_token" value="XWnrMG9UOuW69Cqf3B59MZ8C00ZfMKvzmzhhb+gXaQxo/0Dz8hcjvKzD5EP6u5++ajpWvw7ukShBdp9aLNcOFQ==" />
+      <button name="button" type="submit" class="mr-1 close-button tooltipped tooltipped-w" aria-label="Hide this notice forever" data-hydro-click="{&quot;event_type&quot;:&quot;repository.click&quot;,&quot;payload&quot;:{&quot;target&quot;:&quot;DISMISS_BANNER&quot;,&quot;repository_id&quot;:76561407,&quot;client_id&quot;:&quot;322846777.1538395624&quot;,&quot;originating_request_id&quot;:&quot;E653:335D8:7CCE9B:C0CC63:5D64CEF7&quot;,&quot;originating_url&quot;:&quot;https://github.com/Vimux/Mainroad/blob/master/package.json&quot;,&quot;referrer&quot;:&quot;https://github.com/Vimux/Mainroad&quot;,&quot;user_id&quot;:22473587}}" data-hydro-click-hmac="03c3826deb309f1c68bf9beb969aea1d72127f1bb149c8aaecf2ce3c8f9eb27c">
+        <svg aria-label="Hide this notice forever" class="octicon octicon-x v-align-text-top" viewBox="0 0 12 16" version="1.1" width="12" height="16" role="img"><path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48L7.48 8z"/></svg>
+</button></form>  </div>
+</div>
+
+
+
 
 
 
@@ -657,10 +683,10 @@
 
   <li>
     
-    <!-- '"` --><!-- </textarea></xmp> --></option></form><form data-remote="true" class="clearfix js-social-form js-social-container" action="/notifications/subscribe" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="UIc/SBxSmkUu5PXl0B64vp0tXnfWOugdNd8NbvC6I/P9A7DhRDGWde9ZPUMIY/nd/+7/2ePiESG/OyoA0m13gQ==" />      <input type="hidden" name="repository_id" value="76561407">
+    <!-- '"` --><!-- </textarea></xmp> --></option></form><form data-remote="true" class="clearfix js-social-form js-social-container" action="/notifications/subscribe" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="U42hdrvdwOk5idxpjYB3gSvQWUJWSBIuf5mBhyD0hUrfufNJSAJv3WEWXWEPhoWeecwUaGp6xakTBCiYUItnMg==" />      <input type="hidden" name="repository_id" value="76561407">
 
       <details class="details-reset details-overlay select-menu float-left">
-        <summary class="select-menu-button float-left btn btn-sm btn-with-count" data-hydro-click="{&quot;event_type&quot;:&quot;repository.click&quot;,&quot;payload&quot;:{&quot;target&quot;:&quot;WATCH_BUTTON&quot;,&quot;repository_id&quot;:76561407,&quot;client_id&quot;:&quot;322846777.1538395624&quot;,&quot;originating_request_id&quot;:&quot;CDF1:9A5A:26549BD:3AC0C4B:5D287A6D&quot;,&quot;originating_url&quot;:&quot;https://github.com/Vimux/Mainroad/blob/master/package.json&quot;,&quot;referrer&quot;:&quot;https://github.com/Vimux/Mainroad&quot;,&quot;user_id&quot;:22473587}}" data-hydro-click-hmac="acbd9221cb72e48b7131e0e61683b0706d5a37946232e7f1db91df3f7b8ede8c" data-ga-click="Repository, click Watch settings, action:blob#show">          <span data-menu-button>
+        <summary class="select-menu-button float-left btn btn-sm btn-with-count" data-hydro-click="{&quot;event_type&quot;:&quot;repository.click&quot;,&quot;payload&quot;:{&quot;target&quot;:&quot;WATCH_BUTTON&quot;,&quot;repository_id&quot;:76561407,&quot;client_id&quot;:&quot;322846777.1538395624&quot;,&quot;originating_request_id&quot;:&quot;E653:335D8:7CCE9B:C0CC63:5D64CEF7&quot;,&quot;originating_url&quot;:&quot;https://github.com/Vimux/Mainroad/blob/master/package.json&quot;,&quot;referrer&quot;:&quot;https://github.com/Vimux/Mainroad&quot;,&quot;user_id&quot;:22473587}}" data-hydro-click-hmac="c42dda07d4ca28790636cb9a3b8ea5a4c2ea4cf9a782e9d09a37d2aa87d7e5f9" data-ga-click="Repository, click Watch settings, action:blob#show">          <span data-menu-button>
               <svg class="octicon octicon-eye v-align-text-bottom" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M8.06 2C3 2 0 8 0 8s3 6 8.06 6C13 14 16 8 16 8s-3-6-7.94-6zM8 12c-2.2 0-4-1.78-4-4 0-2.2 1.8-4 4-4 2.22 0 4 1.8 4 4 0 2.22-1.78 4-4 4zm2-4c0 1.11-.89 2-2 2-1.11 0-2-.89-2-2 0-1.11.89-2 2-2 1.11 0 2 .89 2 2z"/></svg>
               Watch
           </span>
@@ -723,43 +749,43 @@
       </details>
         <a class="social-count js-social-count"
           href="/Vimux/Mainroad/watchers"
-          aria-label="15 users are watching this repository">
-          15
+          aria-label="16 users are watching this repository">
+          16
         </a>
 </form>
   </li>
 
   <li>
       <div class="js-toggler-container js-social-container starring-container on">
-    <!-- '"` --><!-- </textarea></xmp> --></option></form><form class="starred js-social-form" action="/Vimux/Mainroad/unstar" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="tV02idCp+rJlo/BPNFYWVj14ToFBdnykZFVvWpk030viwpDvcH896zgS2Z4FUTf9C3XP5QSBhzt9CP/7U5cbKA==" />
+    <!-- '"` --><!-- </textarea></xmp> --></option></form><form class="starred js-social-form" action="/Vimux/Mainroad/unstar" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="qDMYRINJ8rP0Dws3Vzoo5d+htWnSIPILZNoFv0kJmjQijRHKJPQBRZDjIezR42mPZFjBwsQF1I1Q1/34Hl3MPQ==" />
       <input type="hidden" name="context" value="repository"></input>
-      <button type="submit" class="btn btn-sm btn-with-count js-toggler-target" aria-label="Unstar this repository" title="Unstar Vimux/Mainroad" data-hydro-click="{&quot;event_type&quot;:&quot;repository.click&quot;,&quot;payload&quot;:{&quot;target&quot;:&quot;UNSTAR_BUTTON&quot;,&quot;repository_id&quot;:76561407,&quot;client_id&quot;:&quot;322846777.1538395624&quot;,&quot;originating_request_id&quot;:&quot;CDF1:9A5A:26549BD:3AC0C4B:5D287A6D&quot;,&quot;originating_url&quot;:&quot;https://github.com/Vimux/Mainroad/blob/master/package.json&quot;,&quot;referrer&quot;:&quot;https://github.com/Vimux/Mainroad&quot;,&quot;user_id&quot;:22473587}}" data-hydro-click-hmac="0c1f9d1aee1e4d0fc0883eb58195fa401d60cc7af35fb16abab9a39275f543a7" data-ga-click="Repository, click unstar button, action:blob#show; text:Unstar">        <svg class="octicon octicon-star v-align-text-bottom" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M14 6l-4.9-.64L7 1 4.9 5.36 0 6l3.6 3.26L2.67 14 7 11.67 11.33 14l-.93-4.74L14 6z"/></svg>
+      <button type="submit" class="btn btn-sm btn-with-count js-toggler-target" aria-label="Unstar this repository" title="Unstar Vimux/Mainroad" data-hydro-click="{&quot;event_type&quot;:&quot;repository.click&quot;,&quot;payload&quot;:{&quot;target&quot;:&quot;UNSTAR_BUTTON&quot;,&quot;repository_id&quot;:76561407,&quot;client_id&quot;:&quot;322846777.1538395624&quot;,&quot;originating_request_id&quot;:&quot;E653:335D8:7CCE9B:C0CC63:5D64CEF7&quot;,&quot;originating_url&quot;:&quot;https://github.com/Vimux/Mainroad/blob/master/package.json&quot;,&quot;referrer&quot;:&quot;https://github.com/Vimux/Mainroad&quot;,&quot;user_id&quot;:22473587}}" data-hydro-click-hmac="c8f1c5370154731ef6b83f8d62a482fa24655eb34fa94cfabb4384db58ed37f5" data-ga-click="Repository, click unstar button, action:blob#show; text:Unstar">        <svg class="octicon octicon-star v-align-text-bottom" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M14 6l-4.9-.64L7 1 4.9 5.36 0 6l3.6 3.26L2.67 14 7 11.67 11.33 14l-.93-4.74L14 6z"/></svg>
         Unstar
 </button>        <a class="social-count js-social-count" href="/Vimux/Mainroad/stargazers"
-           aria-label="243 users starred this repository">
-           243
+           aria-label="264 users starred this repository">
+           264
         </a>
 </form>
-    <!-- '"` --><!-- </textarea></xmp> --></option></form><form class="unstarred js-social-form" action="/Vimux/Mainroad/star" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="ngbgy0xhJWfcIGkE2viG/rxLYyW3GKMmAGVS7gNUE2cwgI2EN1mhY2yYEn0Fqz4+R7UyxzFJAC/467gUkhLuIg==" />
+    <!-- '"` --><!-- </textarea></xmp> --></option></form><form class="unstarred js-social-form" action="/Vimux/Mainroad/star" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="Q2LWPsoz2If8NuZiFuIgAIZNB6IdS6IM1sAnvh/ocUvg3m2F74G/2IZJ4U4ifP3USiBWgM/iC01Ho9pMgp6Uzg==" />
       <input type="hidden" name="context" value="repository"></input>
-      <button type="submit" class="btn btn-sm btn-with-count js-toggler-target" aria-label="Unstar this repository" title="Star Vimux/Mainroad" data-hydro-click="{&quot;event_type&quot;:&quot;repository.click&quot;,&quot;payload&quot;:{&quot;target&quot;:&quot;STAR_BUTTON&quot;,&quot;repository_id&quot;:76561407,&quot;client_id&quot;:&quot;322846777.1538395624&quot;,&quot;originating_request_id&quot;:&quot;CDF1:9A5A:26549BD:3AC0C4B:5D287A6D&quot;,&quot;originating_url&quot;:&quot;https://github.com/Vimux/Mainroad/blob/master/package.json&quot;,&quot;referrer&quot;:&quot;https://github.com/Vimux/Mainroad&quot;,&quot;user_id&quot;:22473587}}" data-hydro-click-hmac="95e167e3aec050b3b2a6753e9d4f79a4dd25b5bd2213a2f58decd388ff0c4985" data-ga-click="Repository, click star button, action:blob#show; text:Star">        <svg class="octicon octicon-star v-align-text-bottom" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M14 6l-4.9-.64L7 1 4.9 5.36 0 6l3.6 3.26L2.67 14 7 11.67 11.33 14l-.93-4.74L14 6z"/></svg>
+      <button type="submit" class="btn btn-sm btn-with-count js-toggler-target" aria-label="Unstar this repository" title="Star Vimux/Mainroad" data-hydro-click="{&quot;event_type&quot;:&quot;repository.click&quot;,&quot;payload&quot;:{&quot;target&quot;:&quot;STAR_BUTTON&quot;,&quot;repository_id&quot;:76561407,&quot;client_id&quot;:&quot;322846777.1538395624&quot;,&quot;originating_request_id&quot;:&quot;E653:335D8:7CCE9B:C0CC63:5D64CEF7&quot;,&quot;originating_url&quot;:&quot;https://github.com/Vimux/Mainroad/blob/master/package.json&quot;,&quot;referrer&quot;:&quot;https://github.com/Vimux/Mainroad&quot;,&quot;user_id&quot;:22473587}}" data-hydro-click-hmac="3a9c7fa878756454883108227947469399fe30a55a3811a7152a0be17255cdf9" data-ga-click="Repository, click star button, action:blob#show; text:Star">        <svg class="octicon octicon-star v-align-text-bottom" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M14 6l-4.9-.64L7 1 4.9 5.36 0 6l3.6 3.26L2.67 14 7 11.67 11.33 14l-.93-4.74L14 6z"/></svg>
         Star
 </button>        <a class="social-count js-social-count" href="/Vimux/Mainroad/stargazers"
-           aria-label="243 users starred this repository">
-          243
+           aria-label="264 users starred this repository">
+          264
         </a>
 </form>  </div>
 
   </li>
 
   <li>
-          <!-- '"` --><!-- </textarea></xmp> --></option></form><form class="btn-with-count" action="/Vimux/Mainroad/fork" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="lqtvOci2xZF8IOWlw/pvIAA045A5A0C07X+OX/vpuB/w/ZOfr3H5XHV6gGZv9DDYH5kEUdMwfV/6cDDtfFPJ9w==" />
-            <button class="btn btn-sm btn-with-count" data-hydro-click="{&quot;event_type&quot;:&quot;repository.click&quot;,&quot;payload&quot;:{&quot;target&quot;:&quot;FORK_BUTTON&quot;,&quot;repository_id&quot;:76561407,&quot;client_id&quot;:&quot;322846777.1538395624&quot;,&quot;originating_request_id&quot;:&quot;CDF1:9A5A:26549BD:3AC0C4B:5D287A6D&quot;,&quot;originating_url&quot;:&quot;https://github.com/Vimux/Mainroad/blob/master/package.json&quot;,&quot;referrer&quot;:&quot;https://github.com/Vimux/Mainroad&quot;,&quot;user_id&quot;:22473587}}" data-hydro-click-hmac="6a834fe0f400f523d7170da96b9a19c00886682c7a3dbe45db384ec3ad0ca870" data-ga-click="Repository, show fork modal, action:blob#show; text:Fork" type="submit" title="Fork your own copy of Vimux/Mainroad to your account" aria-label="Fork your own copy of Vimux/Mainroad to your account">              <svg class="octicon octicon-repo-forked v-align-text-bottom" viewBox="0 0 10 16" version="1.1" width="10" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M8 1a1.993 1.993 0 0 0-1 3.72V6L5 8 3 6V4.72A1.993 1.993 0 0 0 2 1a1.993 1.993 0 0 0-1 3.72V6.5l3 3v1.78A1.993 1.993 0 0 0 5 15a1.993 1.993 0 0 0 1-3.72V9.5l3-3V4.72A1.993 1.993 0 0 0 8 1zM2 4.2C1.34 4.2.8 3.65.8 3c0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2zm3 10c-.66 0-1.2-.55-1.2-1.2 0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2zm3-10c-.66 0-1.2-.55-1.2-1.2 0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2z"/></svg>
+          <!-- '"` --><!-- </textarea></xmp> --></option></form><form class="btn-with-count" action="/Vimux/Mainroad/fork" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="Xj/Otp3ssXQi1SS0e2VF7LrPPqphzkwzf8KTEi7NDbtjBkN17XyTl/Z9DkilMR2010lb8P5TA8GfOmLjvudpgQ==" />
+            <button class="btn btn-sm btn-with-count" data-hydro-click="{&quot;event_type&quot;:&quot;repository.click&quot;,&quot;payload&quot;:{&quot;target&quot;:&quot;FORK_BUTTON&quot;,&quot;repository_id&quot;:76561407,&quot;client_id&quot;:&quot;322846777.1538395624&quot;,&quot;originating_request_id&quot;:&quot;E653:335D8:7CCE9B:C0CC63:5D64CEF7&quot;,&quot;originating_url&quot;:&quot;https://github.com/Vimux/Mainroad/blob/master/package.json&quot;,&quot;referrer&quot;:&quot;https://github.com/Vimux/Mainroad&quot;,&quot;user_id&quot;:22473587}}" data-hydro-click-hmac="ac5f2182c241a0eefb04f262b9269c555502fb729a225c4c5ba2975400b797b0" data-ga-click="Repository, show fork modal, action:blob#show; text:Fork" type="submit" title="Fork your own copy of Vimux/Mainroad to your account" aria-label="Fork your own copy of Vimux/Mainroad to your account">              <svg class="octicon octicon-repo-forked v-align-text-bottom" viewBox="0 0 10 16" version="1.1" width="10" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M8 1a1.993 1.993 0 0 0-1 3.72V6L5 8 3 6V4.72A1.993 1.993 0 0 0 2 1a1.993 1.993 0 0 0-1 3.72V6.5l3 3v1.78A1.993 1.993 0 0 0 5 15a1.993 1.993 0 0 0 1-3.72V9.5l3-3V4.72A1.993 1.993 0 0 0 8 1zM2 4.2C1.34 4.2.8 3.65.8 3c0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2zm3 10c-.66 0-1.2-.55-1.2-1.2 0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2zm3-10c-.66 0-1.2-.55-1.2-1.2 0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2z"/></svg>
               Fork
 </button></form>
     <a href="/Vimux/Mainroad/network/members" class="social-count"
-       aria-label="142 users forked this repository">
-      142
+       aria-label="154 users forked this repository">
+      154
     </a>
   </li>
 </ul>
@@ -792,7 +818,7 @@
       <a itemprop="url" data-hotkey="g i" class="js-selected-navigation-item reponav-item" data-selected-links="repo_issues repo_labels repo_milestones /Vimux/Mainroad/issues" href="/Vimux/Mainroad/issues">
         <svg class="octicon octicon-issue-opened" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-3.14 2.56-5.7 5.7-5.7zM7 1C3.14 1 0 4.14 0 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7zm1 3H6v5h2V4zm0 6H6v2h2v-2z"/></svg>
         <span itemprop="name">Issues</span>
-        <span class="Counter">5</span>
+        <span class="Counter">4</span>
         <meta itemprop="position" content="2">
 </a>    </span>
 
@@ -804,6 +830,12 @@
       <meta itemprop="position" content="3">
 </a>  </span>
 
+    <span itemscope itemtype="http://schema.org/ListItem" itemprop="itemListElement" class="position-relative float-left">
+      <a data-hotkey="g w" data-skip-pjax="true" class="js-selected-navigation-item reponav-item" data-selected-links="repo_actions /Vimux/Mainroad/actions" href="/Vimux/Mainroad/actions">
+        <svg class="octicon octicon-play" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M14 8A7 7 0 1 1 0 8a7 7 0 0 1 14 0zm-8.223 3.482l4.599-3.066a.5.5 0 0 0 0-.832L5.777 4.518A.5.5 0 0 0 5 4.934v6.132a.5.5 0 0 0 .777.416z"/></svg>
+        Actions
+</a>
+    </span>
 
 
 
@@ -833,7 +865,7 @@
       <span itemscope itemtype="http://schema.org/ListItem" itemprop="itemListElement">
         <a itemprop="url" class="js-selected-navigation-item reponav-item" data-selected-links="repo_issues repo_labels repo_milestones /Vimux/Mainroad/issues" href="/Vimux/Mainroad/issues">
           <span itemprop="name">Issues</span>
-          <span class="Counter">5</span>
+          <span class="Counter">4</span>
           <meta itemprop="position" content="2">
 </a>      </span>
 
@@ -863,7 +895,7 @@
 
 
   </div>
-<div class="container-lg new-discussion-timeline experiment-repo-nav  p-responsive">
+<div class="container-lg clearfix new-discussion-timeline experiment-repo-nav  p-responsive">
   <div class="repository-content ">
 
     
@@ -871,21 +903,22 @@
 
 
   
-    <a class="d-none js-permalink-shortcut" data-hotkey="y" href="/Vimux/Mainroad/blob/faee0253f5e0d4f14e40dc7e41c010fd178920d2/package.json">Permalink</a>
 
-    <!-- blob contrib key: blob_contributors:v21:067df141ee4ad30b8277f0761de82298 -->
+
+    <a class="d-none js-permalink-shortcut" data-hotkey="y" href="/Vimux/Mainroad/blob/6167552546f60f5a22344909061afa5b62754555/package.json">Permalink</a>
+
+    <!-- blob contrib key: blob_contributors:v21:378dc6eeaaf22209142651f5d6059ce6 -->
       
 
-    <div class="d-flex flex-items-start flex-shrink-0 mb-2 flex-column flex-md-row">
+    <div class="d-flex flex-items-start flex-shrink-0 pb-3 flex-column flex-md-row">
       <span class="d-flex flex-justify-between width-full width-md-auto">
         
 <details class="details-reset details-overlay select-menu branch-select-menu  hx_rsm" id="branch-select-menu">
   <summary class="btn btn-sm select-menu-button css-truncate"
            data-hotkey="w"
-           
            title="Switch branches or tags">
     <i>Branch:</i>
-    <span class="css-truncate-target">master</span>
+    <span class="css-truncate-target" data-menu-button>master</span>
   </summary>
 
   <details-menu class="select-menu-modal hx_rsm-modal position-absolute" style="z-index: 99;" src="/Vimux/Mainroad/ref-list/master/package.json?source_action=show&amp;source_controller=blob" preload>
@@ -967,13 +1000,13 @@
                 <svg class="octicon octicon-device-desktop" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M15 2H1c-.55 0-1 .45-1 1v9c0 .55.45 1 1 1h5.34c-.25.61-.86 1.39-2.34 2h8c-1.48-.61-2.09-1.39-2.34-2H15c.55 0 1-.45 1-1V3c0-.55-.45-1-1-1zm0 9H1V3h14v8z"/></svg>
             </a>
 
-            <!-- '"` --><!-- </textarea></xmp> --></option></form><form class="inline-form js-update-url-with-hash" action="/Vimux/Mainroad/edit/master/package.json" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="PeELH0SSunK+nKru/Ra0VjIcDwn3PBH4OtG5wKcx6uNWo1Fnm0bzcD+X16seZ8fhh22waQyfGfcEAMFOOl6Byw==" />
+            <!-- '"` --><!-- </textarea></xmp> --></option></form><form class="inline-form js-update-url-with-hash" action="/Vimux/Mainroad/edit/master/package.json" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="RWniRdsoQ5yWbfBd7geZbxaFEnr85nMUU8hhIn/nCjX9wGtZZwEOHYveOWkIpPRcvpUl73bsBc87xJ6PXmR71Q==" />
               <button class="btn-octicon tooltipped tooltipped-nw" type="submit"
                 aria-label="Fork this project and edit the file" data-hotkey="e" data-disable-with>
                 <svg class="octicon octicon-pencil" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M0 12v3h3l8-8-3-3-8 8zm3 2H1v-2h1v1h1v1zm10.3-9.3L12 6 9 3l1.3-1.3a.996.996 0 0 1 1.41 0l1.59 1.59c.39.39.39 1.02 0 1.41z"/></svg>
               </button>
 </form>
-          <!-- '"` --><!-- </textarea></xmp> --></option></form><form class="inline-form" action="/Vimux/Mainroad/delete/master/package.json" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="X7WZbh/p9p0FoRxXJtlvQB4oeaB8YWdY2dlAdu6+Crszt87LLd0fcyfGDgPgYQIi8VFDcBGLYvfuLEkHYW0ddA==" />
+          <!-- '"` --><!-- </textarea></xmp> --></option></form><form class="inline-form" action="/Vimux/Mainroad/delete/master/package.json" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="authenticity_token" value="vNyE/Ykb8kOg4BOQo5wVJkaMBkzVkj0lPgcPaniX4m9DSwtLe31kJ6POauGr3TNHmVAxtmNIBjFP2+DWg6kCiw==" />
             <button class="btn-octicon btn-octicon-danger tooltipped tooltipped-nw" type="submit"
               aria-label="Fork this project and delete the file" data-disable-with>
               <svg class="octicon octicon-trashcan" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M11 2H9c0-.55-.45-1-1-1H5c-.55 0-1 .45-1 1H2c-.55 0-1 .45-1 1v1c0 .55.45 1 1 1v9c0 .55.45 1 1 1h7c.55 0 1-.45 1-1V5c.55 0 1-.45 1-1V3c0-.55-.45-1-1-1zm-1 12H3V5h1v8h1V5h1v8h1V5h1v8h1V5h1v9zm1-10H2V3h9v1z"/></svg>
@@ -1020,7 +1053,7 @@
       </tr>
       <tr>
         <td id="L8" class="blob-num js-line-number" data-line-number="8"></td>
-        <td id="LC8" class="blob-code blob-code-inner js-file-line">    <span class="pl-s"><span class="pl-pds">&quot;</span>autoprefixer<span class="pl-pds">&quot;</span></span>: <span class="pl-s"><span class="pl-pds">&quot;</span>^9.4.10<span class="pl-pds">&quot;</span></span>,</td>
+        <td id="LC8" class="blob-code blob-code-inner js-file-line">    <span class="pl-s"><span class="pl-pds">&quot;</span>autoprefixer<span class="pl-pds">&quot;</span></span>: <span class="pl-s"><span class="pl-pds">&quot;</span>^9.6.1<span class="pl-pds">&quot;</span></span>,</td>
       </tr>
       <tr>
         <td id="L9" class="blob-num js-line-number" data-line-number="9"></td>
@@ -1028,11 +1061,11 @@
       </tr>
       <tr>
         <td id="L10" class="blob-num js-line-number" data-line-number="10"></td>
-        <td id="LC10" class="blob-code blob-code-inner js-file-line">    <span class="pl-s"><span class="pl-pds">&quot;</span>eslint-config-airbnb-base<span class="pl-pds">&quot;</span></span>: <span class="pl-s"><span class="pl-pds">&quot;</span>^13.1.0<span class="pl-pds">&quot;</span></span>,</td>
+        <td id="LC10" class="blob-code blob-code-inner js-file-line">    <span class="pl-s"><span class="pl-pds">&quot;</span>eslint-config-airbnb-base<span class="pl-pds">&quot;</span></span>: <span class="pl-s"><span class="pl-pds">&quot;</span>^13.2.0<span class="pl-pds">&quot;</span></span>,</td>
       </tr>
       <tr>
         <td id="L11" class="blob-num js-line-number" data-line-number="11"></td>
-        <td id="LC11" class="blob-code blob-code-inner js-file-line">    <span class="pl-s"><span class="pl-pds">&quot;</span>eslint-plugin-import<span class="pl-pds">&quot;</span></span>: <span class="pl-s"><span class="pl-pds">&quot;</span>^2.16.0<span class="pl-pds">&quot;</span></span>,</td>
+        <td id="LC11" class="blob-code blob-code-inner js-file-line">    <span class="pl-s"><span class="pl-pds">&quot;</span>eslint-plugin-import<span class="pl-pds">&quot;</span></span>: <span class="pl-s"><span class="pl-pds">&quot;</span>^2.18.0<span class="pl-pds">&quot;</span></span>,</td>
       </tr>
       <tr>
         <td id="L12" class="blob-num js-line-number" data-line-number="12"></td>
@@ -1040,7 +1073,7 @@
       </tr>
       <tr>
         <td id="L13" class="blob-num js-line-number" data-line-number="13"></td>
-        <td id="LC13" class="blob-code blob-code-inner js-file-line">    <span class="pl-s"><span class="pl-pds">&quot;</span>postcss-cli<span class="pl-pds">&quot;</span></span>: <span class="pl-s"><span class="pl-pds">&quot;</span>^6.1.2<span class="pl-pds">&quot;</span></span>,</td>
+        <td id="LC13" class="blob-code blob-code-inner js-file-line">    <span class="pl-s"><span class="pl-pds">&quot;</span>postcss-cli<span class="pl-pds">&quot;</span></span>: <span class="pl-s"><span class="pl-pds">&quot;</span>^6.1.3<span class="pl-pds">&quot;</span></span>,</td>
       </tr>
       <tr>
         <td id="L14" class="blob-num js-line-number" data-line-number="14"></td>
@@ -1048,7 +1081,7 @@
       </tr>
       <tr>
         <td id="L15" class="blob-num js-line-number" data-line-number="15"></td>
-        <td id="LC15" class="blob-code blob-code-inner js-file-line">    <span class="pl-s"><span class="pl-pds">&quot;</span>stylelint-order<span class="pl-pds">&quot;</span></span>: <span class="pl-s"><span class="pl-pds">&quot;</span>^2.1.0<span class="pl-pds">&quot;</span></span></td>
+        <td id="LC15" class="blob-code blob-code-inner js-file-line">    <span class="pl-s"><span class="pl-pds">&quot;</span>stylelint-order<span class="pl-pds">&quot;</span></span>: <span class="pl-s"><span class="pl-pds">&quot;</span>^2.2.1<span class="pl-pds">&quot;</span></span></td>
       </tr>
       <tr>
         <td id="L16" class="blob-num js-line-number" data-line-number="16"></td>
@@ -1140,7 +1173,7 @@
       <ul class="BlobToolbar-dropdown dropdown-menu dropdown-menu-se mt-2" style="width:185px">
         <li><clipboard-copy role="menuitem" class="dropdown-item" id="js-copy-lines" style="cursor:pointer;" data-original-text="Copy lines">Copy lines</clipboard-copy></li>
         <li><clipboard-copy role="menuitem" class="dropdown-item" id="js-copy-permalink" style="cursor:pointer;" data-original-text="Copy permalink">Copy permalink</clipboard-copy></li>
-        <li><a class="dropdown-item js-update-url-with-hash" id="js-view-git-blame" role="menuitem" href="/Vimux/Mainroad/blame/faee0253f5e0d4f14e40dc7e41c010fd178920d2/package.json">View git blame</a></li>
+        <li><a class="dropdown-item js-update-url-with-hash" id="js-view-git-blame" role="menuitem" href="/Vimux/Mainroad/blame/6167552546f60f5a22344909061afa5b62754555/package.json">View git blame</a></li>
           <li><a class="dropdown-item" id="js-new-issue" role="menuitem" href="/Vimux/Mainroad/issues/new">Reference in new issue</a></li>
       </ul>
     </details-menu>
@@ -1164,7 +1197,6 @@
 
 
   </div>
-  <div class="modal-backdrop js-touch-events"></div>
 </div>
 
     </main>
@@ -1177,7 +1209,7 @@
 <div class="footer container-lg width-full p-responsive" role="contentinfo">
   <div class="position-relative d-flex flex-row-reverse flex-lg-row flex-wrap flex-lg-nowrap flex-justify-center flex-lg-justify-between pt-6 pb-2 mt-6 f6 text-gray border-top border-gray-light ">
     <ul class="list-style-none d-flex flex-wrap col-12 col-lg-5 flex-justify-center flex-lg-justify-between mb-2 mb-lg-0">
-      <li class="mr-3 mr-lg-0">&copy; 2019 <span title="0.62592s from unicorn-6b866fff94-9rbn4">GitHub</span>, Inc.</li>
+      <li class="mr-3 mr-lg-0">&copy; 2019 <span title="0.35228s from unicorn-7cc5dd5dbc-bszfc">GitHub</span>, Inc.</li>
         <li class="mr-3 mr-lg-0"><a data-ga-click="Footer, go to terms, text:terms" href="https://github.com/site/terms">Terms</a></li>
         <li class="mr-3 mr-lg-0"><a data-ga-click="Footer, go to privacy, text:privacy" href="https://github.com/site/privacy">Privacy</a></li>
         <li class="mr-3 mr-lg-0"><a data-ga-click="Footer, go to security, text:security" href="https://github.com/security">Security</a></li>
@@ -1215,9 +1247,9 @@
 
 
     
-    <script crossorigin="anonymous" integrity="sha512-mxKcLKe1PSS00TpWBTYMDM5u/3N8fjH9TViQqKljWBkiZs0e3hXU4gTaJjqaopJliYDhnsgZKVwkbEuvbEX9TQ==" type="application/javascript" src="https://github.githubassets.com/assets/frameworks-96c669c6.js"></script>
+    <script crossorigin="anonymous" integrity="sha512-PFVbVSrMzusC1KLktzYYs16Ba4eiYgpG36jTWt0rbtvacsmX/QQFl+5ecqimZTvUKg8qbgeqGqVon2cTYh4Nvw==" type="application/javascript" src="https://github.githubassets.com/assets/frameworks-b1c626a0.js"></script>
     
-    <script crossorigin="anonymous" async="async" integrity="sha512-fGWKs1xKCBTTpsgg5C4/axMQGijlMBYE9papaEJGRY45RpgFihkhiUIATw2+C3aVJZ3wyeXz6MNSP9Eh4y+tOw==" type="application/javascript" src="https://github.githubassets.com/assets/github-bootstrap-4652d74a.js"></script>
+    <script crossorigin="anonymous" async="async" integrity="sha512-m0G2nTAO76A59HRyov9QiqsHFq7GFjFSB5FbX7UzSehHxtHUj3NyzG5OUb06kVVFXBlLiastdL0+czeBQIkc0g==" type="application/javascript" src="https://github.githubassets.com/assets/github-bootstrap-b86dfd7b.js"></script>
     
     
     

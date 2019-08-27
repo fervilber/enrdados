@@ -40,24 +40,24 @@ El algoritmo que se me ha ocurrido después de darle unas cuantas vueltas es est
 
 ```{r}
 # Ejemplo de algoritmo para numeros montaña
- num<-14821 # ejemplo de num montala
+  num<-14821 # ejemplo de num montala
 # separamos sus cifras
- separa<-strsplit(as.character(num), "")[[1]]
+  separa<-strsplit(as.character(num), "")[[1]]
 # lo volvemos a convertir en vector número 
- separa<-as.integer(separa)
- separa
+  separa<-as.integer(separa)
+  separa
 # calculamos diff
- d_separa<-diff(separa)
- d_separa
+  d_separa<-diff(separa)
+  d_separa
 # calculamos el signo de d_separa
- signo<-sign(d_separa)
- signo
+  signo<-sign(d_separa)
+  signo
 # calculamo la serie diff de signo
- diff(signo)
+  diff(signo)
 
 ```
 
-  - Para que sea un número montaña debe subir al principio, llegar a la cima y baja después, por lo que `diff()` debe ser una serie de unos (1) y luego de menos unos (-1), seguidos. La derivada de `diff()` es decir la diferencia de la diferencia, nos da una serie interesante, pues identifica con el valor `-2` las cimas como cambio de pendiente.
+  - Para que sea un número montaña debe subir al principio, llegar a la cima y baja después, por lo que `sign(diff())` debe ser una serie de unos (1) y luego de menos unos (-1), seguidos. La derivada de `diff()` es decir la diferencia de la diferencia, nos da una serie interesante, pues identifica con el valor `-2` las cimas como cambio de pendiente.
 
 A la inversa los valles se identifican con el valor 2... eso para otro día.
 
@@ -72,7 +72,7 @@ Como buscamos los números montaña, tenemos que seleccionar solo aquellos en lo
   signo<-sign(d_separa)
   diff(signo)
 ```
-por lo que n la función tendremos que ver si como el caso anterior hay solo una cima o varias contando el número de (-2) en el vector diff(signo).
+por lo que en la función tendremos que ver si como el caso anterior hay solo una cima o varias contando el número de (-2) en el vector diff(signo).
 
 Usando estas fórmulas tenemos una manera de identificar si un número es *montaña*, o incluso si es *valle* o *sierra*, pero para centrarnos en los montaña vamos a crear una función que junte lo que hemos averiguado y nos dé como resultado 1 si es número montaña y 0 si no lo es.
 

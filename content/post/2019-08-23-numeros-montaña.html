@@ -38,26 +38,26 @@ toc: no
 <li>Calculamos el signo de cada valor de la serie <code>diff()</code> , con lo que solo nos queda un valor de 1 si sube o -1 si baja en cada paso.</li>
 </ul>
 <pre class="r"><code># Ejemplo de algoritmo para numeros montaña
- num&lt;-14821 # ejemplo de num montala
+  num&lt;-14821 # ejemplo de num montala
 # separamos sus cifras
- separa&lt;-strsplit(as.character(num), &quot;&quot;)[[1]]
+  separa&lt;-strsplit(as.character(num), &quot;&quot;)[[1]]
 # lo volvemos a convertir en vector número 
- separa&lt;-as.integer(separa)
- separa</code></pre>
+  separa&lt;-as.integer(separa)
+  separa</code></pre>
 <pre><code>## [1] 1 4 8 2 1</code></pre>
 <pre class="r"><code># calculamos diff
- d_separa&lt;-diff(separa)
- d_separa</code></pre>
+  d_separa&lt;-diff(separa)
+  d_separa</code></pre>
 <pre><code>## [1]  3  4 -6 -1</code></pre>
 <pre class="r"><code># calculamos el signo de d_separa
- signo&lt;-sign(d_separa)
- signo</code></pre>
+  signo&lt;-sign(d_separa)
+  signo</code></pre>
 <pre><code>## [1]  1  1 -1 -1</code></pre>
 <pre class="r"><code># calculamo la serie diff de signo
- diff(signo)</code></pre>
+  diff(signo)</code></pre>
 <pre><code>## [1]  0 -2  0</code></pre>
 <ul>
-<li>Para que sea un número montaña debe subir al principio, llegar a la cima y baja después, por lo que <code>diff()</code> debe ser una serie de unos (1) y luego de menos unos (-1), seguidos. La derivada de <code>diff()</code> es decir la diferencia de la diferencia, nos da una serie interesante, pues identifica con el valor <code>-2</code> las cimas como cambio de pendiente.</li>
+<li>Para que sea un número montaña debe subir al principio, llegar a la cima y baja después, por lo que <code>sign(diff())</code> debe ser una serie de unos (1) y luego de menos unos (-1), seguidos. La derivada de <code>diff()</code> es decir la diferencia de la diferencia, nos da una serie interesante, pues identifica con el valor <code>-2</code> las cimas como cambio de pendiente.</li>
 </ul>
 <p>A la inversa los valles se identifican con el valor 2… eso para otro día.</p>
 <p>Como buscamos los números montaña, tenemos que seleccionar solo aquellos en los que solo aparezca una cima, es decir un -2 y no varios como en el siguiente caso:</p>
@@ -69,7 +69,7 @@ toc: no
   signo&lt;-sign(d_separa)
   diff(signo)</code></pre>
 <pre><code>## [1]  0 -2  2 -2  0</code></pre>
-<p>por lo que n la función tendremos que ver si como el caso anterior hay solo una cima o varias contando el número de (-2) en el vector diff(signo).</p>
+<p>por lo que en la función tendremos que ver si como el caso anterior hay solo una cima o varias contando el número de (-2) en el vector diff(signo).</p>
 <p>Usando estas fórmulas tenemos una manera de identificar si un número es <em>montaña</em>, o incluso si es <em>valle</em> o <em>sierra</em>, pero para centrarnos en los montaña vamos a crear una función que junte lo que hemos averiguado y nos dé como resultado 1 si es número montaña y 0 si no lo es.</p>
 </div>
 <div id="funcion-que-identifica-un-numero-montana" class="section level2">
