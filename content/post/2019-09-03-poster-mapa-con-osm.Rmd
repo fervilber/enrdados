@@ -1,0 +1,210 @@
+---
+title: 'Poster mapa con OSM '
+author: F.VilBer
+date: '2019-09-03'
+slug: poster-mapa-con-osm
+categories:
+  - diseño
+  - GIS
+  - mapas
+  - R
+tags:
+  - CRS
+  - divertido
+  - mapas
+  - R
+  - plot
+  - SIG
+  - sf
+description: 'Descarga de capas de OpenStreetMap y realizacion de un poster con ellas'
+thumbnail: '/img/plot_MarMenor.png'
+toc: no
+editor_options: 
+  chunk_output_type: console
+---
+
+
+## Un poster en la pared
+
+Estaba navegando a muerte por la web, y encontré una de esas cosas curiosas que me encantan, se trata de una web en la que te imprimen en alta calidad un mapa de tu ciudad, o región en un póster.
+
+Puedes pensar que eso es una tontería, hasta con imprimir un mapa directamente de google, o mejor de los de CARTO BD o una imagen de la tierra desde satélite, pero no, no es suficiente, hacer un mapa es algo más artístico y complejo que eso, y me llamó la atención la selección tan chula de colores y fondos que tiene y la sencillez desnuda de las líneas y fondos que usan, pues carecen de texto.
+
+Esta web es [modernmapart.com](http://custom.modernmapart.com/?_ga=2.189230056.254034061.1565353587-1756340110.1565353587). La idea es buena, al menos yo me compararía unos cuantos de estos mapas para casa o el despacho... Bueno, como buen españolito, la falta de recursos agudiza el ingenio, así que pensé..¿por qué no hacerlo con R?, el diseño parece sencillo.... manos a la obra...
+
+
+## OSM
+OpenStreetMap o (OSM) es un servicio de datos geográficos de acceso libre, con licencia *Open Data Commons Open Database License* (*ODbL*) de la Fundación OpenStreetMap (OSMF). Es el servicio de mapas de acceso libre más importante y gracias a esta fundación podemos hacer aplicaciones SIG que compiten en igualdad de condiciones con los grandes de la cartografía digital como *google*, *bing maps*, *Carto*, o *Arcview*.
+
+Muchos de los datos los han importado en colaboración con instituciones publicas nacionales como el *Instituto Geográfico Nacional* en el caso de España, pero al principio fue la comunidad de gente voluntaria la que metía los trazados, los nombres y datos de carreteras, iglesias, caminos, bici rutas, etc. 
+
+La capa de mosaicos base de OSM la podemos ver por defecto en Leaflet, y como verás contiene multitud de categorías de datos, capas y etiquetas, pero además nos permite acceder directamente a sus datos, descargarlos y montar mapas personalizados a nuestro gusto a través de su API.
+
+## Estructura de capas de OSM
+La información geográfica en OSM se almacena junto con metadatos, simples etiquetas que dan mucho juego a la hora de consultar o filtrar los datos. Actualmente hay unas 29 capas principales que contienen una inmensa variedad de datos geográficos (podemos ver el detalle en <https://wiki.openstreetmap.org/wiki/Map_Features>).
+
+Para este ejemplo vamos a usar solo las siguientes etiquetas-capas principales:
+
+  * *Amenity* que identifica zonas de ocio, comercio, educación, salud, entretenimiento...
+  * *Boundary* que contiene los límites fronteras
+  * *Highway* que contiene las carreteras y en general lineas de transporte 
+  * *Natural*  identifica zonas naturales, vegetación, lagos, playas
+  * *Waterway* para ríos, canales  
+
+Cada categoría principal tiene varias subcategorías y una tabla asociada con más datos asociados con las que podemos filtrar y seleccionar, veamos algún ejemplo.
+
+
+## Descargar datos OSM con `osmdata`
+Para descargar directamente los datos geográficos y metadatos de *OpenStreetMap* usaremos la librería `osmdata` que comunica con su API. 
+
+La función `opq()` delimita la zona geográfica de la consulta, y `add_osm_feature()` realiza la consulta en esa zona de las etiquetas o capas que se especifiquen.
+
+En los siguientes ejemplos vamos a seleccionar una zona geográfica y con la función `getbb()` que nos devuelve la caja de coordenadas que incluye una localización. En nuestro caso vamos a descargar datos de la zona del Mar Menor, nuestro querido y maltratado mar chico murciano.
+
+
+```{r obtener_capas, warning=FALSE, message=FALSE}
+  library(osmdata) 
+  library(tidyverse)
+  library(sf)
+  
+  #Objengo la caja de coordenadas de la zona de San Javier
+  caja<-getbb("San Javier, Murcia")
+  # bajamos la latitud de la caja hasta Cabo de Palos
+  # para sacar todo el Mar Menor
+  caja[2,1]<-37.60
+  
+  # Hacemos una consulta a OSM y descargamos datos como capa sf
+  # por ejemplo de los ríos de la zona
+  rios <- opq(caja) %>%
+      add_osm_feature(key = 'waterway') %>%
+      osmdata_sf()
+  
+  class(rios)
+  # para echar un vistazo  la lista podemos usar purrr::walk
+  #walk(rios, print)
+  # estructura de la capa de lineas
+  str(rios$osm_lines)
+  
+  # Hacemos otra consulta para buscar mercadonas en el Mar Menor
+  mercadonasMM<-opq(caja) %>%
+         add_osm_feature("name","Mercadona")%>%
+         add_osm_feature("shop","supermarket") %>%  osmdata_sf()  
+```
+
+En resumen, hemos delimitado una zona y después hecho una consulta de descarga de datos a la API de OSM con la función `add_osm_feature()` de la librería *osmdata* aplicando un filtro de etiqueta principal `key = 'waterway`.
+
+Para manejar estos datos los convertimos a [sf](../manual-de-sf-para-sig) con la función `osmdata_sf()`. Así hemos obtenido el objeto `rios` que contiene una lista con datos geográficos y tablas, que incluye no solo ríos, también canales y ramblas. 
+
+Otro ejemplo es la capa *mercadonaMM*, aquí hemos consultado la etiqueta `name=Mercadona` y después filtrado las que tienen la etiqueta `shop=supermarket`. El resultado serán los supermercados mercadona que se encuentran en la zona y que almacenamos en formato *sf* también.
+
+Para ver un listado de todas las etiquetas-capas disponibles hay una  función `available_features()` que muestra una lista de todas, y para una descripción de cada una  mejor ver [esta web](https://wiki.openstreetmap.org/wiki/Map_Features.
+
+Vamos a pintar estas dos capas (*sf*) sobre un mapa dinámico en R con `leaflet` ( [si quieres saber más de Leaflet mira mi post](../leaflet-mapas-dinamicos) ). Como el objeto `rios` es una lista con: puntos,líneas, polígonos, multilineas..., vamos a pintar solo las líneas. Aquí usaremos un truco, ya que la función `addPolylines` de Leaflet falla cuando la tabla contiene el campo *mane*, por lo que hay que vaciarlo antes.
+
+```{r pintar_capa_sf,warning=FALSE, message=FALSE}
+# Pintamos las capas descargadas en Leaflet 
+library(leaflet)
+# Arreglamos el error de sf con las polilineas 
+# borrando los nombres de la capa de lineas
+# si no haces esto no se pinta ..es un bug
+names(st_geometry(rios$osm_lines)) = NULL
+
+# Dibujamos el mapa con Leaflet y las 2 capas
+leaflet(rios$osm_lines) %>% addTiles() %>% # carga el mosaico base de OSM 
+  addPolylines(color ="blue",label = ~rios$osm_lines$name ) %>% # carga la capa de lineas de rios
+  addCircleMarkers(data=mercadonasMM$osm_points,radius = 7, color = "red",
+                   popup= ~mercadonasMM$osm_points$name) # carga la capa de puntos mercadonas
+```
+
+## Bajar el resto de capas
+
+Visto el proceso de descarga de OSM, procederemos a la  descarga de algunas capas más que nos permitirán montar el mapa póster que buscamos.
+
+También usaré una capa que tenía en formato *shp* del contorno de la Confederación Hidrográfica solo para montar un polígono base del terreno.
+
+```{r descarga, eval=FALSE}
+# descargamos capas de OSM y almacenamos como sf
+# capa con poligonos de lagunas
+agua <- opq(caja) %>%
+    add_osm_feature(key = 'natural', value = 'water') %>%
+    osmdata_sf()
+# linea de costa
+costa <- opq(caja) %>%
+    add_osm_feature(key = 'natural', value = 'coastline') %>%
+    osmdata_sf()
+# calles de los pueblos
+calles<- opq(caja) %>%
+  add_osm_feature(key = 'highway',value = 'residential') %>% 
+  osmdata_sf()  
+#agricola <- opq(caja) %>%
+#  add_osm_feature(key = 'landuse',value = 'farmland') %>% 
+#  osmdata_sf()
+# Carreteras
+carreteras <- opq(caja) %>%
+  add_osm_feature(key = 'highway') %>%  
+  osmdata_sf()
+# seleccionamos dentro de carreteras las principales y secundarias
+carr_secun<-carreteras$osm_lines %>% # 
+            select(highway,name)%>% # 
+            filter(highway =='motorway' | highway =='trunk' | highway =='secondary')
+# solo autovías
+autovia <- carreteras$osm_lines %>% 
+            select(highway)%>%
+            filter(highway =='motorway' | highway =='trunk')
+# De la capa de rios que ya tenemos
+# seleccionamos los cursos de agua y canales
+rios1<-rios$osm_lines %>% 
+            select(waterway,name)%>% 
+            filter(waterway =='river' | waterway =='canal' | waterway =='stream')
+
+# voy a descargar una capa que tengo de shp de la confederación, para delimitar las costas
+# cargo otras capas en shp que tengo
+# pero que están en UTM por lo que transformo crs
+#../../
+chs <- st_read("static/capas/CHS_Cuenca_del_Segura.shp")
+st_crs(chs)<-23030
+chs<-st_transform(chs,crs=4326)
+# cortamos la capa a la zona del Mar Menor
+# para eso usamos la capa de lineas de rios
+chs<-st_crop(chs,rios$osm_lines)
+```
+
+Con todas estas capas almacenadas en instancias *sf*, vamos a montar un póster bien chulo del Mar Menor usando la función `plot()`, la más simple.
+
+Para que la salida tenga una calidad gráfica, lo pintamos en pdf y no en la salida gráfica.
+
+```{r pintarmapa, eval=FALSE}
+# pintamos en una instancia pdf para que la calidad sea alta
+pdf("plot_MarMenor.pdf", width=3.5, height=5)
+    # Colores del poster
+    cfondo<-"sandybrown" # rgb(255,245,245,max = 255)
+    clineas<-rgb(15,30,55,max = 255)
+    c1<-alpha("white",0.8)
+    # colores del fondo
+    par(bg=cfondo, oma=c(0,0,0,0), mar=c(0,0,2,0),adj=0)
+    # pintamos
+    plot(st_geometry(agua$osm_polygons),col=cfondo, 
+         main="MAR MENOR (MURCIA) ",
+         family="sans",font=1,
+         col.main=clineas, cex.main=1.5)
+    # pintamos pol tierra y lineas buffer en mar
+    plot(st_geometry(chs),add=T, lwd=0.1,lty=1,col=clineas)
+    plot(rios1, add=T, lwd=0.5,col=cfondo)
+    buffer<-st_buffer(chs,0.003)
+    plot(st_cast(st_union(buffer),"MULTILINESTRING"),add=T,lwd=0.1,col=c1)
+    buffer<-st_buffer(chs,0.001)
+    plot(st_cast(st_union(buffer),"MULTILINESTRING"),add=T,lwd=0.2,col=c1)
+    # resto de capas
+    plot(st_geometry(agua$osm_polygons),add=T,lty="blank",col=cfondo)#aguas
+    plot(st_geometry(costa$osm_lines), add=T, lwd=0.1,col=clineas)# costa
+    plot(st_geometry(carr_secun), add=T, lwd=0.5,col=c1)# carreteras secundarias
+    plot(autovia, add=T, lwd=1,col=c1) # autovía
+    plot(calles$osm_lines, add=T, lwd=0.2, col= c1) # calles
+    #text(-0.86,37.85, cex=2.2,"Mar Menor",col="white")
+dev.off()
+```
+
+
+Espero que os guste el póster y os animo a realizar otros de vuestros pueblos o ciudades siguiendo el proceso descrito.
+
+![Poster finalizado](/img/plot_MarMenor1.png)

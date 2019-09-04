@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>/post/poster-mapa-con-osm/</loc>
+    <lastmod>2019-09-03T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/post/numeros-monta%C3%B1a/</loc>
     <lastmod>2019-08-23T00:00:00+00:00</lastmod>
   </url>
@@ -203,7 +208,7 @@
   
   <url>
     <loc>/tags/crs/</loc>
-    <lastmod>2019-03-14T00:00:00+00:00</lastmod>
+    <lastmod>2019-09-03T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -233,13 +238,13 @@
   
   <url>
     <loc>/categories/dise%C3%B1o/</loc>
-    <lastmod>2019-04-05T00:00:00+00:00</lastmod>
+    <lastmod>2019-09-03T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/divertido/</loc>
-    <lastmod>2019-03-30T00:00:00+00:00</lastmod>
+    <lastmod>2019-09-03T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -257,7 +262,7 @@
   
   <url>
     <loc>/</loc>
-    <lastmod>2019-08-23T00:00:00+00:00</lastmod>
+    <lastmod>2019-09-03T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -275,7 +280,7 @@
   
   <url>
     <loc>/categories/gis/</loc>
-    <lastmod>2019-03-14T00:00:00+00:00</lastmod>
+    <lastmod>2019-09-03T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -305,13 +310,13 @@
   
   <url>
     <loc>/tags/mapas/</loc>
-    <lastmod>2019-03-14T00:00:00+00:00</lastmod>
+    <lastmod>2019-09-03T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/categories/mapas/</loc>
-    <lastmod>2019-03-14T00:00:00+00:00</lastmod>
+    <lastmod>2019-09-03T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -371,13 +376,13 @@
   
   <url>
     <loc>/tags/plot/</loc>
-    <lastmod>2019-04-08T00:00:00+00:00</lastmod>
+    <lastmod>2019-09-03T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/post/</loc>
-    <lastmod>2019-08-23T00:00:00+00:00</lastmod>
+    <lastmod>2019-09-03T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -401,13 +406,13 @@
   
   <url>
     <loc>/tags/r/</loc>
-    <lastmod>2019-05-20T00:00:00+00:00</lastmod>
+    <lastmod>2019-09-03T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/categories/r/</loc>
-    <lastmod>2019-06-06T00:00:00+00:00</lastmod>
+    <lastmod>2019-09-03T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -425,13 +430,13 @@
   
   <url>
     <loc>/tags/sf/</loc>
-    <lastmod>2019-03-14T00:00:00+00:00</lastmod>
+    <lastmod>2019-09-03T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/sig/</loc>
-    <lastmod>2019-03-14T00:00:00+00:00</lastmod>
+    <lastmod>2019-09-03T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   

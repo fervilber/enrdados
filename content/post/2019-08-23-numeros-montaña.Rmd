@@ -36,7 +36,7 @@ El algoritmo que se me ha ocurrido después de darle unas cuantas vueltas es est
   - Primero separamos cada cifra del número con la función `strsplit` que lo transforma en una lista de *caracteres* individuales.
   - transformamos los caracteres de la lista a números y guardamos como un vector. 
   - Después quitamos las mesetas o duplicados de los números. Esto es algo que añadí después al ver que fallaba cuando se aplicaba la función a números con cifras repetidas como el 23.354, para esto usaremos la función `diff()` que resta las cifras seguidas de la serie por lo que si es 0 indica que se repite el número, y nos vale para identificar y eliminar los valores repes de la la serie.
-  - Calculamos el signo de cada valor de la serie `diff()` , con lo que solo nos queda un valor de 1 si sube o  -1 si baja en cada paso.
+  - Calculamos el signo de cada valor de la serie `diff()` , con lo que solo nos queda un valor de 1 si sube o -1 si baja en cada paso.
 
 ```{r}
 # Ejemplo de algoritmo para numeros montaña
