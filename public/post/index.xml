@@ -6,10 +6,20 @@
     <description>Recent content in Posts on EnRdados</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>es</language>
-    <lastBuildDate>Tue, 03 Sep 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 11 Sep 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Vision artificial con R</title>
+      <link>/post/vision-artificial-con-r/</link>
+      <pubDate>Wed, 11 Sep 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/vision-artificial-con-r/</guid>
+      <description>Vision artificialLa visión artificial trata de cómo procesar, analizar y comprender imágenes. Algo intuitivo para los humanos, como distinguir los objetos que vemos en una habitación, es muy difícil de hacer para una máquina. Las imágenes incluyen mucha informacióny los ordenadores hasta ahora no estaban capacidatos para entenderla, ya lo dice el refrán: una imagen vale más que mil palabras.
+En este proceso de sacar la información de las imágenes se ha avanzado muchísimo en los últimos años, y lo que antes era casi impensable, hoy día está al alcance de pocas líneas de código.</description>
+    </item>
     
     <item>
       <title>Poster mapa con OSM </title>

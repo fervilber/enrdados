@@ -1,0 +1,303 @@
+---
+title: Vision artificial con R
+author: F.VilBer
+date: '2019-09-11'
+slug: vision-artificial-con-r
+categories:
+  - R
+tags:
+  - modelos
+  - visión artificial
+description: 'nos iniciamos en librerías de vision artifical y reconocimiento de objetos con R'
+thumbnail: '/img/vis_art/predictions - sillas.jpg'
+toc: no
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+```
+
+## Vision artificial
+La visión artificial trata de cómo procesar, analizar y comprender imágenes. Algo intuitivo para los humanos, como distinguir los objetos que vemos en una habitación, es muy difícil de hacer para una máquina. Las imágenes incluyen mucha informacióny los ordenadores hasta ahora no estaban capacidatos para entenderla, ya lo dice el refrán: *una imagen vale más que mil palabras*.
+
+En este proceso de sacar la información de las imágenes se ha avanzado muchísimo en los últimos años, y lo que antes era casi impensable, hoy día está al alcance de pocas líneas de código. 
+
+Veremos en este artículo algunas librerías de visión artificial, y principalmente de detección de objetos y de caras que podemos ejecutar con nuestro querido **R**.
+
+## Estado actual
+Llevo unos meses buscando librerías de visión artificial, y todo porque hablando con un colega ingeniero de caminos, me dijo que seguían haciendo encuestas y conteos de tráfico para estudios de movilidad... y yo pensé, pero.. si eso ya lo hace google controlando los teléfonos,¿no?. 
+
+A partir de esta charla empecé a informarme de cómo estaba el mundo de visión artificial y a buscar cosas para desarrollar proyectos por mi cuenta, con *R* claro.
+
+Aplicaciones hay muchísimas, pensemos que cualquier imagen nos da una información que puede sustituir a sensores de cualquier tipo. Ya empezamos a ver cosas como que en el parking no hace falta meter el ticket, pues reconoce la matrícula una cámara, o que se cuentan las personas que han entrado a un establecimiento con otra cámara o que pasas a la oficina con un sensor de huellas que toma una imagen de tu dedo.
+
+Existen varias librerías, algunas con unos cuantos añitos, para uso libre de programadores de vision artificial y que funcionan bien para los problemas más habituales, esto es: reconocimiento de matrículas,huellas dactilares, reconocimiento de caras, de objetos, de vehículos. La mayoría de estas librerías las puedes encontrar en GitHub y son libres, algunas las podemos usar desde R y otras no. Aquí [*python*](https://www.python.org/) lleva la delantera y está más extendido.
+
+Os pongo algunas para empezar:
+
+- [OpenCV](https://github.com/ropensci/opencv) es una biblioteca libre desarrollada Intel con muchas funciones de visión artificial.
+- [openalpr](https://github.com/openalpr/openalpr) detector de matrículas Open Source, muy sencillo como puedes ver [aquí](https://cvisiondemy.com/detect-license-plates-in-images-using-openalpr-api/)
+- [tensorflow](https://tensorflow.rstudio.com/keras/) una librería de google para calculo tensorial que ha revolucionado el cálculo y deeplearning.
+
+## Tratamiento de imagen
+Antes de analizar una imagen hay que ser capaz de leer el archivo, procesarlo y transformarlo, en *R* tenemos básicamente 3 paquetes muy completos para tratamiento de imágenes: 
+
+  - [magick](https://github.com/ropensci/magick)
+  - [imager](https://cran.r-project.org/web/packages/imager/vignettes/gettingstarted.html) y
+  - [EBImage](https://www.bioconductor.org/packages/release/bioc/vignettes/EBImage/inst/doc/EBImage-introduction.html).
+
+Son tan completos que incluso contienen *OCR* con lo que podemos sacar el texto de una foto, usando por ejemplo el paquete *tesseract* con *magick*
+
+Con estas librerías y código haremos cualquier transformación de la imagen igual que si estamos en un programa de edición de imagen como el típico *photoshop*.
+
+La visión artificial implica algo más, no queremos solo leer y pasar un filtro de contraste, queremos interpretar lo que hay en la imagen.
+
+## Reconocimiento de objetos
+Tras leer y transformar las imágenes el siguiente paso es interpretarlas, reconocer objetos, caras, formas. Para un coche autónomo no vale poner la imagen en la pantalla, hay además, que saber si lo que hay delante es una persona o un árbol o una señal, y esto lo podemos hacer con cientos de sensores de calor, radar, sonido, o mucho mejor sería hacerlo como un humano, mirando con una simple cámara digital lo que tenemos alrededor.
+
+En este campo del reconocimiento, los avances de los últimos años son espectaculares, se ha pasado de distinguir los bordes y lineas a interpretar la imagen en su conjunto y decir cada uno de los objetos que están en la misma.
+
+Uno de los avances más importantes ha sido el desarrollo de un algoritmo ultra rápido de detección de objetos en imágenes dentro del proyecto *darknet* llamado *YOLO*.
+
+## YOLO (You Only Look Once)
+Descubrí *YOLO* viendo uno de esos fantásticos vídeos de [TED](https://www.ted.com/) en el que un chico explicaba cómo había realizado una librería que permitía incrementar la velocidad de procesamiento y reconocimiento de objetos [ver aquí](https://www.ted.com/talks/joseph_redmon_how_a_computer_learns_to_recognize_objects_instantly?language=es). Su algoritmo supone una mejora de x10 en la velocidad respecto a la R-CNN ( [redes neuronales convolucionales](https://es.wikipedia.org/wiki/Redes_neuronales_convolucionales) ) que era lo que se estaba usando en 2016 y antes. Además este chaval puso su algoritmo con licencia libre así que cualquiera lo puede ver, tocar, usar y contribuir al código <https://pjreddie.com/publications/>.
+
+Y lo mejor de *YOLO* es que está implementado en *R*, por lo que podemos usarlo al momento. Los paquetes de R para visión artificial de `darknet`, `YOLO` y otros varios como `OpenPano` para unir imágenes o `libfacedetection` para detectar caras, se pueden descargar y ver en: <https://github.com/bnosac/image>
+
+Vamos a usar YOLO:
+
+## Instalar `darknet` y `YOLO` en R
+Lo primero es instalar *darknet* desde *GitHub*, para eso necesitaremos `devtools` pues son paquetes que no están en [CRAN](https://cran.r-project.org/). La librería `imagen.darknet` es bastante grande por lo que puede tardar un rato, incluso tendrás que instalar primero las dependencias y reiniciar *R* para que todo vaya sobre ruedas.
+
+```{r instalacion, eval=FALSE}
+    # instalamos darknet
+    devtools::install_github("bnosac/image", subdir = "image.darknet", build_vignettes = TRUE)
+    # cargamos la librería
+    library(image.darknet)
+```
+
+Una cosa importante, estas librerías requieren el uso de *GPU* intensivo, mucho cálculo y mucha *memoria gráfica*, por lo que en PCs normalitos tendremos problemas. En principio *YOLO* debe funcionar bien si tenemos [*CUDA*](https://developer.nvidia.com/cuda-zone) instalado y alguna tarjeta gráfica *NIVIDIA*.
+
+De todas formas para iniciarse y probar algún ejemplo los desarrolladores de *YOLO* han creado un modelo mini *yolo-small.cfg* Desde R lo llamamos especificando `model = "tiny-yolo-voc.cfg"` en la función. Si usamos otros de los modelos precargados y no tenemos GPU suficiente el PC se nos bloqueará.
+
+Debemos tener en cuenta que por defecto **sólo se instala el modelo mini**, el resto de modelos hay que descargarlos como veremos más adelante.
+
+## Primeras pruebas de reconocimiento de objetos con R
+Una vez hemos descargado *darknet* usar `YOLO` es simple, solo hay que definir el modelo con la función `image_darknet_model()` en la que:
+
+  1. definimos el tipo (detección o clasificación)
+  1. definimos el modelo 
+  2. damos el nombre y ruta del fichero de pesos de la red neuronal
+  3. damos el nombre y ruta del conjunto de etiquetas (para las que ha sido entrenado el modelo), el nombre de los objetos buscados. 
+
+Hecho esto llamamos a la función `image_darknet_detect()` y nos analiza la imagen que le pasamos como argumento.
+
+El resultado es una tabla con las coordenadas de la caja que envuelve el objeto detectado y el % de fiabilidad de pronóstico. Este porcentaje nos vale también de filtro o umbral estableciendo diferentes valores (`threshold=0.2`) limitamos el numero de objetos encontrados a solo los que tienen un % más alto de fiabilidad.
+
+Cada vez que llamamos a la función`image_darknet_detect` se genera una imagen clon llamada `predictions.png` en el directorio de trabajo en la que se pintan las cajas con los objetos detectados.
+
+Veamos un ejemplo real de detección de objetos con el modelo mini en R.
+
+```{r ejemplo, eval=FALSE}
+    # cargamos la libreria
+    library(image.darknet)
+    # Definimos el modelo de deteccion de objetos, los pesos y las etiquetas a buscar
+    yolo_tiny_voc <- image_darknet_model(
+      type = "detect", 
+      model = "tiny-yolo-voc.cfg", 
+      weights = system.file(package="image.darknet", "models", "tiny-yolo-voc.weights"), 
+      labels = system.file(package="image.darknet", "include", "darknet", "data", "voc.names")
+    )
+    # seleccionamos una imagen
+    imagen<-"img/chico_nieve.jpg"
+    
+    # Ejecutamos el modelo en la imagen
+    x <- image_darknet_detect(
+            file = imagen, 
+            object = yolo_tiny_voc,
+            threshold = 0.1)
+    
+    # vemos el resultado
+    library(png)
+    library(magick)
+    plot(image_read("predictions.png"))
+```
+
+El modelo mini (`tiny-yolo-voc.cfg`) no es perfecto, de hecho falla bastante en el reconocimiento. A continuación os muestro los resultados del análisis en varias fotografías. en una confunde un niño saltando con un pájaro.   
+
+```{r imagenes23, echo = FALSE, out.width="50%"}
+# pintamos todas las imagenes
+
+#mai son los margenes de plot c(bottom, left, top, right) which gives the margin size specified in inches.
+par(mai = c(0.1, 0.1, 0.1, 0.1))
+ruta<-"C:/R/publicaciones/enrdados/static/img/vis_art/"
+
+imagenes_n<-list.files(ruta, pattern = ".jpg", full.names = FALSE )
+imagenes<-list.files(ruta, pattern = ".jpg", full.names = TRUE )
+
+#include_graphics(imagenes)
+
+library(captioner)
+library(jpeg)
+library(magick)
+fig_nums <- captioner()
+
+for(i in seq_along(imagenes)){
+    fig_nums(imagenes_n[[i]], paste0("titulo_",imagenes_n[[i]]))
+    
+    n_imag <- image_read(imagenes[[i]])%>%image_scale("500x")%>%image_border( "white", "0x20")%>%
+  image_annotate(imagenes_n[[i]], color = "black", size = 10,gravity = "southwest")
+    plot(n_imag)
+}
+
+```
+
+
+Como resultado de la función `image_darknet_detec()` se crea el fichero *prediction.png* en el directorio de trabajo, en esta imagen se dibujan cajas que marcan cada objeto detectado así como y el nombre del objeto que debe estar entre los contenidos en `labels`, en este caso en `voc.names`.
+
+En la salida que produce la función vemos tambien los porcentajes de fiabilidad y el nombre de cada objeto detectado.
+
+```{}
+  Boxes: 845 of which 3 above the threshold.
+  chair: 28%
+  chair: 37%
+  chair: 10%
+```
+
+
+La función `image_darknet_model()` puede llamar a modelos de detección o de clasificación, y de mayor o menor complejidad. Para detección podemos usar *YOLO*, *YOLO tiny*, entrenado con VOC y con COCO que son dos conjuntos de etiquetas diferentes.
+
+En clasificación podemos usar *Alexnet*, *Darknet*, *VGG-16*, *Extraction(GoogleNet)*, *Darknet19*, *Darknet19_448*, *Tiny Darknet* entrenado en *Imagenet*.
+
+
+## Usar otros modelos
+Si contamos con un **ordenador potente** con una **GPU NIVIDIA** instalada, podemos hacer pruebas con otro modelo más completo y con mejor reconocimiento, pero insisto, debe tener memoria gráfica suficiente o se te bloqueará en las pruebas.
+
+El paquete *image.darknet* solo instala los pesos del modelo sencillo *YOLO tiny* que se guarda como un fichero (*tiny-yolo-voc.cfg*). Para definir un nuevo análisis con otro modelo hay que descargar los ficheros de configuración *deep learning* del modelo, los pesos de la red neuronal y las etiquetas para las que fue entrenado.
+
+Cada uno de estos ficheros se descargan en el directorio de instalación del paquete *image.darknet* dentro de carpetas distintas, lo que descargamos es la estructura de pesos weights que definen la red neuronal de cada modelo, y que ocupa mucho espacio. Así por ejemplo `tiny.weights` ocupa 4 megas, mientras que `yolo.weights` 194 Mb.
+
+Estos pesos se han realizado entrenando las redes neuronales en miles de imágenes etiquetadas. Si buscas un uso muy especifico puedes entrenar una red con tus propias bases de datos de imágenes y etiquetas. En la web de [Josehp Redmon](https://pjreddie.com/publications/) se indica como hacerlo.
+
+Voy a exponer cómo podemos llamar a otros modelos de detección y clasificación aunque por desgracia en mi PC no he podido probarlos correctamente. Primero descargo el fichero de pesos:
+
+```{r coco, eval=FALSE}
+# Establezco la ruta de descarga y el nombre 
+pesos<-file.path(system.file(package="image.darknet", "models"), "yolo.weights")
+# descargo el modelo yolo completo a la carpeta y con el nombre anterior
+download.file(url="http://pjreddie.com/media/files/yolo.weights", destfile=pesos)
+```
+
+Tras descargar el fichero, ya podría llamar al modelo:
+
+```{r, eval=FALSE}
+# YOLO completo con muchas más etiuqetascoco lable.
+# Antes de ejecuatr esto debo haber descargado el fichero de pesos del modelo yolo.weights
+f <- system.file(package="image.darknet", "include", "darknet", "data", "coco.names")
+labels <- readLines(f)
+
+yolo_coco <- image_darknet_model(type = 'detect', 
+ model = "yolo.cfg", 
+ weights = system.file(package="image.darknet", "models", "yolo.weights"), 
+ labels = labels)
+
+yolo_coco
+# y ya lo aplicaríamos a una imagen
+x <- image_darknet_detect(
+        file = imagen, 
+        object = yolo_coco,
+        threshold = 0.25)
+```
+
+De la misma forma puedo descargar otro modelos como *AlexNet*, *googlenet* o *vgg-16*, primero descargo los ficheros de pesos en la carpeta especificada y después defino el nuevo modelo que puede ser de detección o clasificación por lo que la función de llamada final cambia.
+
+Veamos cómo lo haríamos: 
+
+```{r otros_modelos, eval=FALSE}
+## AlexNet
+    # bajamos los pesos
+    weights <- file.path(system.file(package="image.darknet", "models"), "alexnet.weights")
+    download.file(url = "http://pjreddie.com/media/files/alexnet.weights", destfile = weights)
+    # Creamos el modelo
+    alexnet <- image_darknet_model(
+                type = 'classify', 
+                model = "alexnet.cfg",
+                weights = weights,
+                labels = labels,
+                resize=FALSE)
+    
+    alexnet
+
+## Darknet Reference
+    # bajamos los pesos
+    weights <- file.path(system.file(package="image.darknet", "models"), "darknet.weights")
+    download.file(url = "http://pjreddie.com/media/files/darknet.weights", destfile = weights)
+    # Creamos el modelo
+    darknetref <- image_darknet_model(
+                type = 'classify', 
+                model = "darknet.cfg",
+                weights = weights,
+                labels = labels)
+    darknetref
+```
+
+
+## Ejemplos
+La verdad que los únicos ejemplos que he encontrado son en *python*, uno me ha ayudado especialmente [ver aquí](https://www.pyimagesearch.com/2018/11/12/yolo-object-detection-with-opencv/) y este otro [también](https://github.com/pjreddie/darknet/wiki/YOLO:-Real-Time-Object-Detection).
+
+
+## Reconocimiento de caras
+El autor de darknet tiene otros paquetes de *R* con algoritmos para usos específicos, como detección de bordes, lineas, .. y también para detección de caras se llama `image.libfacedetection`
+
+### Instalación
+Se instala con devtools o descargando el paquete directamente de github:
+
+```{r instalacion_face, eval=FALSE}
+  # instalar image.libfacedetection
+    remotes::install_github("bnosac/image", subdir = "image.libfacedetection", build_vignettes = TRUE)
+
+    # cargamos magick  y la libreria de deteccion de caras
+    library(magick)
+    library("image.libfacedetection")
+    
+    imagen<-"img/29494664427_d02218b0a1_o.jpg"
+    #imagen <- system.file(package="image.libfacedetection", "images", "handshake.jpg")
+    x <- image_read(imagen)
+    
+    faces <- image_detect_faces(x)
+    faces
+    plot(faces, x, border = "red", lwd = 4, col = "white")
+
+```
+
+![Detección de caras con R](/img/caritas.jpg)
+
+
+El algoritmo no funciona bien en imágenes de baja resolución, pues tiene un mínimo de 48x48 píxeles por cara.
+
+Una vez hemos ejecutado el algoritmo de detección, obtenemos una variable (`faces`) con una lista de objetos, uno de ellos contiene una matriz con las coordenadas de las cajas de cara detectadas.
+
+|   x|   y| width| height| neighbours|  angle|
+|---:|---:|-----:|------:|----------:|------:|
+| 427| 161|    60|     60|         94|      0|
+| 735| 166|    82|     82|         73|  24713|
+| 264| 131|    66|     66|         67| -15416|
+
+Con estos datos incluso podríamos extraer cada una de las caras, por lo que podemos extraer cada una en imágenes independientes:
+
+```{r sacar_caras, eval=FALSE}
+## Extraer las caras detectadas
+boxcontent <- lapply(seq_len(faces$nr), FUN=function(i){
+  face <- faces$detections[i, ]
+  image_crop(x, geometry_area(x = face$x, y = face$y, 
+                              width = face$width, height = face$height))
+})
+
+boxcontent <- do.call(c, boxcontent)
+boxcontent
+
+```
+
+
+## Conclusiones
+Espero que os haya gustado esta brevísima introducción a la visión artificial con R. Si empiezas algún proyecto relacionado, por favor cuéntamelo, esto es una camino de dos sentidos y sin vuestros comentarios no aprendo nada... Saludos

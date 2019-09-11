@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>/post/vision-artificial-con-r/</loc>
+    <lastmod>2019-09-11T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/post/poster-mapa-con-osm/</loc>
     <lastmod>2019-09-03T00:00:00+00:00</lastmod>
   </url>
@@ -262,7 +267,7 @@
   
   <url>
     <loc>/</loc>
-    <lastmod>2019-09-03T00:00:00+00:00</lastmod>
+    <lastmod>2019-09-11T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -352,7 +357,7 @@
   
   <url>
     <loc>/tags/modelos/</loc>
-    <lastmod>2019-02-13T00:00:00+00:00</lastmod>
+    <lastmod>2019-09-11T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -382,7 +387,7 @@
   
   <url>
     <loc>/post/</loc>
-    <lastmod>2019-09-03T00:00:00+00:00</lastmod>
+    <lastmod>2019-09-11T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -406,7 +411,7 @@
   
   <url>
     <loc>/categories/r/</loc>
-    <lastmod>2019-09-03T00:00:00+00:00</lastmod>
+    <lastmod>2019-09-11T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -455,6 +460,12 @@
   <url>
     <loc>/tags/tipograf%C3%ADa/</loc>
     <lastmod>2019-04-11T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/visi%C3%B3n-artificial/</loc>
+    <lastmod>2019-09-11T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
