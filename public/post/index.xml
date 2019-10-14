@@ -6,10 +6,20 @@
     <description>Recent content in Posts on EnRdados</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>es</language>
-    <lastBuildDate>Wed, 11 Sep 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 14 Oct 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Presentaciones con R</title>
+      <link>/post/presentaciones-con-r/</link>
+      <pubDate>Mon, 14 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/presentaciones-con-r/</guid>
+      <description>Hace unos días tuve que hacer una presentación para una charla. Solía hacer las presentaciones con powerpoint, es lo habitual en mi mundo profesional, pero esta vez decidí cambiar a R, simplemente por ver qué podía hacer, un nuevo reto semanal  .
+Es más difícil, eso está claro, pero solo porque cuesta arrancar con algo nuevo cuando ya te apañas bien con una herramienta. Una vez sabes el potencial, y le echas un poco de valor me ha parecido una buena idea cambiar a R para nuevas presentaciones.</description>
+    </item>
     
     <item>
       <title>Vision artificial con R</title>
