@@ -21,17 +21,21 @@ toc: no
 <link href="/rmarkdown-libs/font-awesome/css/fontawesome-all.min.css" rel="stylesheet" />
 
 
-<p>Hace unos días tuve que hacer una presentación para una charla. Solía hacer las presentaciones con <em>powerpoint</em>, es lo habitual en mi mundo profesional, pero esta vez decidí cambiar a R, simplemente por ver qué podía hacer, un nuevo reto semanal <i class="fab  fa-angellist "></i> .</p>
-<p>Es más difícil, eso está claro, pero solo porque cuesta arrancar con algo nuevo cuando ya te apañas bien con una herramienta. Una vez sabes el potencial, y le echas un poco de valor me ha parecido una buena idea cambiar a R para nuevas presentaciones.</p>
-<p>Para simplificar este duro inicio he hecho este artículo, espero que os sirva a todos, cualquier duda por discuss al final del mismo.</p>
+<p>Hace unos días tuve que hacer una presentación en público. Solía hacerlas con <em>powerpoint</em>, es lo habitual en mi ámbito profesional, pero esta vez decidí probar con R, simplemente por ver qué podía hacer, y tener un nuevo reto semanal <i class="fab  fa-angellist "></i> .</p>
+<p>Es más difícil, eso está claro, pero solo porque cuesta arrancar con algo nuevo. Cuando te apañas bien con una herramienta el cambio cuesta, una vez sabes el potencial, y le echas un poco de valor al cambio, descubres otros mundos y ves que incluso es mejor herramienta (la nueva).</p>
+<p>Para simplificar el siempre duro inicio he hecho este artículo, espero que os sirva a todos, cualquier duda por DISQUS al final del mismo.</p>
 <div id="qué-usar-para-hacer-una-presentación-con-r" class="section level2">
 <h2>Qué usar para hacer una presentación con R</h2>
-<p>Tardé varios días en probar herramientas y opciones que hay en R para hacer presentaciones. Está la más simple que es la plantilla de RSTUDIO y otras complejas como <code>ninja</code>, <code>reveals.js</code> et…En resumen después de probar mucho, me quedo con <a href="https://github.com/yihui/xaringan">xaringan</a>.</p>
+<p>Tardé varios días en probar -solo algunas- de las herramientas que hay en R para hacer presentaciones. Hay 3 tipos por defecto en RSTUDIO <em>ioslides</em>, <em>Slidy</em> y <em>Beamer</em>, pero no me atrajeron demasiado, pues no son equiparables a powerpoint, aunque para algo sencillo si valen. Después descubrí algunas librerías que dan mucho más juego como <code>ninja</code> y <code>reveals.js</code>. En resumen después de probar mucho, me quedo con <a href="https://github.com/yihui/xaringan">xaringan</a>, que es la que voy a explicar aquí.</p>
+<div class="figure">
+<img src="/post/2019-10-14-presentaciones-con-r_files/presentacionesR.png" alt="Formatos de presentacion por defecto en RSTUDIO" />
+<p class="caption">Formatos de presentacion por defecto en RSTUDIO</p>
+</div>
 </div>
 <div id="xaringan" class="section level2">
 <h2>xaringan</h2>
-<p>El paquete <a href="https://github.com/yihui/xaringan">xaringan</a> es una extensión de Rmarkdown basada en la librería javascript <a href="https://remarkjs.com">remark.js</a>.</p>
-<p>Lo que genera al final es código HTML5 con un estilo moderno y con unas opciones de personalización muy grandes y aspecto avanzado. El resultado final es un fichero html (y sus directorios), aunque es posible crear solo uno con todo. Tambien podemos guardarlo como pdf como veremos, pero perdiendo efectos.</p>
+<p>El paquete <a href="https://github.com/yihui/xaringan">xaringan</a> es una extensión de <em>Rmarkdown</em> basada en la librería javascript <a href="https://remarkjs.com">remark.js</a>.</p>
+<p>Con esta librería al final obtenemos una presentación en código HTML5 con un estilo moderno y con unas opciones de personalización muy amplias. El resultado es un fichero html (y sus directorios), aunque es posible crear uno solo con todo. También podemos guardarlo como presentación <em>pdf</em> con la librería <em>pagedown</em>.</p>
 <div class="figure">
 <img src="/post/2019-10-14-presentaciones-con-r_files/xaringanpresentation.png" alt="xaringan presentacion" />
 <p class="caption">xaringan presentacion</p>
@@ -39,8 +43,8 @@ toc: no
 </div>
 <div id="librerías-necesarias" class="section level2">
 <h2>Librerías necesarias</h2>
-<p>Además de xaringan, creo necesario otras librería para completar nuestros recursos como <code>knitr</code>, <code>icons</code> (para insertar iconos chulos en las presentaciones) o <code>pagedown</code> para guardar el resultado como pdf. En realidad xaringan usa la <code>library(revealjs)</code> que es tambien otra forma de hacer presentaciones, aunque me gustó menos desde R.</p>
-<p>Hay muchas opciones de plantillas instalando <a href="https://github.com/gadenbuie/xaringanthemer">xaringanthemer</a> también.</p>
+<p>Además de xaringan, he usado otras librerías para complementar la presentación como <code>knitr</code>(para insertar imágenes o tablas), <code>icons</code> (para insertar iconos chulos en los textos) o <code>pagedown</code> (para guardar el resultado como pdf). En realidad <em>xaringan</em> es solo una extensión de la <code>library(revealjs)</code> que es también es otra forma de hacer presentaciones en R.</p>
+<p>Aparte de las plantilla que trae la librería, hay muchas más opciones de personalización instalando otro paquete complementario el <a href="https://github.com/gadenbuie/xaringanthemer">xaringanthemer</a>.</p>
 <pre class="r"><code># instalación de xaringan
 remotes::install_github(&#39;yihui/xaringan&#39;)
 
@@ -49,20 +53,21 @@ devtools::install_github(&quot;ropenscilabs/icon&quot;)
 
 # instamos pagedown
 remotes::install_github(&#39;rstudio/pagedown&#39;)</code></pre>
+<p>Empecemos por lo básico,</p>
 </div>
-<div id="nuevo-documento-rmd" class="section level2">
-<h2>Nuevo documento Rmd</h2>
-<p>Podemos abrir un nuevo fichero <code>*.Rmd</code>, o abrir una nueva plantilla de <em>ninja presentation</em>, que nos servirá de base.</p>
+<div id="empezar-una-presentación" class="section level2">
+<h2>Empezar una presentación</h2>
+<p>Para esto abrimos en RSTUDIO un nuevo fichero tipo Rmarkdown <code>*.Rmd</code>, también abrir una nueva plantilla de <em>ninja presentation</em>, que nos servirá de base.</p>
 <div class="figure">
 <img src="/post/2019-10-14-presentaciones-con-r_files/xaringan1.png" alt="plantilla presentacion ninja" />
 <p class="caption">plantilla presentacion ninja</p>
 </div>
-<p>El caso es iniciar con un encabezado YAML como el siguiente:</p>
+<p>Borramos todo y empezamos con el encabezado <em>YAML</em> de todo Rmarkdown, pero como el siguiente:</p>
 <pre><code>---
 title: &quot;Cómo hacer presentaciones con R&quot;
 subtitle: &quot;Todo lo que tienes que saber&quot;
 author: &quot;Fernando Villalba Bergado&quot;
-date: &quot; 2019-10-14&quot;
+date: &quot; 2019-10-15&quot;
 institute: &quot; https://www.enRdados.net&quot;
 output:
     xaringan::moon_reader:
@@ -73,17 +78,21 @@ output:
       - default-fonts 
       - &quot;animate.min.css&quot;       
      nature:
+      countdown: 60000
+      autoplay: 30000
       highlightStyle: github
       highlightLines: true
       countIncrementalSlides: false
 ---</code></pre>
-<p>Esto nos fija las propiedades de la presentación como el título, autor y algunas cosas más que veremos en adelante.</p>
-<p>A partir de aquí lo que escribamos en código markdown se plasma en la presentación, teniendo en cuenta que de una diapositiva a otra se pasa con <code>---</code> este símbolo.</p>
+<p>En este encabezado fijamos las propiedades de la presentación básicas como el título, autor , fecha etc.</p>
+<p>Como salida (<code>output</code>) le decimos que sea <code>xaringan::moon_reader:</code> y a partir de ese punto definimos las propiedades del formato xaringan, como por ejemplo si queremos transiciones, la carpeta donde van a estar las librerías en local (<code>lib_dir</code>), o los formatos que se dan en hoja de estilos <em>css</em>. Después de <code>nature:</code> definimos otras características de formato generales de la presentación que pueden ponerse o quitarse, como una cuenta atrás, o que pase automáticamente de diapositiva, o el estilo de resaltado de código, o si resalta los enlaces o si pone un contador de diapositivas, y otras muchas cosas que se pueden añadir.</p>
+<p>El encabezado se cierra con el símbolo <code>---</code> y partir de aquí lo que escribamos en código Rmarkdown se pasa directamente a la presentación, teniendo en cuenta que de una diapositiva a otra se pasa con este símbolo: <code>---</code> .</p>
 </div>
 <div id="insertar-nueva-diapositiva" class="section level2">
 <h2>Insertar nueva diapositiva</h2>
-<p>Pues simplemente escibimos algo como lo siguiente debajo del encabezado YAML:</p>
-<pre><code># Primera diapositiva
+<p>Para insertar una nueva diapositiva simplemente escribimos algo como lo siguiente debajo del encabezado <em>YAML</em>: ojo con no repetir dos veces el cambio símbolo de cambio.</p>
+<pre><code>---
+# Primera diapositiva
 
 * punto 1
 * punto 2
@@ -97,19 +106,19 @@ output:
 </div>
 <div id="ver-el-resultado-en-tiempo-real" class="section level2">
 <h2>Ver el resultado en tiempo real</h2>
-<p>Si quieres ir viendo el resultado de lo que escribes hay que usar <em>Infinite Moon Reader</em> que es un adding de RSTUDIO, se ejecuta directamente con el siguiente código:</p>
+<p>Si quieres ir viendo el resultado de lo que escribes al mismo tiempo hay que usar <em>Infinite Moon Reader</em> que es un adding de RSTUDIO, para eso ejecuta directamente el siguiente código:</p>
 <pre class="r"><code># arranca Infinite Moon Reader
 xaringan::inf_mr()</code></pre>
-<p>y a partir de aquí veras en la ventana de viewer la presentación. Es posible que no te funcione, y entonces será mejor que des a <em>open in browser</em> y lo verás en el navegador.</p>
+<p>y a partir de aquí verás en la ventana de Viewer la presentación. Si no te sale bien o no te funciona, entonces será mejor que des a <em>open in browser</em> y lo verás en el navegador.</p>
 </div>
 <div id="formatos" class="section level2">
 <h2>Formatos</h2>
-<p>Todas las sintaxis y formatos que usas en RMarkdown se pasan directamente a la diapositiva,así que los titulos (##), las listas (* - ) etc, son fáciles de hacer.</p>
-<p>El formato de las diapositivas se da en el encabezado YAML, al principio del fichero. Lo principal es que el formato está en css, y solo se ponen los nombres de las correspondientes plantillas.</p>
+<p>Todas las sintaxis y formatos que usas en RMarkdown se pasan directamente a la diapositiva, así los títulos se hacen con (##), las listas con los símbolos (* - ) etc.</p>
+<p>El formato de las diapositivas se da en el encabezado YAML, al principio del fichero. Lo principal es que el formato está en hojas de estilo [css], pero hay ya muchas predefinidas. En el encabezado se deben poner solo los nombres del formato sin la extensión, y solo se ponen los nombres completos de las plantillas propias y entrecomillados.</p>
 <pre><code>output:
   xaringan::moon_reader:
     css: [default, metropolis, metropolis-fonts]</code></pre>
-<p>Los formatos que vienen con la librería son estos:</p>
+<p>Los formatos que vienen ya preestablecidos con <em>xaringan</em> son estos:</p>
 <pre class="r"><code>names(xaringan:::list_css())</code></pre>
 <pre><code>##  [1] &quot;chocolate-fonts&quot;  &quot;chocolate&quot;        &quot;default-fonts&quot;   
 ##  [4] &quot;default&quot;          &quot;duke-blue&quot;        &quot;fc-fonts&quot;        
@@ -121,28 +130,34 @@ xaringan::inf_mr()</code></pre>
 ## [22] &quot;rutgers-fonts&quot;    &quot;rutgers&quot;          &quot;shinobi&quot;         
 ## [25] &quot;tamu-fonts&quot;       &quot;tamu&quot;             &quot;uo-fonts&quot;        
 ## [28] &quot;uo&quot;               &quot;uol-fonts&quot;        &quot;uol&quot;</code></pre>
-<p>Si tocamos o añadimos nuevas definiciones a un fichero css de estilo, podríamos hacer cualquier cosa, pero para eso ya no tengo tiempo.</p>
+<p>Si sabes css, puedes cambiar el aspecto de la presentación a tu gusto de manera sencilla definiendo tu propia hoja de estilo [css].</p>
 </div>
-<div id="plantilla" class="section level2">
-<h2>Plantilla</h2>
-<p>Lo que si es fácil es definir una plantilla, o varias y usar el formato en las diapositivas que definamos. La plantilla por defecto se llama <code>layout</code> y se especifica debajo justo del encabezado YAML como esta:</p>
-<pre><code>layout: true
+<div id="plantilla-para-todas-las-diapos" class="section level2">
+<h2>Plantilla para todas las diapos</h2>
+<p>Lo normal es usar una misma plantilla para toda la presentación, esto se suele hacer en la primera diapositiva, que no se muestra y a la que se nombra por defecto <code>layout</code>, justo debajo del encabezado YAML. Veamos un ejemplo:</p>
+<pre><code>---
+YAML encabezado...
+---
+layout: true
 background-image: url(logoR.png)
 background-position: 95% 0% 
 background-size: 10%</code></pre>
-<p>En lo anterior hemos puesto una imagen <code>logoR.png</code> en la parte de arriba derecha de cada diapositiva.</p>
-<p>De la misma forma podemos crear distintas plantillas con nombres y luego llamar a esta plantilla con template:nombre_plantilla</p>
-<pre><code>name: plantilla_fer
+<p>Con este código definimos la plantilla en la que hemos puesto una imagen <code>logoR.png</code> en la parte de arriba derecha de cada diapositiva.</p>
+<p>De la misma forma podemos crear distintas plantillas con nombres y luego llamar a esta plantilla en la diapositiva que queramos añadiendo justo debajo del símbolo de nueva diapo esto: <code>template: nombre_plantilla</code></p>
+<pre><code>---
+name: plantilla_fer
 class: inverse, bottom
 background-image: url(imag/fer.jpg)
-background-size: contain</code></pre>
-<p>Si quisieramos que una diapo use la plantilla_fer haríamos:</p>
+background-size: contain
+---</code></pre>
+<p>Si quisiéramos que una diapo use la <code>plantilla_fer</code> definida haríamos:</p>
 <pre><code>---
 template: plantilla_fer
 
 # Esta diapo usa la plantilla fer
 </code></pre>
-<p>Otra forma de dar formatos distitos es con <code>class:</code>, así especificamos al inicio de la diapositiva el formato de la misma, o dando parámetros como <code>background-image:</code>, por ejemplo aquí cambiamos el fondo de la presentación.</p>
+<p>Otra forma de dar formatos distintos a cada diapositiva es con la palabra: <code>class:</code>, así especificamos al inicio de la diapositiva el formato de la misma. También tenemos palabras clave que definen parámetros como <code>background-image:</code>.</p>
+<p>Por ejemplo aquí cambiaremos la imagen de fondo de la presentación (al tipo cover que cubra todo), y definimos esta diapositiva como inversa (colores inversos a la plantilla), centrada en el centro.</p>
 <pre><code>---
  class: inverse, center, middle
  background-image: url(imag/fondo5.jpg)
@@ -151,17 +166,37 @@ template: plantilla_fer
 Esta es distinta
 ---</code></pre>
 </div>
-<div id="insertar-imagenes" class="section level2">
-<h2>Insertar imagenes</h2>
-<p>Se pueden insertar imágenes con código Rmarkdown directamente, por ejemplo así:</p>
+<div id="insertar-imágenes" class="section level2">
+<h2>Insertar imágenes</h2>
+<p>Se pueden insertar imágenes con código <em>Rmarkdown</em> directamente, por ejemplo así:</p>
 <pre><code>![imagen de muestra](ruta/a/la/imagen.jpg)</code></pre>
-<p>A mi no me gusta pues tienes muy poco control sobre cómo sale en la pantalla, por lo que yo prefiero hacerlo a través de knitr, de esta forma en el encabezado del cuadro de código le puedo meter muchas más opciones, de tamaño centrado etc.. con esto obtengo</p>
+<p>A mi no me gusta este formato pues tienes muy poco control sobre cómo sale en la pantalla, por lo que prefiero hacerlo a través de <code>knitr</code>, de esta forma en el encabezado del cuadro de código le puedo meter muchas más opciones, de tamaño centrado etc.</p>
+<p>Ejemplo:</p>
 <pre><code>{r echo=FALSE, out.width = &quot;500px&quot;, out.height=&quot;250px&quot;,fig.align=&#39;center&#39;}
 knitr::include_graphics(&quot;imag/civileng.jpg&quot;)</code></pre>
 </div>
-<div id="dos-columnas" class="section level1">
-<h1>Dos columnas</h1>
-<p>Esto lo hacemos con código css:</p>
+<div id="insertar-tablas-mapas-videos" class="section level2">
+<h2>Insertar tablas, mapas, videos</h2>
+<p>Algunos <em>htmlwidgets</em> de R funcionan a la perfección, como por ejemplo <code>Ktable</code>, o <code>DT</code>para insertar tablas y tener dinamismo sobre la misma pantalla de la presentación.</p>
+<p>También en mapas la librería <em>Leaflet</em> funciona muy bien, y con ejecutar el código R, sale directamente el mapa dinámico.</p>
+<pre class="r"><code># insertar mapa
+library(leaflet)
+leaflet() %&gt;% addTiles() %&gt;% setView(-1.16, 37.94, zoom = 14)
+
+# insertar tabla dinámica con DT
+DT::datatable(
+  head(iris, 10),
+  fillContainer = FALSE, options = list(pageLength = 8)
+)</code></pre>
+<p>En el caso de querer insertar un vídeo de youtube o una web externa dentro de la presentación lo mejor es usar el comando html <code>iframe</code>, que inserta directamente el destino con el tamaño especificado en la diapositiva.</p>
+<pre><code># insertar un video de youtube
+
+&lt;iframe width=&quot;560&quot; height=&quot;315&quot; src=&quot;https://www.youtube.com/embed/HiyEZOKgSj8&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture&quot; allowfullscreen&gt;&lt;/iframe&gt;
+</code></pre>
+</div>
+<div id="dos-columnas" class="section level2">
+<h2>Dos columnas</h2>
+<p>Muchas veces necesitamos dos columnas, para esto usamos una clase de estilo css:</p>
 <pre><code>.pull-left[
 ## Columna izquierda
  Esto lo pondrá a la izquierda
@@ -170,11 +205,11 @@ knitr::include_graphics(&quot;imag/civileng.jpg&quot;)</code></pre>
 ## columna derecha
  Esto a la derecha
 ]</code></pre>
+</div>
 <div id="ejemplo" class="section level2">
 <h2>Ejemplo</h2>
-<p>Aquí dejo insertado un ejemplo del resultado:</p>
-<iframe width="100%" height="150" name="iframe" src="https://fervilber.github.io/mentoring/simplep#1">
+<p>Aquí dejo insertado un ejemplo sencillo de presentación con xaringan, también podéis ver la presentación oficial del paquete <a href="https://slides.yihui.name/xaringan/">aquí</a>:</p>
+<iframe width="100%" height="300" name="iframe" src="https://fervilber.github.io/mentoring/simplep#1">
 </iframe>
 <p>Espero que os ayude, un saludo. <i class="fas  fa-smile-wink fa-3x "></i></p>
-</div>
 </div>

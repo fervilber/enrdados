@@ -18,26 +18,28 @@ thumbnail: '/post/2019-10-14-presentaciones-con-r_files/xaringanpresentation.png
 toc: no
 ---
 
-Hace unos días tuve que hacer una presentación para una charla. Solía hacer las presentaciones con *powerpoint*, es lo habitual en mi mundo profesional, pero esta vez decidí cambiar a R, simplemente por ver qué podía hacer, un nuevo reto semanal `r icon::fa('angellist', size = 1)` .
+Hace unos días tuve que hacer una presentación en público. Solía hacerlas con *powerpoint*, es lo habitual en mi ámbito profesional, pero esta vez decidí probar con R, simplemente por ver qué podía hacer, y tener un nuevo reto semanal `r icon::fa('angellist', size = 1)` .
 
-Es más difícil, eso está claro, pero solo porque cuesta arrancar con algo nuevo cuando ya te apañas bien con una herramienta. Una vez sabes el potencial, y le echas un poco de valor me ha parecido una buena idea cambiar a R para nuevas presentaciones.
+Es más difícil, eso está claro, pero solo porque cuesta arrancar con algo nuevo. Cuando te apañas bien con una herramienta el cambio cuesta, una vez sabes el potencial, y le echas un poco de valor al cambio, descubres otros mundos y ves que incluso es mejor herramienta (la nueva).
 
-Para simplificar este duro inicio he hecho este artículo, espero que os sirva a todos, cualquier duda por discuss al final del mismo.
+Para simplificar el siempre duro inicio he hecho este artículo, espero que os sirva a todos, cualquier duda por DISQUS al final del mismo.
 
 ## Qué usar para hacer una presentación con R
-Tardé varios días en probar herramientas y opciones que hay en R para hacer presentaciones. Está la más simple que es la plantilla de RSTUDIO y otras complejas como `ninja`, `reveals.js` et...En resumen después de probar mucho, me quedo con [xaringan](https://github.com/yihui/xaringan).
+Tardé varios días en probar -solo algunas- de las herramientas que hay en R para hacer presentaciones. Hay 3 tipos por defecto en RSTUDIO *ioslides*, *Slidy* y *Beamer*, pero no me atrajeron demasiado, pues no son equiparables a powerpoint, aunque para algo sencillo si valen. Después descubrí algunas librerías que dan mucho más juego como `ninja` y `reveals.js`. En resumen después de probar mucho, me quedo con [xaringan](https://github.com/yihui/xaringan), que es la que voy a explicar aquí.
+
+![Formatos de presentacion por defecto en RSTUDIO](/post/2019-10-14-presentaciones-con-r_files/presentacionesR.png)
 
 ## xaringan
-El paquete [xaringan](https://github.com/yihui/xaringan) es una extensión de Rmarkdown basada en la librería javascript [remark.js](https://remarkjs.com). 
+El paquete [xaringan](https://github.com/yihui/xaringan) es una extensión de *Rmarkdown* basada en la librería javascript [remark.js](https://remarkjs.com). 
 
-Lo que genera al final es código HTML5 con un estilo moderno y con unas opciones de personalización muy grandes y aspecto avanzado. El resultado final es un fichero html (y sus directorios), aunque es posible crear solo uno con todo. Tambien podemos guardarlo como pdf como veremos, pero perdiendo efectos. 
+Con esta librería al final obtenemos una presentación en código HTML5 con un estilo moderno y con unas opciones de personalización muy amplias. El resultado es un fichero html (y sus directorios), aunque es posible crear uno solo con todo. También podemos guardarlo como presentación *pdf* con la librería *pagedown*. 
 
 ![xaringan presentacion](/post/2019-10-14-presentaciones-con-r_files/xaringanpresentation.png)
 
 ## Librerías necesarias
-Además de xaringan, creo necesario otras librería para completar nuestros recursos como `knitr`, `icons` (para insertar iconos chulos en las presentaciones) o `pagedown` para guardar el resultado como pdf. En realidad xaringan usa la `library(revealjs)` que es tambien otra forma de hacer presentaciones, aunque me gustó menos desde R.
+Además de xaringan, he usado otras librerías para complementar la presentación como `knitr`(para insertar imágenes o tablas), `icons` (para insertar iconos chulos en los textos) o `pagedown` (para guardar el resultado como pdf). En realidad *xaringan* es solo una extensión de la `library(revealjs)` que es también es otra forma de hacer presentaciones en R.
 
-Hay muchas opciones de plantillas instalando [xaringanthemer](https://github.com/gadenbuie/xaringanthemer) también.
+Aparte de las plantilla que trae la librería, hay muchas más opciones de personalización instalando otro paquete complementario el [xaringanthemer](https://github.com/gadenbuie/xaringanthemer).
 
 ```{r eval=FALSE}
 # instalación de xaringan
@@ -50,12 +52,14 @@ devtools::install_github("ropenscilabs/icon")
 remotes::install_github('rstudio/pagedown')
 ```
 
-## Nuevo documento Rmd
-Podemos abrir un nuevo fichero `*.Rmd`, o abrir una nueva plantilla de *ninja presentation*, que nos servirá de base.
+Empecemos por lo básico,
+
+## Empezar una presentación 
+Para esto abrimos en RSTUDIO un nuevo fichero tipo Rmarkdown `*.Rmd`, también abrir una nueva plantilla de *ninja presentation*, que nos servirá de base.
 
 ![plantilla presentacion ninja](/post/2019-10-14-presentaciones-con-r_files/xaringan1.png)
 
-El caso es iniciar con un encabezado YAML como el siguiente:
+Borramos todo y empezamos con el encabezado *YAML* de todo Rmarkdown, pero como el siguiente:
 
 ```{}
 ---
@@ -73,21 +77,27 @@ output:
       - default-fonts 
       - "animate.min.css"       
      nature:
+      countdown: 60000
+      autoplay: 30000
       highlightStyle: github
       highlightLines: true
       countIncrementalSlides: false
 ---
 ```
 
-Esto nos fija las propiedades de la presentación como el título, autor y algunas cosas más que veremos en adelante.
+En este encabezado fijamos las propiedades de la presentación básicas como el título, autor , fecha etc.
 
-A partir de aquí lo que escribamos en código markdown se plasma en la presentación, teniendo en cuenta que de una diapositiva a otra se pasa con `---` este símbolo.
+Como salida (`output`) le decimos que sea `xaringan::moon_reader:` y a partir de ese punto definimos las propiedades del formato xaringan, como por ejemplo si queremos transiciones, la carpeta donde van a estar las librerías en local (`lib_dir`), o los formatos que se dan en hoja de estilos *css*.
+Después de `nature:` definimos otras características de formato generales de la presentación que pueden ponerse o quitarse, como una cuenta atrás, o que pase automáticamente de diapositiva, o el estilo de resaltado de código, o si resalta los enlaces o si pone un contador de diapositivas, y otras muchas cosas que se pueden añadir.
+
+El encabezado se cierra con el símbolo `---` y partir de aquí lo que escribamos en código Rmarkdown se pasa directamente a la presentación, teniendo en cuenta que de una diapositiva a otra se pasa con este símbolo: `---` .
 
 ## Insertar nueva diapositiva
 
-Pues simplemente escibimos algo como lo siguiente debajo del encabezado YAML:
+Para insertar una nueva diapositiva simplemente escribimos algo como lo siguiente debajo del encabezado *YAML*: ojo con no repetir dos veces el cambio símbolo de cambio.
 
 ```{}
+---
 # Primera diapositiva
 
 * punto 1
@@ -102,19 +112,19 @@ Pues simplemente escibimos algo como lo siguiente debajo del encabezado YAML:
 ```
 
 ## Ver el resultado en tiempo real
-Si quieres ir viendo el resultado de lo que escribes hay que usar *Infinite Moon Reader* que es un adding de RSTUDIO, se ejecuta directamente con el siguiente código:
+Si quieres ir viendo el resultado de lo que escribes al mismo tiempo hay que usar *Infinite Moon Reader* que es un adding de RSTUDIO, para eso ejecuta directamente el siguiente código:
 
 ```{r eval=FALSE}
 # arranca Infinite Moon Reader
 xaringan::inf_mr()
 ```
 
-y a partir de aquí veras en la ventana de viewer la presentación. Es posible que no te funcione, y entonces será mejor que des a *open in browser* y lo verás en el navegador.
+y a partir de aquí verás en la ventana de Viewer la presentación. Si no te sale bien o no te funciona, entonces será mejor que des a *open in browser* y lo verás en el navegador.
 
 ## Formatos
-Todas las sintaxis y formatos que usas en RMarkdown se pasan directamente a la diapositiva,así que los titulos (##), las listas (* - ) etc, son fáciles de hacer.
+Todas las sintaxis y formatos que usas en RMarkdown se pasan directamente a la diapositiva, así los títulos se hacen con (##), las listas con los símbolos (* - ) etc.
 
-El formato de las diapositivas se da en el encabezado YAML, al principio del fichero. Lo principal es que el formato está en css, y solo se ponen los nombres de las correspondientes plantillas.
+El formato de las diapositivas se da en el encabezado YAML, al principio del fichero. Lo principal es que el formato está en hojas de estilo [css], pero hay ya muchas predefinidas. En el encabezado se deben poner solo los nombres del formato sin la extensión, y solo se ponen los nombres completos de las plantillas propias y entrecomillados.
 
 ```{}
 output:
@@ -122,35 +132,41 @@ output:
     css: [default, metropolis, metropolis-fonts]
 ```    
 
-Los formatos que vienen con la librería son estos:
+Los formatos que vienen ya preestablecidos con *xaringan* son estos:
 
 ```{r}
 names(xaringan:::list_css())
 ```
 
-Si tocamos o añadimos nuevas definiciones a un fichero css de estilo, podríamos hacer cualquier cosa, pero para eso ya no tengo tiempo.
+Si sabes css, puedes cambiar el aspecto de la presentación a tu gusto de manera sencilla definiendo tu propia hoja de estilo  [css].
 
-## Plantilla
-Lo que si es fácil es definir una plantilla, o varias y usar el formato en las diapositivas que definamos. La plantilla por defecto se llama `layout` y se especifica debajo justo del encabezado YAML como esta:
+## Plantilla para todas las diapos
+Lo normal es usar una misma plantilla para toda la presentación, esto se suele hacer en la primera diapositiva, que no se muestra y a la que se nombra por defecto `layout`, justo debajo del encabezado YAML. Veamos un ejemplo:
 
 ```{}
+---
+YAML encabezado...
+---
 layout: true
 background-image: url(logoR.png)
 background-position: 95% 0% 
 background-size: 10%
 ```
-En lo anterior hemos puesto una imagen `logoR.png` en la parte de arriba derecha de cada diapositiva.
 
-De la misma forma podemos crear distintas plantillas con nombres y luego llamar a esta plantilla con template:nombre_plantilla
+Con este código definimos la plantilla en la que hemos puesto una imagen `logoR.png` en la parte de arriba derecha de cada diapositiva.
+
+De la misma forma podemos crear distintas plantillas con nombres y luego llamar a esta plantilla en la diapositiva que queramos añadiendo justo debajo del símbolo de nueva diapo esto: `template: nombre_plantilla`
 
 ```{}
+---
 name: plantilla_fer
 class: inverse, bottom
 background-image: url(imag/fer.jpg)
 background-size: contain
+---
 ```
 
-Si quisieramos que una diapo use la plantilla_fer haríamos:
+Si quisiéramos que una diapo use la `plantilla_fer` definida haríamos:
 ```{}
 ---
 template: plantilla_fer
@@ -159,7 +175,10 @@ template: plantilla_fer
 
 ```
 
-Otra forma de dar formatos distitos es con `class:`, así especificamos al inicio de la diapositiva el formato de la misma, o dando parámetros como `background-image:`, por ejemplo aquí cambiamos el fondo de la presentación.
+Otra forma de dar formatos distintos a cada diapositiva es con la palabra: `class:`, así especificamos al inicio de la diapositiva el formato de la misma. También tenemos palabras clave que definen parámetros como `background-image:`.
+
+Por ejemplo aquí cambiaremos la imagen de fondo de la presentación (al tipo cover que cubra todo), y definimos esta diapositiva como inversa (colores inversos a la plantilla), centrada en el centro.
+
 ```{}
 ---
  class: inverse, center, middle
@@ -170,23 +189,51 @@ Esta es distinta
 ---
 ```
 
-## Insertar imagenes
-Se pueden insertar imágenes con código Rmarkdown directamente, por ejemplo así:
+## Insertar imágenes
+Se pueden insertar imágenes con código *Rmarkdown* directamente, por ejemplo así:
 
 ```{}
 ![imagen de muestra](ruta/a/la/imagen.jpg)
 ```
 
-A mi no me gusta pues tienes muy poco control sobre cómo sale en la pantalla, por lo que yo prefiero hacerlo a través de knitr, de esta forma en el encabezado del cuadro de código le puedo meter muchas más opciones, de tamaño centrado etc.. con esto obtengo
+A mi no me gusta este formato pues tienes muy poco control sobre cómo sale en la pantalla, por lo que prefiero hacerlo a través de `knitr`, de esta forma en el encabezado del cuadro de código le puedo meter muchas más opciones, de tamaño centrado etc.
+
+Ejemplo:
 
 ```{}
 {r echo=FALSE, out.width = "500px", out.height="250px",fig.align='center'}
 knitr::include_graphics("imag/civileng.jpg")
 ```
+## Insertar tablas, mapas, videos
 
-# Dos columnas
+Algunos *htmlwidgets* de R funcionan a la perfección, como por ejemplo `Ktable`, o `DT`para insertar tablas y tener dinamismo sobre la misma pantalla de la presentación.
 
-Esto lo  hacemos con código css:
+También en mapas la librería *Leaflet* funciona muy bien, y con ejecutar el código R, sale directamente el mapa dinámico.
+
+```{r eval=FALSE}
+# insertar mapa
+library(leaflet)
+leaflet() %>% addTiles() %>% setView(-1.16, 37.94, zoom = 14)
+
+# insertar tabla dinámica con DT
+DT::datatable(
+  head(iris, 10),
+  fillContainer = FALSE, options = list(pageLength = 8)
+)
+```
+
+En el caso de querer insertar un vídeo de youtube o una web externa dentro de la presentación lo mejor es usar el comando html `iframe`, que inserta directamente el destino con el tamaño especificado en la diapositiva.
+
+```{}
+# insertar un video de youtube
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/HiyEZOKgSj8" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+```
+
+## Dos columnas
+Muchas veces necesitamos dos columnas, para esto usamos una clase de estilo css:
+
 ```{}
 .pull-left[
 ## Columna izquierda
@@ -198,9 +245,10 @@ Esto lo  hacemos con código css:
 ]
 ```
 
-## Ejemplo
-Aquí dejo insertado un ejemplo del resultado:
 
-<iframe width="100%" height="150" name="iframe" src="https://fervilber.github.io/mentoring/simplep#1"></iframe>
+## Ejemplo
+Aquí dejo insertado un ejemplo sencillo de presentación con xaringan, también podéis ver la presentación oficial del paquete [aquí](https://slides.yihui.name/xaringan/):
+
+<iframe width="100%" height="300" name="iframe" src="https://fervilber.github.io/mentoring/simplep#1"></iframe>
 
 Espero que os ayude, un saludo. `r icon::fa('smile-wink', size = 3)`
