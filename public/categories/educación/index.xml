@@ -6,10 +6,21 @@
     <description>Recent content in Educación on EnRdados</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>es</language>
-    <lastBuildDate>Fri, 23 Aug 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 08 Nov 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/categories/educaci%C3%B3n/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Enseñar a programar</title>
+      <link>/post/ense%C3%B1ar-a-programar/</link>
+      <pubDate>Fri, 08 Nov 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/ense%C3%B1ar-a-programar/</guid>
+      <description>Hace un tiempo quería poner un resumen de enlaces a buenas webs para aprender R, pero como estoy desde el verano programando con los niños he pensado en poneros algunos enlaces a las paginas que uso para enseñarles.
+Llevo años intentando que los niños disfruten con la programación y creo que con estas lo he conseguido.
+Programar es una de la habilidades más interesantes y que mejor desarrollan la creatividad y la imaginación de las personas.</description>
+    </item>
     
     <item>
       <title>Numeros montaña</title>
