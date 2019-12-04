@@ -6,10 +6,19 @@
     <description>Recent content in Posts on EnRdados</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>es</language>
-    <lastBuildDate>Fri, 08 Nov 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 04 Dec 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Shiny facil con flexdashboard</title>
+      <link>/post/shiny-facil-con-flexdashboard/</link>
+      <pubDate>Wed, 04 Dec 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/shiny-facil-con-flexdashboard/</guid>
+      <description>Cómo crear aplicaciones web dinámicas con RHace unos días, realicé un taller sobre cómo crear aplicaciones web con R usando flexdashboard que fue organizado por UMUR. La idea de hacer estos encuentros surgió en una reunión de socios hace unos meses, y creo que están saliendo muy bien, pues aprovechamos para vernos, tomar un RCofee y hablar un rato de R con personas reales…. algo que no puedes hacer con los amigos… al menos no con los míos .</description>
+    </item>
     
     <item>
       <title>Enseñar a programar</title>

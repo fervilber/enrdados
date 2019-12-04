@@ -1,0 +1,195 @@
+---
+title: Shiny facil con flexdashboard
+author: F.VilBer
+date: '2019-12-04'
+slug: shiny-facil-con-flexdashboard
+categories:
+  - diseño
+  - markdown
+  - R
+tags:
+  - shiny
+  - formato
+  - programas
+  - R
+  - sintaxis
+description: 'cómo crear aplicaciones web dinámicas con R y shiny'
+thumbnail: '/post/2019-12-04-shiny-facil-con-flexdashboard_files/cartel_taller.png'
+toc: no
+---
+
+<link href="/rmarkdown-libs/font-awesome/css/fontawesome-all.min.css" rel="stylesheet" />
+
+
+<div id="cómo-crear-aplicaciones-web-dinámicas-con-r" class="section level2">
+<h2>Cómo crear aplicaciones web dinámicas con R</h2>
+<p>Hace unos días, realicé un taller sobre <em>cómo crear aplicaciones web con R usando flexdashboard</em> que fue organizado por <a href="http://gauss.inf.um.es/umur/">UMUR</a>. La idea de hacer estos encuentros surgió en una reunión de socios hace unos meses, y creo que están saliendo muy bien, pues aprovechamos para vernos, tomar un <em>RCofee</em> y hablar un rato de R con personas reales…. algo que no puedes hacer con los amigos… al menos no con los míos <i class="fas  fa-smile-wink fa-2x "></i>.</p>
+<p>Este artículo es el primero de una serie resumen del taller, espero que os sea de ayuda y que empecéis a usar el enorme potencial de <a href="https://rmarkdown.rstudio.com/flexdashboard/">flexdashboard</a>.</p>
+</div>
+<div id="qué-es-flexdashboard" class="section level2">
+<h2>¿qué es <em>flexdashboard</em>?</h2>
+<p><a href="https://rmarkdown.rstudio.com/flexdashboard/">flexdashboard</a>, en adelante simplemente lo llamaré <a href="https://rmarkdown.rstudio.com/flexdashboard/">flex</a>, es una extensión de <em>Rmarkdown</em> desarrollada por RSTUDIO para facilitar la creación de paneles gráficos, también llamados <em>tableros</em> en donde exponer un resumen visual de nuestros datos…. algo como esto:</p>
+<div class="figure">
+<img src="/post/2019-12-04-shiny-facil-con-flexdashboard_files/tablero2.jpg" alt="Ejemplo de panel o tablero" />
+<p class="caption">Ejemplo de panel o tablero</p>
+</div>
+<p>Lo interesante de <a href="https://rmarkdown.rstudio.com/flexdashboard/">flex</a> es que integra <a href="https://shiny.rstudio.com/">Shiny</a> de una manera mucho más accesible y sencilla de usar que el propio <a href="https://shiny.rstudio.com/">Shiny</a>. Para mi este es un punto clave, pues Shiny es poderoso, pero se resiste a mucha gente de R por su complicada estructura y lenta curva de aprendizaje, algo que con flex cambia radicalmente.</p>
+<p>A su vez al integrar Shiny, <a href="https://rmarkdown.rstudio.com/flexdashboard/">flexdashboard</a> nos permite ir un paso más allá de los simples tableros de gráficas y <strong>crear verdaderas aplicaciones web interactivas</strong> con una metodología y formato simple.</p>
+</div>
+<div id="interactividad" class="section level2">
+<h2>Interactividad</h2>
+<p>Realizar una aplicación web con flex es relativamente sencillo. Este paquete nos permite acceder al mundo dinámico de la <strong>interactividad</strong>, nuestras acciones sobre el tablero accionarán comandos, crearán variables o reaccionarán a eventos, pulsaciones o <em>inputs</em> de datos.</p>
+<p>Me gusta distinguir 4 niveles de interacción o reactividad en el uso de <em>flex</em>:</p>
+<ol style="list-style-type: decimal">
+<li>sin dinamismo</li>
+<li>interactividad con <em>htmlWidgets</em></li>
+<li>interactividad con <em>crosstalk</em></li>
+<li>interactividad completa con <em>Shiny</em></li>
+</ol>
+<p>En los niveles 1, 2 y 3 el resultado de nuestro tablero será un fichero <em>html</em> simple, que podemos abrir en cualquier navegador como <em>Edge</em>, <em>Firefox</em>, <em>Chrome</em>… el nivel 4 exige disponer de un servidor. <em>RSTUDIO</em> crea un servidor web cada vez que ejecuta una app con Shiny, por eso en las pruebas locales no notamos la diferencia, pero para publicar y distribuir nuestro trabajo es un factor importante.</p>
+<p>Empecemos a ver flex por dentro:</p>
+</div>
+<div id="lenguaje-flex" class="section level2">
+<h2>Lenguaje flex</h2>
+<p>Básicamente lo que hace flex es interpretar y traducir ciertos comandos de <em>markdown</em>, es decir de formato. Se trata de un simple interpretador de lenguaje, que transforma nuestro código <em>markdown</em> en código <em>html</em> (web).</p>
+<p>Podéis pensar que esto ya lo hace directamente <em>Knitr</em> al generar un <em>pdf</em> o un <em>html</em> de ficheros <code>*.Rmd</code>, y es cierto, pero flex añade con elegancia mucha <em>flexibilidad</em> y complejidad al diseño final. A los desarrolladores se les ocurrió una forma simple y poderosa de crear páginas web complejas y es tan simple que asusta, pues con 3 objetos creamos infinidad de opciones y diseños.</p>
+<p>Estos 3 niveles de formato flex son:</p>
+<ol style="list-style-type: decimal">
+<li><code>#</code> páginas</li>
+<li><code>##</code> columnas o filas<br />
+</li>
+<li><code>###</code> cajas</li>
+</ol>
+<div class="figure">
+<img src="/post/2019-12-04-shiny-facil-con-flexdashboard_files/nivelesflex.gif" alt="formatos o niveles flex" />
+<p class="caption">formatos o niveles flex</p>
+</div>
+<p>Para crear cualquier nivel usaremos la etiqueta correspondiente, así por ejemplo para crear una página usaremos un símbolo de almohadilla seguido de el nombre de la página. Para crear una caja usaremos 3 almohadillas <code>###</code>. Con este sistema simple podemos diseñar múltiples web, solo hace falta dibujar con un lápiz el diseño en formato de páginas, columnas o filas y cajas y usar simple marcado para definirlo.</p>
+</div>
+<div id="encabezado-yaml" class="section level2">
+<h2>Encabezado YAML</h2>
+<p>El encabezado YAML es la parte inicial de todos los ficheros <code>*.Rmd</code> delimitada por el símbolo <code>---</code>, en la que se definen las características generales de salida. Aquí normalmente ponemos el titulo, autor, fecha, y si la salida es en <em>pdf</em>, <em>html</em> así como características de márgenes etc. Al cargar <code>library(flexdashboard)</code>en R, tenemos la opción de un nuevo tipo de salida, con lo que para especificarlo debajo de output basta con escribir <code>flexdashboard::flex_dashboard:</code>.</p>
+<p>Veamos un ejemplo concreto:</p>
+<pre class="yaml"><code>---
+title: &quot;Mi primer tablero&quot;
+author: &quot;FVB&quot;
+date: &quot;2019&quot;
+output:
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+    logo: &quot;imag/logoR.png&quot;
+    social: menu
+    source_code: embed
+    theme: united
+runtime: shiny
+---</code></pre>
+<p>Las opciones propias de flex deben introducirse debajo de la línea <code>flexdashboard::flex_dashboard:</code> y afectan al formato general de salida creado, como por ejemplo si el símbolo doble almohadilla <code>##</code> se interpreta como filas (<code>rows</code>) o columnas (<code>orientation: columns</code>), o si queremos insertar un logo para la web <code>logo: &quot;imag/logoR.png&quot;</code>, o incluir un menú con opciones de compartir en redes sociales (<code>social: menu</code>), o un botón que nos muestre el código fuente flex de la web (<code>source_code: embed</code>), o la plantilla de formato (colores y CSS) elegida (<code>theme: united</code>). Incluso si vamos a meter código shiny, para lo cual necesitamos añadir al final <code>runtime: shiny</code>.</p>
+<div class="figure">
+<img src="/post/2019-12-04-shiny-facil-con-flexdashboard_files/formatoflex.png" alt="yaml" />
+<p class="caption">yaml</p>
+</div>
+</div>
+<div id="diseño-de-la-web" class="section level2">
+<h2>Diseño de la web</h2>
+<p>Una vez completamos nuestro encabezado YAML ya podemos crear el diseño general de la web o aplicación usando los 3 niveles de formato <a href="#Lenguaje_flex">explicados antes</a>. Recomiendo probar el formato y ver la salida de inmediato, antes de meter código R en las cajas.</p>
+<p>Para ver la web generada basta con dar al botón Knit <img src="/post/2019-12-04-shiny-facil-con-flexdashboard_files/knit.png" /> y nos muestra el resultado.</p>
+<p>Por ejemplo con este código crearíamos una estructura web que vemos a continuación:</p>
+<pre class="yaml"><code>---
+title: &quot;Untitled&quot; 
+output: 
+    flexdashboard::flex_dashboard: 
+      orientation: columns
+---
+    
+## Col 1
+### Chart A
+   
+## Col 2
+### Chart B
+    
+### Chart C</code></pre>
+<p>El resultado al ejecutar <em>Knit</em> sobre este fichero rmd sería este:</p>
+<div class="figure">
+<img src="/post/2019-12-04-shiny-facil-con-flexdashboard_files/flexdashboard-pages.png" alt="estructura simple" />
+<p class="caption">estructura simple</p>
+</div>
+<p>Una vez que tenemos la estructura de la web clara, ya podemos introducir código en cada caja de la manera habitual en Rmarkdown.</p>
+</div>
+<div id="ejemplo-simple-sin-dinamismo" class="section level1">
+<h1>Ejemplo simple sin dinamismo</h1>
+<p>El siguiente fichero <em>Rmd</em> es un ejemplo completo de código para generar una salida flex del tipo simple, es decir sin interacción del nivel 1 especificado.</p>
+<pre class="yaml"><code>---
+title: &quot;mi primer tablero&quot;
+output:
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+    source_code: embed
+---
+
+# pag 1
+
+## columna 1
+
+### Caudales máximos anuales
+&#39;&#39;&#39;{r}
+  plot.ts(Nile, col=&quot;blue&quot;,
+       main=&quot;Caudales max históricos en el Nilo&quot;,
+       xlab=&quot;Fecha&quot;,
+       ylab=&quot;Caudal m3/s&quot;)
+&#39;&#39;&#39;
+
+&gt; grafica de caudales maximos anuales en el río Nilo
+
+## columna 2
+
+### Gráfica estadística
+
+&#39;&#39;&#39;{r}
+  #histograma
+  hist(Nile, col=&quot;skyblue&quot;,
+       main=&quot;Caudales en el Nilo&quot;,
+       xlab=&quot;Caudal m3/s&quot;,
+       ylab=&quot;Frecuencia&quot;)
+  rug(Nile) # marcas
+&#39;&#39;&#39;
+
+&gt; grafica de frecuencias de caudales en el río Nilo
+
+### Boxplot
+
+&#39;&#39;&#39;{r}
+  
+  boxplot(Nile, col=&quot;red&quot;,
+          horizontal=TRUE,
+          xlab=&quot;caudales maximos del Nilo&quot;)
+  rug(Nile) # añado marcas
+&#39;&#39;&#39;
+
+&gt; Variable caudal max anual
+
+# pag 2
+
+## columna 1
+
+### Tabla de datos
+
+Estos son los datos de caudal del río *Nilo*:
+
+&#39;&#39;&#39;{r}
+  # Resumen
+  summary(Nile)
+  # creo una data.frame para poner fecha y caudal
+  serieN&lt;-data.frame(caudal=as.matrix(Nile), fecha=time(Nile))
+  #serieN
+  knitr::kable(serieN)
+&#39;&#39;&#39; 
+</code></pre>
+<p>La salida generada es esta:</p>
+<div class="figure">
+<img src="/post/2019-12-04-shiny-facil-con-flexdashboard_files/app1.png" alt="app1 sin dinamismo" />
+<p class="caption">app1 sin dinamismo</p>
+</div>
+<p>Dejamos aquí este primer bloque de la serie <em>Shiny facil con flexdashboard</em>, seguiremos en próximas entradas añadiendo interacción básica a la web con los <a href="https://www.htmlwidgets.org/">htmlWidgets</a></p>
+</div>
