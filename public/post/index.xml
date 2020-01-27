@@ -6,10 +6,20 @@
     <description>Recent content in Posts on EnRdados</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>es</language>
-    <lastBuildDate>Wed, 04 Dec 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 27 Jan 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Shiny fácil con flexdashboard II</title>
+      <link>/post/shiny-facil-con-flexdashboard-ii/</link>
+      <pubDate>Mon, 27 Jan 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/post/shiny-facil-con-flexdashboard-ii/</guid>
+      <description>Segunda parte. Applicaciones web con RSeguimos con el manual para hacer aplicaciones web en R. En esta segunda parte vamos a ver cómo añadimos dinamismo e intereccion con el usuario.
+En el artículo anterior vimos la sintaxis para crear fácilmente una web con lenguaje Rmarkdown, usando la librería flexdashboard. Como recordarás es bastabnte simple… se hace usando las almohadillas para el formateado de la web que flexdashboard interpreta como páginas ( una sola almohadilla: #), columnas o filas (##) o cajas (3 de lo mismo: ###).</description>
+    </item>
     
     <item>
       <title>Shiny facil con flexdashboard</title>
