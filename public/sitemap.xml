@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>/post/crosstalk/</loc>
+    <lastmod>2020-01-30T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/post/shiny-facil-con-flexdashboard-ii/</loc>
     <lastmod>2020-01-27T00:00:00+00:00</lastmod>
   </url>
@@ -203,6 +208,12 @@
   </url>
   
   <url>
+    <loc>/tags/app/</loc>
+    <lastmod>2020-01-30T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>/tags/aprendizaje-autom%C3%A1tico/</loc>
     <lastmod>2019-02-13T00:00:00+00:00</lastmod>
     <priority>0</priority>
@@ -263,7 +274,7 @@
   
   <url>
     <loc>/categories/dise%C3%B1o/</loc>
-    <lastmod>2020-01-27T00:00:00+00:00</lastmod>
+    <lastmod>2019-10-14T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -287,7 +298,7 @@
   
   <url>
     <loc>/</loc>
-    <lastmod>2020-01-27T00:00:00+00:00</lastmod>
+    <lastmod>2020-01-30T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -311,7 +322,7 @@
   
   <url>
     <loc>/tags/graficas/</loc>
-    <lastmod>2019-04-08T00:00:00+00:00</lastmod>
+    <lastmod>2020-01-30T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -353,7 +364,7 @@
   
   <url>
     <loc>/categories/markdown/</loc>
-    <lastmod>2020-01-27T00:00:00+00:00</lastmod>
+    <lastmod>2019-12-04T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -413,7 +424,7 @@
   
   <url>
     <loc>/post/</loc>
-    <lastmod>2020-01-27T00:00:00+00:00</lastmod>
+    <lastmod>2020-01-30T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -431,7 +442,7 @@
   
   <url>
     <loc>/categories/programas/</loc>
-    <lastmod>2019-05-08T00:00:00+00:00</lastmod>
+    <lastmod>2020-01-27T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -443,7 +454,7 @@
   
   <url>
     <loc>/categories/r/</loc>
-    <lastmod>2020-01-27T00:00:00+00:00</lastmod>
+    <lastmod>2020-01-30T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -467,7 +478,13 @@
   
   <url>
     <loc>/tags/shiny/</loc>
-    <lastmod>2020-01-27T00:00:00+00:00</lastmod>
+    <lastmod>2020-01-30T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/categories/shiny/</loc>
+    <lastmod>2020-01-30T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -485,7 +502,7 @@
   
   <url>
     <loc>/tags/</loc>
-    <lastmod>2019-02-13T00:00:00+00:00</lastmod>
+    <lastmod>2020-01-30T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   

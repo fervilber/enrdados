@@ -1,0 +1,103 @@
+---
+title: crosstalk
+author: F.VilBer
+date: '2020-01-30'
+slug: crosstalk
+categories:
+  - Shiny
+  - R
+tags:
+  - app
+  - graficas
+  - shiny
+description: 'cómo crear aplicaciones web dinámicas con R y shiny III, crosstalk'
+thumbnail: '/post/2020-01-30-crosstalk_files/app3.png'
+toc: no
+---
+
+## Applicaciones web con R III 
+
+Tercera parte de la guía para hacer aplicaciones web en R con la librería [flexdashboard](https://rmarkdown.rstudio.com/flexdashboard/). Los anteriores articulos fueron estos:
+
+ * [I. Sintaxis y uso simple de flexdashboard](../Shiny-facil-con-flexdashboard)
+ * [II. htmlwidgets](../Shiny-facil-con-flexdashboard-ii)
+ 
+En esta ocasión vamos a explicar el uso de otra librería muy interesante, que añade muchas posibilidades desde el lado cliente, es decir sin hacer uso del servidor que es la parte más complicada para los "NO INFORMÁTICOS".
+
+Al fin y al cabo todo lo que vamos a explicar sería muy facil de usar en shiny, pero el problema de Shiny es que debe ejecutase en un servidor, montar el servicio y saber cómo y donde volvar las páginas o ficheros. A muchos nos cuesta meteternos en esos andurriales, y todo es más simple si el resultado es una simple y llana página web con html que es lo que conseguimos usando los *htmlWidgets* y  *crosstalk*
+
+## crosstalk
+
+[Crosstalk](https://rstudio.github.io/crosstalk/) otra librería de RSTUDIO que permite compartir datos entre distintos *htmlwidgets*. Como vimos en el articulo [artículo anterior](../Shiny-facil-con-flexdashboard-ii) los htmlwidgets  son librerías que nos permiten usar graficas o código JavaScript desde R para salida web. La ventaja es que son gráficos altamente dinámicos con funcionalidades avanzadas y apariencia de alta calidad.
+
+Los gráficos se adaptan a las formas de ventana, pantalla o frame de forma automática con lo que la apariencia de nuestra web (informe o documento de R o Rmarkdown) mejora de manera evidente.
+
+[Crosstalk](https://rstudio.github.io/crosstalk/) es un complemento a los *htmlwidgets* que nos permite compartir datos entre ellos y vincularlos dinámicamente. Es decir, que desde el lado cliente, podemos -por ejemplo- compartir los mismos datos en una tabla dinámica (*DT*) y en una gráfica (*plotly*) y hacer filtrado y selección de los mismos dinámicamente.
+
+Y todo, sin instalar ningun servidor por lo que podemos compartir el informe o documento solo el fichero de salida web *.html*.
+
+## Uso y ejemplo
+Lo primero es como siempre instalar la librería y declararla en el código: `library(crosstalk)`.
+
+Para usar `crosstalk` solo tenemos que decir qué datos son los que vamos a compartir entre *htmlwidgets*. Esto lo hacemos con la función `SharedData$new(tabla_datos)`. Una vez declarada la variable compartida, la usamos dentro de los *htmlwidgets* como haríamos con cualquier otra tabla o dato.
+
+   Nota: también podemos usar de forma equivalente la función `highlight_key()` de plotly, que hace exactamente lo mismo que `SharedData$new()`
+
+Una de las funcionalidades más interesantes que aporta `crosstalk` es que se pueden usar objetos de filtrado como los *Input de Shiny*, esto es **sliders** (`filter_slider()`), **cajas de selección** (`filter_select()`) y **cajas de chequeo**(`filter_checkbox()`), sin necesidad de Shiny y por tanto sin necesidad de **servidor**. Esto permite hacer webs dinámicas, visuales e intuitivas, pero sencillas de realizar y sin la complicació de reactividad que implica Shiny.
+
+Veamos algunos ejemplos, en el primero vamos dibujar una gráfica de la tabla (dataframe *cars*) en la que incluiremos un filtro dinámico para seleccionar los datos de los coches según su potencia. 
+
+Usaremos en este ejemplo una gráfica *htmlwidgets* interesante: la librería [d3scatter](https://github.com/jcheng5/d3scatter) que hace gráficos de puntos scatter dinámicos muy chulos en formato web. Para instalar el paquete puedes usar devtools así: (`devtools::install_github("jcheng5/d3scatter`).
+
+```{r}
+library(crosstalk)
+library(d3scatter)
+datos_compartidos <- SharedData$new(mtcars)
+
+# creamos un filtro de los datos
+filter_slider("hp", "Caballos de Potencia", datos_compartidos, ~hp, width = "90%")
+# pintamos los puntos 
+d3scatter(datos_compartidos, ~wt, ~mpg, ~factor(cyl), width="90%", height=250)
+```
+
+### bscols
+
+Otra función útil de *crosstalk* es `bscols()`. Básicamente crea un contenedor de columnas en las que meter diferentes *htmlwidgets* enlazados. Es decir crea un cajón con varios apartados en los que metemos cosas, como por ejemplo *htmlwidgets*. 
+
+Podríamos hacer las cajas en *flex* con `###`, pero a veces queremos que aparazcan juntas las gráficas y queda mejor usar esta funcicón `bscols()`.
+
+Por ejemplo, en el mismo caso de antes con la tabla `mtcars`, queremos meter varias opciones de filtrado y la gráfica resultante justo al lado. En esta caso nos viene muy bien la función `bscols` y la web parece que se ejecuta desde servidor pues actualiza la gráfica al filtrar, veamos:
+
+
+```{r}
+# creamos una caja con 2 columnas, una para los filtros
+# y otra para la gráfica
+# en la primera col, habrá 3 htmlwidgets de filtro que metemos como lista
+bscols(widths = c(3,NA),
+  list(
+    filter_checkbox("cyl", "Cilindros", datos_compartidos, ~cyl, inline = TRUE),
+    filter_slider("hp", "Potencia", datos_compartidos, ~hp, width = "100%"),
+    filter_select("auto", "Automatico", datos_compartidos, ~ifelse(am == 0, "Yes", "No"))
+  ),
+  d3scatter(datos_compartidos, ~wt, ~mpg, ~factor(cyl), width="100%", height=250)
+)
+```
+
+
+## Limitaciones
+Crosstalk es fantástico para crear web dinámicas con filtros y **visualización de varias gráficas sobre los mismos datos**, pero tiene algunas limitaciones importantes:
+
+ 1. Solo puede usarse en determinados *htmlwidgets*. Puedes ver [aquí](https://rstudio.github.io/crosstalk/widgets.html) algunos de los que SI valen.
+ 2. Se ejecuta en el navegador cliente, por lo que **NO** es adecuado para grandes bases de datos o tablas pues las variables se almacenan al vuelo. 
+
+## Ejemplo de aplicación
+
+Para un ejemplo más completo puedes ver <a href="https://fervilber.github.io/taller_flex/app3.html" target="_blank">aquí</a> la applicación web que hice como ejemplo en el taller de flex para [UMUR](http://gauss.inf.um.es/umur/actividades.html), donde se muestra dinámicamente los mismos datos en 3 *htmlwidgets*, una gráfica de plotly, un mapa de leaflet y una tabla de DT.
+
+
+Seguimos en breve con la parte final, usar Shiny en flex!, nos vemos.
+
+
+
+
+

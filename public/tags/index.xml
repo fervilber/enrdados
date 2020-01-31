@@ -6,10 +6,19 @@
     <description>Recent content in Tags on EnRdados</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>es</language>
-    <lastBuildDate>Wed, 13 Feb 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 30 Jan 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>App</title>
+      <link>/tags/app/</link>
+      <pubDate>Thu, 30 Jan 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/app/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>Aprendizaje Automático</title>
@@ -122,7 +131,7 @@
     <item>
       <title>Graficas</title>
       <link>/tags/graficas/</link>
-      <pubDate>Mon, 08 Apr 2019 00:00:00 +0000</pubDate>
+      <pubDate>Thu, 30 Jan 2020 00:00:00 +0000</pubDate>
       
       <guid>/tags/graficas/</guid>
       <description></description>
@@ -302,7 +311,7 @@
     <item>
       <title>Shiny</title>
       <link>/tags/shiny/</link>
-      <pubDate>Mon, 27 Jan 2020 00:00:00 +0000</pubDate>
+      <pubDate>Thu, 30 Jan 2020 00:00:00 +0000</pubDate>
       
       <guid>/tags/shiny/</guid>
       <description></description>

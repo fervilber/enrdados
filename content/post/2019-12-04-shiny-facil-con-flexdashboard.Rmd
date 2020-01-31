@@ -4,8 +4,8 @@ author: F.VilBer
 date: '2019-12-04'
 slug: shiny-facil-con-flexdashboard
 categories:
-  - diseño
-  - markdown
+  - Shiny
+  - Markdown
   - R
 tags:
   - shiny
@@ -114,7 +114,7 @@ output:
     
 ### Chart C
 ```
-El resultado al ejecutar *Knit* sobre este fichero rmd sería este:
+El resultado al ejecutar *Knit* sobre este fichero Rmd sería este:
 
 ![estructura simple](/post/2019-12-04-shiny-facil-con-flexdashboard_files/flexdashboard-pages.png)
 
@@ -195,7 +195,7 @@ Estos son los datos de caudal del río *Nilo*:
 
 ```
 
-La salida generada es esta:
+La salida generada es :<a href="https://fervilber.github.io/taller_flex/app1.html" target="_blank">esta</a>
 
 ![app1 sin dinamismo](/post/2019-12-04-shiny-facil-con-flexdashboard_files/app1.png)
 

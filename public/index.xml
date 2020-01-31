@@ -6,10 +6,20 @@
     <description>Recent content on EnRdados</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>es</language>
-    <lastBuildDate>Mon, 27 Jan 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 30 Jan 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>crosstalk</title>
+      <link>/post/crosstalk/</link>
+      <pubDate>Thu, 30 Jan 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/post/crosstalk/</guid>
+      <description>Applicaciones web con R IIITercera parte de la guía para hacer aplicaciones web en R con la librería flexdashboard. Los anteriores articulos fueron estos:
+I. Sintaxis y uso simple de flexdashboardII. htmlwidgetsEn esta ocasión vamos a explicar el uso de otra librería muy interesante, que añade muchas posibilidades desde el lado cliente, es decir sin hacer uso del servidor que es la parte más complicada para los “NO INFORMÁTICOS”.</description>
+    </item>
     
     <item>
       <title>Shiny fácil con flexdashboard II</title>
@@ -17,8 +27,8 @@
       <pubDate>Mon, 27 Jan 2020 00:00:00 +0000</pubDate>
       
       <guid>/post/shiny-facil-con-flexdashboard-ii/</guid>
-      <description>Segunda parte. Applicaciones web con RSeguimos con el manual para hacer aplicaciones web en R. En esta segunda parte vamos a ver cómo añadimos dinamismo e intereccion con el usuario.
-En el artículo anterior vimos la sintaxis para crear fácilmente una web con lenguaje Rmarkdown, usando la librería flexdashboard. Como recordarás es bastabnte simple… se hace usando las almohadillas para el formateado de la web que flexdashboard interpreta como páginas ( una sola almohadilla: #), columnas o filas (##) o cajas (3 de lo mismo: ###).</description>
+      <description>Segunda parte. Applicaciones web con RSeguimos con el manual para hacer aplicaciones web en R. En esta segunda parte vamos a ver cómo añadimos dinamismo e interacción con el usuario.
+En el artículo anterior vimos la sintaxis para crear fácilmente una web con lenguaje Rmarkdown, usando la librería flexdashboard. Como recordarás es bastante simple… se hace usando las almohadillas para el formateado de la web que flexdashboard interpreta como páginas ( una sola almohadilla: #), columnas o filas (##) o cajas (3 de lo mismo: ###).</description>
     </item>
     
     <item>

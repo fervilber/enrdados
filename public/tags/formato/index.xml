@@ -17,8 +17,8 @@
       <pubDate>Mon, 27 Jan 2020 00:00:00 +0000</pubDate>
       
       <guid>/post/shiny-facil-con-flexdashboard-ii/</guid>
-      <description>Segunda parte. Applicaciones web con RSeguimos con el manual para hacer aplicaciones web en R. En esta segunda parte vamos a ver cómo añadimos dinamismo e intereccion con el usuario.
-En el artículo anterior vimos la sintaxis para crear fácilmente una web con lenguaje Rmarkdown, usando la librería flexdashboard. Como recordarás es bastabnte simple… se hace usando las almohadillas para el formateado de la web que flexdashboard interpreta como páginas ( una sola almohadilla: #), columnas o filas (##) o cajas (3 de lo mismo: ###).</description>
+      <description>Segunda parte. Applicaciones web con RSeguimos con el manual para hacer aplicaciones web en R. En esta segunda parte vamos a ver cómo añadimos dinamismo e interacción con el usuario.
+En el artículo anterior vimos la sintaxis para crear fácilmente una web con lenguaje Rmarkdown, usando la librería flexdashboard. Como recordarás es bastante simple… se hace usando las almohadillas para el formateado de la web que flexdashboard interpreta como páginas ( una sola almohadilla: #), columnas o filas (##) o cajas (3 de lo mismo: ###).</description>
     </item>
     
     <item>

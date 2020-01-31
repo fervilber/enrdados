@@ -1,0 +1,172 @@
+---
+title: crosstalk
+author: F.VilBer
+date: '2020-01-30'
+slug: crosstalk
+categories:
+  - Shiny
+  - R
+tags:
+  - app
+  - graficas
+  - shiny
+description: 'cómo crear aplicaciones web dinámicas con R y shiny III, crosstalk'
+thumbnail: '/post/2020-01-30-crosstalk_files/app3.png'
+toc: no
+---
+
+<script src="/rmarkdown-libs/jquery/jquery.min.js"></script>
+<link href="/rmarkdown-libs/ionrangeslider/css/ion.rangeSlider.css" rel="stylesheet" />
+<link href="/rmarkdown-libs/ionrangeslider/css/ion.rangeSlider.skinShiny.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/ionrangeslider/js/ion.rangeSlider.min.js"></script>
+<script src="/rmarkdown-libs/strftime/strftime-min.js"></script>
+<link href="/rmarkdown-libs/crosstalk/css/crosstalk.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/crosstalk/js/crosstalk.min.js"></script>
+<script src="/rmarkdown-libs/htmlwidgets/htmlwidgets.js"></script>
+<script src="/rmarkdown-libs/d3/d3.min.js"></script>
+<link href="/rmarkdown-libs/d3scatter/d3scatter.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/d3scatter/d3scatter.js"></script>
+<script src="/rmarkdown-libs/d3scatter-binding/d3scatter.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="/rmarkdown-libs/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/bootstrap/js/bootstrap.min.js"></script>
+<link href="/rmarkdown-libs/selectize/css/selectize.bootstrap3.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/selectize/js/selectize.min.js"></script>
+
+
+<div id="applicaciones-web-con-r-iii" class="section level2">
+<h2>Applicaciones web con R III</h2>
+<p>Tercera parte de la guía para hacer aplicaciones web en R con la librería <a href="https://rmarkdown.rstudio.com/flexdashboard/">flexdashboard</a>. Los anteriores articulos fueron estos:</p>
+<ul>
+<li><a href="../Shiny-facil-con-flexdashboard">I. Sintaxis y uso simple de flexdashboard</a></li>
+<li><a href="../Shiny-facil-con-flexdashboard-ii">II. htmlwidgets</a></li>
+</ul>
+<p>En esta ocasión vamos a explicar el uso de otra librería muy interesante, que añade muchas posibilidades desde el lado cliente, es decir sin hacer uso del servidor que es la parte más complicada para los “NO INFORMÁTICOS”.</p>
+<p>Al fin y al cabo todo lo que vamos a explicar sería muy facil de usar en shiny, pero el problema de Shiny es que debe ejecutase en un servidor, montar el servicio y saber cómo y donde volvar las páginas o ficheros. A muchos nos cuesta meteternos en esos andurriales, y todo es más simple si el resultado es una simple y llana página web con html que es lo que conseguimos usando los <em>htmlWidgets</em> y <em>crosstalk</em></p>
+</div>
+<div id="crosstalk" class="section level2">
+<h2>crosstalk</h2>
+<p><a href="https://rstudio.github.io/crosstalk/">Crosstalk</a> otra librería de RSTUDIO que permite compartir datos entre distintos <em>htmlwidgets</em>. Como vimos en el articulo <a href="../Shiny-facil-con-flexdashboard-ii">artículo anterior</a> los htmlwidgets son librerías que nos permiten usar graficas o código JavaScript desde R para salida web. La ventaja es que son gráficos altamente dinámicos con funcionalidades avanzadas y apariencia de alta calidad.</p>
+<p>Los gráficos se adaptan a las formas de ventana, pantalla o frame de forma automática con lo que la apariencia de nuestra web (informe o documento de R o Rmarkdown) mejora de manera evidente.</p>
+<p><a href="https://rstudio.github.io/crosstalk/">Crosstalk</a> es un complemento a los <em>htmlwidgets</em> que nos permite compartir datos entre ellos y vincularlos dinámicamente. Es decir, que desde el lado cliente, podemos -por ejemplo- compartir los mismos datos en una tabla dinámica (<em>DT</em>) y en una gráfica (<em>plotly</em>) y hacer filtrado y selección de los mismos dinámicamente.</p>
+<p>Y todo, sin instalar ningun servidor por lo que podemos compartir el informe o documento solo el fichero de salida web <em>.html</em>.</p>
+</div>
+<div id="uso-y-ejemplo" class="section level2">
+<h2>Uso y ejemplo</h2>
+<p>Lo primero es como siempre instalar la librería y declararla en el código: <code>library(crosstalk)</code>.</p>
+<p>Para usar <code>crosstalk</code> solo tenemos que decir qué datos son los que vamos a compartir entre <em>htmlwidgets</em>. Esto lo hacemos con la función <code>SharedData$new(tabla_datos)</code>. Una vez declarada la variable compartida, la usamos dentro de los <em>htmlwidgets</em> como haríamos con cualquier otra tabla o dato.</p>
+<p>Nota: también podemos usar de forma equivalente la función <code>highlight_key()</code> de plotly, que hace exactamente lo mismo que <code>SharedData$new()</code></p>
+<p>Una de las funcionalidades más interesantes que aporta <code>crosstalk</code> es que se pueden usar objetos de filtrado como los <em>Input de Shiny</em>, esto es <strong>sliders</strong> (<code>filter_slider()</code>), <strong>cajas de selección</strong> (<code>filter_select()</code>) y <strong>cajas de chequeo</strong>(<code>filter_checkbox()</code>), sin necesidad de Shiny y por tanto sin necesidad de <strong>servidor</strong>. Esto permite hacer webs dinámicas, visuales e intuitivas, pero sencillas de realizar y sin la complicació de reactividad que implica Shiny.</p>
+<p>Veamos algunos ejemplos, en el primero vamos dibujar una gráfica de la tabla (dataframe <em>cars</em>) en la que incluiremos un filtro dinámico para seleccionar los datos de los coches según su potencia.</p>
+<p>Usaremos en este ejemplo una gráfica <em>htmlwidgets</em> interesante: la librería <a href="https://github.com/jcheng5/d3scatter">d3scatter</a> que hace gráficos de puntos scatter dinámicos muy chulos en formato web. Para instalar el paquete puedes usar devtools así: (<code>devtools::install_github(&quot;jcheng5/d3scatter</code>).</p>
+<pre class="r"><code>library(crosstalk)
+library(d3scatter)
+datos_compartidos &lt;- SharedData$new(mtcars)
+
+# creamos un filtro de los datos
+filter_slider(&quot;hp&quot;, &quot;Caballos de Potencia&quot;, datos_compartidos, ~hp, width = &quot;90%&quot;)</code></pre>
+<div class="form-group crosstalk-input crosstalk-input-slider js-range-slider" id="hp" style="width: 90%;">
+<label class="control-label" for="hp">Caballos de Potencia</label>
+<input data-type="double" data-min="52" data-max="335" data-from="52" data-to="335" data-step="1" data-grid="true" data-grid-num="9.75862068965517" data-grid-snap="false" data-prettify-separator="," data-keyboard="true" data-keyboard-step="0.353356890459364" data-drag-interval="true" data-data-type="number"/>
+<script type="application/json" data-for="hp">{
+  "values": [52, 62, 65, 66, 66, 91, 93, 95, 97, 105, 109, 110, 110, 110, 113, 123, 123, 150, 150, 175, 175, 175, 180, 180, 180, 205, 215, 230, 245, 245, 264, 335],
+  "keys": ["Honda Civic", "Merc 240D", "Toyota Corolla", "Fiat 128", "Fiat X1-9", "Porsche 914-2", "Datsun 710", "Merc 230", "Toyota Corona", "Valiant", "Volvo 142E", "Mazda RX4", "Mazda RX4 Wag", "Hornet 4 Drive", "Lotus Europa", "Merc 280", "Merc 280C", "Dodge Challenger", "AMC Javelin", "Hornet Sportabout", "Pontiac Firebird", "Ferrari Dino", "Merc 450SE", "Merc 450SL", "Merc 450SLC", "Cadillac Fleetwood", "Lincoln Continental", "Chrysler Imperial", "Duster 360", "Camaro Z28", "Ford Pantera L", "Maserati Bora"],
+  "group": ["SharedDataffebe824"]
+}</script>
+</div>
+<pre class="r"><code># pintamos los puntos 
+d3scatter(datos_compartidos, ~wt, ~mpg, ~factor(cyl), width=&quot;90%&quot;, height=250)</code></pre>
+<div id="htmlwidget-1" style="width:90%;height:250px;" class="d3scatter html-widget"></div>
+<script type="application/json" data-for="htmlwidget-1">{"x":{"data":{"x":[2.62,2.875,2.32,3.215,3.44,3.46,3.57,3.19,3.15,3.44,3.44,4.07,3.73,3.78,5.25,5.424,5.345,2.2,1.615,1.835,2.465,3.52,3.435,3.84,3.845,1.935,2.14,1.513,3.17,2.77,3.57,2.78],"y":[21,21,22.8,21.4,18.7,18.1,14.3,24.4,22.8,19.2,17.8,16.4,17.3,15.2,10.4,10.4,14.7,32.4,30.4,33.9,21.5,15.5,15.2,13.3,19.2,27.3,26,30.4,15.8,19.7,15,21.4],"key":["Mazda RX4","Mazda RX4 Wag","Datsun 710","Hornet 4 Drive","Hornet Sportabout","Valiant","Duster 360","Merc 240D","Merc 230","Merc 280","Merc 280C","Merc 450SE","Merc 450SL","Merc 450SLC","Cadillac Fleetwood","Lincoln Continental","Chrysler Imperial","Fiat 128","Honda Civic","Toyota Corolla","Toyota Corona","Dodge Challenger","AMC Javelin","Camaro Z28","Pontiac Firebird","Fiat X1-9","Porsche 914-2","Lotus Europa","Ford Pantera L","Ferrari Dino","Maserati Bora","Volvo 142E"],"color":["6","6","4","6","8","6","8","4","4","6","6","8","8","8","8","8","8","4","4","4","4","8","8","8","8","4","4","4","8","6","8","4"]},"color_spec":{"type":"ordinal","values":["4","6","8"]},"color":["6","6","4","6","8","6","8","4","4","6","6","8","8","8","8","8","8","4","4","4","4","8","8","8","8","4","4","4","8","6","8","4"],"x_label":"wt","y_label":"mpg","x_lim":null,"y_lim":null,"group":"SharedDataffebe824"},"evals":[],"jsHooks":[]}</script>
+<div id="bscols" class="section level3">
+<h3>bscols</h3>
+<p>Otra función útil de <em>crosstalk</em> es <code>bscols()</code>. Básicamente crea un contenedor de columnas en las que meter diferentes <em>htmlwidgets</em> enlazados. Es decir crea un cajón con varios apartados en los que metemos cosas, como por ejemplo <em>htmlwidgets</em>.</p>
+<p>Podríamos hacer las cajas en <em>flex</em> con <code>###</code>, pero a veces queremos que aparazcan juntas las gráficas y queda mejor usar esta funcicón <code>bscols()</code>.</p>
+<p>Por ejemplo, en el mismo caso de antes con la tabla <code>mtcars</code>, queremos meter varias opciones de filtrado y la gráfica resultante justo al lado. En esta caso nos viene muy bien la función <code>bscols</code> y la web parece que se ejecuta desde servidor pues actualiza la gráfica al filtrar, veamos:</p>
+<pre class="r"><code># creamos una caja con 2 columnas, una para los filtros
+# y otra para la gráfica
+# en la primera col, habrá 3 htmlwidgets de filtro que metemos como lista
+bscols(widths = c(3,NA),
+  list(
+    filter_checkbox(&quot;cyl&quot;, &quot;Cilindros&quot;, datos_compartidos, ~cyl, inline = TRUE),
+    filter_slider(&quot;hp&quot;, &quot;Potencia&quot;, datos_compartidos, ~hp, width = &quot;100%&quot;),
+    filter_select(&quot;auto&quot;, &quot;Automatico&quot;, datos_compartidos, ~ifelse(am == 0, &quot;Yes&quot;, &quot;No&quot;))
+  ),
+  d3scatter(datos_compartidos, ~wt, ~mpg, ~factor(cyl), width=&quot;100%&quot;, height=250)
+)</code></pre>
+<div class="container-fluid crosstalk-bscols">
+<div class="fluid-row">
+<div class="col-xs-3">
+<div id="cyl" class="form-group crosstalk-input-checkboxgroup crosstalk-input">
+<label class="control-label" for="cyl">Cilindros</label>
+<div class="crosstalk-options-group">
+<label class="checkbox-inline">
+<input type="checkbox" name="cyl" value="4"/>
+<span>4</span>
+</label>
+<label class="checkbox-inline">
+<input type="checkbox" name="cyl" value="6"/>
+<span>6</span>
+</label>
+<label class="checkbox-inline">
+<input type="checkbox" name="cyl" value="8"/>
+<span>8</span>
+</label>
+</div>
+<script type="application/json" data-for="cyl">{
+  "map": {
+    "4": ["Datsun 710", "Merc 240D", "Merc 230", "Fiat 128", "Honda Civic", "Toyota Corolla", "Toyota Corona", "Fiat X1-9", "Porsche 914-2", "Lotus Europa", "Volvo 142E"],
+    "6": ["Mazda RX4", "Mazda RX4 Wag", "Hornet 4 Drive", "Valiant", "Merc 280", "Merc 280C", "Ferrari Dino"],
+    "8": ["Hornet Sportabout", "Duster 360", "Merc 450SE", "Merc 450SL", "Merc 450SLC", "Cadillac Fleetwood", "Lincoln Continental", "Chrysler Imperial", "Dodge Challenger", "AMC Javelin", "Camaro Z28", "Pontiac Firebird", "Ford Pantera L", "Maserati Bora"]
+  },
+  "group": ["SharedDataffebe824"]
+}</script>
+</div>
+<div class="form-group crosstalk-input crosstalk-input-slider js-range-slider" id="hp" style="width: 100%;">
+<label class="control-label" for="hp">Potencia</label>
+<input data-type="double" data-min="52" data-max="335" data-from="52" data-to="335" data-step="1" data-grid="true" data-grid-num="9.75862068965517" data-grid-snap="false" data-prettify-separator="," data-keyboard="true" data-keyboard-step="0.353356890459364" data-drag-interval="true" data-data-type="number"/>
+<script type="application/json" data-for="hp">{
+  "values": [52, 62, 65, 66, 66, 91, 93, 95, 97, 105, 109, 110, 110, 110, 113, 123, 123, 150, 150, 175, 175, 175, 180, 180, 180, 205, 215, 230, 245, 245, 264, 335],
+  "keys": ["Honda Civic", "Merc 240D", "Toyota Corolla", "Fiat 128", "Fiat X1-9", "Porsche 914-2", "Datsun 710", "Merc 230", "Toyota Corona", "Valiant", "Volvo 142E", "Mazda RX4", "Mazda RX4 Wag", "Hornet 4 Drive", "Lotus Europa", "Merc 280", "Merc 280C", "Dodge Challenger", "AMC Javelin", "Hornet Sportabout", "Pontiac Firebird", "Ferrari Dino", "Merc 450SE", "Merc 450SL", "Merc 450SLC", "Cadillac Fleetwood", "Lincoln Continental", "Chrysler Imperial", "Duster 360", "Camaro Z28", "Ford Pantera L", "Maserati Bora"],
+  "group": ["SharedDataffebe824"]
+}</script>
+</div>
+<div id="auto" class="form-group crosstalk-input-select crosstalk-input">
+<label class="control-label" for="auto">Automatico</label>
+<div>
+<select multiple></select>
+<script type="application/json" data-for="auto">{
+  "items": {
+    "value": ["No", "Yes"],
+    "label": ["No", "Yes"]
+  },
+  "map": {
+    "No": ["Mazda RX4", "Mazda RX4 Wag", "Datsun 710", "Fiat 128", "Honda Civic", "Toyota Corolla", "Fiat X1-9", "Porsche 914-2", "Lotus Europa", "Ford Pantera L", "Ferrari Dino", "Maserati Bora", "Volvo 142E"],
+    "Yes": ["Hornet 4 Drive", "Hornet Sportabout", "Valiant", "Duster 360", "Merc 240D", "Merc 230", "Merc 280", "Merc 280C", "Merc 450SE", "Merc 450SL", "Merc 450SLC", "Cadillac Fleetwood", "Lincoln Continental", "Chrysler Imperial", "Toyota Corona", "Dodge Challenger", "AMC Javelin", "Camaro Z28", "Pontiac Firebird"]
+  },
+  "group": ["SharedDataffebe824"]
+}</script>
+</div>
+</div>
+</div>
+<div class="col-xs-9">
+<div id="htmlwidget-2" style="width:100%;height:250px;" class="d3scatter html-widget"></div>
+<script type="application/json" data-for="htmlwidget-2">{"x":{"data":{"x":[2.62,2.875,2.32,3.215,3.44,3.46,3.57,3.19,3.15,3.44,3.44,4.07,3.73,3.78,5.25,5.424,5.345,2.2,1.615,1.835,2.465,3.52,3.435,3.84,3.845,1.935,2.14,1.513,3.17,2.77,3.57,2.78],"y":[21,21,22.8,21.4,18.7,18.1,14.3,24.4,22.8,19.2,17.8,16.4,17.3,15.2,10.4,10.4,14.7,32.4,30.4,33.9,21.5,15.5,15.2,13.3,19.2,27.3,26,30.4,15.8,19.7,15,21.4],"key":["Mazda RX4","Mazda RX4 Wag","Datsun 710","Hornet 4 Drive","Hornet Sportabout","Valiant","Duster 360","Merc 240D","Merc 230","Merc 280","Merc 280C","Merc 450SE","Merc 450SL","Merc 450SLC","Cadillac Fleetwood","Lincoln Continental","Chrysler Imperial","Fiat 128","Honda Civic","Toyota Corolla","Toyota Corona","Dodge Challenger","AMC Javelin","Camaro Z28","Pontiac Firebird","Fiat X1-9","Porsche 914-2","Lotus Europa","Ford Pantera L","Ferrari Dino","Maserati Bora","Volvo 142E"],"color":["6","6","4","6","8","6","8","4","4","6","6","8","8","8","8","8","8","4","4","4","4","8","8","8","8","4","4","4","8","6","8","4"]},"color_spec":{"type":"ordinal","values":["4","6","8"]},"color":["6","6","4","6","8","6","8","4","4","6","6","8","8","8","8","8","8","4","4","4","4","8","8","8","8","4","4","4","8","6","8","4"],"x_label":"wt","y_label":"mpg","x_lim":null,"y_lim":null,"group":"SharedDataffebe824"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="limitaciones" class="section level2">
+<h2>Limitaciones</h2>
+<p>Crosstalk es fantástico para crear web dinámicas con filtros y <strong>visualización de varias gráficas sobre los mismos datos</strong>, pero tiene algunas limitaciones importantes:</p>
+<ol style="list-style-type: decimal">
+<li>Solo puede usarse en determinados <em>htmlwidgets</em>. Puedes ver <a href="https://rstudio.github.io/crosstalk/widgets.html">aquí</a> algunos de los que SI valen.</li>
+<li>Se ejecuta en el navegador cliente, por lo que <strong>NO</strong> es adecuado para grandes bases de datos o tablas pues las variables se almacenan al vuelo.</li>
+</ol>
+</div>
+<div id="ejemplo-de-aplicación" class="section level2">
+<h2>Ejemplo de aplicación</h2>
+<p>Para un ejemplo más completo puedes ver <a href="https://fervilber.github.io/taller_flex/app3.html" target="_blank">aquí</a> la applicación web que hice como ejemplo en el taller de flex para <a href="http://gauss.inf.um.es/umur/actividades.html">UMUR</a>, donde se muestra dinámicamente los mismos datos en 3 <em>htmlwidgets</em>, una gráfica de plotly, un mapa de leaflet y una tabla de DT.</p>
+<p>Seguimos en breve con la parte final, usar Shiny en flex!, nos vemos.</p>
+</div>

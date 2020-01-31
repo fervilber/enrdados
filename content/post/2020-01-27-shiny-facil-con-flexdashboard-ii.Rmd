@@ -4,8 +4,8 @@ author: F.VilBer
 date: '2020-01-27'
 slug: shiny-facil-con-flexdashboard-ii
 categories:
-  - markdown
-  - diseño
+  - Shiny
+  - Programas
   - R
 tags:
   - shiny
@@ -18,18 +18,18 @@ toc: no
 
 ## Segunda parte. Applicaciones web con R
 
-Seguimos con el manual para hacer aplicaciones web en R. En esta segunda parte vamos a ver cómo añadimos  dinamismo e intereccion con el usuario. 
+Seguimos con el manual para hacer aplicaciones web en R. En esta segunda parte vamos a ver cómo añadimos  dinamismo e interacción con el usuario. 
 
-En el [artículo anterior](../Shiny-facil-con-flexdashboard) vimos la sintaxis para crear fácilmente una web con lenguaje *Rmarkdown*, usando la librería [flexdashboard](https://rmarkdown.rstudio.com/flexdashboard/). Como recordarás es bastabnte simple... se hace usando las almohadillas para el formateado de la web que *flexdashboard* interpreta como páginas ( una sola almohadilla: `#`),  columnas o filas (`##`) o cajas (3 de lo mismo: `###`).
+En el [artículo anterior](../Shiny-facil-con-flexdashboard) vimos la sintaxis para crear fácilmente una web con lenguaje *Rmarkdown*, usando la librería [flexdashboard](https://rmarkdown.rstudio.com/flexdashboard/). Como recordarás es bastante simple... se hace usando las almohadillas para el formateado de la web que *flexdashboard* interpreta como páginas ( una sola almohadilla: `#`),  columnas o filas (`##`) o cajas (3 de lo mismo: `###`).
 
 Con esta sencilla sintaxis y algunas definiciones en el encabezado *YAML* creamos páginas web completas y con apariencia moderna desde RSTUDIO usando simple *Rmarkdown*. A diferencia del método habitual de generar documentos html, que sería hacer un Knit a HTML la sintaxis de flex nos da más control sobre el diseño de la web al poder crear filas columnas o cajas en cualquier posición, e incluso páginas accesibles desde pestañas o menú.
 
 ## Interacción
 En el proceso de crear la web, distinguíamos 4 niveles de interacción en el uso de *flex*:
 
- 1. sin dinamismo o simple html
- 2. interactividad con *htmlWidgets*
- 1. interactividad con *crosstalk*
+ 1. [sin dinamismo o simple html](../Shiny-facil-con-flexdashboard)
+ 2. [interactividad con *htmlWidgets*](../Shiny-facil-con-flexdashboard-ii)
+ 1. [interactividad con *crosstalk*](../crosstalk)
  1. interactividad completa con *Shiny* cliente-servidor
 
 En el primer artículo solo llegamos al primer punto, así que, vamos a continuar y ver cómo añadimos interactividad a nuestra web con los *htmlWidgets*.
@@ -39,7 +39,7 @@ Se llaman *htmlWidgets* a librerías de visualización de de datos **JavaScript*
 
 Lo bueno, es que no tienes que aprender JavaScript para usarlos desde R, la comunidad o empresas como RSTUDIO han desarrollado librerías que hacen de intermediarios, facilitan la entrada de datos desde R y dan como resultado una gráfica web en código *html* lista para usarse.
 
-*JavaScript* es el lenguaje más desarrollado para entorno web, y el más usado del mundo, por lo que tiene fantásticas librerías gráficas interectivas, por ejemplo *Leaflet* que hemos usado para visualización de mapas con R en [otros artículos](../leaflet-mapas-dinamicos).  
+*JavaScript* es el lenguaje más desarrollado para entorno web, y el más usado del mundo, por lo que tiene fantásticas librerías gráficas interactivas, por ejemplo *Leaflet* que hemos usado para visualización de mapas con R en [otros artículos](../leaflet-mapas-dinamicos).  
 
 Existen miles de  *htmlWidgets*, en general, para usar una gráfica concreta hay que buscar la **librería correspondiente** y cargarla en el uno de los bloques de código de nuestra página, así como estudiar un poco sus funciones y uso desde R.
 
@@ -47,9 +47,11 @@ Vamos a ver solo algunos ejemplos, pero debes saber que hay casi cualquier cosa 
 
 Hay unos casos básicos, en los que ni siquiera hay que cargar la librería origen, pues *RSTUDIO* los ha incluido para su uso directo desde *flexdashboard*, estos *htmlWidgets* son los *valueBox*, los *gauges* o cuenta-kilómetros y las *renderTable* o tablas de datos simples.
 
+Antes de seguir puedes ver un ejemplo de web creada con *htmlWidgets* y *flexdashboard* <a href="https://fervilber.github.io/taller_flex/app2.html#datos" target="_blank">aquí.</a>
+
 ## valueBox
 
-Son los *htmlWidgets* más simples, pues están incluidos en la libreria de *flex*, para usarlos simplemente añadimos dentro de una caja el código siguiente: `valueBox(variablevalor,icono)`. Ejemplo creamos 3 cajas y en cada una mostramos la variable con un `valueBox`:
+Son los *htmlWidgets* más simples, pues están incluidos en la librería de *flex*, para usarlos simplemente añadimos dentro de una caja el código siguiente: `valueBox(variablevalor,icono)`. Ejemplo creamos 3 cajas y en cada una mostramos la variable con un `valueBox`:
 
 ```YAML
 ### Articles per Day
@@ -85,7 +87,7 @@ Como ves, se trata de unas cajas de colores con un icono representativo al lado.
 
 ## Gauge
 
-Los *cuenta-kilómetros* o *gauges* son un semicírculo en el que se muestra el valor y un color programable con 3 estados success, warning y danger (verde, naranja y rojo). Son también muy sencillos de insertar en cualquiera de las cajas que hayamos creado en nuestra web con `flex`:
+Los *cuenta-kilómetros* o *gauges* son un semicírculo en el que se muestra el valor y un color programable con 3 estados: *success*, *warning* y *danger* (verde, naranja y rojo). Son también muy sencillos de insertar en cualquiera de las cajas que hayamos creado en nuestra web con `flex`:
 
 ```YAML
 ### Contact Rate
@@ -100,7 +102,7 @@ gauge(rate, min = 0, max = 100, symbol = '%', gaugeSectors(
 
 ## renderTable
 
-Muestra una tabla de datos en html, con un formato más moderno y adaptado a la pantalla que el que obtendríamos escriniendo la dataframe directamente. Ejemplo:
+Muestra una tabla de datos en html, con un formato más moderno y adaptado a la pantalla que el que obtendríamos escribiendo la dataframe directamente. Ejemplo:
 
 ```{r eval=FALSE, echo=TRUE}
 renderTable({
@@ -112,22 +114,22 @@ renderTable({
 
 Exceptos los casos anteriores, para el resto de *htmlwidgets*, hay que instalar y cargar la librería correspondiente en R para poder usarlos. Como cualquier librería, requiere de estudio inicial para conocer sus funciones y forma de uso, pero en general son bastante sencillas de utilizar y existen muchos ejemplos disponibles, por ejemplo en esta [web](https://www.htmlwidgets.org/showcase_metricsgraphics.html).
 
-Los htmlwidgets son elementos interactivos desde su propia concepción, cualquier gráfico permite interactuar,seleccionar o filtar datos desde su propio código, por lo que al insertarlos en la web añadimos una inmensa funcionalidad de manera sencilla y desde el lado del cliente.
+Los *htmlwidgets* son elementos interactivos desde su propia concepción, cualquier gráfico permite interactuar,seleccionar o filtrar datos desde su propio código, por lo que al insertarlos en la web añadimos una inmensa funcionalidad de manera sencilla y desde el lado del cliente.
 
-Este es un punto importante, los htmlwidgets se ejecutan siempre -como todo código JavaScript- en el navegador del usuario, y no en el servidor. Aunque hay opciones tan completas que no lo parece como la librería `crosstalk`de la que hablaremos mas adelante. Esto limita en ciertos casos su uso, por ejemplo no uses DT para mostrar una tabla inmensa de datos con cientos de miles de registros, pues se colgará el navegador, en ese caso debes pasar al lado de servidor, que veremos con **Shiny** en proximas entregas.
+Este es un punto importante, los *htmlwidgets* se ejecutan siempre -como todo código JavaScript- en el navegador del usuario, y no en el servidor. Aunque hay opciones tan completas que no lo parece como la librería `crosstalk`de la que hablaremos mas adelante. Esto limita en ciertos casos su uso, por ejemplo no uses DT para mostrar una tabla inmensa de datos con cientos de miles de registros, pues se colgará el navegador, en ese caso debes pasar al lado de servidor, que veremos con **Shiny** en próximas entregas.
 
-Los htmlwidgets que te recomiendo eches un vistazo son:
+Los *htmlwidgets* que te recomiendo eches un vistazo son:
 
  * [Leaflet](http://rstudio.github.io/leaflet/), para mapas interactivos. Ejemplo de uso [aquí](https://www.htmlwidgets.org/showcase_leaflet.html)
- * [Dygraphs](http://rstudio.github.io/dygraphs) para graficos de series temporales. [Dygraphs](https://www.htmlwidgets.org/showcase_dygraphs.html) añade dinamismo a la grafica y permite zooms y selección interectiva.
+ * [Dygraphs](http://rstudio.github.io/dygraphs) para gráficos de series temporales. [Dygraphs](https://www.htmlwidgets.org/showcase_dygraphs.html) añade dinamismo a la gráfica y permite zooms y selección interactiva.
  * [plotly](https://plot.ly/r/) es una librería generalista y completísisma de gráficos, y lo mejor es que se puede usar directamente la sintaxis de ggplot, por lo que convierte sus gráficos en dinámicos con una sencilla función. Ver ejemplo [aquí](https://www.htmlwidgets.org/showcase_plotly.html)
 * [DT](http://rstudio.github.io/DT/), DataTables es una librería fantástica para mostrar tablas de datos. Permite hacer filtros y añadir [interacción con los datos](https://www.htmlwidgets.org/showcase_datatables.html).
 
-Con el uso de estas herramientas conseguimos muchas cosas, en primer lugar , las graficas Javascript se adaptan automáticamente a los bordes de las cajas y de pantalla, con lo que la apariencia visual mejora. Además convertimos gráficas fijas, imágenes en jpg o png en elementos interactivos en los que se muestra reacción a las acciones del usuario, como pasar el retón por encima de un chart, seleccionar un dato. Podemos incluso mover cosas y filtrar datos en tablas.
+Con el uso de estas herramientas conseguimos muchas cosas, en primer lugar , las gráficas Javascript se adaptan automáticamente a los bordes de las cajas y de pantalla, con lo que la apariencia visual mejora. Además convertimos gráficas fijas, imágenes en jpg o png en elementos interactivos en los que se muestra reacción a las acciones del usuario, como pasar el ratón por encima de un chart, seleccionar un dato. Podemos incluso mover cosas y filtrar datos en tablas.
 
 ## Ejemplo de uso
 
-Veamos este ejemplo con [plotly](https://plot.ly/r/), para ver como una simple gráfica estática de ggplot se transforma en algo dinámico.
+Veamos este ejemplo con [plotly](https://plot.ly/r/), para ver como una simple gráfica estática de *ggplot* se transforma en algo dinámico.
 
 ```{r grafica-interactiva, message=FALSE, warning=FALSE}
 library(ggplot2) 
