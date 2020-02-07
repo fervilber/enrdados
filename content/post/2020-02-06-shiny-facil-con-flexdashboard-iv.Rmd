@@ -1,0 +1,159 @@
+---
+title: shiny facil con flexdashboard iv
+author: F.VilBer
+date: '2020-02-06'
+slug: shiny-facil-con-flexdashboard-iv
+categories:
+  - Shiny
+  - R  
+tags:
+  - shiny
+  - app
+description: ''
+thumbnail: ''
+toc: no
+---
+
+Cuarto y último capítulo de la guía para hacer aplicaciones web en R con la librería [flexdashboard](https://rmarkdown.rstudio.com/flexdashboard/). Parece mentira, pero este es el único en el que vamos a usar [Shiny](https://shiny.rstudio.com/), pero espero que en los anteriores capítulos hayas visto que no siempre es necesario [Shiny](https://shiny.rstudio.com/) para hacer aplicaciones web de calidad, y que otras opciones más sencillas como los [htmlwidgets](../Shiny-facil-con-flexdashboard-ii) o [crosstalk](../crosstalk) son herramientas simples y poderosas a las que debes dar una oportunidad en tu código R.
+
+Los capítulos anteriores son estos:
+
+ * [I. Sintaxis y uso simple de flexdashboard](../Shiny-facil-con-flexdashboard)
+ * [II. htmlwidgets](../Shiny-facil-con-flexdashboard-ii)
+ * [III. crosstalk](../crosstalk)
+ 
+## ¿qué es Shiny?
+Veamos lo que dice la web oficial, de RSTUDIO: [Shiny](https://shiny.rstudio.com/) es un paquete R que facilita la creación de **aplicaciones web interactivas** directamente desde R. Puede alojar aplicaciones independientes en una página web o incrustarlas en documentos R Markdown o crear paneles ("*dashboards*"). 
+
+R es fantástico para estadística, modelos etc, pero tenía un problema antes de Shiny, que cuando querías compartir o distribuir tu programa lo tenías que hacer siempre en entorno R, es decir no podías hacer fácilmente una aplicación, un fichero *.exe o un programa distribuible.
+
+Esto es -para mi- lo que ha solucionado Shiny: el permitir crear aplicaciones con R, y distribuirlas al mundo por **Internet**. 
+
+Las posibilidades son infinitas, nos abre un mundo nuevo, salir del entorno de R crear aplicaciones web de cualquier tipo y escalables utilizando la poderosa base de librerías de R de manera dinámica e interactiva con el usuario.
+
+Shiny se puede usar desde RSTUDIO directamente pues crea un servidor al vuelo o crear tu propio servidor gratis en AWS como te explico en [este post](../instalar-r-shiny-en-aws) o subiendo la app a [shinyapps.io](https://www.shinyapps.io/) que es super simple.
+
+
+## Cliente-Servidor
+
+Hemos visto como algunos htmlwidgets permiten meter *botones selectores* o *barras slider* en una web con R. Se trata de una versión reducida de las opciones que tenemos con Shiny, pero la principal diferencia que debes tener clara es que para ejecutar Shiny necesitas una estructura *cliente-servidor*, y para ejecutar *htmlwidgets* o *crosstalk* o un documento no interactivo solo necesitas el cliente.
+
+ * El lado **cliente** es tu navegador web (firefox, chrome...) es la piel, la apariencia final.
+ * El lado **servidor** es el PC de google, amazon, Azzure o tu PC en la nube, el que calcula las cosas, el que tiene los programas y devuelve (al cliente) el trabajo hecho para que lo muestre.
+
+Una web estática no necesita servidor, es un documento que se muestratal cual y listo. Por contra, una web dinámica debe reaccionar a cada click del ratón en un botón y calcular el cambio que implica ese evento y devolver un resultado a la pantalla.
+
+## *iu* y *server*
+La forma habitual de escribir una app con Shiny es hacer dos ficheros de código, en uno definimos la apariencia de la aplicación (user interface) y lo llamamos `.ui`  y en otro los bloques de código R para el cálculo (`.server`). **Olvídate de esto con flex**
+
+Si usamos flexdashboard la cosa es más sencilla, porque la web (la apariencia o la `ui`) la hacemos con las regla de sintaxis que vimos en el [capitulo I. Sintaxis y uso simple de flexdashboard](../Shiny-facil-con-flexdashboard). Como recordaremos se hace con el símbolo almohadilla: una sola `#` crea páginas, dos `##` columnas o filas y 3 `###` cajas. 
+
+Para hacer app es interesante la opcion que da flex de crear una barra lateral o *sidebar* así: `## {.sidebar}` en la primera columna de una página, o crear una sidebar para todas las páginas `# {.sidebar}`. Es habitual poner los botones y slectores en la barra lateral. Hay otras muchas opciones de personalización que puedes ver [aquí](https://rmarkdown.rstudio.com/flexdashboard/using.html)  
+
+Con flex se hace más intuitivo programar *Shiny apps*, porque colocas el código justo en el lugar físico de la ventana donde lo necesitas. 
+
+## Cambia el encabezado
+Para empezar una *Shiny app* con flexdashboard debes añadir al encabezado *YAML* del fichero Rmarkdown la sentencia; `runtime: shiny`, por ejemplo así:
+
+```YAML
+---
+title: "Mi primera app con shiny"
+author: "FVB"
+date: "2020"
+output:
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+    logo: "imag/logoR.png"
+    social: menu
+    source_code: embed
+    theme: united
+runtime: shiny
+---
+```
+Con esto le decimos a R que la salida es una app de Shiny, a partir del YAML empezamo con el diseño de la web que vimos en el [capitulo I](../Shiny-facil-con-flexdashboard), hacemos las pestalas, columnas-filas y cajas que deseemos, incluso una sidebar para los botones como siempre, y después vamos a cada caja a meter código...
+
+## *inputs* y *outputs*
+Entramos en materia gris, pues esta es la parte más dificl de entender de *Shiny*, pero es la más importante.
+
+El sistema que han ideado los de RSTUDIO para la comunicación  *cliente-servidor* es crear dos tipos de objetos llamados *inputs* y *outputs* (entradas - salidas). 
+
+Los objetos *outputs* cambian en respuesta a las **reacciones** o datos que le pasan los *inputs*. Solo le puedes pasar datos al servidor a través de objetos *inputs*. Los *inputs* son los que detectan reacciones del usuario y las mandan al servidor (cerebro) y los *output* se pasan el día eschuchando a los *inputs* para ver si tienen que cambiar o no (la mano solo se mueve cuando el cerebro se lo ordena).
+
+### inputs
+Los objetos *inputs* son unos pocos y ya están definidos por Shiny, son como nuestros órganos de los sentidos, nuestros sensores (la piel, los ojos..), los que notan los cambios y envían datos al cerebro. En Shiny hay definidos los siguientes:
+
+![shiny inputs](/post/2020-02-06-shiny-facil-con-flexdashboard-iv_files/inputshiny.png)
+
+Podemos hacer algún *input* nuevo, pero eso será para otro post.
+
+### outputs
+Los *outputs* o *salidas* son objetos gráficos de R que están escuchando al servidor constantemente -a cada momento- y cambian según las órdenes o datos recibidos de este. 
+
+Los objetos `output` son los que aportan la interactividad en Shiny y como pasa con los *inputs* son solo unos pocos, aunque hay librerías que llevan dentro sus propios objetos *output* compatibles.
+
+Los objetos de salida (*outputs*) básicos son:
+
+ * `renderPlot()` Salida de una gráfica de R de la función plot().
+ * `renderPrint()` Salida de un texto o expresión impresa con print()
+ * `renderTable()` Salida de una tabla data frame
+ * `renderText()` Salida de texto simple
+ * `renderImage()` salida de una imagen
+ 
+Añadiendo librerías puedes usar por ejemplo
+ * `renderDataTable()` salida de un objeto tabla de la `library(DT)`
+ * `renderLeaflet()` salida de la librería `library(Leaflet)`
+ * ... algunos más existen y si no prueba usar el más parecido a tu salida, por ejemplo Image para imagenes o gráficas, o tambien plot.
+ 
+Cada objeto va relacionado con una función de salida, `plot()`, `print()`, `DT()`. En realidad para simplificar te diré que tienes dos formas de poner un output en una web, la primera con la funcion `render...` (p.ejm:`renderPlot()`) que crea el objeto output y lo pinta .
+La seguna es guardar el objeto output en una variable y pintarlo en el lienzo o web después, para lo que necesitas usar alguna de las funciones que te indico en la tabla siguiente y según el objeto de que se trate:
+
+![output shiny](/post/2020-02-06-shiny-facil-con-flexdashboard-iv_files/outputs.png)
+
+## Ejemplo
+
+Veamos todo esto con un ejemplo simple. Vamos a hacer una app con dos columnas, la de la izquierda será un `sidebar` donde insertamos los *inputs*, que serán dos barras *slider* (sliderInput). La columna de la derecha muestra simplemente los valores elegidos en los inputs. Para ello hace falta un output, que en este caso será un `renderPrint`, pues sacamos solo un texto. Podríamos cambiarlo a `renderText` y sería parecido:
+
+
+```YAML
+---
+title: "Ejemplo super simple"
+author: "F.VilBer"
+date: "2020"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+    self_contained: true
+    theme: cerulean
+runtime: shiny
+---
+
+## Entradas {.sidebar}
+'''{r}
+#en esta caja ponemos los inputs
+
+sliderInput("val1", "valor 1", 0, 360, 0,step = 5)
+sliderInput("val2", "Valor 2", 0, 20, 0)
+'''
+
+## Salidas-outputs
+### muestra la salidas
+'''{r}
+# En esta caja ponemos los outputs
+renderPrint({
+  #HTML("El valor 1 es:", input$val1,"\n", "el valor 2 es:", input$val2))
+  HTML(paste0("El valor 1 es:", input$val1,"\n","el valor 2 es:",input$val2))
+})
+
+'''
+
+> salida de los valores
+
+```
+
+## Variables reactivas
+
+Antes de ver 
+
+

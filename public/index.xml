@@ -6,10 +6,19 @@
     <description>Recent content on EnRdados</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>es</language>
-    <lastBuildDate>Thu, 30 Jan 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 06 Feb 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>shiny facil con flexdashboard iv</title>
+      <link>/post/shiny-facil-con-flexdashboard-iv/</link>
+      <pubDate>Thu, 06 Feb 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/post/shiny-facil-con-flexdashboard-iv/</guid>
+      <description>Cuarto y último capítulo de la guía para hacer aplicaciones web en R con la librería flexdashboard. Parece mentira, pero este es el único en el que vamos a usar Shiny, pero espero que en los anteriores capítulos hayas visto que no siempre es necesario Shiny para hacer aplicaciones web de calidad, y que otras opciones más sencillas como los htmlwidgets o crosstalk son herramientas simples y poderosas a las que debes dar una oportunidad en tu código R.</description>
+    </item>
     
     <item>
       <title>crosstalk</title>
