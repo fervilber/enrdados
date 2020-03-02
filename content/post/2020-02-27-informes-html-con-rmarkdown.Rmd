@@ -1,0 +1,108 @@
+---
+title: informes html con Rmarkdown
+author: F.VilBer
+date: '2020-02-27'
+slug: informes-html-con-rmarkdown
+draft: true
+categories:
+  - diseño
+  - editar documentos
+  - markdown
+  - Markdown
+  - R
+tags:
+  - sintaxis
+  - markdown
+description: ''
+thumbnail: ''
+---
+
+Hace tiempo que quería escribir un resumen de trucos o ayudas rápidas para hacer informes en formato web (HTML) usando RSTUDIO con Rmarkdown. No se trata de explicar *Rmarkdown*, para eso hay cientos de manuales muy completos como  [este](https://bookdown.org/yihui/rmarkdown/html-document.html), solo dar algunas pinceladas de cosas que a mi me resultan útiles en los informes.
+
+¡Vamos con materia!
+
+## Formato YAML
+Siempre que empezamos un documento *Rmarkdown* nuevo, el formato general y el tipo de salida la definimos con el encabezado *YAML*. Aquí las opciones son muchísimas, ten en cuenta que con Rmarkdown puedes hacer muchos tipos de [salidas diferentes](https://rmarkdown.rstudio.com/formats.html){:target="_blank" rel="noopener"} (pdf, html, presentaciones, páginas web, libros, websites, ODT...). 
+
+![markdown proceso](/post/2020-02-27-informes-html-con-rmarkdown_files/rmarkdown_elementos.png)
+
+
+Si nos centramos en el tipo HTML, lo que hacemos es elegir como salida `output:` el formato `html_document:`. A partir de aquí, definimos en el metadata del *YAML* las características generales. Las voy comentando en el código siguiente, pues son muchas y lo normal es poner solo las que quieras y comentar con `#` o borrar el resto de líneas:
+
+````markdown
+---
+title: 'informe HTML'
+author: 'Autor: Ferran'
+subtitle: 'qué grande es R' 
+output: 
+  html_document:          # la salida predefinida es html 
+# ver/ocultar los trozos de código  
+    #code_download: true  # si incluimos un botón para bajar el código o no
+    #code_folding: hide   # para mostrar o esconder los chunk de codigo 
+# tabla de contenido
+    #number_sections: yes   # numera los titulos
+    toc: TRUE               # incluye o no el indice
+    toc_float: TRUE         # incluye o no indice flotante
+      #collapsed: false      # que se escondan los tit
+      #smooth_scroll: false  # scroll en TOC
+# formato  estilo    
+    theme: "spacelab"    # especifica el tema Bootstrap
+    highlight: kate      # resaltado de sintaxis
+    #self_contained: false    # salida fichero autocontenido
+# formato de figuras
+    fig_width: 7         # ancho de las figuras por defecto
+    fig_height: 6        # alto de las figuras
+    fig_caption: true    # titulo de figura
+---
+````
+
+El formato general se da con las opciones `theme:` y `highlight:` que aportan la apariencia final y el resaltado de sintaxis. Ambas provienen de una librería libre de estilos llamada  *Bootstrap*.
+Los estilos incluidos por defecto son los siguientes:
+
+ * `theme:` default, cerulean, journal, flatly, darkly, readable, spacelab, united, cosmo, lumen, paper, sandstone, simplex, yeti
+ * `highlight:` default, tango, pygments, kate, monochrome, espresso, zenburn, haddock, breezedark,  textmate
+ 
+ Para usar un estilo propio hay que dar la ruta (local) del fichero de estilo `css: fichero_estilo_propio.css` y poner a `null` ambas características anteriores. 
+
+Por defecto RMarkdown crea un unico fichero de salida que guarda internamiente todo (incluido imágenes..) esto no es el formato habitual de un HTML, y en algún caso si quieres guardar los links a los origenes de documentos (imagenes, videos etc..) quizás es mejor que uses `self_contained: false`, pero acuerdate que en este caso no solo debes mandar el fichero *html*, sino todas las dependencias. Incluso al usar  esto , algunas librerías de formato como Bootstrap, y MathJax no se guardan en el fichero unico ya que ocupan mucho espacio. Si las quieres incluir hay que guardarlas en local para lo que se puede añadir `lib_dir: libs` y guardar en la carpeta *libs* las dependiencias. 
+
+
+## Insertar imagenes
+
+Insertar una imagene en markdown es facil, basta con incluir un código así:
+
+``` YAML
+![titulo imagen](/ruta/a_la/imagen.jpg)
+```
+Si quieres un formato mas completo en la salida debes usar código R. En mi caso uso mucho la función `include_graphics()` de la librería `knitr`, por ejemplo así: 
+
+````markdown
+```{r pressure, echo=FALSE, fig.cap="A caption", out.width = '100%'}
+knitr::include_graphics("temp.png")
+```
+````
+
+La ventaja de esta simple opción es que puedes controlar el tamaño simplemente con el porcentaje, y en caso de que quieras insertar 2 fotos por linea solo tienes que poner en inicio del trozo de código R, `out.width = '50%'`.
+
+O puedes hacer cosas como leer un directorio completo de 
+
+
+Siempre queda el recurso de escribir código html directamente:
+```YAML 
+<div id="bg">
+  <img src="assets/img/SS850452.png" alt="">
+</div> 
+```
+
+
+<div id="bg">
+  <img src="/post/2020-02-27-informes-html-con-rmarkdown_files/rmarkdown_elementos.png" alt="">
+</div> 
+
+## insertar tablas
+
+```{r table}
+knitr::kable(mtcars[1:5,, 1:5], caption = "A table caption")
+```
+
+Achieving custom styling of the table column width is beyond the scope of knitr, but the kableExtra package has been written to help achieve this: https://cran.r-project.org/web/packages/kableExtra/index.html

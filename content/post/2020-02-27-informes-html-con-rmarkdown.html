@@ -1,0 +1,180 @@
+---
+title: informes html con Rmarkdown
+author: F.VilBer
+date: '2020-02-27'
+slug: informes-html-con-rmarkdown
+draft: true
+categories:
+  - diseño
+  - editar documentos
+  - markdown
+  - Markdown
+  - R
+tags:
+  - sintaxis
+  - markdown
+description: ''
+thumbnail: ''
+---
+
+
+
+<p>Hace tiempo que quería escribir un resumen de trucos o ayudas rápidas para hacer informes en formato web (HTML) usando RSTUDIO con Rmarkdown. No se trata de explicar <em>Rmarkdown</em>, para eso hay cientos de manuales muy completos como <a href="https://bookdown.org/yihui/rmarkdown/html-document.html">este</a>, solo dar algunas pinceladas de cosas que a mi me resultan útiles en los informes.</p>
+<p>¡Vamos con materia!</p>
+<div id="formato-yaml" class="section level2">
+<h2>Formato YAML</h2>
+<p>Siempre que empezamos un documento <em>Rmarkdown</em> nuevo, el formato general y el tipo de salida la definimos con el encabezado <em>YAML</em>. Aquí las opciones son muchísimas, ten en cuenta que con Rmarkdown puedes hacer muchos tipos de <a href="https://rmarkdown.rstudio.com/formats.html">salidas diferentes</a>{:target=“_blank&quot; rel=“noopener”} (pdf, html, presentaciones, páginas web, libros, websites, ODT…).</p>
+<div class="figure">
+<img src="/post/2020-02-27-informes-html-con-rmarkdown_files/rmarkdown_elementos.png" alt="markdown proceso" />
+<p class="caption">markdown proceso</p>
+</div>
+<p>Si nos centramos en el tipo HTML, lo que hacemos es elegir como salida <code>output:</code> el formato <code>html_document:</code>. A partir de aquí, definimos en el metadata del <em>YAML</em> las características generales. Las voy comentando en el código siguiente, pues son muchas y lo normal es poner solo las que quieras y comentar con <code>#</code> o borrar el resto de líneas:</p>
+<pre class="markdown"><code>---
+title: &#39;informe HTML&#39;
+author: &#39;Autor: Ferran&#39;
+subtitle: &#39;qué grande es R&#39; 
+output: 
+  html_document:          # la salida predefinida es html 
+# ver/ocultar los trozos de código  
+    #code_download: true  # si incluimos un botón para bajar el código o no
+    #code_folding: hide   # para mostrar o esconder los chunk de codigo 
+# tabla de contenido
+    #number_sections: yes   # numera los titulos
+    toc: TRUE               # incluye o no el indice
+    toc_float: TRUE         # incluye o no indice flotante
+      #collapsed: false      # que se escondan los tit
+      #smooth_scroll: false  # scroll en TOC
+# formato  estilo    
+    theme: &quot;spacelab&quot;    # especifica el tema Bootstrap
+    highlight: kate      # resaltado de sintaxis
+    #self_contained: false    # salida fichero autocontenido
+# formato de figuras
+    fig_width: 7         # ancho de las figuras por defecto
+    fig_height: 6        # alto de las figuras
+    fig_caption: true    # titulo de figura
+---</code></pre>
+<p>El formato general se da con las opciones <code>theme:</code> y <code>highlight:</code> que aportan la apariencia final y el resaltado de sintaxis. Ambas provienen de una librería libre de estilos llamada <em>Bootstrap</em>. Los estilos incluidos por defecto son los siguientes:</p>
+<ul>
+<li><code>theme:</code> default, cerulean, journal, flatly, darkly, readable, spacelab, united, cosmo, lumen, paper, sandstone, simplex, yeti</li>
+<li><code>highlight:</code> default, tango, pygments, kate, monochrome, espresso, zenburn, haddock, breezedark, textmate</li>
+</ul>
+<p>Para usar un estilo propio hay que dar la ruta (local) del fichero de estilo <code>css: fichero_estilo_propio.css</code> y poner a <code>null</code> ambas características anteriores.</p>
+<p>Por defecto RMarkdown crea un unico fichero de salida que guarda internamiente todo (incluido imágenes..) esto no es el formato habitual de un HTML, y en algún caso si quieres guardar los links a los origenes de documentos (imagenes, videos etc..) quizás es mejor que uses <code>self_contained: false</code>, pero acuerdate que en este caso no solo debes mandar el fichero <em>html</em>, sino todas las dependencias. Incluso al usar esto , algunas librerías de formato como Bootstrap, y MathJax no se guardan en el fichero unico ya que ocupan mucho espacio. Si las quieres incluir hay que guardarlas en local para lo que se puede añadir <code>lib_dir: libs</code> y guardar en la carpeta <em>libs</em> las dependiencias.</p>
+</div>
+<div id="insertar-imagenes" class="section level2">
+<h2>Insertar imagenes</h2>
+<p>Insertar una imagene en markdown es facil, basta con incluir un código así:</p>
+<pre class="yaml"><code>![titulo imagen](/ruta/a_la/imagen.jpg)</code></pre>
+<p>Si quieres un formato mas completo en la salida debes usar código R. En mi caso uso mucho la función <code>include_graphics()</code> de la librería <code>knitr</code>, por ejemplo así:</p>
+<pre class="markdown"><code>&lt;div class=&quot;figure&quot;&gt;
+&lt;img src=&quot;temp.png&quot; alt=&quot;A caption&quot; width=&quot;100%&quot; /&gt;
+&lt;p class=&quot;caption&quot;&gt;(\#fig:pressure)A caption&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+<p>La ventaja de esta simple opción es que puedes controlar el tamaño simplemente con el porcentaje, y en caso de que quieras insertar 2 fotos por linea solo tienes que poner en inicio del trozo de código R, <code>out.width = '50%'</code>.</p>
+<p>O puedes hacer cosas como leer un directorio completo de</p>
+<p>Siempre queda el recurso de escribir código html directamente:</p>
+<pre class="yaml"><code>&lt;div id=&quot;bg&quot;&gt;
+  &lt;img src=&quot;assets/img/SS850452.png&quot; alt=&quot;&quot;&gt;
+&lt;/div&gt; </code></pre>
+<div id="bg">
+<p><img src="/post/2020-02-27-informes-html-con-rmarkdown_files/rmarkdown_elementos.png" alt=""></p>
+</div>
+</div>
+<div id="insertar-tablas" class="section level2">
+<h2>insertar tablas</h2>
+<pre class="r"><code>knitr::kable(mtcars[1:5,, 1:5], caption = &quot;A table caption&quot;)</code></pre>
+<pre><code>## Warning in if (drop) {: la condición tiene longitud &gt; 1 y sólo el primer
+## elemento será usado</code></pre>
+<table>
+<caption><span id="tab:table">Table 1: </span>A table caption</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="right">mpg</th>
+<th align="right">cyl</th>
+<th align="right">disp</th>
+<th align="right">hp</th>
+<th align="right">drat</th>
+<th align="right">wt</th>
+<th align="right">qsec</th>
+<th align="right">vs</th>
+<th align="right">am</th>
+<th align="right">gear</th>
+<th align="right">carb</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Mazda RX4</td>
+<td align="right">21.0</td>
+<td align="right">6</td>
+<td align="right">160</td>
+<td align="right">110</td>
+<td align="right">3.90</td>
+<td align="right">2.620</td>
+<td align="right">16.46</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">4</td>
+<td align="right">4</td>
+</tr>
+<tr class="even">
+<td>Mazda RX4 Wag</td>
+<td align="right">21.0</td>
+<td align="right">6</td>
+<td align="right">160</td>
+<td align="right">110</td>
+<td align="right">3.90</td>
+<td align="right">2.875</td>
+<td align="right">17.02</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">4</td>
+<td align="right">4</td>
+</tr>
+<tr class="odd">
+<td>Datsun 710</td>
+<td align="right">22.8</td>
+<td align="right">4</td>
+<td align="right">108</td>
+<td align="right">93</td>
+<td align="right">3.85</td>
+<td align="right">2.320</td>
+<td align="right">18.61</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">4</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td>Hornet 4 Drive</td>
+<td align="right">21.4</td>
+<td align="right">6</td>
+<td align="right">258</td>
+<td align="right">110</td>
+<td align="right">3.08</td>
+<td align="right">3.215</td>
+<td align="right">19.44</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">3</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td>Hornet Sportabout</td>
+<td align="right">18.7</td>
+<td align="right">8</td>
+<td align="right">360</td>
+<td align="right">175</td>
+<td align="right">3.15</td>
+<td align="right">3.440</td>
+<td align="right">17.02</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">3</td>
+<td align="right">2</td>
+</tr>
+</tbody>
+</table>
+<p>Achieving custom styling of the table column width is beyond the scope of knitr, but the kableExtra package has been written to help achieve this: <a href="https://cran.r-project.org/web/packages/kableExtra/index.html" class="uri">https://cran.r-project.org/web/packages/kableExtra/index.html</a></p>
+</div>
