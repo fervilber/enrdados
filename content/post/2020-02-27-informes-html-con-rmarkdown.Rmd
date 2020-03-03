@@ -8,7 +8,6 @@ categories:
   - diseño
   - editar documentos
   - markdown
-  - Markdown
   - R
 tags:
   - sintaxis
@@ -34,6 +33,7 @@ Si nos centramos en el tipo HTML, lo que hacemos es elegir como salida `output:`
 title: 'informe HTML'
 author: 'Autor: Ferran'
 subtitle: 'qué grande es R' 
+date: 
 output: 
   html_document:          # la salida predefinida es html 
 # ver/ocultar los trozos de código  
@@ -66,38 +66,77 @@ Los estilos incluidos por defecto son los siguientes:
 
 Por defecto RMarkdown crea un unico fichero de salida que guarda internamiente todo (incluido imágenes..) esto no es el formato habitual de un HTML, y en algún caso si quieres guardar los links a los origenes de documentos (imagenes, videos etc..) quizás es mejor que uses `self_contained: false`, pero acuerdate que en este caso no solo debes mandar el fichero *html*, sino todas las dependencias. Incluso al usar  esto , algunas librerías de formato como Bootstrap, y MathJax no se guardan en el fichero unico ya que ocupan mucho espacio. Si las quieres incluir hay que guardarlas en local para lo que se puede añadir `lib_dir: libs` y guardar en la carpeta *libs* las dependiencias. 
 
-
-## Insertar imagenes
-
-Insertar una imagene en markdown es facil, basta con incluir un código así:
-
-``` YAML
-![titulo imagen](/ruta/a_la/imagen.jpg)
-```
-Si quieres un formato mas completo en la salida debes usar código R. En mi caso uso mucho la función `include_graphics()` de la librería `knitr`, por ejemplo así: 
+## quitar mensajes de innecesarios
+Siempre es mejor poner una par de lineas de código para evitar llenar el informe de salidas innecesaias, como avisos, mensajes de error, y esas cosas. Basta con añadir debajo del encabezado YAML esto:
 
 ````markdown
-```{r pressure, echo=FALSE, fig.cap="A caption", out.width = '100%'}
+```r '{r setup, include=FALSE}'` 
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+```
+````
+## Insertar imágenes 
+
+Insertar una imágen en markdown es fácil, basta con incluir un código así:
+
+````markdown
+![titulo imagen](/ruta/a_la/imagen.jpg)
+````
+Si quieres un formato mas completo en la salida debes usar código R. En mi caso uso mucho la función `include_graphics()` de la librería `knitr`, ya que da más opciones, por ejemplo así: 
+
+````markdown
+````r '{r pressure, echo=FALSE, fig.cap="A caption", out.width = "100%" }'`
 knitr::include_graphics("temp.png")
 ```
 ````
+La ventaja es que puedes controlar el tamaño de la imganen simplemente con el porcentaje. Si quieras insertar 2 fotos por línea solo tienes que poner en el inicio del chunk `out.width = '50%'`. 
 
-La ventaja de esta simple opción es que puedes controlar el tamaño simplemente con el porcentaje, y en caso de que quieras insertar 2 fotos por linea solo tienes que poner en inicio del trozo de código R, `out.width = '50%'`.
+Y como metes código puedes hacer cosas como leer un directorio completo donde has dejado las imagenes y buscar algunas para sacarlas en el informe, por ejemplo así:
 
-O puedes hacer cosas como leer un directorio completo de 
-
-
-Siempre queda el recurso de escribir código html directamente:
-```YAML 
-<div id="bg">
-  <img src="assets/img/SS850452.png" alt="">
-</div> 
+```{r eval=FALSE, out.width = '50%' }
+  library(knitr)
+    ruta<-"img/"  # meto la ruta del directorio
+    # busco en ese dir imagenes jpg..
+    imagenes<-list.files(ruta, pattern = ".jpg", full.names = TRUE )
+    
+    #list.files("img/", pattern = "*[0-9].jpg", full.names = TRUE ) # las que terminan en número
+    # las imprimo o saco en el doc final
+    include_graphics(imagenes)
 ```
 
+Otra opcion diferente es escribir código html directamente, ya que markdown lo reconoce, así si escibes esto, sale la imagen siguiente:
 
+```YAML
 <div id="bg">
-  <img src="/post/2020-02-27-informes-html-con-rmarkdown_files/rmarkdown_elementos.png" alt="">
+  <img src="/img/vis_art/predictions - sillas.jpg" alt="">
 </div> 
+```
+<div id="bg">
+  <img src="/img/vis_art/predictions - sillas.jpg" alt="">
+</div> 
+
+## insertar imagene en el header
+Esto es una curiosidad, pero a mi me gusta poner un logo o imagen al inicio del informe, o de encabezado. Hay varias formas de hacerlo pero la más sencilla es así, poniendo este script
+
+```YAML 
+<script>
+   $(document).ready(function() {
+     $head = $('#header');
+     $head.prepend('<img src=\"LogoenRdados48.png\" style=\"float: right;width: 150px;\"/>')
+   });
+</script>
+```
+o incluyendo un head
+```YAML 
+---
+title: "Test"
+author: "Martin Schmelzer"
+date: "13 Juli 2016"
+output: 
+  html_document:
+    includes:
+      in_header: encabezado.html
+---
+```
 
 ## insertar tablas
 
@@ -105,4 +144,25 @@ Siempre queda el recurso de escribir código html directamente:
 knitr::kable(mtcars[1:5,, 1:5], caption = "A table caption")
 ```
 
-Achieving custom styling of the table column width is beyond the scope of knitr, but the kableExtra package has been written to help achieve this: https://cran.r-project.org/web/packages/kableExtra/index.html
+Para dar formatos a las tablas podemos usar tambien la extensión `kableExtra`.
+
+````markdown
+## pestañas {.tabset}
+
+Algo muy util es usar pestañas.
+
+### tabla
+
+````r '{r}'`
+knitr::kable(mtcars[1:5,, 1:5], caption = "A table caption")
+```
+### Gráficos
+
+````r '{r}'`
+hist(rnorm(125), col="red")
+```
+````
+
+## conclusiones
+
+estoi es el fin por hoy

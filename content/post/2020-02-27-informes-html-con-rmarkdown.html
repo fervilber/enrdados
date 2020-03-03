@@ -8,7 +8,6 @@ categories:
   - diseño
   - editar documentos
   - markdown
-  - Markdown
   - R
 tags:
   - sintaxis
@@ -33,6 +32,7 @@ thumbnail: ''
 title: &#39;informe HTML&#39;
 author: &#39;Autor: Ferran&#39;
 subtitle: &#39;qué grande es R&#39; 
+date: 
 output: 
   html_document:          # la salida predefinida es html 
 # ver/ocultar los trozos de código  
@@ -61,24 +61,58 @@ output:
 <p>Para usar un estilo propio hay que dar la ruta (local) del fichero de estilo <code>css: fichero_estilo_propio.css</code> y poner a <code>null</code> ambas características anteriores.</p>
 <p>Por defecto RMarkdown crea un unico fichero de salida que guarda internamiente todo (incluido imágenes..) esto no es el formato habitual de un HTML, y en algún caso si quieres guardar los links a los origenes de documentos (imagenes, videos etc..) quizás es mejor que uses <code>self_contained: false</code>, pero acuerdate que en este caso no solo debes mandar el fichero <em>html</em>, sino todas las dependencias. Incluso al usar esto , algunas librerías de formato como Bootstrap, y MathJax no se guardan en el fichero unico ya que ocupan mucho espacio. Si las quieres incluir hay que guardarlas en local para lo que se puede añadir <code>lib_dir: libs</code> y guardar en la carpeta <em>libs</em> las dependiencias.</p>
 </div>
-<div id="insertar-imagenes" class="section level2">
-<h2>Insertar imagenes</h2>
-<p>Insertar una imagene en markdown es facil, basta con incluir un código así:</p>
-<pre class="yaml"><code>![titulo imagen](/ruta/a_la/imagen.jpg)</code></pre>
-<p>Si quieres un formato mas completo en la salida debes usar código R. En mi caso uso mucho la función <code>include_graphics()</code> de la librería <code>knitr</code>, por ejemplo así:</p>
-<pre class="markdown"><code>&lt;div class=&quot;figure&quot;&gt;
-&lt;img src=&quot;temp.png&quot; alt=&quot;A caption&quot; width=&quot;100%&quot; /&gt;
-&lt;p class=&quot;caption&quot;&gt;(\#fig:pressure)A caption&lt;/p&gt;
-&lt;/div&gt;</code></pre>
-<p>La ventaja de esta simple opción es que puedes controlar el tamaño simplemente con el porcentaje, y en caso de que quieras insertar 2 fotos por linea solo tienes que poner en inicio del trozo de código R, <code>out.width = '50%'</code>.</p>
-<p>O puedes hacer cosas como leer un directorio completo de</p>
-<p>Siempre queda el recurso de escribir código html directamente:</p>
+<div id="quitar-mensajes-de-innecesarios" class="section level2">
+<h2>quitar mensajes de innecesarios</h2>
+<p>Siempre es mejor poner una par de lineas de código para evitar llenar el informe de salidas innecesaias, como avisos, mensajes de error, y esas cosas. Basta con añadir debajo del encabezado YAML esto:</p>
+<pre class="markdown"><code>```r &#39;{r setup, include=FALSE}&#39;` 
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+```</code></pre>
+</div>
+<div id="insertar-imágenes" class="section level2">
+<h2>Insertar imágenes</h2>
+<p>Insertar una imágen en markdown es fácil, basta con incluir un código así:</p>
+<pre class="markdown"><code>![titulo imagen](/ruta/a_la/imagen.jpg)</code></pre>
+<p>Si quieres un formato mas completo en la salida debes usar código R. En mi caso uso mucho la función <code>include_graphics()</code> de la librería <code>knitr</code>, ya que da más opciones, por ejemplo así:</p>
+<pre class="markdown"><code>```{r pressure, echo=FALSE, fig.cap=&quot;A caption&quot;, out.width = &quot;100%&quot; }
+knitr::include_graphics(&quot;temp.png&quot;)
+```</code></pre>
+<p>La ventaja es que puedes controlar el tamaño de la imganen simplemente con el porcentaje. Si quieras insertar 2 fotos por línea solo tienes que poner en el inicio del chunk <code>out.width = '50%'</code>.</p>
+<p>Y como metes código puedes hacer cosas como leer un directorio completo donde has dejado las imagenes y buscar algunas para sacarlas en el informe, por ejemplo así:</p>
+<pre class="r"><code>  library(knitr)
+    ruta&lt;-&quot;img/&quot;  # meto la ruta del directorio
+    # busco en ese dir imagenes jpg..
+    imagenes&lt;-list.files(ruta, pattern = &quot;.jpg&quot;, full.names = TRUE )
+    
+    #list.files(&quot;img/&quot;, pattern = &quot;*[0-9].jpg&quot;, full.names = TRUE ) # las que terminan en número
+    # las imprimo o saco en el doc final
+    include_graphics(imagenes)</code></pre>
+<p>Otra opcion diferente es escribir código html directamente, ya que markdown lo reconoce, así si escibes esto, sale la imagen siguiente:</p>
 <pre class="yaml"><code>&lt;div id=&quot;bg&quot;&gt;
-  &lt;img src=&quot;assets/img/SS850452.png&quot; alt=&quot;&quot;&gt;
+  &lt;img src=&quot;/img/vis_art/predictions - sillas.jpg&quot; alt=&quot;&quot;&gt;
 &lt;/div&gt; </code></pre>
 <div id="bg">
-<p><img src="/post/2020-02-27-informes-html-con-rmarkdown_files/rmarkdown_elementos.png" alt=""></p>
+<p><img src="/img/vis_art/predictions - sillas.jpg" alt=""></p>
 </div>
+</div>
+<div id="insertar-imagene-en-el-header" class="section level2">
+<h2>insertar imagene en el header</h2>
+<p>Esto es una curiosidad, pero a mi me gusta poner un logo o imagen al inicio del informe, o de encabezado. Hay varias formas de hacerlo pero la más sencilla es así, poniendo este script</p>
+<pre class="yaml"><code>&lt;script&gt;
+   $(document).ready(function() {
+     $head = $(&#39;#header&#39;);
+     $head.prepend(&#39;&lt;img src=\&quot;LogoenRdados48.png\&quot; style=\&quot;float: right;width: 150px;\&quot;/&gt;&#39;)
+   });
+&lt;/script&gt;</code></pre>
+<p>o incluyendo un head</p>
+<pre class="yaml"><code>---
+title: &quot;Test&quot;
+author: &quot;Martin Schmelzer&quot;
+date: &quot;13 Juli 2016&quot;
+output: 
+  html_document:
+    includes:
+      in_header: encabezado.html
+---</code></pre>
 </div>
 <div id="insertar-tablas" class="section level2">
 <h2>insertar tablas</h2>
@@ -176,5 +210,23 @@ output:
 </tr>
 </tbody>
 </table>
-<p>Achieving custom styling of the table column width is beyond the scope of knitr, but the kableExtra package has been written to help achieve this: <a href="https://cran.r-project.org/web/packages/kableExtra/index.html" class="uri">https://cran.r-project.org/web/packages/kableExtra/index.html</a></p>
+<p>Para dar formatos a las tablas podemos usar tambien la extensión <code>kableExtra</code>.</p>
+<pre class="markdown"><code>## pestañas {.tabset}
+
+Algo muy util es usar pestañas.
+
+### tabla
+
+```{r}
+knitr::kable(mtcars[1:5,, 1:5], caption = &quot;A table caption&quot;)
+```
+### Gráficos
+
+```{r}
+hist(rnorm(125), col=&quot;red&quot;)
+```</code></pre>
+</div>
+<div id="conclusiones" class="section level2">
+<h2>conclusiones</h2>
+<p>estoi es el fin por hoy</p>
 </div>

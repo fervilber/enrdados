@@ -355,25 +355,25 @@
   </url>
   
   <url>
-    <loc>/categories/mapas/</loc>
-    <lastmod>2019-09-03T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>/tags/mapas/</loc>
     <lastmod>2019-09-03T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/categories/markdown/</loc>
-    <lastmod>2020-02-27T00:00:00+00:00</lastmod>
+    <loc>/categories/mapas/</loc>
+    <lastmod>2019-09-03T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/markdown/</loc>
+    <lastmod>2020-02-27T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/categories/markdown/</loc>
     <lastmod>2020-02-27T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
@@ -391,14 +391,14 @@
   </url>
   
   <url>
-    <loc>/categories/modelos/</loc>
-    <lastmod>2019-03-04T00:00:00+00:00</lastmod>
+    <loc>/tags/modelos/</loc>
+    <lastmod>2019-09-11T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/tags/modelos/</loc>
-    <lastmod>2019-09-11T00:00:00+00:00</lastmod>
+    <loc>/categories/modelos/</loc>
+    <lastmod>2019-03-04T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -445,26 +445,26 @@
   </url>
   
   <url>
-    <loc>/categories/programas/</loc>
-    <lastmod>2020-01-27T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>/tags/programas/</loc>
     <lastmod>2020-01-27T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/categories/r/</loc>
-    <lastmod>2020-02-27T00:00:00+00:00</lastmod>
+    <loc>/categories/programas/</loc>
+    <lastmod>2020-01-27T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/r/</loc>
     <lastmod>2019-12-04T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/categories/r/</loc>
+    <lastmod>2020-02-27T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -487,13 +487,13 @@
   </url>
   
   <url>
-    <loc>/categories/shiny/</loc>
+    <loc>/tags/shiny/</loc>
     <lastmod>2020-02-06T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/tags/shiny/</loc>
+    <loc>/categories/shiny/</loc>
     <lastmod>2020-02-06T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
