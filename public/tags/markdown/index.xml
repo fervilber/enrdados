@@ -19,7 +19,7 @@
       <guid>/post/informes-html-con-rmarkdown/</guid>
       <description>Voy a mostraros algunos trucos, mas bien -ayudas rápidas- para hacer informes de calidad en formato web (HTML) usando RSTUDIO + R-markdown. No se trata de explicar Rmarkdown, para eso hay cientos de manuales muy completos como este , solo dar algunas pinceladas de cosas que a mi me resultan útiles para hacer informes.
 ¡Manos a la obra!
-Formato YAMLSiempre que empezamos un documento Rmarkdown nuevo, el formato general y el tipo de salida la definimos con el encabezado YAML.</description>
+ÍndiceFormato general del documentoQuitar la pajaInsertar imágenesImagen en encabezadoInsertar tablasLinksPestañasFormato general del documentoSiempre que empezamos un documento Rmarkdown nuevo, el formato general y el tipo de salida la definimos con el encabezado YAML.</description>
     </item>
     
     <item>

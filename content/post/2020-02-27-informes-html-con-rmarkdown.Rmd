@@ -20,7 +20,17 @@ Voy a mostraros algunos trucos, mas bien -ayudas rápidas- para hacer informes *
 
 ¡Manos a la obra!
 
-## Formato YAML
+## Índice
+
+ * [Formato general del documento](#formato-general-del-documento)
+ * [Quitar la paja](#quitar-la-paja)
+ * [Insertar imágenes](#insertar-imágenes)
+ * [Imagen en encabezado](#imagen-en-encabezado)
+ * [Insertar tablas](#insertar-tablas)
+ * [Links](#links)
+ * [Pestañas](#pestañas)
+ 
+## Formato general del documento
 Siempre que empezamos un documento *Rmarkdown* nuevo, el formato general y el tipo de salida la definimos con el encabezado *YAML*. Aquí las opciones son muchísimas, ten en cuenta que con Rmarkdown puedes hacer muchos tipos de [salidas diferentes](https://rmarkdown.rstudio.com/formats.html){:target="_blank" rel="noopener"} (pdf, html, presentaciones, páginas web, libros, websites, ODT...). 
 
 ![markdown proceso](/post/2020-02-27-informes-html-con-rmarkdown_files/rmarkdown_elementos.png)
@@ -32,8 +42,8 @@ Si nos centramos en el tipo HTML, lo que hacemos es elegir como salida `output:`
 title: 'informe HTML'
 author: 'Autor: Ferran'
 subtitle: 'qué grande es R' 
-date: `r format(Sys.time(), '%d %B %Y')`
-keywords: 'markdown, formato, trucos' 
+# date: `r format(Sys.time(), '%d %B %Y')`
+# keywords: 'markdown, formato, trucos' 
 output: 
   html_document:          # la salida predefinida es html 
 # ver/ocultar los trozos de código  
@@ -101,7 +111,7 @@ Además con código ya puedes hacer cosas más complejas como leer un directorio
     include_graphics(imagenes)
 ```
 
-![3de3](/post/2020-02-27-informes-html-con-rmarkdown_files/rmarkdown02-f.png)
+![](/post/2020-02-27-informes-html-con-rmarkdown_files/rmarkdown02-f.png)
 
 
 Otra opción que siempre está ahí es escribir código *html* directamente, ya que markdown lo reconoce, así si escribes esto, sale la imagen:
@@ -125,6 +135,7 @@ Esto es un capricho... a mi me gusta poner un logo o imagen corporativa al inici
 ```
 ![](/post/2020-02-27-informes-html-con-rmarkdown_files/informelogo.png)
 
+
 ## Insertar tablas
 
 Como se trata de dar dinamismo, cuando la salida es web *html*, en vez de recurrir a imprimir las tablas con `knitr`, `kable` o `kableExtra` así:
@@ -142,7 +153,7 @@ datatable(head(iris,80),class = 'cell-border stripe',options = list(
 ))
 ```
 
-## Links - enlaces
+## Links
 Las páginas web se caracterizan precisamente por los [links](#links-enlaces), crearlos es importante para ganar usabilidad. 
 
 Un link interno se hace en R-markdown con unas reglas simples, cualquier título (de 1º, 2º,...) se convierte en link si:
@@ -151,7 +162,7 @@ Un link interno se hace en R-markdown con unas reglas simples, cualquier título
  * pones todo en minúscula
  * por último lo escribes en formato link de markdown `[texto que sale final](#titulo-destino)`, ojo solo una `#`. 
 
-Ejemplo: si escribes `[cap anterior](#insertar-tablas)` obtienes este link [cap anterior](#insertar-tablas) que va al título anterior llamado `## Insertar tablas`, ves que aunque sea tit 2 el enlace solo pone una almohadilla, que le espacio se sustituye por `-` y que la **I** primera es minúscula.
+Ejemplo: si escribes `[cap anterior](#insertar-tablas)` obtienes este link [cap anterior](#insertar-tablas) que va al título anterior llamado `## Insertar tablas`, ves que aunque sea tit 2 el enlace solo pone una almohadilla, y que el espacio se sustituye por `-` y que la **I** primera es minúscula. Nota: *las tildes déjalas tal cual*.
 
 A veces el link quieres que se abra en otra pestaña o ventana, entonces lo más fácil es usar directamente *HTML* dentro de nuestro código por ejemplo así:
 
