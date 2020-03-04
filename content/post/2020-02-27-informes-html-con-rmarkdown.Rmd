@@ -101,7 +101,8 @@ Además con código ya puedes hacer cosas más complejas como leer un directorio
     include_graphics(imagenes)
 ```
 
-![insertar imagenes en el informe](/post/2020-02-27-informes-html-con-rmarkdown_files/rmarkdown02.png)
+![3de3](/post/2020-02-27-informes-html-con-rmarkdown_files/rmarkdown02-f.png)
+
 
 Otra opción que siempre está ahí es escribir código *html* directamente, ya que markdown lo reconoce, así si escribes esto, sale la imagen:
 
@@ -122,8 +123,7 @@ Esto es un capricho... a mi me gusta poner un logo o imagen corporativa al inici
    });
 </script>
 ```
-
-![informes html con rmarkdown](/post/2020-02-27-informes-html-con-rmarkdown_files/informecaudales.png)
+![](/post/2020-02-27-informes-html-con-rmarkdown_files/informelogo.png)
 
 ## Insertar tablas
 
@@ -184,6 +184,7 @@ hist(rnorm(125), col="red")
 
 Obtiene algo así:
 
-![ejemplo de pestañas en informe html](/post/2020-02-27-informes-html-con-rmarkdown_files/pestanas.gif)
+![](/post/2020-02-27-informes-html-con-rmarkdown_files/pestanas-f.gif)
+
 
 ¡Hasta pronto!
