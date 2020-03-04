@@ -1,9 +1,9 @@
 ---
-title: informes html con Rmarkdown
+title: "Informes html con Rmarkdown"
 author: F.VilBer
-date: '2020-02-27'
+date: '2020-03-03'
 slug: informes-html-con-rmarkdown
-draft: true
+draft: false
 categories:
   - diseño
   - editar documentos
@@ -12,19 +12,18 @@ categories:
 tags:
   - sintaxis
   - markdown
-description: ''
-thumbnail: ''
+description: 'trucos para informes HTML desde Rmarkdown'
+thumbnail: '/post/2020-02-27-informes-html-con-rmarkdown_files/informecaudales.png'
 ---
 
-Hace tiempo que quería escribir un resumen de trucos o ayudas rápidas para hacer informes en formato web (HTML) usando RSTUDIO con Rmarkdown. No se trata de explicar *Rmarkdown*, para eso hay cientos de manuales muy completos como  [este](https://bookdown.org/yihui/rmarkdown/html-document.html), solo dar algunas pinceladas de cosas que a mi me resultan útiles en los informes.
+Voy a mostraros algunos trucos, mas bien -ayudas rápidas- para hacer informes **de calidad** en formato web (HTML) usando RSTUDIO + R-markdown. No se trata de explicar *Rmarkdown*, para eso hay cientos de manuales muy completos como <a href="https://bookdown.org/yihui/rmarkdown/html-document.html" target="_blank" rel="noopener"><span>este</span> </a>, solo dar algunas pinceladas de cosas que a mi me resultan útiles para hacer informes.
 
-¡Vamos con materia!
+¡Manos a la obra!
 
 ## Formato YAML
 Siempre que empezamos un documento *Rmarkdown* nuevo, el formato general y el tipo de salida la definimos con el encabezado *YAML*. Aquí las opciones son muchísimas, ten en cuenta que con Rmarkdown puedes hacer muchos tipos de [salidas diferentes](https://rmarkdown.rstudio.com/formats.html){:target="_blank" rel="noopener"} (pdf, html, presentaciones, páginas web, libros, websites, ODT...). 
 
 ![markdown proceso](/post/2020-02-27-informes-html-con-rmarkdown_files/rmarkdown_elementos.png)
-
 
 Si nos centramos en el tipo HTML, lo que hacemos es elegir como salida `output:` el formato `html_document:`. A partir de aquí, definimos en el metadata del *YAML* las características generales. Las voy comentando en el código siguiente, pues son muchas y lo normal es poner solo las que quieras y comentar con `#` o borrar el resto de líneas:
 
@@ -33,7 +32,8 @@ Si nos centramos en el tipo HTML, lo que hacemos es elegir como salida `output:`
 title: 'informe HTML'
 author: 'Autor: Ferran'
 subtitle: 'qué grande es R' 
-date: 
+date: `r format(Sys.time(), '%d %B %Y')`
+keywords: 'markdown, formato, trucos' 
 output: 
   html_document:          # la salida predefinida es html 
 # ver/ocultar los trozos de código  
@@ -59,15 +59,15 @@ output:
 El formato general se da con las opciones `theme:` y `highlight:` que aportan la apariencia final y el resaltado de sintaxis. Ambas provienen de una librería libre de estilos llamada  *Bootstrap*.
 Los estilos incluidos por defecto son los siguientes:
 
- * `theme:` default, cerulean, journal, flatly, darkly, readable, spacelab, united, cosmo, lumen, paper, sandstone, simplex, yeti
- * `highlight:` default, tango, pygments, kate, monochrome, espresso, zenburn, haddock, breezedark,  textmate
+ * `theme:` *default, cerulean, journal, flatly, darkly, readable, spacelab, united, cosmo, lumen, paper, sandstone, simplex, yeti*
+ * `highlight:` *default, tango, pygments, kate, monochrome, espresso, zenburn, haddock, breezedark,  textmate*
  
  Para usar un estilo propio hay que dar la ruta (local) del fichero de estilo `css: fichero_estilo_propio.css` y poner a `null` ambas características anteriores. 
 
-Por defecto RMarkdown crea un unico fichero de salida que guarda internamiente todo (incluido imágenes..) esto no es el formato habitual de un HTML, y en algún caso si quieres guardar los links a los origenes de documentos (imagenes, videos etc..) quizás es mejor que uses `self_contained: false`, pero acuerdate que en este caso no solo debes mandar el fichero *html*, sino todas las dependencias. Incluso al usar  esto , algunas librerías de formato como Bootstrap, y MathJax no se guardan en el fichero unico ya que ocupan mucho espacio. Si las quieres incluir hay que guardarlas en local para lo que se puede añadir `lib_dir: libs` y guardar en la carpeta *libs* las dependiencias. 
+Por defecto RMarkdown crea un único fichero de salida que guarda internamente todo (incluido imágenes..) esto no es el formato habitual de un HTML, y en algún caso si quieres guardar los links a los orígenes de documentos (, vídeos etc..) quizás es mejor que uses `self_contained: false`, pero acuérdate que en este caso no solo debes mandar el fichero *html*, sino todas las dependencias. Incluso al usar  esto , algunas librerías de formato como *Bootstrap*, y *MathJax* no se guardan en el fichero único ya que ocupan mucho espacio. Si las quieres incluir hay que guardarlas en local para lo que se puede añadir `lib_dir: libs` y guardar en la carpeta *libs* las dependencias. 
 
-## quitar mensajes de innecesarios
-Siempre es mejor poner una par de lineas de código para evitar llenar el informe de salidas innecesaias, como avisos, mensajes de error, y esas cosas. Basta con añadir debajo del encabezado YAML esto:
+## Quitar la paja
+Siempre es adecuado poner este par de líneas de código al inicio, para evitar llenar el informe de avisos, mensajes y esas cosas que R nos da al ejecutar algunas librerías. Simplemente añadir debajo del encabezado YAML esto:
 
 ````markdown
 ```r '{r setup, include=FALSE}'` 
@@ -76,7 +76,7 @@ knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 ````
 ## Insertar imágenes 
 
-Insertar una imágen en markdown es fácil, basta con incluir un código así:
+Insertar una imagen en markdown es fácil, basta con incluir un código así:
 
 ````markdown
 ![titulo imagen](/ruta/a_la/imagen.jpg)
@@ -85,37 +85,34 @@ Si quieres un formato mas completo en la salida debes usar código R. En mi caso
 
 ````markdown
 ````r '{r pressure, echo=FALSE, fig.cap="A caption", out.width = "100%" }'`
-knitr::include_graphics("temp.png")
+knitr::include_graphics("imagen.png")
 ```
 ````
-La ventaja es que puedes controlar el tamaño de la imganen simplemente con el porcentaje. Si quieras insertar 2 fotos por línea solo tienes que poner en el inicio del chunk `out.width = '50%'`. 
+La ventaja es que puedes controlar el tamaño de la imagen simplemente con el porcentaje. Si quieras insertar 2 fotos por línea solo tienes que poner en el inicio del *chunk*  `out.width = '50%'`. 
 
-Y como metes código puedes hacer cosas como leer un directorio completo donde has dejado las imagenes y buscar algunas para sacarlas en el informe, por ejemplo así:
+Además con código ya puedes hacer cosas más complejas como leer un directorio completo donde has almacenado tus imágenes y buscar allí algunas para el informe, por ejemplo así:
 
-```{r eval=FALSE, out.width = '50%' }
+```{r eval=FALSE, out.width = '33%' }
   library(knitr)
     ruta<-"img/"  # meto la ruta del directorio
-    # busco en ese dir imagenes jpg..
-    imagenes<-list.files(ruta, pattern = ".jpg", full.names = TRUE )
-    
-    #list.files("img/", pattern = "*[0-9].jpg", full.names = TRUE ) # las que terminan en número
+    # busco en ese dir imagenes jpg. cuyo nombre termina en un digito.
+    list.files("img/", pattern = "*[0-9].jpg", full.names = TRUE ) 
     # las imprimo o saco en el doc final
     include_graphics(imagenes)
 ```
 
-Otra opcion diferente es escribir código html directamente, ya que markdown lo reconoce, así si escibes esto, sale la imagen siguiente:
+![insertar imagenes en el informe](/post/2020-02-27-informes-html-con-rmarkdown_files/rmarkdown02.png)
+
+Otra opción que siempre está ahí es escribir código *html* directamente, ya que markdown lo reconoce, así si escribes esto, sale la imagen:
 
 ```YAML
 <div id="bg">
-  <img src="/img/vis_art/predictions - sillas.jpg" alt="">
+  <img src="/ruta_a _la_imagen..jpg" alt="texto al pasar raton encima">
 </div> 
 ```
-<div id="bg">
-  <img src="/img/vis_art/predictions - sillas.jpg" alt="">
-</div> 
 
-## insertar imagene en el header
-Esto es una curiosidad, pero a mi me gusta poner un logo o imagen al inicio del informe, o de encabezado. Hay varias formas de hacerlo pero la más sencilla es así, poniendo este script
+## Imagen en encabezado
+Esto es un capricho... a mi me gusta poner un logo o imagen corporativa al inicio del informe, por ejemplo en el encabezado. Cuando hacemos la salida en *pdf* estas cosas las pongo con $\LaTeX$  ([puedes buscarlo en este otro post](../tinytex-tener-latex-desde-r-sin-esfuerzo) o en este [guía para imprimir en pdf desde R](../guia-para-imprimir-en-pdf-desde-r). Para este tipo de informe en html es más rápido poner el siguiente script, directamente en el código que es interpretado al vuelo. Sustituye con el `src` o ruta de tu imagen, la posición y el tamaño al gusto.
 
 ```YAML 
 <script>
@@ -125,29 +122,51 @@ Esto es una curiosidad, pero a mi me gusta poner un logo o imagen al inicio del 
    });
 </script>
 ```
-o incluyendo un head
+
+![informes html con rmarkdown](/post/2020-02-27-informes-html-con-rmarkdown_files/informecaudales.png)
+
+## Insertar tablas
+
+Como se trata de dar dinamismo, cuando la salida es web *html*, en vez de recurrir a imprimir las tablas con `knitr`, `kable` o `kableExtra` así:
+
+```{r eval=FALSE}
+knitr::kable(head(iris,10), caption = "Tabla Iris")
+```
+
+prefiero usar la <a href="https://rstudio.github.io/DT/" target="_blank" rel="noopener"><span>librería DT</span> </a>, que es un [htmlwidget](../shiny-facil-con-flexdashboard-ii) muy bueno, al que podemos meter filtros y mucha personalización:
+
+```{r tabla_DT, warning=FALSE, message=FALSE}
+library(DT)
+datatable(head(iris,80),class = 'cell-border stripe',options = list(
+  pageLength = 5, autoWidth = TRUE
+))
+```
+
+## Links - enlaces
+Las páginas web se caracterizan precisamente por los [links](#links-enlaces), crearlos es importante para ganar usabilidad. 
+
+Un link interno se hace en R-markdown con unas reglas simples, cualquier título (de 1º, 2º,...) se convierte en link si:
+
+ * sustituyes espacios y símbolos raros por un menos: `-`  
+ * pones todo en minúscula
+ * por último lo escribes en formato link de markdown `[texto que sale final](#titulo-destino)`, ojo solo una `#`. 
+
+Ejemplo: si escribes `[cap anterior](#insertar-tablas)` obtienes este link [cap anterior](#insertar-tablas) que va al título anterior llamado `## Insertar tablas`, ves que aunque sea tit 2 el enlace solo pone una almohadilla, que le espacio se sustituye por `-` y que la **I** primera es minúscula.
+
+A veces el link quieres que se abra en otra pestaña o ventana, entonces lo más fácil es usar directamente *HTML* dentro de nuestro código por ejemplo así:
+
 ```YAML 
----
-title: "Test"
-author: "Martin Schmelzer"
-date: "13 Juli 2016"
-output: 
-  html_document:
-    includes:
-      in_header: encabezado.html
----
+<a href="https://enrdados.netlify.com/post/mapa-del-tesoro/"
+target="_blank" rel="noopener">
+<span>Mapas del tesoro</span> </a>
 ```
+obtienes este enlace: <a href="https://enrdados.netlify.com/post/mapa-del-tesoro/" target="_blank" rel="noopener"><span>Mapas del tesoro</span> </a>
 
-## insertar tablas
-
-```{r table}
-knitr::kable(mtcars[1:5,, 1:5], caption = "A table caption")
-```
-
-Para dar formatos a las tablas podemos usar tambien la extensión `kableExtra`.
+## Pestañas
+Las pestañas dentro del informe son también una manera muy dinámica de mostrar cosas, datos, imágenes, y son fáciles de usar pues lo único es añadir la coletilla `{.tabset}` al título de grado 2, y los de grado 3 siguientes serán pestañas, por ejemplo:
 
 ````markdown
-## pestañas {.tabset}
+## Pestañas {.tabset}
 
 Algo muy util es usar pestañas.
 
@@ -163,6 +182,8 @@ hist(rnorm(125), col="red")
 ```
 ````
 
-## conclusiones
+Obtiene algo así:
 
-estoi es el fin por hoy
+![ejemplo de pestañas en informe html](/post/2020-02-27-informes-html-con-rmarkdown_files/pestanas.gif)
+
+¡Hasta pronto!

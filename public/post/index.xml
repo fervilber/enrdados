@@ -6,19 +6,19 @@
     <description>Recent content in Posts on EnRdados</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>es</language>
-    <lastBuildDate>Thu, 27 Feb 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 03 Mar 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>informes html con Rmarkdown</title>
+      <title>Informes html con Rmarkdown</title>
       <link>/post/informes-html-con-rmarkdown/</link>
-      <pubDate>Thu, 27 Feb 2020 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 03 Mar 2020 00:00:00 +0000</pubDate>
       
       <guid>/post/informes-html-con-rmarkdown/</guid>
-      <description>Hace tiempo que quería escribir un resumen de trucos o ayudas rápidas para hacer informes en formato web (HTML) usando RSTUDIO con Rmarkdown. No se trata de explicar Rmarkdown, para eso hay cientos de manuales muy completos como este, solo dar algunas pinceladas de cosas que a mi me resultan útiles en los informes.
-¡Vamos con materia!
+      <description>Voy a mostraros algunos trucos, mas bien -ayudas rápidas- para hacer informes de calidad en formato web (HTML) usando RSTUDIO + R-markdown. No se trata de explicar Rmarkdown, para eso hay cientos de manuales muy completos como este , solo dar algunas pinceladas de cosas que a mi me resultan útiles para hacer informes.
+¡Manos a la obra!
 Formato YAMLSiempre que empezamos un documento Rmarkdown nuevo, el formato general y el tipo de salida la definimos con el encabezado YAML.</description>
     </item>
     

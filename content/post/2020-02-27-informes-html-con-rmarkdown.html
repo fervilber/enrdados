@@ -1,9 +1,9 @@
 ---
-title: informes html con Rmarkdown
+title: "Informes html con Rmarkdown"
 author: F.VilBer
-date: '2020-02-27'
+date: '2020-03-03'
 slug: informes-html-con-rmarkdown
-draft: true
+draft: false
 categories:
   - diseño
   - editar documentos
@@ -12,14 +12,23 @@ categories:
 tags:
   - sintaxis
   - markdown
-description: ''
-thumbnail: ''
+description: 'trucos para informes HTML desde Rmarkdown'
+thumbnail: '/post/2020-02-27-informes-html-con-rmarkdown_files/informecaudales.png'
 ---
 
+<script src="/rmarkdown-libs/htmlwidgets/htmlwidgets.js"></script>
+<script src="/rmarkdown-libs/jquery/jquery.min.js"></script>
+<link href="/rmarkdown-libs/datatables-css/datatables-crosstalk.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/datatables-binding/datatables.js"></script>
+<link href="/rmarkdown-libs/dt-core/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="/rmarkdown-libs/dt-core/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/dt-core/js/jquery.dataTables.min.js"></script>
+<link href="/rmarkdown-libs/crosstalk/css/crosstalk.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/crosstalk/js/crosstalk.min.js"></script>
 
 
-<p>Hace tiempo que quería escribir un resumen de trucos o ayudas rápidas para hacer informes en formato web (HTML) usando RSTUDIO con Rmarkdown. No se trata de explicar <em>Rmarkdown</em>, para eso hay cientos de manuales muy completos como <a href="https://bookdown.org/yihui/rmarkdown/html-document.html">este</a>, solo dar algunas pinceladas de cosas que a mi me resultan útiles en los informes.</p>
-<p>¡Vamos con materia!</p>
+<p>Voy a mostraros algunos trucos, mas bien -ayudas rápidas- para hacer informes <strong>de calidad</strong> en formato web (HTML) usando RSTUDIO + R-markdown. No se trata de explicar <em>Rmarkdown</em>, para eso hay cientos de manuales muy completos como <a href="https://bookdown.org/yihui/rmarkdown/html-document.html" target="_blank" rel="noopener"><span>este</span> </a>, solo dar algunas pinceladas de cosas que a mi me resultan útiles para hacer informes.</p>
+<p>¡Manos a la obra!</p>
 <div id="formato-yaml" class="section level2">
 <h2>Formato YAML</h2>
 <p>Siempre que empezamos un documento <em>Rmarkdown</em> nuevo, el formato general y el tipo de salida la definimos con el encabezado <em>YAML</em>. Aquí las opciones son muchísimas, ten en cuenta que con Rmarkdown puedes hacer muchos tipos de <a href="https://rmarkdown.rstudio.com/formats.html">salidas diferentes</a>{:target=“_blank&quot; rel=“noopener”} (pdf, html, presentaciones, páginas web, libros, websites, ODT…).</p>
@@ -32,7 +41,8 @@ thumbnail: ''
 title: &#39;informe HTML&#39;
 author: &#39;Autor: Ferran&#39;
 subtitle: &#39;qué grande es R&#39; 
-date: 
+date: 04 marzo 2020
+keywords: &#39;markdown, formato, trucos&#39; 
 output: 
   html_document:          # la salida predefinida es html 
 # ver/ocultar los trozos de código  
@@ -55,163 +65,91 @@ output:
 ---</code></pre>
 <p>El formato general se da con las opciones <code>theme:</code> y <code>highlight:</code> que aportan la apariencia final y el resaltado de sintaxis. Ambas provienen de una librería libre de estilos llamada <em>Bootstrap</em>. Los estilos incluidos por defecto son los siguientes:</p>
 <ul>
-<li><code>theme:</code> default, cerulean, journal, flatly, darkly, readable, spacelab, united, cosmo, lumen, paper, sandstone, simplex, yeti</li>
-<li><code>highlight:</code> default, tango, pygments, kate, monochrome, espresso, zenburn, haddock, breezedark, textmate</li>
+<li><code>theme:</code> <em>default, cerulean, journal, flatly, darkly, readable, spacelab, united, cosmo, lumen, paper, sandstone, simplex, yeti</em></li>
+<li><code>highlight:</code> <em>default, tango, pygments, kate, monochrome, espresso, zenburn, haddock, breezedark, textmate</em></li>
 </ul>
 <p>Para usar un estilo propio hay que dar la ruta (local) del fichero de estilo <code>css: fichero_estilo_propio.css</code> y poner a <code>null</code> ambas características anteriores.</p>
-<p>Por defecto RMarkdown crea un unico fichero de salida que guarda internamiente todo (incluido imágenes..) esto no es el formato habitual de un HTML, y en algún caso si quieres guardar los links a los origenes de documentos (imagenes, videos etc..) quizás es mejor que uses <code>self_contained: false</code>, pero acuerdate que en este caso no solo debes mandar el fichero <em>html</em>, sino todas las dependencias. Incluso al usar esto , algunas librerías de formato como Bootstrap, y MathJax no se guardan en el fichero unico ya que ocupan mucho espacio. Si las quieres incluir hay que guardarlas en local para lo que se puede añadir <code>lib_dir: libs</code> y guardar en la carpeta <em>libs</em> las dependiencias.</p>
+<p>Por defecto RMarkdown crea un único fichero de salida que guarda internamente todo (incluido imágenes..) esto no es el formato habitual de un HTML, y en algún caso si quieres guardar los links a los orígenes de documentos (, vídeos etc..) quizás es mejor que uses <code>self_contained: false</code>, pero acuérdate que en este caso no solo debes mandar el fichero <em>html</em>, sino todas las dependencias. Incluso al usar esto , algunas librerías de formato como <em>Bootstrap</em>, y <em>MathJax</em> no se guardan en el fichero único ya que ocupan mucho espacio. Si las quieres incluir hay que guardarlas en local para lo que se puede añadir <code>lib_dir: libs</code> y guardar en la carpeta <em>libs</em> las dependencias.</p>
 </div>
-<div id="quitar-mensajes-de-innecesarios" class="section level2">
-<h2>quitar mensajes de innecesarios</h2>
-<p>Siempre es mejor poner una par de lineas de código para evitar llenar el informe de salidas innecesaias, como avisos, mensajes de error, y esas cosas. Basta con añadir debajo del encabezado YAML esto:</p>
+<div id="quitar-la-paja" class="section level2">
+<h2>Quitar la paja</h2>
+<p>Siempre es adecuado poner este par de líneas de código al inicio, para evitar llenar el informe de avisos, mensajes y esas cosas que R nos da al ejecutar algunas librerías. Simplemente añadir debajo del encabezado YAML esto:</p>
 <pre class="markdown"><code>```r &#39;{r setup, include=FALSE}&#39;` 
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 ```</code></pre>
 </div>
 <div id="insertar-imágenes" class="section level2">
 <h2>Insertar imágenes</h2>
-<p>Insertar una imágen en markdown es fácil, basta con incluir un código así:</p>
+<p>Insertar una imagen en markdown es fácil, basta con incluir un código así:</p>
 <pre class="markdown"><code>![titulo imagen](/ruta/a_la/imagen.jpg)</code></pre>
 <p>Si quieres un formato mas completo en la salida debes usar código R. En mi caso uso mucho la función <code>include_graphics()</code> de la librería <code>knitr</code>, ya que da más opciones, por ejemplo así:</p>
 <pre class="markdown"><code>```{r pressure, echo=FALSE, fig.cap=&quot;A caption&quot;, out.width = &quot;100%&quot; }
-knitr::include_graphics(&quot;temp.png&quot;)
+knitr::include_graphics(&quot;imagen.png&quot;)
 ```</code></pre>
-<p>La ventaja es que puedes controlar el tamaño de la imganen simplemente con el porcentaje. Si quieras insertar 2 fotos por línea solo tienes que poner en el inicio del chunk <code>out.width = '50%'</code>.</p>
-<p>Y como metes código puedes hacer cosas como leer un directorio completo donde has dejado las imagenes y buscar algunas para sacarlas en el informe, por ejemplo así:</p>
+<p>La ventaja es que puedes controlar el tamaño de la imagen simplemente con el porcentaje. Si quieras insertar 2 fotos por línea solo tienes que poner en el inicio del <em>chunk</em> <code>out.width = '50%'</code>.</p>
+<p>Además con código ya puedes hacer cosas más complejas como leer un directorio completo donde has almacenado tus imágenes y buscar allí algunas para el informe, por ejemplo así:</p>
 <pre class="r"><code>  library(knitr)
     ruta&lt;-&quot;img/&quot;  # meto la ruta del directorio
-    # busco en ese dir imagenes jpg..
-    imagenes&lt;-list.files(ruta, pattern = &quot;.jpg&quot;, full.names = TRUE )
-    
-    #list.files(&quot;img/&quot;, pattern = &quot;*[0-9].jpg&quot;, full.names = TRUE ) # las que terminan en número
+    # busco en ese dir imagenes jpg. cuyo nombre termina en un digito.
+    list.files(&quot;img/&quot;, pattern = &quot;*[0-9].jpg&quot;, full.names = TRUE ) 
     # las imprimo o saco en el doc final
     include_graphics(imagenes)</code></pre>
-<p>Otra opcion diferente es escribir código html directamente, ya que markdown lo reconoce, así si escibes esto, sale la imagen siguiente:</p>
+<div class="figure">
+<img src="C:/post/2020-02-27-informes-html-con-rmarkdown_files/rmarkdown02.png" alt="insertar imagenes en el informe" />
+<p class="caption">insertar imagenes en el informe</p>
+</div>
+<p>Otra opción que siempre está ahí es escribir código <em>html</em> directamente, ya que markdown lo reconoce, así si escribes esto, sale la imagen:</p>
 <pre class="yaml"><code>&lt;div id=&quot;bg&quot;&gt;
-  &lt;img src=&quot;/img/vis_art/predictions - sillas.jpg&quot; alt=&quot;&quot;&gt;
+  &lt;img src=&quot;/ruta_a _la_imagen..jpg&quot; alt=&quot;texto al pasar raton encima&quot;&gt;
 &lt;/div&gt; </code></pre>
-<div id="bg">
-<p><img src="/img/vis_art/predictions - sillas.jpg" alt=""></p>
 </div>
-</div>
-<div id="insertar-imagene-en-el-header" class="section level2">
-<h2>insertar imagene en el header</h2>
-<p>Esto es una curiosidad, pero a mi me gusta poner un logo o imagen al inicio del informe, o de encabezado. Hay varias formas de hacerlo pero la más sencilla es así, poniendo este script</p>
+<div id="imagen-en-encabezado" class="section level2">
+<h2>Imagen en encabezado</h2>
+<p>Esto es un capricho… a mi me gusta poner un logo o imagen corporativa al inicio del informe, por ejemplo en el encabezado. Cuando hacemos la salida en <em>pdf</em> estas cosas las pongo con <span class="math inline">\(\LaTeX\)</span> (<a href="../tinytex-tener-latex-desde-r-sin-esfuerzo">puedes buscarlo en este otro post</a> o en este <a href="../guia-para-imprimir-en-pdf-desde-r">guía para imprimir en pdf desde R</a>. Para este tipo de informe en html es más rápido poner el siguiente script, directamente en el código que es interpretado al vuelo. Sustituye con el <code>src</code> o ruta de tu imagen, la posición y el tamaño al gusto.</p>
 <pre class="yaml"><code>&lt;script&gt;
    $(document).ready(function() {
      $head = $(&#39;#header&#39;);
      $head.prepend(&#39;&lt;img src=\&quot;LogoenRdados48.png\&quot; style=\&quot;float: right;width: 150px;\&quot;/&gt;&#39;)
    });
 &lt;/script&gt;</code></pre>
-<p>o incluyendo un head</p>
-<pre class="yaml"><code>---
-title: &quot;Test&quot;
-author: &quot;Martin Schmelzer&quot;
-date: &quot;13 Juli 2016&quot;
-output: 
-  html_document:
-    includes:
-      in_header: encabezado.html
----</code></pre>
+<div class="figure">
+<img src="C:/post/2020-02-27-informes-html-con-rmarkdown_files/informecaudales.png" alt="informes html con rmarkdown" />
+<p class="caption">informes html con rmarkdown</p>
+</div>
 </div>
 <div id="insertar-tablas" class="section level2">
-<h2>insertar tablas</h2>
-<pre class="r"><code>knitr::kable(mtcars[1:5,, 1:5], caption = &quot;A table caption&quot;)</code></pre>
-<pre><code>## Warning in if (drop) {: la condición tiene longitud &gt; 1 y sólo el primer
-## elemento será usado</code></pre>
-<table>
-<caption><span id="tab:table">Table 1: </span>A table caption</caption>
-<thead>
-<tr class="header">
-<th></th>
-<th align="right">mpg</th>
-<th align="right">cyl</th>
-<th align="right">disp</th>
-<th align="right">hp</th>
-<th align="right">drat</th>
-<th align="right">wt</th>
-<th align="right">qsec</th>
-<th align="right">vs</th>
-<th align="right">am</th>
-<th align="right">gear</th>
-<th align="right">carb</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Mazda RX4</td>
-<td align="right">21.0</td>
-<td align="right">6</td>
-<td align="right">160</td>
-<td align="right">110</td>
-<td align="right">3.90</td>
-<td align="right">2.620</td>
-<td align="right">16.46</td>
-<td align="right">0</td>
-<td align="right">1</td>
-<td align="right">4</td>
-<td align="right">4</td>
-</tr>
-<tr class="even">
-<td>Mazda RX4 Wag</td>
-<td align="right">21.0</td>
-<td align="right">6</td>
-<td align="right">160</td>
-<td align="right">110</td>
-<td align="right">3.90</td>
-<td align="right">2.875</td>
-<td align="right">17.02</td>
-<td align="right">0</td>
-<td align="right">1</td>
-<td align="right">4</td>
-<td align="right">4</td>
-</tr>
-<tr class="odd">
-<td>Datsun 710</td>
-<td align="right">22.8</td>
-<td align="right">4</td>
-<td align="right">108</td>
-<td align="right">93</td>
-<td align="right">3.85</td>
-<td align="right">2.320</td>
-<td align="right">18.61</td>
-<td align="right">1</td>
-<td align="right">1</td>
-<td align="right">4</td>
-<td align="right">1</td>
-</tr>
-<tr class="even">
-<td>Hornet 4 Drive</td>
-<td align="right">21.4</td>
-<td align="right">6</td>
-<td align="right">258</td>
-<td align="right">110</td>
-<td align="right">3.08</td>
-<td align="right">3.215</td>
-<td align="right">19.44</td>
-<td align="right">1</td>
-<td align="right">0</td>
-<td align="right">3</td>
-<td align="right">1</td>
-</tr>
-<tr class="odd">
-<td>Hornet Sportabout</td>
-<td align="right">18.7</td>
-<td align="right">8</td>
-<td align="right">360</td>
-<td align="right">175</td>
-<td align="right">3.15</td>
-<td align="right">3.440</td>
-<td align="right">17.02</td>
-<td align="right">0</td>
-<td align="right">0</td>
-<td align="right">3</td>
-<td align="right">2</td>
-</tr>
-</tbody>
-</table>
-<p>Para dar formatos a las tablas podemos usar tambien la extensión <code>kableExtra</code>.</p>
-<pre class="markdown"><code>## pestañas {.tabset}
+<h2>Insertar tablas</h2>
+<p>Como se trata de dar dinamismo, cuando la salida es web <em>html</em>, en vez de recurrir a imprimir las tablas con <code>knitr</code>, <code>kable</code> o <code>kableExtra</code> así:</p>
+<pre class="r"><code>knitr::kable(head(iris,10), caption = &quot;Tabla Iris&quot;)</code></pre>
+<p>prefiero usar la <a href="https://rstudio.github.io/DT/" target="_blank" rel="noopener"><span>librería DT</span> </a>, que es un <a href="../shiny-facil-con-flexdashboard-ii">htmlwidget</a> muy bueno, al que podemos meter filtros y mucha personalización:</p>
+<pre class="r"><code>library(DT)
+datatable(head(iris,80),class = &#39;cell-border stripe&#39;,options = list(
+  pageLength = 5, autoWidth = TRUE
+))</code></pre>
+<div id="htmlwidget-1" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-1">{"x":{"filter":"none","data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","56","57","58","59","60","61","62","63","64","65","66","67","68","69","70","71","72","73","74","75","76","77","78","79","80"],[5.1,4.9,4.7,4.6,5,5.4,4.6,5,4.4,4.9,5.4,4.8,4.8,4.3,5.8,5.7,5.4,5.1,5.7,5.1,5.4,5.1,4.6,5.1,4.8,5,5,5.2,5.2,4.7,4.8,5.4,5.2,5.5,4.9,5,5.5,4.9,4.4,5.1,5,4.5,4.4,5,5.1,4.8,5.1,4.6,5.3,5,7,6.4,6.9,5.5,6.5,5.7,6.3,4.9,6.6,5.2,5,5.9,6,6.1,5.6,6.7,5.6,5.8,6.2,5.6,5.9,6.1,6.3,6.1,6.4,6.6,6.8,6.7,6,5.7],[3.5,3,3.2,3.1,3.6,3.9,3.4,3.4,2.9,3.1,3.7,3.4,3,3,4,4.4,3.9,3.5,3.8,3.8,3.4,3.7,3.6,3.3,3.4,3,3.4,3.5,3.4,3.2,3.1,3.4,4.1,4.2,3.1,3.2,3.5,3.6,3,3.4,3.5,2.3,3.2,3.5,3.8,3,3.8,3.2,3.7,3.3,3.2,3.2,3.1,2.3,2.8,2.8,3.3,2.4,2.9,2.7,2,3,2.2,2.9,2.9,3.1,3,2.7,2.2,2.5,3.2,2.8,2.5,2.8,2.9,3,2.8,3,2.9,2.6],[1.4,1.4,1.3,1.5,1.4,1.7,1.4,1.5,1.4,1.5,1.5,1.6,1.4,1.1,1.2,1.5,1.3,1.4,1.7,1.5,1.7,1.5,1,1.7,1.9,1.6,1.6,1.5,1.4,1.6,1.6,1.5,1.5,1.4,1.5,1.2,1.3,1.4,1.3,1.5,1.3,1.3,1.3,1.6,1.9,1.4,1.6,1.4,1.5,1.4,4.7,4.5,4.9,4,4.6,4.5,4.7,3.3,4.6,3.9,3.5,4.2,4,4.7,3.6,4.4,4.5,4.1,4.5,3.9,4.8,4,4.9,4.7,4.3,4.4,4.8,5,4.5,3.5],[0.2,0.2,0.2,0.2,0.2,0.4,0.3,0.2,0.2,0.1,0.2,0.2,0.1,0.1,0.2,0.4,0.4,0.3,0.3,0.3,0.2,0.4,0.2,0.5,0.2,0.2,0.4,0.2,0.2,0.2,0.2,0.4,0.1,0.2,0.2,0.2,0.2,0.1,0.2,0.2,0.3,0.3,0.2,0.6,0.4,0.3,0.2,0.2,0.2,0.2,1.4,1.5,1.5,1.3,1.5,1.3,1.6,1,1.3,1.4,1,1.5,1,1.4,1.3,1.4,1.5,1,1.5,1.1,1.8,1.3,1.5,1.2,1.3,1.4,1.4,1.7,1.5,1],["setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","setosa","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor","versicolor"]],"container":"<table class=\"cell-border stripe\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Sepal.Length<\/th>\n      <th>Sepal.Width<\/th>\n      <th>Petal.Length<\/th>\n      <th>Petal.Width<\/th>\n      <th>Species<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"autoWidth":true,"columnDefs":[{"className":"dt-right","targets":[1,2,3,4]},{"orderable":false,"targets":0}],"order":[],"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="links---enlaces" class="section level2">
+<h2>Links - enlaces</h2>
+<p>Las páginas web se caracterizan precisamente por los <a href="#links-enlaces">links</a>, crearlos es importante para ganar usabilidad.</p>
+<p>Un link interno se hace en R-markdown con unas reglas simples, cualquier título (de 1º, 2º,…) se convierte en link si:</p>
+<ul>
+<li>sustituyes espacios y símbolos raros por un menos: <code>-</code><br />
+</li>
+<li>pones todo en minúscula</li>
+<li>por último lo escribes en formato link de markdown <code>[texto que sale final](#titulo-destino)</code>, ojo solo una <code>#</code>.</li>
+</ul>
+<p>Ejemplo: si escribes <code>[cap anterior](#insertar-tablas)</code> obtienes este link <a href="#insertar-tablas">cap anterior</a> que va al título anterior llamado <code>## Insertar tablas</code>, ves que aunque sea tit 2 el enlace solo pone una almohadilla, que le espacio se sustituye por <code>-</code> y que la <strong>I</strong> primera es minúscula.</p>
+<p>A veces el link quieres que se abra en otra pestaña o ventana, entonces lo más fácil es usar directamente <em>HTML</em> dentro de nuestro código por ejemplo así:</p>
+<pre class="yaml"><code>&lt;a href=&quot;https://enrdados.netlify.com/post/mapa-del-tesoro/&quot;
+target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;
+&lt;span&gt;Mapas del tesoro&lt;/span&gt; &lt;/a&gt;</code></pre>
+<p>obtienes este enlace: <a href="https://enrdados.netlify.com/post/mapa-del-tesoro/" target="_blank" rel="noopener"><span>Mapas del tesoro</span> </a></p>
+</div>
+<div id="pestañas" class="section level2">
+<h2>Pestañas</h2>
+<p>Las pestañas dentro del informe son también una manera muy dinámica de mostrar cosas, datos, imágenes, y son fáciles de usar pues lo único es añadir la coletilla <code>{.tabset}</code> al título de grado 2, y los de grado 3 siguientes serán pestañas, por ejemplo:</p>
+<pre class="markdown"><code>## Pestañas {.tabset}
 
 Algo muy util es usar pestañas.
 
@@ -225,8 +163,10 @@ knitr::kable(mtcars[1:5,, 1:5], caption = &quot;A table caption&quot;)
 ```{r}
 hist(rnorm(125), col=&quot;red&quot;)
 ```</code></pre>
+<p>Obtiene algo así:</p>
+<div class="figure">
+<img src="C:/post/2020-02-27-informes-html-con-rmarkdown_files/pestanas.gif" alt="ejemplo de pestañas en informe html" />
+<p class="caption">ejemplo de pestañas en informe html</p>
 </div>
-<div id="conclusiones" class="section level2">
-<h2>conclusiones</h2>
-<p>estoi es el fin por hoy</p>
+<p>¡Hasta pronto!</p>
 </div>
