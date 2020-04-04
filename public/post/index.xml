@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Posts on EnRdados</title>
@@ -372,7 +372,6 @@ Me gustaría, ya que esto es un blog de programación en R, que los bloques de c
       
       <guid>/post/editar-a-dos-columnas/</guid>
       <description>&lt;p&gt;Suelo trabajar con unos modelos de proyecto tipo para generar documentos. Cuando inicio un nuevo proyecto los copio y cambio cosas sobre estas plantillas.&lt;/p&gt;
-
 &lt;p&gt;Hoy quería hacer un documento en formato &lt;code&gt;pdf&lt;/code&gt; con salida en &lt;strong&gt;dos columnas&lt;/strong&gt;. Es algo que ya había necesitado antes, así que me puse a buscar.&lt;/p&gt;</description>
     </item>
     
@@ -403,7 +402,6 @@ Errores con Git Para subir las cosas desde mi PC a gitHub en RSTUDIO, he usado s
       
       <guid>/post/mdbasic/</guid>
       <description>&lt;p&gt;El principal propósito de este artículo es tener a mano un resumen para los formatos básicos de markdown.&lt;/p&gt;
-
 &lt;p&gt;RSTUDIO pone a disposición de los usuarios una chuleta resumida muy bueno con gran parte de los formatos de sintaxis, pero creo conveniente ponerlo a mano también en el blog&lt;/p&gt;</description>
     </item>
     

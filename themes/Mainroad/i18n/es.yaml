@@ -4,12 +4,16 @@
 
 - id: menu_label
   translation: "Menú"
+
 - id: sidemenu_title
-  translation: Menu
+  translation: "Menú"
 
 # Post meta
 - id: meta_lastmod
   translation: "Última modificación"
+
+- id: meta_translations
+  translation: "Traducciones"
 
 # Table of Contents
 - id: toc_title
@@ -28,7 +32,7 @@
 
 # Sidebar
 - id: sidebar_warning
-  translation: "Atención" 
+  translation: "Atención"
 
 - id: sidebar_recommendation
   translation: "Activa al menos un widget en la barra lateral."
@@ -36,6 +40,10 @@
 # Search widget
 - id: search_placeholder
   translation: "Buscar..."
+
+# Languages widget
+- id: languages_title
+  translation: "Idiomas"
 
 # Categories widget
 - id: categories_title
@@ -47,7 +55,7 @@
 
 # Social widget
 - id: social_title
-  translation: Social
+  translation: "Social"
 
 # Tags List widget
 - id: tags_title
@@ -55,7 +63,9 @@
 
 # Footer
 - id: footer_credits
-  translation: "Generado con <a href=\"https://bookdown.org/yihui/blogdown/\" rel=\"nofollow noopener\" target=\"_blank\">Blogdown</a>,  <a href=\"https://gohugo.io/\" rel=\"nofollow noopener\" target=\"_blank\">Hugo</a> y <a href=\"https://github.com/Vimux/Mainroad/\" rel=\"nofollow noopener\" target=\"_blank\">Mainroad</a>."
+  translation:
+    "Generado con <a href=\"https://gohugo.io/\" rel=\"nofollow noopener\" target=\"_blank\">Hugo</a> y \
+    <a href=\"https://github.com/Vimux/Mainroad/\" rel=\"nofollow noopener\" target=\"_blank\">Mainroad</a>."
 
 # 404
 - id: 404_title
@@ -66,3 +76,17 @@
 
 - id: 404_linktext
   translation: "Página principal"
+
+# No posts empty state
+- id: noposts_warning_title
+  translation: "¡Todavía no hay publicaciones!"
+
+- id: noposts_warning_description
+  translation:
+    "Una vez que publiques algo en cualquier carpeta (sección) dentro del directorio <b>content</b>, se verá aquí. \
+    Sólo una sección (la que tenga más publicaciones) se mostrará por defecto en la página principal."
+
+- id: noposts_warning_tip
+  translation:
+    "<b>Aviso:</b> Puedes mostrar tantas secciones como gustes con el parámetro de configuración \
+    <b><a href=\"https://gohugo.io/functions/where/#mainsections\" rel=\"nofollow noopener\" target=\"_blank\">mainSections</a></b>."

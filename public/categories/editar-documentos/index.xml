@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Editar Documentos on EnRdados</title>
+    <title>editar documentos on EnRdados</title>
     <link>/categories/editar-documentos/</link>
-    <description>Recent content in Editar Documentos on EnRdados</description>
+    <description>Recent content in editar documentos on EnRdados</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>es</language>
     <lastBuildDate>Tue, 03 Mar 2020 00:00:00 +0000</lastBuildDate>
@@ -69,7 +69,6 @@ Me gustaría, ya que esto es un blog de programación en R, que los bloques de c
       
       <guid>/post/editar-a-dos-columnas/</guid>
       <description>&lt;p&gt;Suelo trabajar con unos modelos de proyecto tipo para generar documentos. Cuando inicio un nuevo proyecto los copio y cambio cosas sobre estas plantillas.&lt;/p&gt;
-
 &lt;p&gt;Hoy quería hacer un documento en formato &lt;code&gt;pdf&lt;/code&gt; con salida en &lt;strong&gt;dos columnas&lt;/strong&gt;. Es algo que ya había necesitado antes, así que me puse a buscar.&lt;/p&gt;</description>
     </item>
     

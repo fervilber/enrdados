@@ -7,5 +7,4 @@ categories:
   - ""
 tags:
   - ""
-toc: true
 ---

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Categories on EnRdados</title>
@@ -6,12 +6,13 @@
     <description>Recent content in Categories on EnRdados</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>es</language>
+    <lastBuildDate>Tue, 03 Mar 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/categories/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Diseño</title>
+      <title>diseño</title>
       <link>/categories/dise%C3%B1o/</link>
       <pubDate>Tue, 03 Mar 2020 00:00:00 +0000</pubDate>
       
@@ -20,7 +21,7 @@
     </item>
     
     <item>
-      <title>Editar Documentos</title>
+      <title>editar documentos</title>
       <link>/categories/editar-documentos/</link>
       <pubDate>Tue, 03 Mar 2020 00:00:00 +0000</pubDate>
       
@@ -29,56 +30,11 @@
     </item>
     
     <item>
-      <title>Educación</title>
-      <link>/categories/educaci%C3%B3n/</link>
-      <pubDate>Fri, 08 Nov 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/categories/educaci%C3%B3n/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Gis</title>
-      <link>/categories/gis/</link>
-      <pubDate>Tue, 03 Sep 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/categories/gis/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Mapas</title>
-      <link>/categories/mapas/</link>
-      <pubDate>Tue, 03 Sep 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/categories/mapas/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Markdown</title>
+      <title>markdown</title>
       <link>/categories/markdown/</link>
       <pubDate>Tue, 03 Mar 2020 00:00:00 +0000</pubDate>
       
       <guid>/categories/markdown/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Modelos</title>
-      <link>/categories/modelos/</link>
-      <pubDate>Mon, 04 Mar 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/categories/modelos/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Programas</title>
-      <link>/categories/programas/</link>
-      <pubDate>Mon, 27 Jan 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/categories/programas/</guid>
       <description></description>
     </item>
     
@@ -97,6 +53,51 @@
       <pubDate>Thu, 06 Feb 2020 00:00:00 +0000</pubDate>
       
       <guid>/categories/shiny/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>programas</title>
+      <link>/categories/programas/</link>
+      <pubDate>Mon, 27 Jan 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/categories/programas/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>educación</title>
+      <link>/categories/educaci%C3%B3n/</link>
+      <pubDate>Fri, 08 Nov 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/categories/educaci%C3%B3n/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>GIS</title>
+      <link>/categories/gis/</link>
+      <pubDate>Tue, 03 Sep 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/categories/gis/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>mapas</title>
+      <link>/categories/mapas/</link>
+      <pubDate>Tue, 03 Sep 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/categories/mapas/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>modelos</title>
+      <link>/categories/modelos/</link>
+      <pubDate>Mon, 04 Mar 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/categories/modelos/</guid>
       <description></description>
     </item>
     
