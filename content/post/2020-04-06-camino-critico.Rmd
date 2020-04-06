@@ -1,0 +1,132 @@
+---
+title: Camino crítico y Gantt de un Proyecto
+author: F.VilBer
+date: '2020-04-06'
+slug: camino-critico
+categories:
+  - R
+tags:
+  - graficas
+  - gráficos
+  - R
+description: 'Cómo calcular el camino crítico de una obra con R'
+thumbnail: '/post/2020-04-06-camino-critico_files/camcritiq.png'
+---
+
+Los ingenieros llamamos camino crítico a la secuencia de actividades que determinan el tiempo más corto en el que es posible terminar una obra. Indica por tanto la duración mínima del proyecto, cualquier retraso en una actividad del camino crítico afecta a la fecha fin de las obras.
+
+En este artículo, vamos a ver una forma sencilla de calcular la ruta crítica con R y además aprovecharemos para usar la librería [timevis](https://github.com/daattali/timevis) que hace líneas temporales con una salida gráfica muy atractiva y dinámica que podemos usar en nuestros proyectos de <a href="../Shiny-facil-con-flexdashboard" target="_blank" rel="noopener"><span>shiny</span> </a>.
+
+
+## Datos de partida
+
+Para empezar con el cálculo de una ruta crítica necesitamos antes hacer una lista con las actividades las actividades que contempla el proyecto, la duración de cada actividad y el orden en el cuál deben ser realizadas.
+
+Hay que tener en cuenta que algunas actividades sólo se pueden desarrollar cuando una o varias actividades previas o predecesoras han sido completadas.
+
+Vamos a poner como ejemplo una obra de reforma, con las actividades principales que se muestran en la tabla siguiente.
+
+```{r lista_actividades,echo=FALSE, warning=FALSE, message=FALSE}
+  obra<-data.frame(
+    id=c(1:11),
+    name=c("1.Derribos","2.Ayudas-Instal","3.Albañilería","4.Instalaciones","5.Revestimientos","6.Pladur", "7.Carpintería","8.Equipamiento", "9.Pintura", "10.Limpieza","11.D.O"),
+    duration=c(4,2,25,12,5,7,3,6,3,2,40),
+    pred=c("","1","1,2","1,2","4","3,4,5","6","4,5","6,7,8","6,7,8,9","")
+  )
+  aux<-names(obra)
+  names(obra)<-c("id","Actividad","Duracion","Predecesor")
+#  knitr::kable(obra[,-1], caption = "Actividades obra")
+#Vemos los datos
+library(DT)
+datatable(obra,class = 'cell-border stripe',options = list(
+  pageLength = 6, autoWidth = TRUE
+))
+  names(obra)<-aux
+```
+
+Una vez tenemos esta tabla de actividades, vamos a calcular el camino crítico.
+
+## Cálculo del camino crítico
+Para calcularlo uso una librería llamada `projmanr` hecha por <a href="https://github.com/bgreenawald/projmanr" target="_blank" rel="noopener"><span>bgreenawald</span> </a>. Es un paquete que ya no está en CRAN, y por tanto hay que instalar desde *github* mediante la función `devtools`, así:
+
+```{r eval=FALSE}
+# Primera vez, instalar paquete con devtools 
+# 1. instalar devtools
+install.packages("devtools")
+
+# 2. Instalar la librería desde github
+devtools::install_github("bgreenawald/projmanr")
+```
+
+Caso de dar problemas en la instalación (pues el paquete lleva tiempo parado y no se actualiza), una solución es ir a CRAN y descargar [el zip de alguna versión anterior](https://cran.r-project.org/src/contrib/Archive/projmanr/) e instalarlo manualmente.
+
+Otra es buscar un paquete alternativo, pero no me he parado a buscar mucho (si alguno sabe de alguna librería alternativa que nos lo diga en comentarios, por favor), pues algunos paquetes como `plspm`, `projmgr`, seguro que lo hacen también, pero no los he usado todavía.
+
+## Cálculo CC
+Vamos con el ejemplo, lo que hacemos es meter la tabla anterior de las actividades de obra, su duración (en días) y los predecesores (qué actividad-es debe estar finalizada para poder empezar la actual) en un `data.frame` así:
+
+```{r obras}
+# cargamos datos de la obra, como data.frame en la variable obra
+obra<-data.frame(
+  id=c(1:10),
+  name=c("1.Derribos","2.ayudas.Albañil","3.Albañilería","4.Instalaciones","5.Revestimientos","6.Pladur", "7.Carpintería","8.Equipamiento", "9.Pintura", "10.Limpieza"),
+  duration=c(4,2,25,12,5,7,3,6,3,2),
+  pred=c("","1","1,2","1,2","4","3,4,5","6","4,5","6,7,8","6,7,8,9")
+)
+
+```
+
+Después cargamos la librería, y vemos los datos y las relaciones entre ellos con la función `network_diagram()` y calculamos el camino crítico con la función `critical_path()`. en este ejmplo ponemos una fecha inical de la obra (start_date), si no se pone asume que es la fecha de cálculo actual. 
+
+```{r}
+# Cargamod el paquete
+  library(projmanr)
+# Creamos un diagrama de red usando los datos
+  network_diagram(obra,use_name_as_label = T)
+
+# Calculamos el camino crítico y pintamos el diagrama de nuevo
+  cam_critico <- critical_path(obra, start_date="2020-06-10")
+# volvemos a pintar 
+#  network_diagram(cam_critico,use_name_as_label = T)
+  network_diagram(cam_critico,use_name_as_label = F)
+
+```
+
+La función `critical_path()` da como resultado una variable tipo *lista*, con muchas cosas, entre ellas una data frame denominado `result` que nos será útil para pintar el diagrama de Gantt. Una de las columnas de esta tabla es *is_critical* que es verdadero si la actividad forma parte del camino crítico.
+
+```{r ver_resultadocc}
+
+datatable(cam_critico$results,class = 'cell-border stripe',options = list(
+  pageLength = 6, autoWidth = TRUE
+))
+```
+
+## Diagrama de Gantt
+Una vez calculado el camino crítico, vamos a pintar el *diagrama de Gantt* típico que metemos en los proyectos usando la librería `timevis`. El código y descarga está disponible en su web de github: <a href="https://github.com/daattali/timevis" target="_blank" rel="noopener"><span>timevis</span> </a>. como podréis comprobar admite su uso en *Shiny*, como otro *htmlwidgets* por lo que podemos incorporarlo al repertorio para nuestras aplicaciones web como vimos [en anteriores artículos de este blog](../Shiny-facil-con-flexdashboard-iv) usando las funciones `timevisOutput()` y `renderTimevis(timevis())`.
+
+Para pintar el Gantt, cargamos el paquete y lo único que vamos a hacer es cambiar los nombres de las columnas de la data.frame, por los que usa `timevis` por defecto, es decir cambiamos `name` por `content` y de las columnas `start_date` y `end_date` quitamos el "_date".
+
+Para el estilo y colores de la gráfica se usa una nueva columna llamada `style` en la que definimos el CSS de estilo de cada tipo, en nuestro caso, letras negras con fondo rojo para el camino crítico, azul para el resto de actividades. 
+
+```{r}
+# Instalar el paquete caso de no tenerlo ya
+#   install.packages("timevis")
+  library(timevis)
+# guardamos el data.frame resultado de la lista de camimo crítico en df
+  df<-cam_critico$results
+# camniamos los nombres alos que usa timevis
+  names(df)<-c("id","content","start","end","duration" , "is_critical", "pred_id")
+# Definimos el estilo de los gráficos, por ejemplo de rojo el camino crítico
+  df$style<- ifelse(df$is_critical,"color: black;background:red","color: blue")
+# Pintamos el diagramam de Gantt dinámico
+  timevis(df)
+```
+
+
+## Conclusiones
+
+Hemos dibujado el típico diagrama de Gantt de un proyecto de obras y calculado el camino crítico haciendo uso de dos librerías de R: `projmanr` y `timevis`. 
+
+Espero que os sea útil, y que si conocéis otra librería que calcule caminos críticos me lo digáis en comentarios, para probarla.
+
+¡Saludos desde la cuarentena y suerte que nos hace falta!

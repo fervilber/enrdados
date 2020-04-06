@@ -1,0 +1,117 @@
+---
+title: Camino crítico y Gantt de un Proyecto
+author: F.VilBer
+date: '2020-04-06'
+slug: camino-critico
+categories:
+  - R
+tags:
+  - graficas
+  - gráficos
+  - R
+description: 'Cómo calcular el camino crítico de una obra con R'
+thumbnail: '/post/2020-04-06-camino-critico_files/camcritiq.png'
+---
+
+<script src="/rmarkdown-libs/htmlwidgets/htmlwidgets.js"></script>
+<script src="/rmarkdown-libs/jquery/jquery.min.js"></script>
+<link href="/rmarkdown-libs/datatables-css/datatables-crosstalk.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/datatables-binding/datatables.js"></script>
+<link href="/rmarkdown-libs/dt-core/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="/rmarkdown-libs/dt-core/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/dt-core/js/jquery.dataTables.min.js"></script>
+<link href="/rmarkdown-libs/crosstalk/css/crosstalk.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/crosstalk/js/crosstalk.min.js"></script>
+<link href="/rmarkdown-libs/vis/vis.min.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/vis/vis.min.js"></script>
+<link href="/rmarkdown-libs/timeline/timevis.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/timevis-binding/timevis.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="/rmarkdown-libs/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/bootstrap/js/bootstrap.min.js"></script>
+<script src="/rmarkdown-libs/bootstrap/shim/html5shiv.min.js"></script>
+<script src="/rmarkdown-libs/bootstrap/shim/respond.min.js"></script>
+
+
+<p>Los ingenieros llamamos camino crítico a la secuencia de actividades que determinan el tiempo más corto en el que es posible terminar una obra. Indica por tanto la duración mínima del proyecto, cualquier retraso en una actividad del camino crítico afecta a la fecha fin de las obras.</p>
+<p>En este artículo, vamos a ver una forma sencilla de calcular la ruta crítica con R y además aprovecharemos para usar la librería <a href="https://github.com/daattali/timevis">timevis</a> que hace líneas temporales con una salida gráfica muy atractiva y dinámica que podemos usar en nuestros proyectos de <a href="../Shiny-facil-con-flexdashboard" target="_blank" rel="noopener"><span>shiny</span> </a>.</p>
+<div id="datos-de-partida" class="section level2">
+<h2>Datos de partida</h2>
+<p>Para empezar con el cálculo de una ruta crítica necesitamos antes hacer una lista con las actividades las actividades que contempla el proyecto, la duración de cada actividad y el orden en el cuál deben ser realizadas.</p>
+<p>Hay que tener en cuenta que algunas actividades sólo se pueden desarrollar cuando una o varias actividades previas o predecesoras han sido completadas.</p>
+<p>Vamos a poner como ejemplo una obra de reforma, con las actividades principales que se muestran en la tabla siguiente.</p>
+<div id="htmlwidget-1" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-1">{"x":{"filter":"none","data":[["1","2","3","4","5","6","7","8","9","10","11"],[1,2,3,4,5,6,7,8,9,10,11],["1.Derribos","2.Ayudas-Instal","3.Albañilería","4.Instalaciones","5.Revestimientos","6.Pladur","7.Carpintería","8.Equipamiento","9.Pintura","10.Limpieza","11.D.O"],[4,2,25,12,5,7,3,6,3,2,40],["","1","1,2","1,2","4","3,4,5","6","4,5","6,7,8","6,7,8,9",""]],"container":"<table class=\"cell-border stripe\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>id<\/th>\n      <th>Actividad<\/th>\n      <th>Duracion<\/th>\n      <th>Predecesor<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":6,"autoWidth":true,"columnDefs":[{"className":"dt-right","targets":[1,3]},{"orderable":false,"targets":0}],"order":[],"orderClasses":false,"lengthMenu":[6,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
+<p>Una vez tenemos esta tabla de actividades, vamos a calcular el camino crítico.</p>
+</div>
+<div id="cálculo-del-camino-crítico" class="section level2">
+<h2>Cálculo del camino crítico</h2>
+<p>Para calcularlo uso una librería llamada <code>projmanr</code> hecha por <a href="https://github.com/bgreenawald/projmanr" target="_blank" rel="noopener"><span>bgreenawald</span> </a>. Es un paquete que ya no está en CRAN, y por tanto hay que instalar desde <em>github</em> mediante la función <code>devtools</code>, así:</p>
+<pre class="r"><code># Primera vez, instalar paquete con devtools 
+# 1. instalar devtools
+install.packages(&quot;devtools&quot;)
+
+# 2. Instalar la librería desde github
+devtools::install_github(&quot;bgreenawald/projmanr&quot;)</code></pre>
+<p>Caso de dar problemas en la instalación (pues el paquete lleva tiempo parado y no se actualiza), una solución es ir a CRAN y descargar <a href="https://cran.r-project.org/src/contrib/Archive/projmanr/">el zip de alguna versión anterior</a> e instalarlo manualmente.</p>
+<p>Otra es buscar un paquete alternativo, pero no me he parado a buscar mucho (si alguno sabe de alguna librería alternativa que nos lo diga en comentarios, por favor), pues algunos paquetes como <code>plspm</code>, <code>projmgr</code>, seguro que lo hacen también, pero no los he usado todavía.</p>
+</div>
+<div id="cálculo-cc" class="section level2">
+<h2>Cálculo CC</h2>
+<p>Vamos con el ejemplo, lo que hacemos es meter la tabla anterior de las actividades de obra, su duración (en días) y los predecesores (qué actividad-es debe estar finalizada para poder empezar la actual) en un <code>data.frame</code> así:</p>
+<pre class="r"><code># cargamos datos de la obra, como data.frame en la variable obra
+obra&lt;-data.frame(
+  id=c(1:10),
+  name=c(&quot;1.Derribos&quot;,&quot;2.ayudas.Albañil&quot;,&quot;3.Albañilería&quot;,&quot;4.Instalaciones&quot;,&quot;5.Revestimientos&quot;,&quot;6.Pladur&quot;, &quot;7.Carpintería&quot;,&quot;8.Equipamiento&quot;, &quot;9.Pintura&quot;, &quot;10.Limpieza&quot;),
+  duration=c(4,2,25,12,5,7,3,6,3,2),
+  pred=c(&quot;&quot;,&quot;1&quot;,&quot;1,2&quot;,&quot;1,2&quot;,&quot;4&quot;,&quot;3,4,5&quot;,&quot;6&quot;,&quot;4,5&quot;,&quot;6,7,8&quot;,&quot;6,7,8,9&quot;)
+)</code></pre>
+<p>Después cargamos la librería, y vemos los datos y las relaciones entre ellos con la función <code>network_diagram()</code> y calculamos el camino crítico con la función <code>critical_path()</code>. en este ejmplo ponemos una fecha inical de la obra (start_date), si no se pone asume que es la fecha de cálculo actual.</p>
+<pre class="r"><code># Cargamod el paquete
+  library(projmanr)
+# Creamos un diagrama de red usando los datos
+  network_diagram(obra,use_name_as_label = T)</code></pre>
+<p><img src="/post/2020-04-06-camino-critico_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<pre class="r"><code># Calculamos el camino crítico y pintamos el diagrama de nuevo
+  cam_critico &lt;- critical_path(obra, start_date=&quot;2020-06-10&quot;)
+# volvemos a pintar 
+#  network_diagram(cam_critico,use_name_as_label = T)
+  network_diagram(cam_critico,use_name_as_label = F)</code></pre>
+<p><img src="/post/2020-04-06-camino-critico_files/figure-html/unnamed-chunk-2-2.png" width="672" /></p>
+<p>La función <code>critical_path()</code> da como resultado una variable tipo <em>lista</em>, con muchas cosas, entre ellas una data frame denominado <code>result</code> que nos será útil para pintar el diagrama de Gantt. Una de las columnas de esta tabla es <em>is_critical</em> que es verdadero si la actividad forma parte del camino crítico.</p>
+<pre class="r"><code>datatable(cam_critico$results,class = &#39;cell-border stripe&#39;,options = list(
+  pageLength = 6, autoWidth = TRUE
+))</code></pre>
+<div id="htmlwidget-2" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-2">{"x":{"filter":"none","data":[["1","2","3","4","5","6","7","8","9","10"],["1","2","3","4","5","6","7","8","9","10"],["1.Derribos","2.ayudas.Albañil","3.Albañilería","4.Instalaciones","5.Revestimientos","6.Pladur","7.Carpintería","8.Equipamiento","9.Pintura","10.Limpieza"],["2020-06-10","2020-06-14","2020-06-16","2020-06-16","2020-06-28","2020-07-11","2020-07-18","2020-07-03","2020-07-21","2020-07-24"],["2020-06-14","2020-06-16","2020-07-11","2020-06-28","2020-07-03","2020-07-18","2020-07-21","2020-07-09","2020-07-24","2020-07-26"],[4,2,25,12,5,7,3,6,3,2],[true,true,true,false,false,true,true,false,true,true],["  ","1  ","1 2  ","1 2  ","4  ","3 4 5  ","6  ","4 5  ","6 7 8  ","6 7 8 9  "]],"container":"<table class=\"cell-border stripe\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>id<\/th>\n      <th>name<\/th>\n      <th>start_date<\/th>\n      <th>end_date<\/th>\n      <th>duration<\/th>\n      <th>is_critical<\/th>\n      <th>pred_id<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":6,"autoWidth":true,"columnDefs":[{"className":"dt-right","targets":5},{"orderable":false,"targets":0}],"order":[],"orderClasses":false,"lengthMenu":[6,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="diagrama-de-gantt" class="section level2">
+<h2>Diagrama de Gantt</h2>
+<p>Una vez calculado el camino crítico, vamos a pintar el <em>diagrama de Gantt</em> típico que metemos en los proyectos usando la librería <code>timevis</code>. El código y descarga está disponible en su web de github: <a href="https://github.com/daattali/timevis" target="_blank" rel="noopener"><span>timevis</span> </a>. como podréis comprobar admite su uso en <em>Shiny</em>, como otro <em>htmlwidgets</em> por lo que podemos incorporarlo al repertorio para nuestras aplicaciones web como vimos <a href="../Shiny-facil-con-flexdashboard-iv">en anteriores artículos de este blog</a> usando las funciones <code>timevisOutput()</code> y <code>renderTimevis(timevis())</code>.</p>
+<p>Para pintar el Gantt, cargamos el paquete y lo único que vamos a hacer es cambiar los nombres de las columnas de la data.frame, por los que usa <code>timevis</code> por defecto, es decir cambiamos <code>name</code> por <code>content</code> y de las columnas <code>start_date</code> y <code>end_date</code> quitamos el "_date".</p>
+<p>Para el estilo y colores de la gráfica se usa una nueva columna llamada <code>style</code> en la que definimos el CSS de estilo de cada tipo, en nuestro caso, letras negras con fondo rojo para el camino crítico, azul para el resto de actividades.</p>
+<pre class="r"><code># Instalar el paquete caso de no tenerlo ya
+#   install.packages(&quot;timevis&quot;)
+  library(timevis)
+# guardamos el data.frame resultado de la lista de camimo crítico en df
+  df&lt;-cam_critico$results
+# camniamos los nombres alos que usa timevis
+  names(df)&lt;-c(&quot;id&quot;,&quot;content&quot;,&quot;start&quot;,&quot;end&quot;,&quot;duration&quot; , &quot;is_critical&quot;, &quot;pred_id&quot;)
+# Definimos el estilo de los gráficos, por ejemplo de rojo el camino crítico
+  df$style&lt;- ifelse(df$is_critical,&quot;color: black;background:red&quot;,&quot;color: blue&quot;)
+# Pintamos el diagramam de Gantt dinámico
+  timevis(df)</code></pre>
+<div id="htmlwidget-3" class="timevis html-widget" style="width:672px;height:480px;">
+<div class="btn-group zoom-menu">
+<button type="button" class="btn btn-default btn-lg zoom-in" title="Zoom in">+</button>
+<button type="button" class="btn btn-default btn-lg zoom-out" title="Zoom out">-</button>
+</div>
+</div>
+<script type="application/json" data-for="htmlwidget-3">{"x":{"items":[{"id":"1","content":"1.Derribos","start":"2020-06-10","end":"2020-06-14","duration":"4","is_critical":"TRUE","pred_id":"  ","style":"color: black;background:red"},{"id":"2","content":"2.ayudas.Albañil","start":"2020-06-14","end":"2020-06-16","duration":"2","is_critical":"TRUE","pred_id":"1  ","style":"color: black;background:red"},{"id":"3","content":"3.Albañilería","start":"2020-06-16","end":"2020-07-11","duration":"25","is_critical":"TRUE","pred_id":"1 2  ","style":"color: black;background:red"},{"id":"4","content":"4.Instalaciones","start":"2020-06-16","end":"2020-06-28","duration":"12","is_critical":"FALSE","pred_id":"1 2  ","style":"color: blue"},{"id":"5","content":"5.Revestimientos","start":"2020-06-28","end":"2020-07-03","duration":"5","is_critical":"FALSE","pred_id":"4  ","style":"color: blue"},{"id":"6","content":"6.Pladur","start":"2020-07-11","end":"2020-07-18","duration":"7","is_critical":"TRUE","pred_id":"3 4 5  ","style":"color: black;background:red"},{"id":"7","content":"7.Carpintería","start":"2020-07-18","end":"2020-07-21","duration":"3","is_critical":"TRUE","pred_id":"6  ","style":"color: black;background:red"},{"id":"8","content":"8.Equipamiento","start":"2020-07-03","end":"2020-07-09","duration":"6","is_critical":"FALSE","pred_id":"4 5  ","style":"color: blue"},{"id":"9","content":"9.Pintura","start":"2020-07-21","end":"2020-07-24","duration":"3","is_critical":"TRUE","pred_id":"6 7 8  ","style":"color: black;background:red"},{"id":"10","content":"10.Limpieza","start":"2020-07-24","end":"2020-07-26","duration":"2","is_critical":"TRUE","pred_id":"6 7 8 9  ","style":"color: black;background:red"}],"groups":null,"showZoom":true,"zoomFactor":0.5,"fit":true,"options":[],"height":null,"api":[]},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="conclusiones" class="section level2">
+<h2>Conclusiones</h2>
+<p>Hemos dibujado el típico diagrama de Gantt de un proyecto de obras y calculado el camino crítico haciendo uso de dos librerías de R: <code>projmanr</code> y <code>timevis</code>.</p>
+<p>Espero que os sea útil, y que si conocéis otra librería que calcule caminos críticos me lo digáis en comentarios, para probarla.</p>
+<p>¡Saludos desde la cuarentena y suerte que nos hace falta!</p>
+</div>

@@ -6,10 +6,37 @@
     <description>Recent content in Tags on EnRdados</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>es</language>
-    <lastBuildDate>Tue, 03 Mar 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 06 Apr 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>graficas</title>
+      <link>/tags/graficas/</link>
+      <pubDate>Mon, 06 Apr 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/graficas/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>gráficos</title>
+      <link>/tags/gr%C3%A1ficos/</link>
+      <pubDate>Mon, 06 Apr 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/gr%C3%A1ficos/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>R</title>
+      <link>/tags/r/</link>
+      <pubDate>Mon, 06 Apr 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/r/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>markdown</title>
@@ -48,15 +75,6 @@
     </item>
     
     <item>
-      <title>graficas</title>
-      <link>/tags/graficas/</link>
-      <pubDate>Thu, 30 Jan 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/graficas/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>formato</title>
       <link>/tags/formato/</link>
       <pubDate>Mon, 27 Jan 2020 00:00:00 +0000</pubDate>
@@ -71,15 +89,6 @@
       <pubDate>Mon, 27 Jan 2020 00:00:00 +0000</pubDate>
       
       <guid>/tags/programas/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>R</title>
-      <link>/tags/r/</link>
-      <pubDate>Wed, 04 Dec 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/r/</guid>
       <description></description>
     </item>
     
@@ -278,15 +287,6 @@
       <pubDate>Mon, 08 Apr 2019 00:00:00 +0000</pubDate>
       
       <guid>/tags/ggplot/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>gráficos</title>
-      <link>/tags/gr%C3%A1ficos/</link>
-      <pubDate>Mon, 08 Apr 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/gr%C3%A1ficos/</guid>
       <description></description>
     </item>
     
