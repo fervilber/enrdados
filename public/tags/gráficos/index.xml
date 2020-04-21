@@ -6,10 +6,19 @@
     <description>Recent content in gráficos on EnRdados</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>es</language>
-    <lastBuildDate>Mon, 06 Apr 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 21 Apr 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/gr%C3%A1ficos/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Bitcoin el dinero digital</title>
+      <link>/post/bitcoin-el-dinero-digital/</link>
+      <pubDate>Tue, 21 Apr 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/post/bitcoin-el-dinero-digital/</guid>
+      <description>Como estamos de cuarentena, he aprovechado para pasar a limpio y compartir unas notas sobre bitcoin -el dinero digital-, que tengo escritas desde hace meses. Es un tema off-topic, que me gusta, no solo por sus implicaciones reales, también por lo que supone de cambio mental, de ser tu propio banco, de aprender a cacharrear electrónica básica y desmontar PC viejos para crear dinero!</description>
+    </item>
     
     <item>
       <title>Camino crítico y Gantt de un Proyecto</title>

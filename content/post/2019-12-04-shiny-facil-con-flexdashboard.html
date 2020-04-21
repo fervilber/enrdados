@@ -20,6 +20,9 @@ toc: no
 
 <link href="/rmarkdown-libs/font-awesome/css/fontawesome-all.min.css" rel="stylesheet" />
 
+<div id="TOC">
+no
+</div>
 
 <div id="cómo-crear-aplicaciones-web-dinámicas-con-r" class="section level2">
 <h2>Cómo crear aplicaciones web dinámicas con R</h2>
@@ -68,7 +71,8 @@ toc: no
 </div>
 <div id="encabezado-yaml" class="section level2">
 <h2>Encabezado YAML</h2>
-<p>El encabezado YAML es la parte inicial de todos los ficheros <code>*.Rmd</code> delimitada por el símbolo <code>---</code>, en la que se definen las características generales de salida. Aquí normalmente ponemos el titulo, autor, fecha, y si la salida es en <em>pdf</em>, <em>html</em> así como características de márgenes etc. Al cargar <code>library(flexdashboard)</code>en R, tenemos la opción de un nuevo tipo de salida, con lo que para especificarlo debajo de output basta con escribir <code>flexdashboard::flex_dashboard:</code>.</p>
+<p>El encabezado YAML es la parte inicial de todos los ficheros <code>*.Rmd</code> delimitada por el símbolo <code>---</code>, en la que se definen las características generales de salida. Aquí normalmente ponemos el titulo, autor, fecha, y si la salida es en <em>pdf</em>, <em>html</em> así como características de márgenes etc.
+Al cargar <code>library(flexdashboard)</code>en R, tenemos la opción de un nuevo tipo de salida, con lo que para especificarlo debajo de output basta con escribir <code>flexdashboard::flex_dashboard:</code>.</p>
 <p>Veamos un ejemplo concreto:</p>
 <pre class="yaml"><code>---
 title: &quot;Mi primer tablero&quot;
@@ -84,7 +88,7 @@ output:
     theme: united
 runtime: shiny
 ---</code></pre>
-<p>Las opciones propias de flex deben introducirse debajo de la línea <code>flexdashboard::flex_dashboard:</code> y afectan al formato general de salida creado, como por ejemplo si el símbolo doble almohadilla <code>##</code> se interpreta como filas (<code>rows</code>) o columnas (<code>orientation: columns</code>), o si queremos insertar un logo para la web <code>logo: &quot;imag/logoR.png&quot;</code>, o incluir un menú con opciones de compartir en redes sociales (<code>social: menu</code>), o un botón que nos muestre el código fuente flex de la web (<code>source_code: embed</code>), o la plantilla de formato (colores y CSS) elegida (<code>theme: united</code>). Incluso si vamos a meter código shiny, para lo cual necesitamos añadir al final <code>runtime: shiny</code>.</p>
+<p>Las opciones propias de flex deben introducirse debajo de la línea <code>flexdashboard::flex_dashboard:</code> y afectan al formato general de salida creado, como por ejemplo si el símbolo doble almohadilla <code>##</code> se interpreta como filas (<code>rows</code>) o columnas (<code>orientation: columns</code>), o si queremos insertar un logo para la web <code>logo: "imag/logoR.png"</code>, o incluir un menú con opciones de compartir en redes sociales (<code>social: menu</code>), o un botón que nos muestre el código fuente flex de la web (<code>source_code: embed</code>), o la plantilla de formato (colores y CSS) elegida (<code>theme: united</code>). Incluso si vamos a meter código shiny, para lo cual necesitamos añadir al final <code>runtime: shiny</code>.</p>
 <div class="figure">
 <img src="/post/2019-12-04-shiny-facil-con-flexdashboard_files/formatoflex.png" alt="yaml" />
 <p class="caption">yaml</p>

@@ -1,0 +1,341 @@
+---
+title: Bitcoin el dinero digital
+author: F.VilBer
+date: '2020-04-21'
+slug: bitcoin-el-dinero-digital
+categories:
+  - R
+  - educación
+tags:
+  - graficas
+  - gráficos
+  - off_topic
+description: 'Bitcoin el dinero digital'
+thumbnail: '/post/2020-04-21-bitcoin-el-dinero-digital_files/portada.png'
+---
+
+Como estamos de cuarentena, he aprovechado para pasar a limpio y compartir unas notas sobre *bitcoin* -el dinero digital-, que tengo escritas desde hace meses. Es un tema off-topic, que me gusta, no solo por sus implicaciones reales, también por lo que supone de cambio mental, de ser tu propio banco, de aprender a cacharrear electrónica básica y desmontar PC viejos para crear dinero!!! si esto era así hace unos pocos años.
+
+Y visto que estamos en plena crisi y tiempos complejos de ultra control de los Estados y organizaciones, creo que saber de Bitcoin nos hace un poco más libres, ¡vamos¡:
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+```
+
+## Índice
+
+ * [Introducción](#introducción)
+ * [¿Quién creó Bitcoin? ](#quien-creó-bitcoin)
+ * [¿Qué es Bitcoin](#qué-es-bitcoin)
+ * [Innovación en bitcoin](#innovacion-en-bitcoin)
+ * [Nodos](#nodos)
+ * [Minería](#minería) 
+ * [hash](#hash)
+ * [Criptografía](#criptografía)
+ * [Cadena de Bloques](#cadena-de-bloques)
+ * [Carteras](#carteras)
+ * [pool de mineros](#pool-de-mineros)
+ * [Bitcoin con R](#bitcoin-con-r)
+ 
+ 
+## Introducción
+
+BITCOIN es un invento digital que puede actuar como dinero, pero en el fondo es algo más poderoso, más complejo y mucho más revolucionario que el simple uso como dinero.
+
+Empecemos por decir que se trata de varias cosas, un protocolo, una unidad de moneda, una red distribuida. Los bitcoins, como unidad de moneda, se utilizan para almacenar y transmitir valor entre los participantes en el ecosistema y red de bitcoin. Lo hacen comunicándose a través de Internet usando diferentes de máquinas, aplicaciones y dispositivos. 
+
+Cambien es un protocolo y una red, parecido al email, o a Internet, pero a diferencia de estas redes, la red BITCOIN transmite no solo información, esta red transmite VALOR y además lo hace sin pasar por ninguna institución financiera, sin una entidad centralizada de control, sin un gobierno único.
+
+Es una red en la que podemos CONFIAR, a pesar de no estar gobernada por ningún particular, por ninguna empresa, ni estado. Esta confianza se refiere a que la configuración interna, matemática de la misma red que está pensada para evitar el fraude, para impedir abusos, desigualdades y colapsos.
+
+
+## ¿Quién creó Bitcoin? 
+
+Nadie lo sabe realmente, solo se conoce que una persona o grupo de personas denominado como *Satoshi Nakamoto* empezó a escribir asiduamente en un foro del que surgió un documento técnico titulado: [Bitcoin: a Peer-to-Peer Electronic Cash System](https://bitcoin.org/bitcoin.pdf) [o en español](https://bitcoin.org/files/bitcoin-paper/bitcoin_es.pdf), el 31 de octubre de 2008, unos meses después de que el dominio *bitcoin.org* fuese registrado en la web (18 de agosto de 2008).
+
+Este artículo y las ideas de Satoshi empezaron a circular por foros y listas de correo de criptografía [aquí puedes ver lo mensajes originales de Satoshi en una de esas listas](https://www.mail-archive.com/cryptography@metzdowd.com/msg09971.html) y a partir de esto comenzó todo. En enero de 2009, se ejecutó la primera aplicación de código abierto de la red bitcoin con una emisión inicial de 50 bitcoins.
+
+Nunca podremos conocer la identidad del creador original, parece que fue tan prudente y consciente transcendental importancia de su invento que pudo controlar el ego y mantener su privacidad como uno de los grandes misterios de bitcoin.
+
+## ¿Qué es Bitcoin?
+Bitcoin es una moneda digital que permite transacciones confiables entre desconocidos, evitando el doble gasto. Para mantener este sistema se crea una red P2P que usa la prueba de trabajo para almacenar un registro histórico de todas las transacciones. El artículo original hace referencia a que la red crea una sistema en el que una CPU es un voto, de manera que se distribuye el poder y control de la red entre los que aportan trabajo por mantenerla.
+
+Los fundadores establecieron además estas reglas de partida:
+
+ - Se limita la emisión a un total de 21 millones de *monedas* BTC, a través de un sistema de recompensas a los que apoyen la red de minando de bloques.
+ - se creó una nueva tecnología distribuida llamada cadena de bloques (blockchain) que será la base de datos común de las transacciones.
+ - No hay censura, nadie puede impedir la confirmación de transacciones válidas.
+ - el código fuente siempre debe estar abierto para que cualquiera pueda leerlo, modificarlo, entenderlo, copiarlo o compartirlo.
+ - No hay autoridad que impida a nadie ser parte de la red.
+ - Fungible: todas las monedas son iguales
+ - Las transacciones son irreversibles, los bloques confirmados en la blockchain son inmutables.
+
+No hay una autoridad central que acuñe o controle el valor de un bitcoin, no hay banco central o gobierno. El control se gestiona, mantiene y declara a través de cada participante individual en la red.
+
+Esto significa que cada partícipe pasa a ser su propio banco. Bitcoin no tiene fronteras y no requiere el permiso de nadie para ser utilizado. Es resistente a la censura e imposible de detener. Bitcoins y las transacciones entre participantes son rápidas, seguras y relativamente baratas.
+ 
+También es una red transparente, aunque **no anónima**. Los participantes pueden enviar y recibir valor sin tener que identificarse, sin compartir información personal como nombres o direcciones, pero al mismo tiempo todas las transacciones se registran en la cadena de bloques, por lo que el historial de cuentas es público, aunque no se relacionen con personas o empresas concretas.
+ 
+
+## Innovación en bitcoin
+Una de las novedades que introdujo bitcoin es la **cadena de bloques**, el éxito de esta idea ha hecho que se multipliquen sus aplicaciones incluso fuera del ecosistema cripto.
+
+Se trata de lo siguiente: imaginemos un bloque como un objeto que puede contener información, por ejemplo una hoja de papel en la que apuntamos cosas, en el caso de bitcoin, anotamos *transacciones*:
+
+ - Pepe pasa 3 monedas a María
+ - Juan pasa 50 monedas a EmpresasRubio
+ - …
+	
+La información de varias transacciones agrupadas en una hoja junto con el encabezado y otros apartados del folio es lo que llamamos *bloque*, y estos bloques se van grapando de forma secuencial juntos en un *libro*, este *libro mayor de cuentas* lo denominamos cadena de bloques o *blockchain*.
+
+Más adelante profundizaremos en esto,por ahora solo resaltamos que la innovación que aporta BITCOIN para que el libro de cuentas sea inmutable, y que no sea posible, por ejemplo, cambiar la página 23 por otra diferente, es enlazar las páginas o bloques unos con otros con una marca temporal que liga al bloque padre con el hijo de **manera irreversible**. Cada nuevo bloque firma el anterior y se engancha fuertemente como un eslabón más de la cadena formando así la CADENA de BLOQUES.
+
+## Nodos
+Bitcoin es también una red de computadores con arquitectura *Peer to Peer* o *P2P* sobre Internet compuesta por nodos (computadoras) iguales que actúan tanto como cliente como servidores. Es una red distribuida, porque no hay ningún nodo central o jerarquía, ni es necesario autorización para entrar en esta red.
+
+
+![red distribuida](/post/2020-04-21-bitcoin-el-dinero-digital_files/red_btc.png)
+
+Cada nodo puede ejercer distintos roles sobre la red bitcoin:
+
+ 1. nodo de **carteras** (Wallet)
+ 2. nodo de **minería** (Miner)
+ 3. nodo de base de datos o **Cadena de Bloques** (Full Blockchain)
+ 4. nodo de **enrutamiento** de red (Network Routing Node)
+
+Todos los nodos incluyen la función de *enrutamiento* para participar en la red, y pueden incluir o no el resto de funciones. Es decir, todos los nodos validan y propaga las transacciones y bloques y mantiene las conexiones con los nodos cercanos, pero solo algunos minan por ejemplo.
+
+Se denominan nodos completos a los que, además de enrutamiento mantienen una copia actualizada de la cadena de bloques. Estos nodos pueden verificar una transacción de manera autónoma. Hay versiones reducidas en los llamados nodos SPV que mantienen una copia parcial ligera de la cadena y se usan como carteras.
+
+Podemos tener una idea del número de nodos actual de la red en webs como esta [coin.dance](https://coin.dance/nodes), donde vemos que hoy en día existen unos 10.000 nodos.
+
+## Minería 
+Bitcoin es un sistema distribuido en el que cada nodo actúa expandiendo la información a otros, y algunos además son mineros, esto significa que participan con poder de cálculo en la resolución del algoritmo de bloque. 
+
+Los mineros son los nodos encargados del control de la red, de los trabajos de sincronización, de confirmación de transacciones y emisión **controlada** de nueva monedas. Los nodos tiene el poder de voto sobre la red, deciden su futuro, y en el caso de bitcoin, es una democracia directa una CPU un voto, mediante el poder de la fuerza de trabajo de los mineros.
+
+La minería de bitcoin es similar a minería real, donde los mineros se meten en una galería bajo tierra a picar las paredes de roca en busca de pepitas de oro.
+
+
+![minero de btc](/post/2020-04-21-bitcoin-el-dinero-digital_files/gold-miner.jpg)
+
+En el caso de Bitcoin, los mineros son computadoras especializadas en resolver problema matemático (criptográfico) por fuerza bruta, el que primero lo resuelve se queda con el bloque actual, imprime el *nonce* y *hash* descubierto, crea un nuevo bloque y lo transmite al resto de nodos, llevándose además, como recompensa la primera transacción del nuevo bloque, llamada **coinbase**.
+
+La competición de los mineros es un problema criptográfico sencillo, pero que sólo puede resolverse por cálculo bruto, aleatorio y masivo. Hay que probar una a una millones de combinaciones hasta descubrir -por puro azar- la solución, por eso se denomina fuerza bruta, o **poder de trabajo** en inglés *PoW* (Power of Work).
+
+El problema que tratan de resolver es encontrar un hash para el bloque que tenga una determinada cantidad de ceros iniciales. Para eso solo pueden variar un apartado del bloque con permiso de cambio que se denomina **nonce** (*number used once*).
+
+El bloque esta compuesto básicamente por transacciones y al criptografiarlo mediante el algoritmo *SHA256*, es decir, al ejecutar la función SHA256 sobre el conjunto del bloque, el resultado es un hash con una determinada cantidad de ceros inicial, por ejemplo 15 cero como este: "0000000000000003245D556FVKMM6NK6N5JNK6NLLIIOI78".
+
+La función SHA256 da un HASH único que hace imposible predecir el resultado por lo que para averiguar este *nonce*, que de un *hash* con un número de ceros concreto, hay que probar millones de combinaciones sin parar hasta que aparezca.
+
+Los mineros validan las transacciones, las escriben en el bloque y a su vez calculan el nonce que resuelve el problema de fuerza de trabajo hasta fijar el bloque y hacer inmutable la red.
+
+Como puede que estés liado con tanto palabro, vamos a ver qué es eso del hash:
+
+## HASH
+Se llama *hash* al resultado de un algoritmo que transforma un conjunto de elementos o de datos, como puede ser un fichero, en una matricula única. Es por tanto el resultado de pasar unos datos por una función cuya salida es una cadena alfanumérica.Esta salida es además por propiedad única para cada entrada.
+
+Bitcoin usa la función criptográfica *SHA256* que es de la familia de las funciones *sha-2* inventadas por la Agencia de Seguridad Nacional (NSA) y publicadas en 2001.
+
+Podemos ver un ejemplo de SHA256 en el siguiente cuadro, si escribimos un texto o palabra cualquiera, la función nos devuelve siempre un código de 256 bits que es impredecible y único para cada entrada de datos. Si quieres probar en linea pincha [aquí](https://andersbrownworth.com/blockchain/hash) y mete lo que quieras.
+
+Por ejemplo, vamos a usar la librería `openssl` de R para ver el resultado de la función para diferentes entradas, algunas muy parecidas:
+
+```{r hash_ejemplos, warning=FALSE}
+# cargamos la librería openssl
+library(openssl)
+
+# creamos una tabla de texto para calcular su hash sha256
+h<-c("Fernando está en casa","Fernando está en la playa", "Ana está en casa")
+  s<-sha256(h)
+  tabla_hash<-data.frame(texto=h,hash_sha256=as.vector(s))
+knitr::kable(tabla_hash,format="html")
+```
+ 
+## Criptografía
+Bitcoin usa en su configuración una importante base matemática, principalmente en lo que se denomina criptografía de clave pública que fue descubierta en los años 70 del siglo pasado y constituye la base genérica de toda la seguridad informática actual.
+
+Se trata de funciones matemáticas que producen hash o matrículas únicas y son irreversibles. Bitcoin usa lo que se denomina *funciones de multiplicación de curva elíptica*. Como en el caso de SHA256 estas funciones son muy sencillas de calcular en una dirección, pero en la práctica imposibles de hacer el camino inverso por lo que se consideran irreversibles.
+
+Con esta base se pueden crear secretos digitales y firmas infalsificables.
+
+Como hemos visto en las carteras, bitcoin se basa en pares de firmas *publica/privada*. Desde el punto de vista matemático, la primera que se crea es la clave privada, y a partir de esta con criptografía se genera la clave pública asociada. La irreversibilidad de las funciones de curva elíptica hacen que sea imposible determinar la clave privada asociada a la clave pública y es lo que mantiene la privacidad y estructura de la red.
+
+**Lo interesante de este sistema, es que solo puedes firmar con la clave privada, pero cualquier firma puede verificarse y saber su autenticidad sólo con la clave pública**.
+Por lo que los mineros pueden fácilmente verificar si la cartera contiene la moneda digital, y si la transacción es autorizada por el poseedor de la clave privada,sin desvelar ésta.
+
+## Cadena de bloques
+Ahora que sabemos qué es un *hash* y algo de criptografía vamos a ver qué es un bloque. Como dijimos antes, la cadena de bloques se forma por la unión en el tiempo de bloques, o utilizando un símil, por la agregación de hojas al libro de cuentas de bitcoin.
+
+Cada una de estas hojas o bloques tiene 6 apartados principales:
+
+ 1. número de bloque
+ 1. nonce
+ 1. coinbase o recompensa al minero
+ 1. tabla de transacciones
+ 1. hash bloque anterior
+ 1. hash bloque actual
+ 
+ ![ejemplo de 2 bloques ya minados en la blockchain](/post/2020-04-21-bitcoin-el-dinero-digital_files/CADENADEBLOQUES.png)
+
+Durante el tiempo de vida del bloque, que suele ser unos 10 minutos, se van agregando transacciones que llegan de los nodos de bitcoin, y de forma simultanea los mineros calculan constantemente combinaciones cambiando el número *nonce*, de manera que el resultado de ejecutar la función SHA256 al bloque entero de un *hash* con un determinado número de ceros delante.
+
+El primero que descubre el *nonce* que cumple la condición, es el victorioso y entonces transmite la noticia a los otros nodos, que verifican su autenticidad comprobando el nonce, solo entonces paran el cálculo actual y empiezan con el siguiente bloque de la cadena añadiendo el reciente bloque minado a la cadena.
+
+Como recompensa por este trabajo, el minero que reveló el nuevo bloque se queda con una cantidad de 12,5 bitcoins (esta cantidad va disminuyendo con el tiempo), y lo marca como la primera transacción del bloque nuevo. Esto se conoce como **coinbase** o recompensa al minado, y para mantener una inflación controlada va disminuyendo con el tiempo en eventos programados llamados *halving*.
+
+En cada halving la recompensa por bloque se divide a la mitad con el fin de reducir el nivel de emisión de moneda y mantener el sistema deflacionario, es decir que incremente su valor con el tiempo de forma controlada.
+
+La dificultad del algoritmo se ajusta automáticamente según la rapidez con la que se minen nuevos bloques, de forma que la media de tiempo entre nuevos bloques se mantenga constante en unos  10 minutos.
+
+Como cada bloque hijo lleva el *hash* o marca del bloque padre, y eso afecta al hash del nuevo bloque, cualquier cambio fraudulento puede ser rápidamente verificado. Todos y cada uno de los bloques quedan unidos como una cadena, de ahí su nombre.
+
+## Carteras
+Hemos visto en qué consiste básicamente bitcoin como una red distribuida de ordenadores por el mundo, que mantienen actualizadas copias de la cadena de bloques y van apuntando nuevas transacciones en el libro contable público.
+
+También vimos que la manera de guardar el libro y asegurar su integridad es por el minado, y cómo la fuerza de trabajo de los mineros verifican transacciones , firmas, y evitan dobles gastos de fondos, manteniendo un registro único para todos.
+
+Cuando una transacción se acepta y el bloque en el que está es minado, pasa a la cadena de bloques, reafirmándose con cada nuevo bloque y es entonces cuando se vuelve inmutable.
+
+Para entrar en el ecosistema bitcoin, y realizar o recibir transacciones debes antes crear una **cartera**.
+
+**Una cartera de bitcoin es un contenedor de claves privadas**, es algo así como un llavero que contiene pares de claves publica/privada. Los usuarios firman las transacciones con estas llaves demostrando que son los dueños de la cartera asociada. 
+
+La cartera también contiene *direcciones bitcoin*, que es como nuestro **número de cuenta bancaria en bitcoin**. 
+
+Una dirección bitcoin es una cadena de caracteres alfanuméricos de puede ser compartida con cualquiera que desee enviarte dinero digital. Las direcciones bitcoin siempre comienzan por 1. Este es un ejemplo de dirección:
+
+ *1NrsrsEopY6xxPmUNLuHC9v715Xzy7JM9d*
+
+Las direcciones de una cartera se pueden generar a partir de la clave pública de la cartera,y como hemos dicho equivalen al beneficiario de una transferencia o el *páguese a*, de un cheque.
+
+Las aplicaciones que hacen de billeteras o carteras calculan en la blockchain las transacciones a una cuenta y muestran el total actual. Con cada confirmación de nodo la transacción se vuelve más estable y más fiable, y con cada bloque hijo más inmutable, por ello algunas carteras tardan en mostrar los datos de bitcoin, no son inmediatas, tardan unos minutos en firmarse, aunque esto ha cambiado mucho con las [lighting networks](https://academy.bit2me.com/lightning-network/). Y hoy en día son prácticamente inmediatas. 
+
+Actualmente hay muchas implementaciones e incluso marcas de carteras bitcoin. Podemos distinguir los siguientes tipos básicos:
+
+ - *cartera de software* es un programa de ordenador que puedes usar en tu sistema operativo macOS, Windows o Linux y que guarda los datos de las llaves y direcciones de la cartera.No es la opción más segura ya que puede ser vulnerada por virus o malware.
+ - Una *cartera móvil* es una app que se ejecuta en cualquier sistema operativo móvil como iOS (para iPhone) y Android.
+ - Una *cartera web* es una cartera bitcoin a la que se accede a través de su dispositivo electrónico (computadora de escritorio o dispositivo móvil) en un navegador web como Google Chrome, Apple Safari, Mozilla Firefox u Opera. Estas carteras son propiedad y se administran en un servidor controlada por un proveedor externo. 
+ - Una *cartera de hardware* son dispositivos físicos que generalmente funcionan a* través de USB* o un protocolo de hardware similar y es una de las formas más seguras y probadas de almacenar bitcoin y otras monedas digitales.
+ - Una *cartera de papel* es una impresión física en papel o en cualquier medio de las llaves privadas. Puede obtenerse incluso fuera de conexión a Internet en la web <https://www.bitaddress.org>. Si se genera sin estar conectado se llama cartera fría y es una solución muy segura de crear una cuenta bitcoin.
+ 
+![Ejemplo de cartera fría, impresa en papel](/post/2020-04-21-bitcoin-el-dinero-digital_files/cartera_fria.png)
+
+Muchas personas diversifican sus carteras con fines de seguridad, por lo que suelen tener varias carteras de diferentes tipos específicos y según el uso.
+
+Lo importante es tener claro que siendo tu propio banco, las decisiones y la responsabilidad de la custodia de las claves privadas, son tuyas.
+
+
+## Pool de mineros
+Al hablar de minería no hemos comentado cómo está el mundo bitcoin hoy en día, dijimos que los nodos de minería compiten para crear nuevos bloques y llevarse el premio *coinbase* del bloque. Esta recompensa es actualmente 12,5 BTC, bastante dinero incluso al bajo cambio de este año 2020. Supongamos que el cambio de hoy son 6.000 € por bitcoin, lo que equivaldría a 75.000 € de coinbase, cada 10 minutos.
+
+Que un minero individual con escaso poder de minado (cpu) logre el premio es sistemáticamente posible, pero de baja probabilidad de ocurrencia.
+
+Los mineros son equipos que ejecutando software especializado que resuelve el algoritmo de prueba de trabajo (PoW). Como la resolución del algoritmo es muy costosa en equipos y en energía eléctrica que consumen, y la probabilidad individual es baja, los nodos de minería suelen agruparse formando equipo, lo que se llama un **pool** o piscina de minería.
+
+Un POOL es cuando varios usuarios mineros con equipos de software se unen para participar conjuntamente en la búsqueda del *nonce* que resuelve el bloque actual, de esta manera tiene más probabilidades de ganar alguna vez y mantener con más constancia ganancias.
+
+Digamos que, al unirse la probabilidad de ganar el bloque aumenta y aunque haya que repartirlo con los demás del pool.
+
+## Bitcoin con R
+
+Hay algunos paquetes de R para obtener datos, cambios e incluso un seguimiento de transacciones de bitcoin y otras criptomonedas, veamos algunos.
+
+### cryptor
+Esta librería obtiene los datos de la API que ha desarrollado la web [cryptoCompare](https://www.cryptocompare.com/), y permite hacer las consultas desde R. Tiene una web de desarrollo en [github](https://github.com/blairj09/cryptor).
+
+Para instalarla hace falta `devtools`.
+```{r eval=FALSE}
+# instalar la librería
+devtools::install_github("blairj09/cryptor")
+```
+
+Podemos obtener los datos de muchas casas de cambio de criptomonedas, datos diarios así como horarios y minutales aunque limitados en estos casos a los últimos 7 días.
+
+La función que obtiene los precios históricos es `btc_price_history()`, también está `get_price()` que nos da el precio actual.
+
+```{r lib_criptor}
+# cargamos la librería
+library(cryptor)
+library(DT) # para ver la table
+# Obtenemos las casas de cambio con datos
+exchanges<- get_exchanges()
+head(unique(exchanges$exchange),10)
+
+# obtenemos las cripto-monedas existentes
+coins <- get_coins()
+
+# Algunos datos de las principales monedas
+unique(coins[coins$sort_order<10,c("name","proof_type","total_coins_mined","block_time")])
+
+# Obtener el precio actual de dos monedas en dólares
+get_price(c("BTC", "ETH"), "USD")
+
+#obtener precios históricos del último año
+#get_price_details(c("BTC", "ETH"), "USD")
+
+btc_price_history <- get_historical_price("BTC", "EUR",unit = "day",limit=365)
+
+datatable(btc_price_history,class = 'cell-border stripe',options = list(pageLength = 5, autoWidth = TRUE))
+
+# Vamos a hacer una gráfica del histórico de precios del ultimo año
+library(xts)
+library(dygraphs)
+daily_ts <- xts(btc_price_history$close,order.by=btc_price_history$time)
+dygraph(daily_ts,ylab="EUR por BTC", 
+        main="Evolución de los precios de BTC")
+```
+
+### coinmarketcapr
+Esta es otra librería que accede a los datos de una web, en este caso la de [coinmarketcap](https://coinmarketcap.com/), una de las principales del mundo cripto, aunque recientemente comparada por un importante exchange chino del que hay que fiarse muy poco.
+
+Este paquete funcion**aba** bastante bien, pero han cambiado las cosas, y ahora es obligado darse de alta y con el plan gratuito solo da opciones muy básicas y por ejemplo han cortado el acceso a los datos históricos y gráficas, así que no vale de mucho.
+
+```{r eval=FALSE}
+# Instalacion
+# se puede instalar la ultima versión desde github
+# install.packages("devtools")
+devtools::install_github("amrrs/coinmarketcapr")
+```
+
+Una vez la tenemos instalada esto es un ejemplo de uso:
+```{r eval=FALSE}
+library(coinmarketcapr)
+coinmarketcapr::setup('aqui-ponemos-nuestra-clave-de-la-API')
+
+#g global market cap details and assign it to a dataframe
+latest_marketcap <- get_global_marketcap('EUR')
+latest_marketcap
+# visión de mercado actual
+all_coins <- get_marketcap_ticker_all()
+
+datatable(head(all_coins,10),class = 'cell-border stripe',options = list(pageLength = 5, autoWidth = TRUE))
+```
+
+### quantmod
+Esta librería es la mejor para descargar datos financieros, de bolsa y también de criptos, además tiene unas gráficas fantásticas.
+
+```{r graficas_quadt}
+library(quantmod)
+
+#own var
+bitcoin_usd = getSymbols("BTC-USD",auto.assign = FALSE)
+head(bitcoin_usd)
+
+chartSeries(bitcoin_usd)
+chartSeries(bitcoin_usd,subset = 'last 4 months')
+chartSeries(bitcoin_usd,subset = '2018')
+
+# ahora una gráfica completa con indicadores
+chartSeries(bitcoin_usd,TA=NULL, subset='last 12 months',theme=chartTheme('white'))   #no volume
+addVo() #add Volume
+addBBands()
+addMACD()
+addChVol()
+addRSI()
+```
+
+
+
