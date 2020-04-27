@@ -1,0 +1,197 @@
+---
+title: Graficas con ggplot II
+author: F.VilBer
+date: '2020-04-25'
+slug: graficas-con-ggplot-ii
+categories:
+  - R
+  - diseño
+tags:
+  - ggplot
+  - graficas
+  - gráficos
+description: 'Add on para ggplot y COV19'
+thumbnail: '/post/2020-04-25-graficas-con-ggplot-ii_files/graficacov19.png.png'
+---
+
+<script src="/rmarkdown-libs/htmlwidgets/htmlwidgets.js"></script>
+<script src="/rmarkdown-libs/jquery/jquery.min.js"></script>
+<link href="/rmarkdown-libs/datatables-css/datatables-crosstalk.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/datatables-binding/datatables.js"></script>
+<link href="/rmarkdown-libs/dt-core/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="/rmarkdown-libs/dt-core/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/dt-core/js/jquery.dataTables.min.js"></script>
+<link href="/rmarkdown-libs/crosstalk/css/crosstalk.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/crosstalk/js/crosstalk.min.js"></script>
+
+
+<p>Hace tiempo escribí un post <a href="../graficas-con-ggplot">gráficas con ggplot</a> , que es la librería más conocida y de las más completas de gráficos en R. En el artículo dejé muchos tipos de gráficas en el tintero, y especialmente los <em>addon</em>, por lo que vamos a retomar este asunto y dar ejemplos interesantes con esta fantástica librería.</p>
+<div class="figure">
+<img src="/post/2020-04-25-graficas-con-ggplot-ii_files/graficacov19.png.png" alt="cov19 graf" />
+<p class="caption">cov19 graf</p>
+</div>
+<div id="graficas-de-barras-simples" class="section level2">
+<h2>Graficas de barras simples</h2>
+<p>Voy a hacer una gráfica inicial bastante simple, sobre la que iremos añadiendo cosas, y complementos. Se trata de una gráfica de barras simple.</p>
+<p>He buscado unos datos de actualidad, en parte como homenaje a toda esa gente que se nos ha ido con esta crisis del COV-19 (especialmente a por mi tío), son números, pero detrás hay miles de personas, es de tal magnitud el desastre que nos debe hacer reflexionar a toda la humanidad, no por los que se van que ya no tiene solución, sino por el futuro que nos espera a los que nos quedamos y queremos libertad…cada vez más controlados, temerosos, faltos de empatía con las víctimas, y sin conciencia de grupo, eso si muchos aplausos al aire a las 8 de la tarde.</p>
+<p>Es especialmente preocupante el uso bochornoso de los datos por parte del Gobierno de España durante esta crisis, con <em>cambios constantes del formato</em>, de validación y de metodología que hacen imposible su estudio y su aprobechamiento científico. Hemos perdido una gran oportunidad de crear ciencia, y de que los cientificos de datos ayuden en la lucha contra la pandemia, incapaces de tener la más simple fuente de datos en España fiable, he tenido que recurrir a los que aporta la universidad <a href="https://github.com/CSSEGISandData/COVID-19">Johns Hopkins</a>, INCREIBLE!!, No nos ponemos de acuerdo ni para hacer una tabla de nuestros muertos.</p>
+<pre class="r"><code>library(tidyverse)
+# MUERTES POR CORONAVIRUS
+#obtenemos los datos de aquí
+  urlmuertes=&quot;https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv&quot;
+# leemos como data frame
+  dat_m&lt;-read_csv(url(urlmuertes))
+# leemos el ultimo dato, ultima columna
+  hoy&lt;-names(dat_m[,ncol(dat_m)])
+  library(lubridate)
+# creo otra tabla con solo dos columnas 
+  dt_ultimos&lt;- dat_m[c(&#39;Country/Region&#39;,hoy)]
+# cambio el nombre de estas col
+  colnames(dt_ultimos)&lt;-c(&quot;pais&quot;,&quot;y&quot;)
+#agregamos por pais, ya aue algunos tienen varias regiones
+  dt_ultimos &lt;- aggregate(. ~ pais,dt_ultimos,sum)
+# ordenamos la tabla de mayor a menor
+  dt_ultimos&lt;-dt_ultimos[order(dt_ultimos$y, decreasing = TRUE),]
+# converimos la col pais en factor
+  dt_ultimos$pais &lt;- factor(dt_ultimos$pais,levels=dt_ultimos$pais)
+#Creamos el gráfico con ggplot y guardamos en p
+    p&lt;-ggplot(head(dt_ultimos,12), aes(x=pais,y=y,fill=pais))+
+          geom_bar(stat=&quot;identity&quot;) +
+          #theme(legend.position=&quot;none&quot;) +
+          labs(title=paste0(&#39;Fallecimientos por Cov-19 a fecha &#39;, as.Date(mdy(hoy)))) +
+          labs(y = &#39;num muertos oficial&#39;, x= &quot;paises&quot;)
+p # pintamos p</code></pre>
+<p><img src="/post/2020-04-25-graficas-con-ggplot-ii_files/figure-html/graf1-1.png" width="672" /></p>
+</div>
+<div id="add-on" class="section level2">
+<h2>Add on</h2>
+<p>Hay bastantes paquetes que se han creado como añadidos, complementos o <em>addon</em> de <code>ggplot</code> que mejoran la apariencia, la presentación de los datos, o nos crean gráficas de diferentes tipos. Vamos a ver algunos de los que conozco y me han parecido interesantes, aunque hay muchos más.</p>
+<div id="cowplot" class="section level3">
+<h3>cowplot</h3>
+<p>Se trata de un complemento que simplifica la gráfica y cambia el formato general, para mi es útil pues me gusta más la salida que proporciona sin necesidad de meterme a especificar todo a mano.</p>
+<p>Tiene varias funciones, la primera es <code>theme_cowplot(tam_fuente)</code> que cambia el formato de la gráfica hecha con <code>ggplot</code> a un formato propio en el que además le metemos el tamaño de letra como argumento. Veamos el cambio</p>
+<pre class="r"><code># Cargamos la librería
+library(cowplot)
+# cambiamos el formato de la grafica inicial
+p1&lt;-p + theme_cowplot(8)
+p1</code></pre>
+<p><img src="/post/2020-04-25-graficas-con-ggplot-ii_files/figure-html/cowplor1-1.png" width="672" />
+Es cuestión de gustos, pero a mi particularmente me resulta mejor este formato.</p>
+<p>Otra función de cowplot es la de <code>plot_grid()</code>que permite dibujar varios gráficos juntos en una malla, lo que es útil en publicaciones o artículos, pues nos permite además numerar o nombrarlos por letrasveamos un ejemplo</p>
+<pre class="r"><code># Usamos la funcion de mala para comparar
+plot_grid(p, p1, labels = c(&#39;A&#39;, &#39;B&#39;), label_size = 15)</code></pre>
+<p><img src="/post/2020-04-25-graficas-con-ggplot-ii_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+</div>
+<div id="ggflags" class="section level3">
+<h3>ggflags</h3>
+<p>Esta otra librería llamada <code>ggflags</code>, un tanto desconocida, permite añadir banderas nacionales a los gráficos como una <code>geom_flag( aes(country=..))</code> en ggplot. Para datos que usen este factor puede ser interesante. La podemos encontrar en <a href="https://github.com/rensa/ggflags" class="uri">https://github.com/rensa/ggflags</a>.</p>
+<p>Para esto de las gráficas por paises también es muy util otra pequeña librería llamada <code>countrycode</code>, que tiene funciones para calcular el código de pais a partir del nombre y viceversa. el código de pais se utiliza un estandar ISO que puede ser de dos o 3 letras en el parámetro <code>destination = 'iso2c'</code> o <code>'iso3c'</code>.
+Vamos a añadir banderas a la gráfica de ejemplo que estamos usando:</p>
+<pre class="r"><code># Instalar flags
+# devtools::install_github(&quot;rensa/ggflags&quot;)
+library(ggflags)
+library(countrycode)
+
+# añadimos una columna más a la tabla dt_ultimos con el cod pais en mimnuscula
+dt_ultimos$code&lt;-tolower(countrycode(dt_ultimos$pais,origin = &#39;country.name&#39;, destination = &#39;iso2c&#39;))
+
+# vemos la tabla creada
+library(DT)
+datatable(dt_ultimos,class = &#39;cell-border stripe&#39;,options = list(
+  pageLength = 5, autoWidth = TRUE
+))</code></pre>
+<div id="htmlwidget-1" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-1">{"x":{"filter":"none","data":[["177","85","157","62","175","17","66","81","37","121","24","171","33","161","162","111","83","136","79","139","80","133","138","52","10","135","134","3","47","87","53","129","51","77","38","91","46","173","84","127","7","61","36","130","116","14","146","68","148","105","112","102","82","155","9","153","174","16","126","22","76","26","32","43","44","166","1","21","57","27","101","144","4","125","170","124","2","8","40","89","97","107","154","11","159","93","122","152","70","176","42","45","90","48","92","96","98","151","12","67","78","128","137","165","179","110","132","147","13","54","73","94","169","178","71","86","88","115","158","15","39","41","65","74","164","168","28","108","113","150","185","6","59","63","104","123","163","184","5","18","49","99","118","181","19","23","25","29","30","55","58","64","72","100","109","160","20","31","34","35","50","56","60","69","75","95","103","106","114","117","119","120","131","140","141","142","143","145","149","156","167","172","180","182","183"],["US","Italy","Spain","France","United Kingdom","Belgium","Germany","Iran","China","Netherlands","Brazil","Turkey","Canada","Sweden","Switzerland","Mexico","Ireland","Portugal","India","Russia","Indonesia","Peru","Romania","Ecuador","Austria","Poland","Philippines","Algeria","Denmark","Japan","Egypt","Pakistan","Dominican Republic","Hungary","Colombia","Korea, South","Czechia","Ukraine","Israel","Norway","Argentina","Finland","Chile","Panama","Morocco","Bangladesh","Saudi Arabia","Greece","Serbia","Malaysia","Moldova","Luxembourg","Iraq","South Africa","Australia","Slovenia","United Arab Emirates","Belarus","North Macedonia","Bosnia and Herzegovina","Honduras","Bulgaria","Cameroon","Croatia","Cuba","Thailand","Afghanistan","Bolivia","Estonia","Burkina Faso","Lithuania","San Marino","Andorra","Nigeria","Tunisia","Niger","Albania","Armenia","Congo (Kinshasa)","Kazakhstan","Lebanon","Mali","Somalia","Azerbaijan","Sudan","Kuwait","New Zealand","Slovakia","Guatemala","Uruguay","Cote d'Ivoire","Cyprus","Kenya","Diamond Princess","Kosovo","Latvia","Liberia","Singapore","Bahamas","Ghana","Iceland","Oman","Qatar","Tanzania","Venezuela","Mauritius","Paraguay","Senegal","Bahrain","El Salvador","Guyana","Kyrgyzstan","Trinidad and Tobago","Uzbekistan","Guinea","Jamaica","Jordan","Montenegro","Sri Lanka","Barbados","Congo (Brazzaville)","Costa Rica","Georgia","Haiti","Taiwan*","Togo","Burma","Malta","Monaco","Sierra Leone","Zimbabwe","Antigua and Barbuda","Ethiopia","Gabon","Malawi","Nicaragua","Syria","Zambia","Angola","Belize","Djibouti","Libya","MS Zaandam","West Bank and Gaza","Benin","Botswana","Brunei","Burundi","Cabo Verde","Equatorial Guinea","Eswatini","Gambia","Guinea-Bissau","Liechtenstein","Mauritania","Suriname","Bhutan","Cambodia","Central African Republic","Chad","Dominica","Eritrea","Fiji","Grenada","Holy See","Laos","Madagascar","Maldives","Mongolia","Mozambique","Namibia","Nepal","Papua New Guinea","Rwanda","Saint Kitts and Nevis","Saint Lucia","Saint Vincent and the Grenadines","Sao Tome and Principe","Seychelles","South Sudan","Timor-Leste","Uganda","Vietnam","Western Sahara","Yemen"],[54881,26644,23190,22890,20794,7094,5976,5710,4637,4491,4286,2805,2687,2194,1610,1351,1087,903,881,747,743,728,619,576,542,535,501,425,422,372,317,281,278,272,244,243,220,209,201,201,192,190,189,165,161,145,139,134,125,98,96,88,87,87,83,82,76,72,61,59,59,56,56,55,54,51,50,50,49,42,41,41,40,40,38,29,28,28,28,25,24,23,23,21,21,20,19,18,15,15,14,14,14,13,12,12,12,12,11,11,10,10,10,10,10,9,9,9,8,8,8,8,8,8,7,7,7,7,7,6,6,6,6,6,6,6,5,4,4,4,4,3,3,3,3,3,3,3,2,2,2,2,2,2,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],["us","it","es","fr","gb","be","de","ir","cn","nl","br","tr","ca","se","ch","mx","ie","pt","in","ru","id","pe","ro","ec","at","pl","ph","dz","dk","jp","eg","pk","do","hu","co","kr","cz","ua","il","no","ar","fi","cl","pa","ma","bd","sa","gr","rs","my","md","lu","iq","za","au","si","ae","by","mk","ba","hn","bg","cm","hr","cu","th","af","bo","ee","bf","lt","sm","ad","ng","tn","ne","al","am","cd","kz","lb","ml","so","az","sd","kw","nz","sk","gt","uy","ci","cy","ke",null,null,"lv","lr","sg","bs","gh","is","om","qa","tz","ve","mu","py","sn","bh","sv","gy","kg","tt","uz","gn","jm","jo","me","lk","bb","cg","cr","ge","ht","tw","tg","mm","mt","mc","sl","zw","ag","et","ga","mw","ni","sy","zm","ao","bz","dj","ly",null,"ps","bj","bw","bn","bi","cv","gq","sz","gm","gw","li","mr","sr","bt","kh","cf","td","dm","er","fj","gd","va","la","mg","mv","mn","mz","na","np","pg","rw","kn","lc","vc","st","sc","ss","tl","ug","vn","eh","ye"]],"container":"<table class=\"cell-border stripe\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>pais<\/th>\n      <th>y<\/th>\n      <th>code<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"autoWidth":true,"columnDefs":[{"className":"dt-right","targets":2},{"orderable":false,"targets":0}],"order":[],"orderClasses":false,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
+<pre class="r"><code># pintamos la nueva gráfica
+p3&lt;-ggplot(head(dt_ultimos,12), aes(x=pais,y=y,fill=pais, country=code)) +
+                  geom_bar(stat=&quot;identity&quot;) +
+                  geom_flag(aes(y=y+500),size=10)+
+                   labs(title=&#39;Fallecimientos por Cov-19 a fecha 15 de marzo 20&#39;) +
+                   labs(y = &#39;num muertos&#39;,
+                        x= &quot;paises&quot;)+ theme_cowplot(8)
+#pintamos la gráfica
+p3</code></pre>
+<p><img src="/post/2020-04-25-graficas-con-ggplot-ii_files/figure-html/unnamed-chunk-2-2.png" width="672" />
+## ggthemes
+Otra librería de plantillas o themes de ggplot. Nos aporta muchas opciones de presentación de los gráficos con una simple funciónal estilo de lo que vimos con <code>cowplot</code>, pero muchos más.</p>
+<p>Esta es su web oficial (<a href="https://github.com/jrnold/ggthemes" class="uri">https://github.com/jrnold/ggthemes</a>) aunque lo mejor es probar alguno de sus temas:</p>
+<pre class="r"><code>library(ggthemes)
+# vemos la lista de plantillas disponibles
+ls(&quot;package:ggthemes&quot;)[grepl(&quot;theme_&quot;, ls(&quot;package:ggthemes&quot;))]</code></pre>
+<pre><code>##  [1] &quot;theme_base&quot;            &quot;theme_calc&quot;            &quot;theme_clean&quot;          
+##  [4] &quot;theme_economist&quot;       &quot;theme_economist_white&quot; &quot;theme_excel&quot;          
+##  [7] &quot;theme_excel_new&quot;       &quot;theme_few&quot;             &quot;theme_fivethirtyeight&quot;
+## [10] &quot;theme_foundation&quot;      &quot;theme_gdocs&quot;           &quot;theme_hc&quot;             
+## [13] &quot;theme_igray&quot;           &quot;theme_map&quot;             &quot;theme_pander&quot;         
+## [16] &quot;theme_par&quot;             &quot;theme_solarized&quot;       &quot;theme_solarized_2&quot;    
+## [19] &quot;theme_solid&quot;           &quot;theme_stata&quot;           &quot;theme_tufte&quot;          
+## [22] &quot;theme_wsj&quot;</code></pre>
+<p>Ejemplos varios de cambio de estilo y giro de barras:</p>
+<pre class="r"><code># algunos ejemplos
+p3 +coord_flip() +theme_few(10) </code></pre>
+<p><img src="/post/2020-04-25-graficas-con-ggplot-ii_files/figure-html/plantillas-1.png" width="672" /></p>
+<pre class="r"><code>p3 +coord_flip() +theme_economist(10) </code></pre>
+<p><img src="/post/2020-04-25-graficas-con-ggplot-ii_files/figure-html/plantillas-2.png" width="672" /></p>
+<pre class="r"><code>p3 +coord_flip() +theme_excel(10)</code></pre>
+<p><img src="/post/2020-04-25-graficas-con-ggplot-ii_files/figure-html/plantillas-3.png" width="672" /></p>
+</div>
+</div>
+<div id="gráfico-de-tarta" class="section level2">
+<h2>gráfico de tarta</h2>
+<p>En ggplot se pueden también hacer gráficos de tarta usando el truco de cambio de coordenadas a polar, vamos a verlo:</p>
+<pre class="r"><code>library(ggplot2)
+theme_set(theme_classic(10))
+
+# Source: Frequency table
+df &lt;- head(dt_ultimos,12)#as.data.frame(table(mpg$class))
+colnames(df) &lt;- c(&quot;class&quot;, &quot;freq&quot;, &quot;code&quot;)
+pie &lt;- ggplot(df, aes(x = &quot;&quot;, y=freq, fill = factor(class))) + 
+  geom_bar(width = 1, stat = &quot;identity&quot;) +
+  #geom_flag(aes(country=code),size=10)+
+  theme(axis.line = element_blank(), 
+        plot.title = element_text(hjust=0.5)) + 
+  labs(fill=&quot;Pais&quot;, 
+       x=NULL, 
+       y=NULL, 
+       title=&quot;Fallecidos por COV-19&quot;, 
+       caption=&quot;Fuente: FVB&quot;)
+
+pie + coord_polar(theta = &quot;y&quot;, start=0)</code></pre>
+<p><img src="/post/2020-04-25-graficas-con-ggplot-ii_files/figure-html/pie-1.png" width="672" /></p>
+<pre class="r"><code>library(treemapify)
+ggplot(df, aes(area = freq,
+               fill = factor(class),
+               label = class)) + 
+        geom_treemap() +
+              geom_treemap_text(colour = &quot;black&quot;,
+                                place = &quot;topleft&quot;,
+                                reflow = T,
+                                grow = T,
+                                alpha = 0.5)+
+    labs(fill=&quot;Estado&quot;, 
+       x=NULL, 
+       y=NULL, 
+       title=&quot;Fallecidos por COV-19 abril 24 2020&quot;, 
+       caption=&quot;Fuente: www.enRdados.net&quot;) +
+   theme_cowplot(8) +
+  scale_fill_discrete(guide = &#39;none&#39;) # quito leyenda de fill</code></pre>
+<p><img src="/post/2020-04-25-graficas-con-ggplot-ii_files/figure-html/unnamed-chunk-4-1.png" width="672" />
+## ggrepel
+<a href="https://github.com/slowkow/ggrepel">ggrepel</a> es un complemento ideal para cuando tenemos muchas etiquetas en el gráfico, pues lo que hace es desplazarlas un poco para que no se tapen unas a otras y puedan verse perfectamente.</p>
+<p>Tiene dos funciones, una para insertar etiquetas de texto simples <code>geom_text_repel()</code> y otra que añade una caja a la etiqueta <code>geom_label_repel()</code>.</p>
+<p>El ejemplo que ponemos a continuación no se aprecia su utilidad real, faltan puntos, pero puedes ver un caso más práctico en el post de <a href="../geoposicionar-fotografías">geoposicionar fotografías con R</a>.</p>
+<pre class="r"><code>library(ggrepel)
+#añado etiquetas al grafico anterior
+p1 + geom_label_repel(aes(label=pais),size=4) + 
+  scale_fill_discrete(guide = &#39;none&#39;) # quitamos la escala de fill</code></pre>
+<p><img src="/post/2020-04-25-graficas-con-ggplot-ii_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+</div>
+<div id="esquise" class="section level2">
+<h2>esquise</h2>
+<p>Por terminar hoy, quiero hablar del Addins de RSTUDIO llamado <code>esquise</code>, que es bastante completo para crear al vuelo gráficas de ggplot y generar el código.
+Puedes ver toda la información aquí <a href="https://github.com/dreamRs/esquisse" class="uri">https://github.com/dreamRs/esquisse</a> y básicamente hace esto:</p>
+<div class="figure">
+<img src="/post/2020-04-25-graficas-con-ggplot-ii_files/esquisse.gif" alt="esquise" />
+<p class="caption">esquise</p>
+</div>
+</div>

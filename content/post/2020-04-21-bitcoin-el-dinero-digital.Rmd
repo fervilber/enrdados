@@ -14,9 +14,9 @@ description: 'Bitcoin el dinero digital'
 thumbnail: '/post/2020-04-21-bitcoin-el-dinero-digital_files/portada.png'
 ---
 
-Como estamos de cuarentena, he aprovechado para pasar a limpio y compartir unas notas sobre *bitcoin* -el dinero digital-, que tengo escritas desde hace meses. Es un tema off-topic, que me gusta, no solo por sus implicaciones reales, también por lo que supone de cambio mental, de ser tu propio banco, de aprender a cacharrear electrónica básica y desmontar PC viejos para crear dinero!!! si esto era así hace unos pocos años.
+Como estamos de cuarentena, he aprovechado para pasar a limpio y compartir unas notas sobre *bitcoin* -el dinero digital-, que tengo escritas desde hace meses. Es un tema off-topic, que me gusta, no solo por sus implicaciones reales, también por lo que supone de cambio mental, de ser tu propio banco, de aprender a cacharrear electrónica básica y desmontar PC viejos para crear dinero!!! ... esto era así hace unos pocos años.
 
-Y visto que estamos en plena crisi y tiempos complejos de ultra control de los Estados y organizaciones, creo que saber de Bitcoin nos hace un poco más libres, ¡vamos¡:
+Y visto que estamos en plena crisis y tiempos complejos de ultra control de los Estados y organizaciones, creo que saber de Bitcoin nos hace un poco más libres, ¡vamos¡:
 
 
 ```{r setup, include=FALSE}

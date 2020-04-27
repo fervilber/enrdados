@@ -1,0 +1,204 @@
+---
+title: Graficas con ggplot II
+author: F.VilBer
+date: '2020-04-25'
+slug: graficas-con-ggplot-ii
+categories:
+  - R
+  - diseño
+tags:
+  - ggplot
+  - graficas
+  - gráficos
+description: 'Add on para ggplot y COV19'
+thumbnail: '/post/2020-04-25-graficas-con-ggplot-ii_files/graficacov19.png.png'
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+```
+
+Hace tiempo escribí un post [gráficas con ggplot](../graficas-con-ggplot) , que es la librería más conocida y de las más completas de gráficos en R. En el artículo dejé muchos tipos de gráficas en el tintero, y especialmente los *addon*, por lo que vamos a retomar este asunto y dar ejemplos interesantes con esta fantástica librería.
+
+![cov19 graf](/post/2020-04-25-graficas-con-ggplot-ii_files/graficacov19.png.png)
+
+## Graficas de barras simples
+Voy a hacer una gráfica inicial bastante simple, sobre la que iremos añadiendo cosas, y complementos. Se trata de una gráfica de barras simple.
+
+He buscado unos datos de actualidad, en parte como homenaje a toda esa gente que se nos ha ido con esta crisis del COV-19 (especialmente a por mi tío), son números, pero detrás hay miles de personas, es de tal magnitud el desastre que nos debe hacer reflexionar a toda la humanidad, no por los que se van que ya no tiene solución, sino por el futuro que nos espera a los que nos quedamos y queremos libertad...cada vez más controlados, temerosos, faltos de empatía con las víctimas, y sin conciencia de grupo, eso si muchos aplausos al aire a las 8 de la tarde.
+
+Es especialmente preocupante el uso bochornoso de los datos por parte del Gobierno de España durante esta crisis, con *cambios constantes del formato*, de validación y de metodología que hacen imposible su estudio y su aprobechamiento científico. Hemos perdido una gran oportunidad de crear ciencia, y de que los cientificos de datos ayuden en la lucha contra la pandemia, incapaces de tener la más simple fuente de datos en España fiable, he tenido que recurrir a los que aporta la universidad [Johns Hopkins](https://github.com/CSSEGISandData/COVID-19), INCREIBLE!!, No nos ponemos de acuerdo ni para hacer una tabla de nuestros muertos. 
+
+```{r graf1}
+library(tidyverse)
+# MUERTES POR CORONAVIRUS
+#obtenemos los datos de aquí
+  urlmuertes="https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv"
+# leemos como data frame
+  dat_m<-read_csv(url(urlmuertes))
+# leemos el ultimo dato, ultima columna
+  hoy<-names(dat_m[,ncol(dat_m)])
+  library(lubridate)
+# creo otra tabla con solo dos columnas 
+  dt_ultimos<- dat_m[c('Country/Region',hoy)]
+# cambio el nombre de estas col
+  colnames(dt_ultimos)<-c("pais","y")
+#agregamos por pais, ya aue algunos tienen varias regiones
+  dt_ultimos <- aggregate(. ~ pais,dt_ultimos,sum)
+# ordenamos la tabla de mayor a menor
+  dt_ultimos<-dt_ultimos[order(dt_ultimos$y, decreasing = TRUE),]
+# converimos la col pais en factor
+  dt_ultimos$pais <- factor(dt_ultimos$pais,levels=dt_ultimos$pais)
+#Creamos el gráfico con ggplot y guardamos en p
+    p<-ggplot(head(dt_ultimos,12), aes(x=pais,y=y,fill=pais))+
+          geom_bar(stat="identity") +
+          #theme(legend.position="none") +
+          labs(title=paste0('Fallecimientos por Cov-19 a fecha ', as.Date(mdy(hoy)))) +
+          labs(y = 'num muertos oficial', x= "paises")
+p # pintamos p
+
+```
+
+
+## Add on
+Hay bastantes paquetes que se han creado como añadidos, complementos o *addon* de `ggplot` que mejoran la apariencia, la presentación de los datos, o nos crean gráficas de diferentes tipos. Vamos a ver algunos de los que conozco y me han parecido interesantes, aunque hay muchos más.
+
+### cowplot
+Se trata de un complemento que simplifica la gráfica y cambia el formato general, para mi es útil pues me gusta más la salida que proporciona sin necesidad de meterme a especificar todo a mano.
+
+Tiene varias funciones, la primera es  `theme_cowplot(tam_fuente)` que cambia el formato de la gráfica hecha con `ggplot` a un formato propio en el que además le metemos el tamaño de letra como argumento. Veamos el cambio
+
+```{r cowplor1}
+# Cargamos la librería
+library(cowplot)
+# cambiamos el formato de la grafica inicial
+p1<-p + theme_cowplot(8)
+p1
+```
+ Es cuestión de gustos, pero a mi particularmente me resulta mejor este formato.
+ 
+Otra función de cowplot es la de `plot_grid()`que permite dibujar varios gráficos juntos en una malla, lo que es útil en publicaciones o artículos, pues nos permite además numerar o nombrarlos por letrasveamos un ejemplo
+
+```{r}
+# Usamos la funcion de mala para comparar
+plot_grid(p, p1, labels = c('A', 'B'), label_size = 15)
+
+```
+
+### ggflags
+Esta otra librería llamada `ggflags`, un tanto desconocida, permite añadir banderas nacionales a los gráficos como una `geom_flag( aes(country=..))` en ggplot. Para datos que usen este factor puede ser interesante. La podemos encontrar en <https://github.com/rensa/ggflags>. 
+
+Para esto de las gráficas por paises también es muy util otra pequeña librería llamada `countrycode`, que tiene funciones para calcular el código de pais a partir del nombre y viceversa. el código de pais se utiliza un estandar ISO que puede ser de dos o 3 letras en el parámetro `destination = 'iso2c'` o `'iso3c'`.
+Vamos a añadir banderas a la gráfica de ejemplo que estamos usando:
+
+```{r}
+# Instalar flags
+# devtools::install_github("rensa/ggflags")
+library(ggflags)
+library(countrycode)
+
+# añadimos una columna más a la tabla dt_ultimos con el cod pais en mimnuscula
+dt_ultimos$code<-tolower(countrycode(dt_ultimos$pais,origin = 'country.name', destination = 'iso2c'))
+
+# vemos la tabla creada
+library(DT)
+datatable(dt_ultimos,class = 'cell-border stripe',options = list(
+  pageLength = 5, autoWidth = TRUE
+))
+
+# pintamos la nueva gráfica
+p3<-ggplot(head(dt_ultimos,12), aes(x=pais,y=y,fill=pais, country=code)) +
+                  geom_bar(stat="identity") +
+                  geom_flag(aes(y=y+500),size=10)+
+                   labs(title='Fallecimientos por Cov-19 a fecha 15 de marzo 20') +
+                   labs(y = 'num muertos',
+                        x= "paises")+ theme_cowplot(8)
+#pintamos la gráfica
+p3
+
+```
+## ggthemes
+Otra librería de plantillas o themes de ggplot. Nos aporta muchas opciones de presentación de los gráficos con una simple funciónal estilo de lo que vimos con `cowplot`, pero muchos más.
+
+Esta es su web oficial (<https://github.com/jrnold/ggthemes>) aunque lo mejor es probar alguno de sus temas:
+
+```{r}
+library(ggthemes)
+# vemos la lista de plantillas disponibles
+ls("package:ggthemes")[grepl("theme_", ls("package:ggthemes"))]
+```
+
+Ejemplos varios de cambio de estilo y giro de barras:
+
+```{r plantillas}
+# algunos ejemplos
+p3 +coord_flip() +theme_few(10) 
+p3 +coord_flip() +theme_economist(10) 
+p3 +coord_flip() +theme_excel(10)
+
+```
+
+## gráfico de tarta
+En ggplot se pueden también hacer gráficos de tarta usando el truco de cambio de coordenadas a polar, vamos a verlo:
+
+```{r pie}
+library(ggplot2)
+theme_set(theme_classic(10))
+
+# Source: Frequency table
+df <- head(dt_ultimos,12)#as.data.frame(table(mpg$class))
+colnames(df) <- c("class", "freq", "code")
+pie <- ggplot(df, aes(x = "", y=freq, fill = factor(class))) + 
+  geom_bar(width = 1, stat = "identity") +
+  #geom_flag(aes(country=code),size=10)+
+  theme(axis.line = element_blank(), 
+        plot.title = element_text(hjust=0.5)) + 
+  labs(fill="Pais", 
+       x=NULL, 
+       y=NULL, 
+       title="Fallecidos por COV-19", 
+       caption="Fuente: FVB")
+
+pie + coord_polar(theta = "y", start=0)
+```
+
+```{r}
+
+library(treemapify)
+ggplot(df, aes(area = freq,
+               fill = factor(class),
+               label = class)) + 
+        geom_treemap() +
+			  geom_treemap_text(colour = "black",
+			                    place = "topleft",
+			                    reflow = T,
+			                    grow = T,
+			                    alpha = 0.5)+
+    labs(fill="Estado", 
+       x=NULL, 
+       y=NULL, 
+       title="Fallecidos por COV-19 abril 24 2020", 
+       caption="Fuente: www.enRdados.net") +
+   theme_cowplot(8) +
+  scale_fill_discrete(guide = 'none') # quito leyenda de fill
+
+```
+## ggrepel
+[ggrepel](https://github.com/slowkow/ggrepel) es un complemento ideal para cuando tenemos muchas etiquetas en el gráfico, pues lo que hace es desplazarlas un poco para que no se tapen unas a otras y puedan verse perfectamente.
+
+Tiene dos funciones, una para insertar etiquetas de texto simples `geom_text_repel()` y otra que añade una caja a la etiqueta `geom_label_repel()`.
+
+El ejemplo que ponemos a continuación no se aprecia su utilidad real, faltan puntos, pero puedes ver un caso más práctico en el post de [geoposicionar fotografías con R](../geoposicionar-fotografías).
+
+```{r}
+library(ggrepel)
+#añado etiquetas al grafico anterior
+p1 + geom_label_repel(aes(label=pais),size=4) + 
+  scale_fill_discrete(guide = 'none') # quitamos la escala de fill
+```
+
+## esquise
+Por terminar hoy, quiero hablar del Addins de RSTUDIO llamado `esquise`, que es bastante completo para crear al vuelo gráficas de ggplot y generar el código.
+Puedes ver toda la información aquí <https://github.com/dreamRs/esquisse> y básicamente hace esto:
+
+![esquise](/post/2020-04-25-graficas-con-ggplot-ii_files/esquisse.gif)

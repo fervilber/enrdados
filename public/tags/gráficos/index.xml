@@ -6,10 +6,21 @@
     <description>Recent content in gráficos on EnRdados</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>es</language>
-    <lastBuildDate>Tue, 21 Apr 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 25 Apr 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/gr%C3%A1ficos/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Graficas con ggplot II</title>
+      <link>/post/graficas-con-ggplot-ii/</link>
+      <pubDate>Sat, 25 Apr 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/post/graficas-con-ggplot-ii/</guid>
+      <description>Hace tiempo escribí un post gráficas con ggplot , que es la librería más conocida y de las más completas de gráficos en R. En el artículo dejé muchos tipos de gráficas en el tintero, y especialmente los addon, por lo que vamos a retomar este asunto y dar ejemplos interesantes con esta fantástica librería.
+cov19 graf
+Graficas de barras simplesVoy a hacer una gráfica inicial bastante simple, sobre la que iremos añadiendo cosas, y complementos.</description>
+    </item>
     
     <item>
       <title>Bitcoin el dinero digital</title>
@@ -36,7 +47,7 @@ En este artículo, vamos a ver una forma sencilla de calcular la ruta crítica c
       <pubDate>Mon, 08 Apr 2019 00:00:00 +0000</pubDate>
       
       <guid>/post/graficas-con-ggplot/</guid>
-      <description>Manual breve de cómo hacer gráficos con la librería ggplot2, que es el más usado y completo paquete gráfico de R, con la ventaja de usar los criterios de gramática gráfica en su estructura.
+      <description>noManual breve de cómo hacer gráficos con la librería ggplot2, que es el más usado y completo paquete gráfico de R, con la ventaja de usar los criterios de gramática gráfica en su estructura.
 La gramática gráfica es un sistema de representación ordenado del trazado de gráficos. Consiste en dividir las partes que intervienen en pintar datos y analizarlo como si de la gramática ortográfica se tratase, otorgando a cada elemento una función característica.</description>
     </item>
     

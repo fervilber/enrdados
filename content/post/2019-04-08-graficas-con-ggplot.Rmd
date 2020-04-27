@@ -44,7 +44,7 @@ Para cargar `ggplot` podemos hacerlo:
 ```
 
 ## Gramática gráfica
-La gramática gráfica que usa `ggplot` consiste en ordenar y crear objetos gráficos según una estructura de ensamblado predefinida. Según las definiciones creadas por *Leland Wilkinson* en 1999 los gráficos son objetos creados por supreposición de capas. Estas capas son principalmente:
+La gramática gráfica que usa `ggplot` consiste en ordenar y crear objetos gráficos con una estructura de ensamblado predefinida. Según las definiciones creadas por *Leland Wilkinson* en 1999 los gráficos son objetos creados por supreposición de capas. Estas capas son principalmente:
 
  - `data:` los datos que se desean pintar
  - `aesthetics:` esta capa indica las variables que pintamos.
@@ -53,13 +53,18 @@ La gramática gráfica que usa `ggplot` consiste en ordenar y crear objetos grá
  - `statistics:` representación agregada de los datos.
  - `coordinates:` el espacio en el que se pintan los datos.
  - `themes:` el formato de la tinta o lienzo.
- 
-Quizás la definición de `aesthetics` sea la más compleja y diferente, pues nos permite una amplia variedad en los gráficos. En particular, con este elemento podemos incluir variables nuevas en la gráfica que se suman a las dos de ordenadas y abcisas. Con `aesthetics` podemos representar 7 características gráficas: *x, y, color, fill, size, alpha, labels* y *shape*.
+
+ggpplot incorpora la gramática gráfica de capas por lo que cualquiera gráfica se complone de capas superpuestas de estas 7 caracteristicas principales que hemos visto.
+Los datos de origen es la más básica, pero la capa `aesthetics` es la más compleja, pues nos permite una amplia variedad en los gráficos. En particular, con este elemento podemos incluir variables nuevas en la gráfica que se suman a las dos de ordenadas y abcisas. Con `aesthetics` podemos representar **7 características gráficas**: *x, y, color, fill, size, alpha, labels* y *shape* que varien en función de los datos.
 
 Para usar algunas de estas carcterísticas, las variables deben ser factores, o convertidas a factor, pues por ejemplo las formas con `shape` no son infinitas y solo admite un número pequeño de variaciones.
 
-## Resumen
-Empezamos por el final, pero es que siempre vienebien tener un resumen de algunas funciones de personalización de `ggplot` válidas para todos los gráficos que creamos:
+La capa de geometrias es la que define lo que conocemos como tipo de gráfico, de barras, de área, histograma. el resto de capas los vemos más como complementos de formato en la representación.
+
+## Aspecto del gráfico
+Una gráfica con el paquete *ggplot2* se hace usando la función `ggplot()` e incorporando capas de los 7 parámetros de la gramática vistos, datos con `data`, `aesthetics` con `aes()`, geometrías con `geom_`. Además se añaden otras multiples funciones con solo usar `+` para las etiquetas, títulos, leyendas y aspecto general del gráfico.
+
+Estas son las principales funciones de personalización:
 
   - Título:
     * `labs(title = "titulo gráfico")`
@@ -84,6 +89,8 @@ Empezamos por el final, pero es que siempre vienebien tener un resumen de alguna
         * `labels = trans_format("log10", math_format(10^.x)))`
     * `scale_x_continuous(breaks=pretty(dtnilo$ano, n = 10), name="año")`
 
+Vamos a empezar con el ejemplo más simple:
+
 ## Gráficos de 1 variable
 Son gráficos que representan los valores de una sola variable de forma resumida o agregada, los más habituales son los *histogramas* que suman el número de apariciones de un valor y lo representan gráficamente. También los gráficos *boxplot*.
 
@@ -92,7 +99,7 @@ Cuando solo hay una variable en `aes()` especificamos solo la que vamos a repres
 Vamos a usar los datos de ejemplo de la base de datos `diamonds` que indica diferentes características de diamantes reales medidos.
 
 ### Histogramas
-Los histogramas se hacen con `geom_histogram()`, como parámetros podemos pasar el numero de bandas o barras `bins= 6`o el ancho de cada barra en valores de la variable `binwidth=0.5`.
+Los histogramas son gráficas de frecuencia, se hacen con `geom_histogram()`, como parámetros podemos pasar el numero de bandas o barras `bins= 6`o el ancho de cada barra en valores de la variable `binwidth=0.5`.
 
 Aunque sean gráficas de una variable, podemos usar otra de las variable como parámetro de color o tamaño para distinguir los resultados. Esta nueva variable  deben ser factores según el caso.Ejemplo:
 
@@ -110,7 +117,7 @@ ggplot(diamonds, aes(carat)) +
 ggplot(diamonds, aes(carat)) +
     geom_histogram(binwidth = 0.5)
 
-# distinguimos por el corte como color
+# distinguimos por el corte como color usando aes para otra variable
 ggplot(diamonds, aes(carat,fill = cut)) +
   geom_histogram(bins = 10)+
   labs(title='Frecuencias de caras de diamantes según corte') +
@@ -118,7 +125,7 @@ ggplot(diamonds, aes(carat,fill = cut)) +
 
 ```
 
-Veamos otro ejemplo con una serie temporal de caudales del río Nilo. Introducimos `geom_rug()` para marcar cada ocurrencia real en el eje x.
+Veamos otro ejemplo con la serie temporal de caudales del río Nilo. Introducimos `geom_rug()` para marcar cada ocurrencia real en el eje x.
 
 ```{r nilo}
     # datos de ejemplo de la dataset Nile
