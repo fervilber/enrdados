@@ -26,10 +26,6 @@ thumbnail: '/post/2020-04-25-graficas-con-ggplot-ii_files/graficacov19.png.png'
 
 
 <p>Hace tiempo escribí un post <a href="../graficas-con-ggplot">gráficas con ggplot</a> , que es la librería más conocida y de las más completas de gráficos en R. En el artículo dejé muchos tipos de gráficas en el tintero, y especialmente los <em>addon</em>, por lo que vamos a retomar este asunto y dar ejemplos interesantes con esta fantástica librería.</p>
-<div class="figure">
-<img src="/post/2020-04-25-graficas-con-ggplot-ii_files/graficacov19.png.png" alt="cov19 graf" />
-<p class="caption">cov19 graf</p>
-</div>
 <div id="graficas-de-barras-simples" class="section level2">
 <h2>Graficas de barras simples</h2>
 <p>Voy a hacer una gráfica inicial bastante simple, sobre la que iremos añadiendo cosas, y complementos. Se trata de una gráfica de barras simple.</p>
@@ -106,14 +102,16 @@ datatable(dt_ultimos,class = &#39;cell-border stripe&#39;,options = list(
 p3&lt;-ggplot(head(dt_ultimos,12), aes(x=pais,y=y,fill=pais, country=code)) +
                   geom_bar(stat=&quot;identity&quot;) +
                   geom_flag(aes(y=y+500),size=10)+
-                   labs(title=&#39;Fallecimientos por Cov-19 a fecha 15 de marzo 20&#39;) +
+                   labs(title=&#39;Fallecimientos por Cov-19 a fecha 24 de abril 20&#39;) +
                    labs(y = &#39;num muertos&#39;,
                         x= &quot;paises&quot;)+ theme_cowplot(8)
 #pintamos la gráfica
 p3</code></pre>
-<p><img src="/post/2020-04-25-graficas-con-ggplot-ii_files/figure-html/unnamed-chunk-2-2.png" width="672" />
-## ggthemes
-Otra librería de plantillas o themes de ggplot. Nos aporta muchas opciones de presentación de los gráficos con una simple funciónal estilo de lo que vimos con <code>cowplot</code>, pero muchos más.</p>
+<p><img src="/post/2020-04-25-graficas-con-ggplot-ii_files/figure-html/unnamed-chunk-2-2.png" width="672" /></p>
+</div>
+<div id="ggthemes" class="section level3">
+<h3>ggthemes</h3>
+<p>Otra librería de plantillas o themes de ggplot. Nos aporta muchas opciones de presentación de los gráficos con una simple funciónal estilo de lo que vimos con <code>cowplot</code>, pero muchos más.</p>
 <p>Esta es su web oficial (<a href="https://github.com/jrnold/ggthemes" class="uri">https://github.com/jrnold/ggthemes</a>) aunque lo mejor es probar alguno de sus temas:</p>
 <pre class="r"><code>library(ggthemes)
 # vemos la lista de plantillas disponibles
@@ -135,30 +133,14 @@ p3 +coord_flip() +theme_few(10) </code></pre>
 <pre class="r"><code>p3 +coord_flip() +theme_excel(10)</code></pre>
 <p><img src="/post/2020-04-25-graficas-con-ggplot-ii_files/figure-html/plantillas-3.png" width="672" /></p>
 </div>
-</div>
-<div id="gráfico-de-tarta" class="section level2">
-<h2>gráfico de tarta</h2>
-<p>En ggplot se pueden también hacer gráficos de tarta usando el truco de cambio de coordenadas a polar, vamos a verlo:</p>
-<pre class="r"><code>library(ggplot2)
-theme_set(theme_classic(10))
-
-# Source: Frequency table
+<div id="treemapify" class="section level3">
+<h3>treemapify</h3>
+<p>treemapify es un add on que permmite hacer gráficas de árbol con ggplot. Veamos un ejemplo con los datos iniciales.</p>
+<pre class="r"><code># hacemos tabla simplificada
 df &lt;- head(dt_ultimos,12)#as.data.frame(table(mpg$class))
 colnames(df) &lt;- c(&quot;class&quot;, &quot;freq&quot;, &quot;code&quot;)
-pie &lt;- ggplot(df, aes(x = &quot;&quot;, y=freq, fill = factor(class))) + 
-  geom_bar(width = 1, stat = &quot;identity&quot;) +
-  #geom_flag(aes(country=code),size=10)+
-  theme(axis.line = element_blank(), 
-        plot.title = element_text(hjust=0.5)) + 
-  labs(fill=&quot;Pais&quot;, 
-       x=NULL, 
-       y=NULL, 
-       title=&quot;Fallecidos por COV-19&quot;, 
-       caption=&quot;Fuente: FVB&quot;)
 
-pie + coord_polar(theta = &quot;y&quot;, start=0)</code></pre>
-<p><img src="/post/2020-04-25-graficas-con-ggplot-ii_files/figure-html/pie-1.png" width="672" /></p>
-<pre class="r"><code>library(treemapify)
+library(treemapify)
 ggplot(df, aes(area = freq,
                fill = factor(class),
                label = class)) + 
@@ -176,7 +158,7 @@ ggplot(df, aes(area = freq,
    theme_cowplot(8) +
   scale_fill_discrete(guide = &#39;none&#39;) # quito leyenda de fill</code></pre>
 <p><img src="/post/2020-04-25-graficas-con-ggplot-ii_files/figure-html/unnamed-chunk-4-1.png" width="672" />
-## ggrepel
+### ggrepel
 <a href="https://github.com/slowkow/ggrepel">ggrepel</a> es un complemento ideal para cuando tenemos muchas etiquetas en el gráfico, pues lo que hace es desplazarlas un poco para que no se tapen unas a otras y puedan verse perfectamente.</p>
 <p>Tiene dos funciones, una para insertar etiquetas de texto simples <code>geom_text_repel()</code> y otra que añade una caja a la etiqueta <code>geom_label_repel()</code>.</p>
 <p>El ejemplo que ponemos a continuación no se aprecia su utilidad real, faltan puntos, pero puedes ver un caso más práctico en el post de <a href="../geoposicionar-fotografías">geoposicionar fotografías con R</a>.</p>
@@ -185,6 +167,27 @@ ggplot(df, aes(area = freq,
 p1 + geom_label_repel(aes(label=pais),size=4) + 
   scale_fill_discrete(guide = &#39;none&#39;) # quitamos la escala de fill</code></pre>
 <p><img src="/post/2020-04-25-graficas-con-ggplot-ii_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+</div>
+</div>
+<div id="gráfico-de-tarta" class="section level2">
+<h2>gráfico de tarta</h2>
+<p>En ggplot se pueden también hacer gráficos de tarta usando el truco de cambio de coordenadas a polar, vamos a verlo:</p>
+<pre class="r"><code>library(ggplot2)
+theme_set(theme_classic(10))
+
+pie &lt;- ggplot(df, aes(x = &quot;&quot;, y=freq, fill = factor(class))) + 
+  geom_bar(width = 1, stat = &quot;identity&quot;) +
+  #geom_flag(aes(country=code),size=10)+
+  theme(axis.line = element_blank(), 
+        plot.title = element_text(hjust=0.5)) + 
+  labs(fill=&quot;Pais&quot;, 
+       x=NULL, 
+       y=NULL, 
+       title=&quot;Fallecidos por COV-19&quot;, 
+       caption=&quot;Fuente: FVB&quot;)
+
+pie + coord_polar(theta = &quot;y&quot;, start=0)</code></pre>
+<p><img src="/post/2020-04-25-graficas-con-ggplot-ii_files/figure-html/pie-1.png" width="672" /></p>
 </div>
 <div id="esquise" class="section level2">
 <h2>esquise</h2>

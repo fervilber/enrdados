@@ -18,8 +18,7 @@
       
       <guid>/post/graficas-con-ggplot-ii/</guid>
       <description>Hace tiempo escribí un post gráficas con ggplot , que es la librería más conocida y de las más completas de gráficos en R. En el artículo dejé muchos tipos de gráficas en el tintero, y especialmente los addon, por lo que vamos a retomar este asunto y dar ejemplos interesantes con esta fantástica librería.
-cov19 graf
-Graficas de barras simplesVoy a hacer una gráfica inicial bastante simple, sobre la que iremos añadiendo cosas, y complementos.</description>
+Graficas de barras simplesVoy a hacer una gráfica inicial bastante simple, sobre la que iremos añadiendo cosas, y complementos.</description>
     </item>
     
     <item>

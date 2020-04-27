@@ -20,8 +20,6 @@ knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 
 Hace tiempo escribí un post [gráficas con ggplot](../graficas-con-ggplot) , que es la librería más conocida y de las más completas de gráficos en R. En el artículo dejé muchos tipos de gráficas en el tintero, y especialmente los *addon*, por lo que vamos a retomar este asunto y dar ejemplos interesantes con esta fantástica librería.
 
-![cov19 graf](/post/2020-04-25-graficas-con-ggplot-ii_files/graficacov19.png.png)
-
 ## Graficas de barras simples
 Voy a hacer una gráfica inicial bastante simple, sobre la que iremos añadiendo cosas, y complementos. Se trata de una gráfica de barras simple.
 
@@ -110,14 +108,15 @@ datatable(dt_ultimos,class = 'cell-border stripe',options = list(
 p3<-ggplot(head(dt_ultimos,12), aes(x=pais,y=y,fill=pais, country=code)) +
                   geom_bar(stat="identity") +
                   geom_flag(aes(y=y+500),size=10)+
-                   labs(title='Fallecimientos por Cov-19 a fecha 15 de marzo 20') +
+                   labs(title='Fallecimientos por Cov-19 a fecha 24 de abril 20') +
                    labs(y = 'num muertos',
                         x= "paises")+ theme_cowplot(8)
 #pintamos la gráfica
 p3
 
 ```
-## ggthemes
+
+### ggthemes
 Otra librería de plantillas o themes de ggplot. Nos aporta muchas opciones de presentación de los gráficos con una simple funciónal estilo de lo que vimos con `cowplot`, pero muchos más.
 
 Esta es su web oficial (<https://github.com/jrnold/ggthemes>) aunque lo mejor es probar alguno de sus temas:
@@ -138,31 +137,13 @@ p3 +coord_flip() +theme_excel(10)
 
 ```
 
-## gráfico de tarta
-En ggplot se pueden también hacer gráficos de tarta usando el truco de cambio de coordenadas a polar, vamos a verlo:
-
-```{r pie}
-library(ggplot2)
-theme_set(theme_classic(10))
-
-# Source: Frequency table
-df <- head(dt_ultimos,12)#as.data.frame(table(mpg$class))
-colnames(df) <- c("class", "freq", "code")
-pie <- ggplot(df, aes(x = "", y=freq, fill = factor(class))) + 
-  geom_bar(width = 1, stat = "identity") +
-  #geom_flag(aes(country=code),size=10)+
-  theme(axis.line = element_blank(), 
-        plot.title = element_text(hjust=0.5)) + 
-  labs(fill="Pais", 
-       x=NULL, 
-       y=NULL, 
-       title="Fallecidos por COV-19", 
-       caption="Fuente: FVB")
-
-pie + coord_polar(theta = "y", start=0)
-```
+### treemapify
+treemapify es un add on que permmite hacer gráficas de árbol con ggplot. Veamos un ejemplo con los datos iniciales.
 
 ```{r}
+# hacemos tabla simplificada
+df <- head(dt_ultimos,12)#as.data.frame(table(mpg$class))
+colnames(df) <- c("class", "freq", "code")
 
 library(treemapify)
 ggplot(df, aes(area = freq,
@@ -183,7 +164,7 @@ ggplot(df, aes(area = freq,
   scale_fill_discrete(guide = 'none') # quito leyenda de fill
 
 ```
-## ggrepel
+### ggrepel
 [ggrepel](https://github.com/slowkow/ggrepel) es un complemento ideal para cuando tenemos muchas etiquetas en el gráfico, pues lo que hace es desplazarlas un poco para que no se tapen unas a otras y puedan verse perfectamente.
 
 Tiene dos funciones, una para insertar etiquetas de texto simples `geom_text_repel()` y otra que añade una caja a la etiqueta `geom_label_repel()`.
@@ -195,6 +176,28 @@ library(ggrepel)
 #añado etiquetas al grafico anterior
 p1 + geom_label_repel(aes(label=pais),size=4) + 
   scale_fill_discrete(guide = 'none') # quitamos la escala de fill
+```
+
+## gráfico de tarta
+En ggplot se pueden también hacer gráficos de tarta usando el truco de cambio de coordenadas a polar, vamos a verlo:
+
+```{r pie}
+
+library(ggplot2)
+theme_set(theme_classic(10))
+
+pie <- ggplot(df, aes(x = "", y=freq, fill = factor(class))) + 
+  geom_bar(width = 1, stat = "identity") +
+  #geom_flag(aes(country=code),size=10)+
+  theme(axis.line = element_blank(), 
+        plot.title = element_text(hjust=0.5)) + 
+  labs(fill="Pais", 
+       x=NULL, 
+       y=NULL, 
+       title="Fallecidos por COV-19", 
+       caption="Fuente: FVB")
+
+pie + coord_polar(theta = "y", start=0)
 ```
 
 ## esquise
