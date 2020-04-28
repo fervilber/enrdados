@@ -23,9 +23,11 @@ Hace tiempo escribí un post [gráficas con ggplot](../graficas-con-ggplot) , qu
 ## Graficas de barras simples
 Voy a hacer una gráfica inicial bastante simple, sobre la que iremos añadiendo cosas, y complementos. Se trata de una gráfica de barras simple.
 
-He buscado unos datos de actualidad, en parte como homenaje a toda esa gente que se nos ha ido con esta crisis del COV-19 (especialmente a por mi tío), son números, pero detrás hay miles de personas, es de tal magnitud el desastre que nos debe hacer reflexionar a toda la humanidad, no por los que se van que ya no tiene solución, sino por el futuro que nos espera a los que nos quedamos y queremos libertad...cada vez más controlados, temerosos, faltos de empatía con las víctimas, y sin conciencia de grupo, eso si muchos aplausos al aire a las 8 de la tarde.
+He buscado unos datos de actualidad, en parte como homenaje a toda esa gente que se nos ha ido con esta crisis del COV-19 (especialmente por mi tío), son números, pero detrás de cada uno hay personas, familias, es de tal magnitud el desastre, que nos debe hacer reflexionar a todos, no solo por los que se han ido, que por desgracia ya no tiene solución, sino también por el futuro que nos espera a los que quedamos y queremos **libertad** y un mundo mejor...estamos cada vez más controlados, temerosos, borregos del perro que manda, faltos de empatía con las víctimas, y con una falta de educación cívica asombrosa, tenemos que pensar más en el conjunto y menos individualmente, y educarnos mucho, estudiar mucho y creer que en la ciencia están las respuestas y no en las ideas ilumunadas del vocero de turno.
 
-Es especialmente preocupante el uso bochornoso de los datos por parte del Gobierno de España durante esta crisis, con *cambios constantes del formato*, de validación y de metodología que hacen imposible su estudio y su aprobechamiento científico. Hemos perdido una gran oportunidad de crear ciencia, y de que los cientificos de datos ayuden en la lucha contra la pandemia, incapaces de tener la más simple fuente de datos en España fiable, he tenido que recurrir a los que aporta la universidad [Johns Hopkins](https://github.com/CSSEGISandData/COVID-19), INCREIBLE!!, No nos ponemos de acuerdo ni para hacer una tabla de nuestros muertos. 
+Los datos son información clave en esta crisis, y ha sido bochornoso el uso parcial y retorcido de los datos por parte del Gobierno de España, no podemos trabajar con *cambios constantes de criterio*, de formato, de validación y de metodología que hacen imposible su estudio y su aprobechamiento científico. Los datos deben carecer de valoración y ser lo más fiables, constantes, válidos y límpios. Cada cambio debe documentarse y crear una nueva variable, para no contaminar la anterior, y llevan cambiando casi cada día!!!. Hemos perdido una gran oportunidad de crear ciencia, y de que los cientificos de datos ayuden en la lucha contra la pandemia.
+
+Al ser imposible usar un dato oficial en España he recurrido a los partes diarios que aporta la universidad [Johns Hopkins](https://github.com/CSSEGISandData/COVID-19), INCREIBLE!!, No nos ponemos de acuerdo ni para hacer una tabla de nuestros muertos. 
 
 ```{r graf1}
 library(tidyverse)
@@ -75,11 +77,37 @@ p1
 ```
  Es cuestión de gustos, pero a mi particularmente me resulta mejor este formato.
  
-Otra función de cowplot es la de `plot_grid()`que permite dibujar varios gráficos juntos en una malla, lo que es útil en publicaciones o artículos, pues nos permite además numerar o nombrarlos por letrasveamos un ejemplo
+Otra función de cowplot es `plot_grid()`que permite dibujar varios gráficos juntos en una malla y nombrarlos a cada uno para hacer referencias.
+
 
 ```{r}
+# Vamos a crear un nuevo gráfico con la serie diaria de España
+d_spain<-dat_m[c(-1,-3,-4)] # quitamos las columnas que no tiene dato
+colnames(d_spain)[1]<-"pais" # cambio de nombre
+#agregamos por pais, ya aue algunos tienen varias regiones
+  d_spain <- aggregate(. ~ pais,d_spain,sum)
+  d_spain <- d_spain[d_spain$pais=='Spain', ] # selec solo españa
+  d_spain<-d_spain[c(-1)] # quito la col primera 
+  
+# transponemos y guardamos la serie como data frame
+  d_spain2<-as.data.frame(t(d_spain))
+  colnames(d_spain2)<-c("numM")
+  # esto es para las fechas convertir de texto aDate
+ library(lubridate)
+  d_spain2$fecha <- as.Date(mdy(rownames(d_spain2)))
+# transformo en serie temporal xts  
+ library(xts)
+  st<-xts(x = d_spain2$numM, order.by = d_spain2$fecha)
+  colnames(st)<-c("numMuertosESP")
+#library(cowplot)
+# pintamos la gráfica como p0 
+  p0<-ggplot(st, aes(x=index(st),y=numMuertosESP, size=numMuertosESP)) +
+    geom_line() + scale_y_log10() +
+    labs(y = 'num fallecidos ESP oficial', x= "fecha 2020") +
+    theme_cowplot(8)
+  
 # Usamos la funcion de mala para comparar
-plot_grid(p, p1, labels = c('A', 'B'), label_size = 15)
+plot_grid(p0, p1, labels = c('A', 'B'), label_size = 15)
 
 ```
 
@@ -138,7 +166,7 @@ p3 +coord_flip() +theme_excel(10)
 ```
 
 ### treemapify
-treemapify es un add on que permmite hacer gráficas de árbol con ggplot. Veamos un ejemplo con los datos iniciales.
+`treemapify` es un addon que permmite hacer gráficas de árbol con ggplot. Veamos un ejemplo con los datos iniciales. Tiene muchas geometrias que añade a ggplot, con las que podemos jugar para crear una visualización impactante. La función principal es `geom_treemap()`
 
 ```{r}
 # hacemos tabla simplificada
@@ -164,6 +192,7 @@ ggplot(df, aes(area = freq,
   scale_fill_discrete(guide = 'none') # quito leyenda de fill
 
 ```
+
 ### ggrepel
 [ggrepel](https://github.com/slowkow/ggrepel) es un complemento ideal para cuando tenemos muchas etiquetas en el gráfico, pues lo que hace es desplazarlas un poco para que no se tapen unas a otras y puedan verse perfectamente.
 
