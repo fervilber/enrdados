@@ -1,5 +1,5 @@
 ---
-title: Graficas con ggplot II
+title: Gráficas con ggplot II
 author: F.VilBer
 date: '2020-04-25'
 slug: graficas-con-ggplot-ii
