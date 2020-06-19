@@ -1,5 +1,5 @@
 ---
-title: Graficas con ggplot
+title: Gráficas con ggplot
 author: F.VilBer
 date: '2019-04-08'
 slug: graficas-con-ggplot
