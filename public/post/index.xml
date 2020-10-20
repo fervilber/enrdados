@@ -6,10 +6,20 @@
     <description>Recent content in Posts on EnRdados</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>es</language>
-    <lastBuildDate>Fri, 10 Jul 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 20 Oct 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Series temporales con ARIMA I</title>
+      <link>/post/series-temporales-con-arima-i/</link>
+      <pubDate>Tue, 20 Oct 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/post/series-temporales-con-arima-i/</guid>
+      <description>ARIMAMuchos hemos estudiado en la carrera los modelos “clásicos” ARIMA sin enterarnos de nada. No echo la culpa a mis profes de estadística, son temas muy teóricos y con formulación matemática extensa que se dan con muy poca práctica por lo que terminamos sin saber realmente ni cómo, ni donde aplicarlo.
+Ahora que mi profe soy yo, me he decidido a entender estos modelos clásicos para ver si les saco partido para el pronóstico de series temporales.</description>
+    </item>
     
     <item>
       <title>el sol y el origen del tiempo</title>
