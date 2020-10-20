@@ -6,10 +6,28 @@
     <description>Recent content in Tags on EnRdados</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>es</language>
-    <lastBuildDate>Sat, 25 Apr 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 10 Jul 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>curiosidades</title>
+      <link>/tags/curiosidades/</link>
+      <pubDate>Fri, 10 Jul 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/curiosidades/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>off_topic</title>
+      <link>/tags/off_topic/</link>
+      <pubDate>Fri, 10 Jul 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/off_topic/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>ggplot</title>
@@ -35,15 +53,6 @@
       <pubDate>Sat, 25 Apr 2020 00:00:00 +0000</pubDate>
       
       <guid>/tags/gr%C3%A1ficos/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>off_topic</title>
-      <link>/tags/off_topic/</link>
-      <pubDate>Tue, 21 Apr 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/off_topic/</guid>
       <description></description>
     </item>
     
@@ -107,15 +116,6 @@
       <pubDate>Mon, 27 Jan 2020 00:00:00 +0000</pubDate>
       
       <guid>/tags/programas/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>curiosidades</title>
-      <link>/tags/curiosidades/</link>
-      <pubDate>Fri, 08 Nov 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/curiosidades/</guid>
       <description></description>
     </item>
     

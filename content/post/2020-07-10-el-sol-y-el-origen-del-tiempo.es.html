@@ -1,0 +1,43 @@
+---
+title: el sol y el origen del tiempo
+author: F.VilBer
+date: '2020-07-10'
+slug: el-sol-y-el-origen-del-tiempo
+categories:
+  - R
+  - educación
+tags:
+  - curiosidades
+  - off_topic
+description: 'El sol es el reloj que marca nuestro tiempo'
+thumbnail: ''
+draft: true
+---
+
+
+
+<p>Durante las vacaciones hago el esfuerzo de leer algunas cosas ajenas a lo habitual, pero que me gustan, este año estoy con lecturas cósmicas, y me apetece comentarlas en el blog.</p>
+<p>En nuestras vidas modernas repletas de móviles, ordenadores y pantallas conectadas no precibimos la naturalidad del tiempo como antes, es decir como antes de que existieran estos inventos tecnológicos. Cuesta pensar cómo lograrían nuestros tatarabuelos saber la hora del día, el día del mes o los años de una persona sin móviles…¿lo habés pensado alguna vez?</p>
+<p>El caso es que la medida del tiempo es tan natural que cuesta entender cómo hemos complicado todo tanto, porque hoy en día la medida del tiempo oficial es el segundo que se define como la vibración de un átomo de Cesio 123,</p>
+<p>Empecemos por el principio, imagínate en esa misma playa de Levante en la que estás hoy de vacaciones, pero hace 2000 años. Imagina que vives allí, y que cada día ves amanecer. Las playas del Levante Español tiene el horizonte despejado hacia el Este, hacia Levante, y puedes ver la salida del sol cada día. qué irónico, ahora ya sabemos que no es el sol el que sale o se pone cada día, que somos nostros girando sobre la tierra los que creamos esa ilusión.</p>
+<p>Aún así en nuestra escala de persona, el sol sale por el horizonte del mar en la playa, y si cada día hacemos una marca del punto del horizonte donde sale el primer rayo verías que ese punto se mueve. Cuando no había televisión ni celulares, la gente se fijaba en estas cosas. Lo mismo ocurre con el punto donde el sol se pone.</p>
+<p>En nuestra latitud templada, la diferencia entre esos dos puntos del amanecer entre el noreste en verano y el sureste en invierno es de aproximadamente 70 grados y lo curioso es que cuando el sol llega a uno de sus extremos en el horizonte cada 6 meses, se queda unos días parado amaneciendo en el mismo punto varios días para luego volver sobre sus mismos pasos.</p>
+<p>Precisamente por eso de quedarse parado en el horizonte varios días el punto del amanecer es por lo que lo llamamos <strong>solsticio</strong>, que viene del latín <em>Sol-sistere</em> (sol-quieto). Es una visión geocentrica del cosmos que sabemos que no es la más correcta, pero si es la más evidente a los humanos.</p>
+<p>El viaje de ida y vuelta al punto del solsticio son 12 meses, un año solar completo.</p>
+<p>El punto medio entre los solsticios ocurre 3 meses en primavera y otoño y resulta que en estos puntos el sol amanece y se pone justo por el este y el oeste. Además el día y la noche duran lo mismo y por eso se llaman <em>equinocios</em> ( del Latín <em>aequinox</em> -igual noche-) a esos días. Al contrario que los solsticios, los equinocios no son fáciles de localizar de forma tan precisa pues el sol se mueve muy rápido, por ello las culturas locales suelen asociarlo con puntos de observación desde la localidad al horizonte, una cima un valle, una montaña lejana, que marca precisamente el equinocio.</p>
+<p>en medio del invierno, cuando los días son cortos y las noches largas el sol se pone en el horizonte al
+. despacio pero cada día un poco hasta que llega un punto en que para, está un par de dias quieto, y emp
+el sol se</p>
+<p>nuestro calendario occidental es un calendario solar. el año solar mide el tiempo que pasa desde un equinocio de primavera al siguiente y se divide en 365,24219 dias medios solares. lo que es aproximadamente 365 y 1/4, este cuarto extra se acumula y se pone como un día más de febrero cada 4 años, el famoso 29, pero aún así hay que hacer correcciones periodicas como el segundo que añadimos al inicio del 2006, para que las cosas cuadren a la perfección y no se descuadre el tiempo.</p>
+<pre class="r"><code>library(fmdates)
+library(&quot;lubridate&quot;, warn.conflicts = FALSE)
+equinox(2019:2020, season = &quot;sep&quot;, tz = &quot;UTC&quot;, want_dt = FALSE)
+easter_monday(2020:2023)
+ausy &lt;- AUSYCalendar()
+aume &lt;- AUMECalendar()
+syme &lt;- c(ausy, aume) # handy JointCalendar construction approach
+is_good(ymd(20140404), ausy)
+
+
+library(timeDate)
+EasterSunday(2015:2018)</code></pre>
