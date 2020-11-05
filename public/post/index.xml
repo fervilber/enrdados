@@ -6,10 +6,21 @@
     <description>Recent content in Posts on EnRdados</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>es</language>
-    <lastBuildDate>Tue, 20 Oct 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 25 Oct 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Series temporales con arima II</title>
+      <link>/post/series-temporales-con-arima-ii/</link>
+      <pubDate>Sun, 25 Oct 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/post/series-temporales-con-arima-ii/</guid>
+      <description>El anterior post fue una introducción a los modelos ARIMA, ahora vamos a ver ejemplos prácticos.
+Recuerda que es importante saber interpretar las gráficas de los correlogramas ACF y PACF que nos dan el orden del modelo según esta guía:
+AR(p)MA(q)ARMA(p,q)ACFvarios puntos con coef&amp;gt;0 decayendo0 excepto los q primerosvarios puntos con coef&amp;gt;0 decayendoPACF0 excepto los p primerosvarios puntos con coef&amp;gt;0varios puntos con coef&amp;gt;0Utilizaremos principalmente las librerías astsa y forecast cada una tiene unas funciones para hacer el proceso.</description>
+    </item>
     
     <item>
       <title>Series temporales con ARIMA I</title>
@@ -17,8 +28,8 @@
       <pubDate>Tue, 20 Oct 2020 00:00:00 +0000</pubDate>
       
       <guid>/post/series-temporales-con-arima-i/</guid>
-      <description>ARIMAMuchos hemos estudiado en la carrera los modelos “clásicos” ARIMA sin enterarnos de nada. No echo la culpa a mis profes de estadística, son temas muy teóricos y con formulación matemática extensa que se dan con muy poca práctica por lo que terminamos sin saber realmente ni cómo, ni donde aplicarlo.
-Ahora que mi profe soy yo, me he decidido a entender estos modelos clásicos para ver si les saco partido para el pronóstico de series temporales.</description>
+      <description>ARIMAMuchos hemos estudiado en la carrera los modelos “clásicos” ARIMA sin enterarnos de nada. No echo la culpa a mis profes de estadística, son temas muy teóricos y con formulación matemática extensa que se dan con muy poca práctica, por lo que terminamos sin saber realmente ni cómo, ni donde aplicarlo.
+Ahora que mi profe soy yo, me he decidido a entender estos modelos para ver si les saco partido para el pronóstico de series temporales.</description>
     </item>
     
     <item>

@@ -1,0 +1,327 @@
+---
+title: Series temporales con arima II
+author: F.VilBer
+date: '2020-10-25'
+slug: series-temporales-con-arima-ii
+categories:
+  - R
+tags:
+  - series temorales
+  - R
+description: 'Casos prácticos con el modelo ARIMA'
+thumbnail: ''
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(error=FALSE,echo = TRUE, warning = FALSE, message = FALSE)
+``` 
+
+El [anterior post](../series-temporales-con-arima-ii) fue una introducción a los modelos *ARIMA*, ahora vamos a ver ejemplos prácticos. 
+
+Recuerda que es importante saber interpretar las gráficas de los correlogramas *ACF* y *PACF* que nos dan el orden del modelo según esta guía:
+
+|    | AR(p) | MA(q)	 | ARMA(p,q) |
+| -- | -- | -- | -- |
+|ACF	| varios puntos con coef>0 decayendo | 0 excepto los `q` primeros |	varios puntos con coef>0 decayendo | 
+|PACF |	0 excepto los `p` primeros |	varios puntos con coef>0 |	varios puntos con coef>0  |
+
+Utilizaremos principalmente las librerías `astsa` y `forecast` cada una tiene unas funciones para hacer el proceso. Además veremos de pasada otras como `tseries` que tiene buenas funciones para limpiar y detectar outliers, o quitar NA de los datos como la función `tsclean`.
+
+## Ejemplo 1. Manchas solares
+La serie temporal `sunspot.year` contiene la secuencia con el número de manchas solares observadas cada año entre 1700 y 1988.  Estos datos junto con muchos otros vienen de ejemplo en $R$ con la librería `datasets`.  
+
+```{r primervistazo}
+# cargamos las librerías
+library(astsa)
+library(forecast)
+library(ggplot2)
+
+# Observamos la serie temporal y correlogramas
+ggtsdisplay(sunspot.year, main="manchas solares") 
+```
+
+La gráfica nos muestra una serie sin tendencia, pero con ciclos por lo que NO es estacionaria. En una visión más detallada vemos que estos ciclos no son constantes en periodo, y que varía aleatoriamente entre los 6,7,8,9 o 17 años.
+Ejecutamos las funciones `ndiffs` para ver si hay que diferenciar (que parece que si) y si encuentra ciclo estacional.  
+```{r error=FALSE}
+# estimacion de I(d) y (D)
+ndiffs(sunspot.year)
+#nsdiffs(sunspot.year) # si da error es que no hay ciclo
+```
+
+El resultado de la función `ndiffs()` es uno, por lo que `d=1`, hay que diferenciar, pero que no encuentra periodo estacional `D` con `nsdiffs` que da error. Al indicarnos que es un `I(d=1)`, tenemos que pintar la gráfica de la serie `diff()`para estimar los posibles órdenes `ARMA(p,q)`:
+
+```{r}
+ggtsdisplay(diff(sunspot.year), main="diff de manchas solares")
+```
+Con esto podemos inferir ya los órdenes del modelo interpretando según la tabla guía:
+
+ - la gráfica sigue mostrando ciclos, aunque de menor magnitud.
+ - Las ACF tiene cola larga, oscilante + -, con muchos valores significativos, pero un corte tras `lag=1`.
+ - La PACF se corta en lag=8.
+
+Con estas observaciones podríamos proponer varios modelos, como un `MA(1)`,un `ARIMA(8,1,0)` o `ARIMA(8,1,1)`.
+
+Como parece tener ciclos la diff, vamos a pasar un test estadísticos `adf`. Este test puede servirnos para comprobar que la serie `diff(sunspot.year)` es estacionaria. El *p-valor* $< 0.05$ es indicativo de estacionariedad, un valor mayor es indicativo de serie correlacionada. 
+
+```{r}
+library(tseries)
+adf.test(diff(sunspot.year), alternative = "stationary")
+```
+El *p-valor* obtenido es menor de 0,01 < 0,05 por lo que `diff(sunspot.year)` es estacionaria según el test, aunque no lo parezca.
+
+Vamos a aplicar entonces algunos de los modelos propuestos a mano como `ARIMA(8,1,0)` con la función `sarima()` y vemos los resultados del pronóstico. Anoto que seleccionar un orden 8 es una barbaridad, siempre hay que intentar un orden bajo, pero estamos aprendiendo:
+
+```{r warning=FALSE, message=FALSE}
+# aplico modelo con sarima()
+mod<-sarima(sunspot.year,8,1,0)
+mod$AIC
+```
+Las 4 gráficas de residuos que muestra `sarima()` son muy interesantes, la primera es la serie de residuos donde interesa ver su forma, si hay periodos, varianza y amplitud. La segunda es la ACF de los residuos, si no hay valores significativos es que es ruido blanco y el modelo va por buen camino. La terdeca es la Q-Q que muestra como se aproximan los resíduos a una *Normal*. La ultima de abajo son los p-valores del test de Ljung-Box que indica para cada Lag o retardo si la serie de resiudos tiene o no correlación. Unos valores bajos por debajo de la linea azul es malo, pues indica que los residuos están correlacionados, y que por tant queda información que no ha captado el modelo. 
+En este caso la solución del modelo parece bastante buena. Si quisieramos hacer un pronóstico es bien fácil usando `sarima.for()`
+
+```{r}
+# hacemos el pronostico para 10 años
+sarima.for(sunspot.year, n.ahead = 12, p = 8, d = 1, q = 0)
+```
+Ahora que hemos hecho lo dificil, vamos a ver cómo ir directos al grano con la función de forecast `auto.arima`. esta función ajusta un modelo a los datos así de fácil:
+
+```{r modelo_auto}
+# obtencion automática del modelo de ajuste
+auto.arima(sunspot.year)
+```
+El resultado es un modelo `arima(2,1,3)`. Hay que tener en cuenta que auto.arima tiene algunos parámetros por defecto como que el orden sea menor de 5. Si queremos que trabaje duro podemos indicar `stepwise = TRUE` para ver si obtiene otro modelo mejor.
+
+```{r results="hide"}
+mod_auto<-sarima(sunspot.year,2,1,3)
+```
+Para comparar diferentes modelos  podemos usar alguno de los indicadores AIC, AICc o BIC, el modelo con menor valor es el mejor.
+```{r}
+print(paste("modelo arima(2,1,3)AIC=",round(mod_auto$AIC,2),"modelo arima(8,1,0)AIC=", round(mod$AIC,2)))
+```
+
+Aunque los resultados son parecidos tiene mejor ajuste el modelo que hemos deducido nosotros `arima(8,1,0)` que el que obtiene la función auto.arima, ya que el AIC es menor.
+
+## Ejemplo 2. AirPassengers.
+Ahora vamos a ajustar un modelo `arima` y hacer un pronostico a la serie temporal `AirPassengers`. Esta serie está incluida en el dataset de R y almacena los datos mensuales de pasajeros aéreos de vuelos internacionales entre 1940 y 1960.
+
+Vamos a inciar con los mismos pasos, pintar las graficas de la serie y ACF y PACF, despues calculamos las diff que ndiff, y vemos qué pasa:
+
+```{r}
+library(forecast)
+library(ggplot2)
+library(xts)
+# vamos a ver de qué años es la serie:
+periodicity(AirPassengers)
+# pintamos la gráficas ACF..
+ggtsdisplay(AirPassengers)
+# caluclamos las diferencias básicas y estacionales
+ndiffs(AirPassengers)
+nsdiffs(AirPassengers)
+
+```
+La serie parece que no tiene valores fuera de rango ni ausentes.
+
+Los resultados de las funciones `ndiffs` nos indican que la serie necesita diferenciarse para ser estacionaria, y que tiene un ciclos periódicos o estacionales, lo que nos lleva a la complicación de usar el modelo general de `arima(p,d,q)(P,D,Q)S` con 3 órdenes más.
+
+También observamos que tiene tendencia alcista y varianza no homogenea, con claro aumento de la amplitud de los ciclos con el tiempo.
+
+### Transformación para homogeneizar varianza
+La tendencia se quita al diferenciar la serie original una vez, pero la varianza no se va con la diferenciación. 
+Se debe hacer una **transformación** adicional tomando logaritmos o usando la forma generalizada de la función *Box-Cox*, que necesita un solo parámetro *lambda*. 
+
+Usaremos esta última opción que es más generalista: 
+
+```{r trans_varianza}
+# calculamos el valor de lambda
+ lambda <- BoxCox.lambda(AirPassengers)
+# La serie transformada, homogenea en varianza es esta:
+ air_t<-BoxCox(AirPassengers,lambda)
+# pintamos a efectos de ver la reducción de varianza
+ plot(cbind(AirPassengers,air_t), main="Comparativa serie origen y transformada Box-Cox")
+```
+Como vemos la transformada tiene una amplitud de ciclos más homogénea. Usaremos esta transformada para diferenciarla y obtener una serie estacionaria sobre la que aplicar el modelo arima.
+
+```{r}
+# diferenciamos una vez como nos indicó ndiffs 
+air_td1<-diff(air_t)
+ggtsdisplay(air_td1) # =tsdisplay(air_td1)
+acf2(air_td1) # lo pintamos mejor
+```
+Las gráficas *ACF* y *PACF* de la serie `air_td1` muestran picos claros cada rezago `lag=12`, es decir **ciclos anuales**, ya que la serie es mensual. Será este el ciclo que nos indicaba `ndiffs`, por lo que tenemos identificado el periodo `S=12`.
+
+Aparte la ACF tiene solo el primer valor significativo y por poco, en la PACF son los dos primeros los que son significativos. Esto nos puede indicar un `ARMA(2,1)` que con el I(1) sería un `arima(2,1,1)`
+
+Para los ordenes del ciclo pintamos la serie diff(,lag=12) y buscaremos allí los órdenes `(P,D,Q)`.
+
+```{r}
+# Diferenciamos la serie lag=12 para ver estacionalidad
+#air_td12<-diff(air_td1,lag=12)
+air_t12<-diff(air_t,lag=12)
+ndiffs(air_t12)
+```
+La serie debe diferenciarse, según nos muestra ndiffs. Lo hacemos sabiendo ya que I(D=1)12.
+
+```{r}
+tsdisplay(diff(air_t12))
+```
+La serie estacional diferenciada muestra en la ACF el primer valor significativo y el siguiente cero e igual en la PACF, tendríamos un `arima(1,1,1)12` para la serie estacional.
+
+En definitiva podríamos concluir que una primera aproximación podría ser un `arima(2,1,1)(1,1,1)`. Con estos supuestos hacemos el pronóstico usando las funciones de la librería `astsa`:
+
+```{r}
+pronos<-sarima.for(air_td1, n.ahead = 24, p = 2, d = 1, q = 1,P=1,D=1,Q=1,S =12)
+``` 
+Como vemos el pronóstico se realiza sobre la serie de diferencias transformada, es decir, la serie estacionaria sobre la que aplicamos arima `air_td1` en nuestro caso. Para comparar con la original hay que realizar la **trasnformación inversa**, como veremos a continuación:
+
+```{r}
+# Pronostico sobre la serie real, tenemos que invertir la transformada asi:
+# AirPassengers-->boxcox-->air_t-->diff-->air_td1
+# ahora hacemos el inverso y lo dibujamos junto a la original:
+autoplot(AirPassengers)+
+autolayer(InvBoxCox(diffinv(pronos$pred,xi=last(air_t)), lambda))+
+theme(legend.position = "none") 
+```
+
+### Usando forecast
+Vamos a hacer el modelo de la misma serie, pero usando el paquete `forecast`, que simplifica la tarea con sus funciones.
+
+Lo primero es sacar un ajuste automático con la función `auto.arima`. El resultado  lo almacenamos en la variable *fit*, que contiene los parámetros del modelo arima.
+
+El pronóstico se realiza simplemente usando la función `forecast(modelo, h=..)`.
+
+```{r}
+fit <- auto.arima(AirPassengers, seasonal=T)#,lambda="auto")
+checkresiduals(fit)
+plot(forecast(fit))
+
+```
+El modelo auto nos da unos órdenes `ARIMA(2,1,1)(0,1,0)[12]`, pero si comprobamos los residuos vemos que no cumplen el criterio de ser ruido blanco, al tener un p-valor menor de 0,05. Esto es porque olvidamos un punto importante y es que no hemos fijado `lambda` y por defecto este valor es nulo, lo que equivale a no hacer  ninguna transformacion de varianza. Dejamos la forma buena de llamar a la función en comentario, aunque no la desarrollemos más.
+
+Si quisieramos comprobar el pronostico actual con el modelo anterior `arima(2,1,1)(1,1,1)12` lo haríamos así: primero creamos el modelo en formato forecast y después pintamos ambos juntos.
+
+```{r}
+#`arima(2,1,1)(1,1,1)`
+air.fit <- Arima(AirPassengers, order=c(2,1,1),                 seasonal=list(order=c(1,1,1),period=12)
+       ,lambda=lambda)
+checkresiduals(air.fit)
+plot(forecast(air.fit))
+```
+Comparamos ambos modelos, el automático y el que hemos deducido de las gráficas a ojo, y veremos que los pronósticos son diferentes:
+
+```{r compararmodel}
+# hacemos un pronostico a 3 años con cada modelo
+pronos01<-forecast(fit,h=36)
+pronos02<-forecast(air.fit,h=36)
+#pronos01$mean
+#pronos02$mean
+# pronos01$mean continene los datos de forecast
+# pintamos los pronósticos y la serie, pero para que se vea mejor 
+# hacemos zoom a una ventana más pequeña desde 1955
+
+  autoplot(window(AirPassengers, start =c(1955,1)))+
+    ylab("pasajeros")+ ggtitle("Pronósticos a 3 años")+
+  #añadimos pronostico automatico  
+  autolayer(pronos01,PI=F, col="blue",lty=2)+
+  # añadimos pronos nuestro en rojo
+  autolayer(pronos02,PI=F, col="red")
+  
+  
+#Comparamos ahora el ajuste en datos pasados
+  autoplot(AirPassengers) + ggtitle("Comparación ajustes sobre pasado")+
+  geom_line(
+    aes(x=time(pronos01$fitted),
+        y=pronos01$fitted,color="red"),
+    col = "red"
+  )+
+  geom_line(
+    aes(x=time(pronos02$fitted),
+        y=pronos02$fitted,color="blue"),
+    col = "blue", lty=2
+  )
+  
+```
+
+## Ejemplo3. globaltem
+Vamos con una serie física `globtemp` que viene de ejemplo en el paquete `astsa`. Se trata de una serie temporal anual con datos de las desviaciones sobre la temperatura media en la tierra (calculada de 1951-1980) desde el año 1880 hasta el 2015. 
+
+Como siempre, lo primero es ver la serie y autocorrelaciones y calcular `ndiffs()`.
+
+```{r}
+ggtsdisplay(globtemp)
+# caluclamos las diferencias básicas y estacionales
+ndiffs(globtemp)
+#nsdiffs(globtemp)
+```
+De ver las gráficas sacamos:
+
+ - La serie tiene tendencia,por lo que habrá que diferenciar.
+ - no se aprecia cambio significativo de la varianza, por lo que no es necesario hacer transformaciones de varianza.
+ - el resultado de la función `ndiffs()` es uno (1) lo que confirma la diferenciación, y estima I(d=1) o ARIMA(0,1,0)
+
+Vamos con la serie diferenciada.
+ 
+```{r}
+ggtsdisplay(diff(globtemp),main=" diff globtemp")
+```
+Conclusiones de ver las gráficas:
+
+ - la ACF se corta a partir del lag=2, y la PACF a partir del 3, por lo que podría ser un ARIMA(3,1,2).
+ - en el lag=4 y 18 hay un pico significativo en ACF lo que podría indicar algún ciclo, aunque no se refleja en el `nsdiffs()` como significativo por lo que lo descartamos de momento.
+
+Vamos a ver cómo se comporta el modelo que hemos deducido:
+
+```{r results="hide"}
+# modelo hecho a ojo
+modelo1<-sarima(globtemp,3,1,2)
+```
+
+Ahora ejecutamos `auto.arima` a ver que nos sale:
+
+```{r}
+# modelo hecho automáticamente
+auto.arima(globtemp, stepwise = FALSE)# con esto hacemos que trabaje mas el buscador de modelos
+```
+Vemos que `auto.arima` propone un `arima(1,1,3)`
+
+```{r results="hide"}
+modelo2<-sarima(globtemp,1,1,3)
+pro1<-sarima.for(globtemp, n.ahead = 20, p = 3, d = 1, q = 2)
+pro2<-sarima.for(globtemp, n.ahead = 20, p = 1, d = 1, q = 3)
+```
+
+```{r}
+print(paste("AIC_arima(3,1,2)=",round(modelo1$AIC,2),"AIC_arima(1,1,3)=",round(modelo2$AIC,2)))
+
+  autoplot(globtemp) +ggtitle("Comparación modelos 1 y 2")+
+   #añadimos pronostico automatico  
+  autolayer(pro1$pred)+
+  autolayer(pro2$pred)
+```
+
+## Ejemplo4. Caudales máximos del Nilo
+Esta serie contiene los caudales máximos del río Nilo anulales desde 1871 a 1970.
+
+```{r}
+# vemos qué contiene Nile
+periodicity(Nile)
+# las gráficas
+ggtsdisplay(Nile)
+# calculamos las diferencias básicas y estacionales
+ndiffs(Nile)
+#nsdiffs(Nile)
+ggtsdisplay(diff(Nile))
+
+```
+La serie parece tener tendencia a la baja, que se confirma con `ndiffs=1`. No hay ciclos estacionales y tampoco vemos claramente una varianza heterogenea, por lo que no hacemos transformación de la serie.
+
+De las gráficas y correlogramas de `diff(Nile)`, se deduce que un modelo puede ser el `arima(2,1,1)`, al tener la ACF un valor inicial significativo y la PACF 2.
+
+Ejecutamos el modelo y vemos los residuos:
+
+```{r results="hide"}
+sarima(Nile,2,1,1)
+sarima.for(Nile,10,2,1,1)
+```
+

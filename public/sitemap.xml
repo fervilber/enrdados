@@ -4,7 +4,37 @@
   
   <url>
     <loc>/categories/</loc>
-    <lastmod>2020-10-20T00:00:00+00:00</lastmod>
+    <lastmod>2020-10-25T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/post/</loc>
+    <lastmod>2020-10-25T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/r/</loc>
+    <lastmod>2020-10-25T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/r/</loc>
+    <lastmod>2020-10-25T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/series-temorales/</loc>
+    <lastmod>2020-10-25T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/post/series-temporales-con-arima-ii/</loc>
+    <lastmod>2020-10-25T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/</loc>
+    <lastmod>2020-10-25T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -23,27 +53,7 @@
   </url>
   
   <url>
-    <loc>/post/</loc>
-    <lastmod>2020-10-20T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/categories/r/</loc>
-    <lastmod>2020-10-20T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/series-temorales/</loc>
-    <lastmod>2020-10-20T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>/post/series-temporales-con-arima-i/</loc>
-    <lastmod>2020-10-20T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/</loc>
     <lastmod>2020-10-20T00:00:00+00:00</lastmod>
   </url>
   
@@ -89,11 +99,6 @@
   
   <url>
     <loc>/post/camino-critico/</loc>
-    <lastmod>2020-04-06T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/r/</loc>
     <lastmod>2020-04-06T00:00:00+00:00</lastmod>
   </url>
   

@@ -26,32 +26,33 @@ thumbnail: '/post/2020-10-20-series-temporales-con-arima-i.es_files/arima002.png
 
 <div id="arima" class="section level2">
 <h2>ARIMA</h2>
-<p>Muchos hemos estudiado en la carrera los modelos “clásicos” ARIMA sin enterarnos de nada. No echo la culpa a mis profes de estadística, son temas muy teóricos y con formulación matemática extensa que se dan con muy poca práctica por lo que terminamos sin saber realmente ni cómo, ni donde aplicarlo.</p>
-<p>Ahora que mi profe soy yo, me he decidido a entender estos modelos clásicos para ver si les saco partido para el pronóstico de series temporales. Me han sorprendido gratamente son modelos robustos y poderosos, funcionan muy bien, por lo que me vamos a dedicarles al menos 2 artículos, empecemos:</p>
+<p>Muchos hemos estudiado en la carrera los modelos “clásicos” ARIMA sin enterarnos de nada. No echo la culpa a mis profes de estadística, son temas muy teóricos y con formulación matemática extensa que se dan con muy poca práctica, por lo que terminamos sin saber realmente ni cómo, ni donde aplicarlo.</p>
+<p>Ahora que mi profe soy yo, me he decidido a entender estos modelos para ver si les saco partido para el pronóstico de series temporales. Me han sorprendido gratamente, son modelos robustos y poderosos, funcionan muy bien, y no resultan tan difíciles de aplicar como pensaba por lo que me vamos a dedicarles al menos 2 artículos, empecemos:</p>
 <p>Los modelos ARIMA son acrónimo de su definición en inglés <em>autoregressive (AR) integrated (I) moving average (MA)</em> que traducido al <em>panocho</em> es algo así como <em>modelo autorregresivo integrado de media móvil</em>.</p>
 <p>El modelo <em>ARIMA</em> genera una serie temporal a partir de 3 parámetros <em>(p,d,q)</em> llamados <strong>órdenes</strong> del modelo <code>ARIMA(p,d,q)</code>. Como indica el acrónimo se trata de 3 modelos distintos unidos: <em>AR + I + MA</em>. Básicamente lo que dicen los libros es que los ARIMA son la forma generalizada de los modelos <code>ARMA(p,q)</code> que sirven para descomponer, analizar o pronosticar series temporales <strong>estacionarias</strong>.</p>
 </div>
 <div id="series-estacionarias" class="section level2">
 <h2>SERIES ESTACIONARIAS</h2>
 <p>Los modelos ARIMA solo se pueden aplicar a series temporales que representan <strong>procesos estacionarios</strong>. Intuitivamente este concepto se refiere a que las propiedades (media y varianza) de la serie no varían con respecto al intervalo de tiempo que tomemos. Es decir, a series SIN TENDENCIA, SIN CICLOS, y con VARICIONES más o menos homogéneas.</p>
-<p>Las series temporales <em>estacionarias</em> son habituales del mundo físico, pero no así en ciencias económicas o sociales donde suele haber tendencias y variaciones no homogeneas en el tiempo.</p>
-<p>Los modelos arima son muy utilizados porque como veremos, se puede transformar cualquier serie <em>no estacionaria</em> y convertirla en <em>estacionaria</em> con transformaciones matemáticas “sencillas”.</p>
+<p>Las series temporales <em>estacionarias</em> son habituales del mundo físico, pero no así en ciencias económicas o sociales donde suele haber tendencias y variaciones no homogéneas en el tiempo.</p>
+<p>Si los modelos <em>arima</em> son ampliamente usados es porque, como veremos, se puede transformar cualquier serie <em>no estacionaria</em> y convertirla en <em>estacionaria</em> con transformaciones matemáticas “sencillas”.</p>
 </div>
-<div id="acf-y-pacf" class="section level2">
-<h2>ACF y PACF</h2>
-<p>Para saber cómo aplicar los modelos <em>ARIMA</em> tendremos que aprender a interpretar las gráficas de autocorrelación <em>ACF</em> y autocorrelacion parcial <em>PACF</em> de una serie temporal. Estas gráficas nos ayundan a estimar los órdenes (recuerda..los 3 parámetros) <code>(p,d,q)</code> del modelo <em>ARIMA</em>.</p>
-<p>En <span class="math inline">\(R\)</span> tenemos mil formas de usar <em>ARIMA</em>, pero empezaremos con las librerías <code>astsa</code> y <code>forecast</code> que son muy completas y tiene muchas funciones útiles. La librería forecast es imprescindible para pronostico de series temporales pues tiene otros tantos modelos en ella.</p>
-<p>Aunque existe de la función de RBase <code>acf()</code> para representar las gráficas de autocorrelación, prefiero pintarlas con cualquiera de estas otras funciones :</p>
+<div id="acf-y-pacf.-correlogramas" class="section level2">
+<h2>ACF y PACF. Correlogramas</h2>
+<p>Para saber cómo aplicar los modelos <em>ARIMA</em> tendremos que aprender a interpretar las gráficas de autocorrelación <em>ACF</em> y autocorrelación parcial <em>PACF</em> de una serie temporal. Estas gráficas nos ayundan a estimar los órdenes (recuerda…los 3 parámetros) <code>(p,d,q)</code> del modelo <em>ARIMA</em>.</p>
+<p>En <span class="math inline">\(R\)</span> tenemos mil formas de usar <em>ARIMA</em>, pero las librerías <code>astsa</code> y <code>forecast</code> son las más completas y fáciles. La librería <code>forecast</code> es imprescindible para pronóstico de series temporales con muchos otros modelos programados.</p>
+<p>Aunque existe de la función de RBase <code>acf()</code> para representar las gráficas de autocorrelación o <em>correlogramas</em>, prefiero pintarlas con cualquiera de estas otras funciones :</p>
 <ul>
-<li><code>acf2()</code> del paquete <code>astsa</code></li>
-<li><code>ggtsdisplay()</code> o <code>tsdisplay()</code> del paquete <code>forecast</code> en plot o ggplot .</li>
+<li><code>acf2()</code> del paquete <code>astsa</code> o mejor con:</li>
+<li><code>ggtsdisplay()</code> o <code>tsdisplay()</code> del paquete <code>forecast</code>..</li>
 </ul>
 <p>Veamos un ejemplo:</p>
-<pre class="r"><code># Gráficas ACF y PACF de la serie Nile
+<pre class="r"><code># Gráficas ACF y PACF de la serie Nile con forecast
 library(forecast)
 ggtsdisplay(Nile,main=&#39;Caudal anual max del río Nilo&#39;)</code></pre>
 <p><img src="/post/2020-10-20-series-temporales-con-arima-i.es_files/figure-html/acf_graficas-1.png" width="672" /></p>
-<pre class="r"><code>library(astsa)
+<pre class="r"><code># correlogramas con astsa de la misma serie diferenciada
+library(astsa)
 acf2(diff(Nile))</code></pre>
 <p><img src="/post/2020-10-20-series-temporales-con-arima-i.es_files/figure-html/acf_graficas-2.png" width="672" /></p>
 <pre><code>##      [,1]  [,2]  [,3]  [,4]  [,5]  [,6]  [,7] [,8]  [,9] [,10] [,11] [,12]
@@ -60,16 +61,16 @@ acf2(diff(Nile))</code></pre>
 ##      [,13] [,14] [,15] [,16] [,17] [,18] [,19] [,20]
 ## ACF   0.07  0.01 -0.08  0.09 -0.10  0.07 -0.01  0.00
 ## PACF  0.01 -0.02 -0.07  0.00 -0.13  0.09 -0.01 -0.02</code></pre>
-<p>En cualquiera de estas representaciones, la banda entre las líneas azules intermitentes indican la zona de valores <strong>NO SIGNIFICATIVOS</strong> de correlación, que a efectos prácticos equivale a <strong>cero</strong> correlación.</p>
+<p>En cualquiera de estas representaciones, la banda entre las líneas azules intermitentes indican la zona de valores <strong>NO SIGNIFICATIVOS</strong> de correlación, que a efectos prácticos equivale a <strong>cero</strong> o NO correlación.</p>
 <p>Por el contrario en la zona por encima o por debajo de dichas bandas, la correlación es significativa.</p>
 </div>
 <div id="arma---interpretación-de-acf-y-pacf" class="section level2">
 <h2>ARMA - Interpretación de ACF y PACF</h2>
 <p>La gráfica <em>ACF</em> pinta en cada rezago o <code>lag</code>, el valor de autocorrelación. Esto se hace calculando el coeficiente de correlación de dos vectores o columnas. En la columna 1 ponemos la serie <span class="math inline">\(X_t\)</span> y en la dos la serie rezagada un intervalo <span class="math inline">\(X_{t-1}\)</span>.</p>
-<p>Luego con de estas dos columnas se calcula el coeficiente de correlación entre ambas y pintamos ese valor en la gráfica, esto sería para <code>x lag=1</code>. Si corremos la columna 2 un retraso más y volvemos a calcular el coef.correlación entre <span class="math inline">\(X_t\)</span> (col1) y <span class="math inline">\(X_{t-2}\)</span> (<em>hoy vs. anteayer</em>). Esto lo podemos hacer <code>n</code> veces, hasta que llegamos al último intervalo de la serie temporal, aunque cada vuelta tenemos una fila menos y por tanto es menos representativa, por eso siempre interpretamos los primeros lag, que son los importantes.</p>
-<p>Los valores de ACF van de -1 a 1, Un valor próximo a 1 indica una gran correlación entre las columnas, si es próximo a -1 la correlación es inversa (los valores de hoy suben cuando los de ayer bajaron, por ejemplo), y uno próximo a 0 significa que las columnas comparadas son independientes = no podemos predecirlos (nada nos dice el valor de ayer respecto al que tenemos hoy).</p>
-<p>La gráfica <code>PACF</code> es la <code>ACF</code> de la <code>ACF</code>.</p>
-<p>Pues resulta que estas gráficas nos pueden dar los órdenes para ajustar un modelo <em>ARIMA</em>, la clave está en interpretarlas según la siguiente tabla:</p>
+<p>Luego con de estas dos columnas se calcula el coeficiente de correlación entre ambas y pintamos ese valor en la gráfica, esto sería para <code>x lag=1</code>. Si corremos la columna 2 un retraso más y volvemos a calcular el coef.correlación entre <span class="math inline">\(X_t\)</span> (col1) y <span class="math inline">\(X_{t-2}\)</span> (<em>hoy vs. anteayer</em>). Esto lo podemos hacer <code>n</code> veces, hasta que llegamos al último intervalo de la serie temporal, aunque cada vuelta tenemos una fila menos y por tanto es menos representativa, por eso siempre interpretamos los primeros valores (lag), que son los importantes.</p>
+<p>Los valores de ACF van de -1 a 1, Un valor próximo a 1 indica una gran correlación entre intervalos, si es próximo a -1 la correlación es inversa (los valores de hoy tienden a subir cuando los de ayer bajan), y uno próximo a 0 significa que las columnas comparadas son independientes = no podemos predecirlos (nada nos dice el valor de ayer respecto al que tenemos hoy).</p>
+<p>La gráfica <code>PACF</code> es la derivada o pendiente de la <code>ACF</code> y nos indica la correlación parcial entre los intervalos, descontando el efecto del resto.</p>
+<p>Resulta que estas gráficas nos pueden dar los órdenes para ajustar un modelo <em>ARIMA</em>, la clave está en interpretarlas según la siguiente tabla:</p>
 <table>
 <colgroup>
 <col width="25%" />
@@ -88,9 +89,9 @@ acf2(diff(Nile))</code></pre>
 <tbody>
 <tr class="odd">
 <td>ACF</td>
-<td>varios puntos con coef&gt;0</td>
+<td>varios puntos con coef&gt;0 decayendo</td>
 <td>0 excepto los <code>q</code> primeros</td>
-<td>varios puntos con coef&gt;0</td>
+<td>varios puntos con coef&gt;0 decayendo</td>
 </tr>
 <tr class="even">
 <td>PACF</td>
@@ -101,15 +102,17 @@ acf2(diff(Nile))</code></pre>
 </tbody>
 </table>
 <p>Como regla, la <code>PACF</code> define el orden de <code>AR(p)</code> y la <code>ACF</code> el orden de <code>MA(q)</code>. Otra cosa a tener encuentra para su interpretación es que hay que fijarse bien en los valores absolutos de los primeros datos, obviando las inversiones abajo-arriba que solo son indicadores de algún coeficiente negativo del modelo, pero no afectan al órden <code>(p,q)</code>.</p>
-<p>Veamos unos ejemplos de series ARMA generadas automáticamente y sus gráficas ACF PACF, trata de ver las caracteristicas de la tabla para identificar los órdenes:</p>
+<p>Veamos unos ejemplos de series ARMA generadas automáticamente y sus gráficas <code>ACF/PACF</code>, trata de ver las caracteristicas de la tabla para identificar los órdenes:</p>
+<p>Una última anotación: hay que procurar siempre elegir el modelo más simple de los posibles, para ajustarse al <em>principio de parsimonia</em> o <em>navaja de Ockham</em> que dice que ante varios modelos con iguales resultados, la hipótesis que tiene menor número de supuestos suele ser la correcta.</p>
 <pre class="r"><code># Simulamos una serie arima(0,0,q)= MA(q)
+# usamos la funion arima.sim de Rbase
 MA &lt;- arima.sim(model=list(order=c(0,0,2),ma= c(0.8,-0.5)), n=800)
 # Visualizamos las autocorrelaciones
 ggtsdisplay(MA, main=&quot;MA(2) = ARIMA(0,0,2)&quot;)</code></pre>
 <p><img src="/post/2020-10-20-series-temporales-con-arima-i.es_files/figure-html/ejemplosARMA-1.png" width="672" /></p>
 <pre class="r"><code># Simulamos una serie arima(p,0,0)= AR(p)
 AR &lt;- arima.sim(model=list(order=c(1,0,0),ar= 0.7), n=600)
-ggtsdisplay(AR,main=&quot;AR(1)=ARIMA(1,0,0)&quot;) </code></pre>
+ggtsdisplay(AR,main=&quot;AR(1)=ARIMA(1,0,0)&quot;)</code></pre>
 <p><img src="/post/2020-10-20-series-temporales-con-arima-i.es_files/figure-html/ejemplosARMA-2.png" width="672" /></p>
 <p>Si hay muchos valores de <code>ACF</code> altos(significativos), la serie es NO estacionaria y habrá que agregar una diferenciación con <code>d</code> como pasa en la gráfica de la serie de caudales máximos del Nilo.</p>
 <p>Si los valores de <code>ACF</code> son todos nulos (entre las bandas azules) se trata de ruido blanco <code>ARIMA(0, 0, 0)</code>. Si la diff(1) es ruido blanco es un paseo aleatorio o randon walk <code>ARIMA(0, 1, 0)</code> o <code>I(1)</code> es equivalente a <span class="math inline">\(X_t = X_{t − 1} + ε_t\)</span>.</p>
@@ -117,13 +120,13 @@ ggtsdisplay(AR,main=&quot;AR(1)=ARIMA(1,0,0)&quot;) </code></pre>
 </div>
 <div id="i--integracion-o-transformacion-de-series" class="section level2">
 <h2>I -Integracion o transformacion de series</h2>
-<p>Como la matemática de estos modelos ARMA está mas que probada, es “sencilla” y funciona bien, se buscó la forma de aplicarlos a series que no cumplen la condición de <em>estacionariedad</em>, es decir aquellas con tendencia, ciclos o varianza no homogenea.</p>
-<p>La manera más simple de transformar la serie a estacionaria es <strong>diferenciandola</strong>, que consiste simplemente en restar al valor de hoy, el de ayer, y así quedarnos con una serie temporal nueva llamada de diferencias, en <span class="math inline">\(R\)</span> se hace con la función <code>diff(x)</code>.</p>
+<p>Como la matemática de estos modelos <code>ARMA()</code> está mas que probada, es “sencilla” y funciona bien, se buscó la forma de aplicarlos a series que no cumplen la condición de <em>estacionariedad</em>, es decir aquellas con tendencia, ciclos o varianza no homogenea.</p>
+<p>La manera más simple de transformar la serie a estacionaria es <strong>diferenciándola</strong>. Esto lo haremos para quitar las tendencias y que consiste simplemente en restar al valor de hoy, el de ayer, y así quedarnos con una serie temporal nueva llamada de diferencias, en <span class="math inline">\(R\)</span> se hace con la función <code>diff(x)</code>.</p>
 <p>La <code>I</code> de <code>AR-I-MA</code> indica el orden de integración o diferenciación (número de veces que hay que diferenciar recursivamente) la serie origen para convertirla en estacionaria. Esto permite ampliar el rango de uso a series no estacionarias en media, es decir a las que tienen tendencias.</p>
 <p>Diferenciar una serie es calcular la nueva serie <span class="math inline">\(Y_t\)</span> tal que :
 <span class="math inline">\(Y_t=X_t-X_{t−1}\)</span>.</p>
-<p>Según la nomeclatura de los modelos <code>ARIMA(p,d,q)</code>, el número de integraciones o diferenciaciones que hay que hacer a una serie para convertirla en estacionaria se da con el parámetro <code>d</code>.</p>
-<p>En <span class="math inline">\(R\)</span> lo tenemos fácil, pues el paquete <code>forecast</code> cuenta con dos funciones <code>ndiffs</code> y <code>nsdiffs()</code>, que nos dicen el número de diferenciaciones que hay que hacer a la serie es decir el orden d, y el D estacional en caso de que muestren alguno.</p>
+<p>Según la nomeclatura de los modelos <code>ARIMA(p,d,q)</code>, el número de integraciones o diferenciaciones que hay que hacer a una serie para convertirla en estacionaria se da con el parámetro <code>d</code> que toma valores entre 0 y 1 habitualmente.</p>
+<p>En <span class="math inline">\(R\)</span> lo tenemos fácil, pues el paquete <code>forecast</code> cuenta con dos funciones <code>ndiffs</code> y <code>nsdiffs()</code>, que nos dicen el número de diferenciaciones que hay que hacer a la serie, es decir, el orden <code>d</code>, y el <code>D</code> estacional en caso de que muestren alguno.</p>
 </div>
 <div id="resumen-del-proceso-de-ajuste" class="section level2">
 <h2>RESUMEN DEL PROCESO DE AJUSTE</h2>
@@ -131,13 +134,13 @@ ggtsdisplay(AR,main=&quot;AR(1)=ARIMA(1,0,0)&quot;) </code></pre>
 <p>Siguiendo los pasos conseguiremos obtener los órdenes del modelo <code>ARIMA(p,d,q)(P,D,Q)s</code> y realizar pronósticos. Como verás hay cosas que no he comentado en este artículo, pues se haría muy largo, pero que trataremos en los <a href="../series-temporales-con-arima-ii">casos prácticos</a>.</p>
 <p>El proceso que sigo es:</p>
 <ol style="list-style-type: decimal">
-<li>Pintar la serie temporal (<span class="math inline">\(X_t\)</span>) e identificar valores inusuales (outliers). En tal caso uso <code>forecast::tsclean(x)</code>.</li>
-<li>Analizar si los datos parecen o no ESTACIONARIOS mirando la gráficas <em>ACF/PACF</em>. Alternativamente o después de analizar el gráfico, podemos usar las funciones <code>ndiffs()</code>, para obtener el orden <code>d</code> de diferenciación y pintar las nuevas gráficas <em>ACF/PACF</em> de la serie <code>diff(</code> <span class="math inline">\(X_t\)</span> <code>)</code>. También podemos usar test como: <code>adf.test(x, alternative = "stationary")</code>para saber si es o no estacionaria.</li>
-<li>Comprobar si tiene ciclos estacionales ( de lag=s) con <code>nsdiffs()</code>, en tal caso pintar ACF y PACF de <code>diff(xlag=s)</code> e iniciar el proceso desde el paso 1 para el ciclo.</li>
-<li>Si en la gráfica apreciamos que la varianza no es homogenea, hay que usar algún método de transformarción de varianza como tomar <code>log(x)</code> o <code>Box-Cox(x)</code> calculando <code>lambda</code>.</li>
-<li>Examinar las ACF/PACF y proponer modelos <code>ARIMA(p,d,q)</code> con la interpretación dada en la tabla. Alternativamente usar <code>auto.arima()</code> para hallar el mejor modelo de ajuste automático (que no siempre es mejor).</li>
+<li>Pintar la serie temporal (<span class="math inline">\(X_t\)</span>) e identificar valores, <em>NA</em> o inusuales (outliers). En tal caso uso <code>forecast::tsclean(x)</code>.</li>
+<li>Analizar si los datos parecen o no ESTACIONARIOS mirando la gráficas <em>ACF/PACF</em>. Alternativamente o después de analizar el gráfico, podemos usar las funciones <code>ndiffs()</code>, para obtener el orden <code>d</code> de diferenciación y pintar las nuevas gráficas <em>ACF/PACF</em> de la serie <span class="math inline">\(diff(X_t)\)</span>. También podemos usar test como: <code>adf.test(x, alternative = "stationary")</code>para saber si es o no estacionaria.</li>
+<li>Comprobar si tiene ciclos estacionales (de lag=S) con <code>nsdiffs()</code>, en tal caso pintar ACF y PACF de <code>diff(xlag=S)</code> e iniciar el proceso desde el paso 1 para el ciclo.</li>
+<li>Si en la gráfica apreciamos que la varianza no es homogénea, hay que usar algún método de transformación de varianza como tomar <code>log(x)</code> o <code>Box-Cox(x)</code> calculando <code>lambda</code>.</li>
+<li>Examinar las ACF/PACF y proponer modelos <code>ARIMA(p,d,q)</code> con la interpretación y guía dada en la tabla 1. Alternativamente usar <code>auto.arima()</code> para hallar el mejor modelo de ajuste automático (que no siempre es mejor).</li>
 <li>Ver los resultados de AICc,AIC o BIC de los modelos <code>astsa::sarima(x,p,d,q)</code> para elegir el mejor (el que tenga menor BIC, AIC.. es el mejor), también con <code>accuracy(x)</code>.</li>
-<li>Chequear los graficos de residuos del modelo, por ejemplo con la función <code>sarima()</code> para comprobar que sea ruido blanco, pues en caso contrario todavía hay información relevante en ellos y el modelo no es completo —&gt; añadir algún órden.</li>
+<li>Chequear los gráficos de residuos del modelo, por ejemplo con la función <code>sarima()</code> o <code>checkresiduals()</code> para comprobar que sea ruido blanco, pues en caso contrario todavía hay información relevante en ellos y el modelo no es completo —&gt; añadir algún orden.</li>
 <li>Hacer pronóstico con <code>sarima.for(x, n.ahead = 20, p = 1, d = 1, q = 1)</code> o con <code>forecast(fit,h = n_test)</code>.</li>
 </ol>
 <p>Parece complejo, pero luego no lo es tanto, y los resultados de los pronósticos son bastante buenos. En el siguiente post veremos algunos casos prácticos y verás todo más claro.</p>

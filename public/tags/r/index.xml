@@ -6,10 +6,21 @@
     <description>Recent content in R on EnRdados</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>es</language>
-    <lastBuildDate>Mon, 06 Apr 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 25 Oct 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/r/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Series temporales con arima II</title>
+      <link>/post/series-temporales-con-arima-ii/</link>
+      <pubDate>Sun, 25 Oct 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/post/series-temporales-con-arima-ii/</guid>
+      <description>El anterior post fue una introducción a los modelos ARIMA, ahora vamos a ver ejemplos prácticos.
+Recuerda que es importante saber interpretar las gráficas de los correlogramas ACF y PACF que nos dan el orden del modelo según esta guía:
+AR(p)MA(q)ARMA(p,q)ACFvarios puntos con coef&amp;gt;0 decayendo0 excepto los q primerosvarios puntos con coef&amp;gt;0 decayendoPACF0 excepto los p primerosvarios puntos con coef&amp;gt;0varios puntos con coef&amp;gt;0Utilizaremos principalmente las librerías astsa y forecast cada una tiene unas funciones para hacer el proceso.</description>
+    </item>
     
     <item>
       <title>Camino crítico y Gantt de un Proyecto</title>
