@@ -14,7 +14,7 @@ description: 'control de accesos a la app desde flex'
 thumbnail: '/post/2020-11-08-control-de-acceso-web.es_files/control_accesos1.png'
 ---
 
-Una de las cosas por las que vale la pena aprender $$R$$ es por lo fácil que resulta hacer aplicaciones web dinámicas. Esto lo podéis comprobar en la serie de post que realicé sobre *shiny*, enfocado al desarrollo de app con la librería flexdashboard.
+Una de las cosas por las que vale la pena aprender **R** es por lo fácil que resulta hacer aplicaciones web dinámicas. Esto lo podéis comprobar en la serie de post que realicé sobre *shiny*, enfocado al desarrollo de app con la librería flexdashboard.
 
  * [I. Sintaxis y uso simple de flexdashboard](../Shiny-facil-con-flexdashboard)
  * [II. htmlwidgets](../Shiny-facil-con-flexdashboard-ii)
@@ -88,10 +88,10 @@ Os dejo un ejemplo completo más abajo, acordaros de poner en el mismo directori
 
 En el ejemplo he añadido más funciones de formato en `auth_ui()` para que veáis cómo poner un logo, o un mail de contacto al administrador en caso de que no puedan entrar a la web, pero esto no es necesrio y puedes reducirlo al código simplificado anterior.
 
-Ojo, que por cuestiones de formato, las comillas que aparecen en este ejemplo en los chunk de código __NO SON VÁLIDAS EN R__, debes cambiar $'''$ por $```$.
+Ojo, que por cuestiones de formato, las comillas que aparecen en este ejemplo en los chunk de código __NO SON VÁLIDAS EN R__, debes cambiar  ''' por ```.
 
 
-````
+```
 ---
 title: "ejem_pass_web"
 output:
