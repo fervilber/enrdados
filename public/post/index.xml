@@ -6,10 +6,20 @@
     <description>Recent content in Posts on EnRdados</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>es</language>
-    <lastBuildDate>Sun, 25 Oct 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 08 Nov 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Control de acceso web</title>
+      <link>/post/control-de-acceso-web/</link>
+      <pubDate>Sun, 08 Nov 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/post/control-de-acceso-web/</guid>
+      <description>Una de las cosas por las que vale la pena aprender $$R$$ es por lo fácil que resulta hacer aplicaciones web dinámicas. Esto lo podéis comprobar en la serie de post que realicé sobre shiny, enfocado al desarrollo de app con la librería flexdashboard.
+ I. Sintaxis y uso simple de flexdashboard II. htmlwidgets III. crosstalk IV.App shiny con flexdashboard   La verdad es que yo no uso Shiny, porque siempre que tengo que hacer una aplicación o gráfica dinámica uso flexdashboard o flex para los amigos :-) .</description>
+    </item>
     
     <item>
       <title>Series temporales con arima II</title>

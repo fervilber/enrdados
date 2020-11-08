@@ -4,6 +4,7 @@ date: 2019-04-03
 authorbox: true
 sidebar: true
 menu: main
+toc: true
 ---
 
 Página con enlaces interesantes
@@ -13,6 +14,11 @@ Página con enlaces interesantes
 
  - [Manual de R para el científico de datos](https://drive.google.com/file/d/1EoLm-rqr5eikmpodb90uIGyju6E1jBjZ/view?usp=sharing), este es mi libro de consulta que sigo usando a diario.
  - [Aprendizaje supervisado en R](https://enrdados.netlify.com/post/graficos-de-red-con-igraph/), otro manual que hice para saber cómo hacer modelos supervisados en R.
+
+## Otros manuales
+
+ - [R para ciencia de datos](https://es.r4ds.hadley.nz/) en español.
+ - 
 
 ## Enlaces recomendados para mapeo con R
 
@@ -48,3 +54,5 @@ Algunos enlaces a aplicaciones y código shiny interesantes:
  -[Datos calidad aire Comunidad de Madrid](http://gestiona.madrid.org/azul_internet/run/j/AvisosAccion.icm)
  -[Red de vigilancia calidad del aire Murcia](https://sinqlair.carm.es/calidadaire/redvigilancia/redvigilancia.aspx)
  -[gob.es](https://datos.gob.es/es/catalogo?q=Murcia&administration_level=A&theme_id=medio-ambiente&sort=metadata_modified+desc)
+ 
+ 

@@ -12,6 +12,16 @@
     
     
     <item>
+      <title>Control de acceso web</title>
+      <link>/post/control-de-acceso-web/</link>
+      <pubDate>Sun, 08 Nov 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/post/control-de-acceso-web/</guid>
+      <description>Una de las cosas por las que vale la pena aprender $$R$$ es por lo fácil que resulta hacer aplicaciones web dinámicas. Esto lo podéis comprobar en la serie de post que realicé sobre shiny, enfocado al desarrollo de app con la librería flexdashboard.
+ I. Sintaxis y uso simple de flexdashboard II. htmlwidgets III. crosstalk IV.App shiny con flexdashboard   La verdad es que yo no uso Shiny, porque siempre que tengo que hacer una aplicación o gráfica dinámica uso flexdashboard o flex para los amigos :-) .</description>
+    </item>
+    
+    <item>
       <title>Series temporales con arima II</title>
       <link>/post/series-temporales-con-arima-ii/</link>
       <pubDate>Sun, 25 Oct 2020 00:00:00 +0000</pubDate>
@@ -248,7 +258,7 @@ LaTeX es el procesador de textos por excelencia, pero hemos de reconocer que no 
       
       <guid>/enlaces/</guid>
       <description>Página con enlaces interesantes
-Mis libros  Manual de R para el científico de datos, este es mi libro de consulta que sigo usando a diario. Aprendizaje supervisado en R, otro manual que hice para saber cómo hacer modelos supervisados en R.  Enlaces recomendados para mapeo con R  https://geocompr.robinlovelace.net/intro.html hoja resumen a imprimirse siempre ejemplos devarias librerias paleolimbot.github - ggspatial Sistemas de coordenadas en R pdf Libro de GIS en R, bueno y caro Libro de un español de SIG algo simple -Cartografía del censo electoral 2011 Sistemas de información geográfica, libro con teoría de SIG avanzado, muchos algoritmos geográficos y amplias descripciones en Español.</description>
+Mis libros  Manual de R para el científico de datos, este es mi libro de consulta que sigo usando a diario. Aprendizaje supervisado en R, otro manual que hice para saber cómo hacer modelos supervisados en R.  Otros manuales  R para ciencia de datos en español.   Enlaces recomendados para mapeo con R  https://geocompr.robinlovelace.net/intro.html hoja resumen a imprimirse siempre ejemplos devarias librerias paleolimbot.</description>
     </item>
     
     <item>
