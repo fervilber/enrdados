@@ -1,0 +1,215 @@
+---
+title: web scraping I
+author: F.VilBer
+date: '2020-12-08'
+slug: []
+categories:
+  - Shiny
+  - R
+tags:
+  - app
+  - programas
+  - R
+  - shiny
+description: 'web scraping, raspado web facil con R'
+thumbnail: '/post/2020-12-08-web-scraping-i/index.es_files/ibex35app01.png'
+---
+
+Hace tiempo que quería escribir en el blog algún ejemplo sencillo de *web scraping*. es lo que vamos a explicar hoy, y además del rascado web haremos una aplicación dinámica en R.
+
+el objetivo es crear una web dinámica, que tomará los datos de internet de otra web ajena actualizandose cada cierto tiempo automáticamente. Empecemos:
+
+## ¿Qué es el web scraping?
+
+Se denomina *web scraping* (rascado web) a la automatización de la descarga de datos de internet mediante programación. Es una forma de obtener datos de páginas no accesibles, sin necesidad de que  nos los den en formatos accesibles como *.csv.
+
+Lo cierto es que el *web scrapping* es súper útil, pues muchas veces necesitamos descargar datos de una web, pero esta no deja descargarlos. Entonces nos las tenemos que ingeniar para extraerlos directamente del código de la página, del *html* bruto, y con R esto es más sencillo de lo que parece. 
+
+Esto del  *web scrapping* es un buen ejercicio de programación y también de derecho a nuestra libertad... pues no hay que buscar mucho para comprobar que son las instituciones públicas las que más dificultades ponen para dar los datos libres y llegan al descaro de distribuir tablas en pdf en lugar de formatos directamente de trabajo para evitar a toda costa la **transparencia** de la información. 
+
+Así que luchemos por la transparencia!, vamos con un poco de ingeniería inversa aplicada a los datos.
+
+## Objetivo 
+Nuestro objetivo es extraer las cotizaciones del **Ibex 35** en tiempo real de una web y con ellos montar nuestra propia web dinámica.
+
+Usaremos *web scrapping* y *Shiny* con *flexdashboard* para montar nuestra web. Un punto importante es que queremos que nuestra web con datos “prestados” se actualice cada 60 segundos automáticamente.
+
+## Manos a la obra
+Cogeremos los datos de la web bolsa de Madrid en <a href="https://www.bolsamadrid.es/esp/aspx/Mercados/Precios.aspx?indice=ESI100000000" target="_blank" rel="noopener"><span>este enlace</span> </a>.
+
+Usaremos la librería `RVest`. Este paquete es uno de los más completos para *web scrapping* y contiene funciones como `read_html()` que descarga el código html en bruto de una web como *xml* jerarquico. Esto nos permite acceder a los datos internos sin problemas. Una web es al fin y al cabo una sucesion jerárquica de nodos.
+
+## XPath  
+
+Un punto importante en el en el trabajo *web scrapping* con `RVest` es identificar la parte de la página que contiene los datos y queremos leer. Para ello hay varios sistemas, el primero es saber algo de *CSS* o de *html*, con esto podemos ver el código en cualquier navegador y buscar la etiqueta que buscamos. 
+
+Hay algunas herramientas de serie en los navegadores, por ejemplo en *Firefox* podemos situarnos encima del punto de la web que queremos husmear y pulsar botón derecho en __*inspeccionar*__. Así abrimos la ventana de inspección de código html.
+
+En el navegador *Chrome*, hay algunos *gadget* como <a href="https://chrome.google.com/webstore/detail/selectorgadget" target="_blank" rel="noopener"><span>selectorgadget</span> </a> que pueden ser muy útiles en este proceso.
+
+*HTML* es el código fuente de las webs, y normalmente cada parte de una página tiene un nombre o etiqueta que lo define. Bueno en realidad las webs son *XML*, que es la generalización del lenguaje de etiquetas. XML es un formato genérico de etiquetado, que incluye otros como *HTML*, *CSS*, pero no quiero que nos perdamos en esto. Lo que necesitamos saber, es cómo se llama la parte que la página que vamos a extraer, y en la siguiente imagen te muestro cómo hacerlo con Firefox. 
+Vamos a la web que buscamos (<www.bolsamadrid.es>), y cuando estamos encima de la tabla de cotizaciones pulsamos el botón derecho, después en inspeccionar y luego a *Copiar* --> *XPath*.
+
+![como saber el XPath](/post/2020-12-08-web-scraping-i/index.es_files/xpath_R.png){width=80%}
+
+De esta forma podemos acceder a cualquier parte de una web, averiguar su identificador o *XPath* y entonces extraerlo automáticamente con la R y la librería `RVest` de la siguiente forma:
+
+```{r, warning=FALSE, message=FALSE}
+library(rvest)
+# seleccionamos la url de la web en la que haremos web scraping
+ url.ibex<-"https://www.bolsamadrid.es/esp/aspx/Mercados/Precios.aspx?indice=ESI100000000"
+# lee la web entera como nodos
+  pag <- read_html(url.ibex) 
+# Extrae el XPath que hemos obtenido
+ tabla <- html_nodes(pag,xpath='//*[@id="ctl00_Contenido_tblAcciones"]')
+ class(tabla)
+```
+
+Usamos la función `read_html()` de `RVest`, para leer la web en bruto, y después la función `html_nodes()`, para acceder a un punto de esa web. Para identificar el nodo o punto usamos su matrícula en XML o *XPath* que hemos extraído según el proceso que explicamos antes.
+
+Usar *XPath* es la forma general, pero html_nodes() es una función que busca tambie etiquetas genericas html como por ejemplo la etiqueta *table*, que identifica las tablas de datos web. Usando esto en combinación con otra función de `RVest` llamada `html_table()` podemos leer directamente las tablas como data frame, vamos a ver cómo:
+
+```{r, warning=FALSE, message=FALSE}
+library(rvest)
+# seleccionamos la url de la web en la que haremos web scraping
+  url.ibex<-"https://www.bolsamadrid.es/esp/aspx/Mercados/Precios.aspx?indice=ESI100000000"
+# lee la web entera como nodos
+  pag <- read_html(url.ibex) 
+# extraemos los nodos que son de tipo tabla
+  tabla <- html_nodes(pag, "table")
+# de ellos nos quedamos con la tabla num 5  
+  tabla <- html_table(tabla [[5]], dec = ",")
+  head(tabla)
+```
+
+Como ves, en apenas unas líneas hemos conseguido tener los datos de una web en un formato accesible para su tratamiento, ahora podemos limpiar, ordenar o filtrar lo que busquemos y listo.
+
+## crear una web dinámica con los datos extraídos
+Como ya tenemos los datos, ahora buscamos hacer una web que automatice el proceso cada cierto tiempo y que muestre los datos de forma personalizada, para esto voy a usar [flexdashboard](../shiny-facil-con-flexdashboard-iv), ya sabeis que me gusta usar flex para hacer mis aplicaciones de R.
+
+El principal problema de nuestra web no es mostrar una tabla de datos que ya hemos leído, eso es fácil de hacer con `renderDataTable()`, el problema es **¿cómo hacemos que se actualice cada 60 segundos?**
+
+## Actualizar web automáticamente
+Bueno, para eso se me ha ocurrió usar una función de Shiny `invalidateLater`. 
+Esta función hace que una variable *reactiva* no funcione durante un tiempo determinado, … que si le damos la vuelta es lo mismo a: que solo reaccione cada x milisegundos. Es decir debemos crear una variable reactiva que tenga la función actualizar tabla, y esta variable solo se activará cada cierto tiempo.
+
+
+```{r eval=FALSE}
+# variable reactiva que llama a su vez a la función de web scrapping
+actualizar <- reactive({
+          invalidateLater(1000*60,session) #♠ se actualiza cada 60s
+            # Llama a la función que descarga el fichero y hace web scraping 
+            lee_web(url.ibex2) 
+})
+```
+
+## Conclusiones
+Ahora vamos a juntarlo todo, soy un poco pijotero con los formatos, a veces paso más tiempo ajustando formato que con la programación, en fin, cada uno tiene sus vicios, así que el código de muestra final de la aplicación tiene más líneas el formato que para el ejercicio de *web scrapping*, que es súper simple. 
+
+Si sois *Espartanos* del color, quitad todo lo superfluo y con apenas 5 líneas de código tendreis una aplicación que muestra los datos de cotizaciones del IBEX35 en casi "tiempo real".
+
+Respecto al formato, en RMarkdown puedes añadir formato de estilo *CSS* directamente, la línea `<style>........</style>` define un nuevo estilo para las tablas, en el que reduzco el tamaño de fuente.
+
+También es interesante el formato que se muestra la tabla, pues incorporo en dos de las columnas opciones gráficas. En la columna *Dif*, se muestran de rojo los valores que bajan y de verde los que suben usando el comando `formatStyle`, y `styleInterval`, que sirve para definir escalas en un `DT`.
+
+En la columna `Efectivo` se dibuja una barra según el valor de Efectivo, esto lo hacemos con `styleColorBar` y los parámetros que veréis en la muestra.
+
+Creo que el resultado final es bastante atractivo, y es un ejemplo bueno de los resultados tan profesionales que podemos lograr con R, y Shiny.
+
+![Aspecto final de la app](/post/2020-12-08-web-scraping-i/index.es_files/ibex35app01.png){width=80%}
+
+Solo recordaros que para publicar la app, podemos o correrla en local, para lo que solo necesitamos RSTUDIO, o montar un servidor Shiny, como vimos en [este post por ejemplo](../instalar-r-shiny-en-aws)  y publicarla.
+
+Personalmente la mejor opción es usar las 5 app gratuitas que nos dejan con la cuenta de <https://www.shinyapps.io>. Para publicarlo allí se hace desde RSTUDIO directamente clikcando en publicar cuando corremos la app en local (arriba a la derecha), y antes registrandose en la web.
+
+Este es el codigo final:
+
+```
+Codigo completo del ejemplo:
+---
+title: "App_Bolsa"
+output:
+  flexdashboard::flex_dashboard:
+    theme: spacelab    
+    orientation: columns
+    vertical_layout: fill
+editor_options: 
+  chunk_output_type: console
+runtime: shiny
+---
+
+'''{r setup, include=FALSE}
+library(flexdashboard)
+library(DT)
+library(rvest)
+library(dplyr)
+'''
+
+<style> .datatables{ overflow: auto; font-size: 7pt} </style> 
+
+# BolsaMadrid {data-width=600}
+
+Lee los datos de la web de bolsa de Madrid en tiempo real.
+
+'''{r tiempo}
+# display con la fecha de lectura de la web
+  textOutput("contador")
+'''
+
+### Cotización Ibex 35
+
+'''{r bolsaMadrid_chunk}
+## vamos a leer los datos que da la web de Bolsa de Madrid del IBEX 35 en tiempo real retrasado 15 min 
+ url.ibex2<-"https://www.bolsamadrid.es/esp/aspx/Mercados/Precios.aspx?indice=ESI100000000"
+# función que lee la web y da una tabla con los datos
+ lee_web <- function(ruta) {
+        tmp1 <- read_html(ruta) # lee la web
+        tmp1 <- html_nodes(tmp1, "table")
+      #Leemos la tabla las comas son decimales
+        ibex1 <- html_table(tmp1[[5]], dec = ",")
+      #Cambiamos los nombres a más simples
+        nombres<-c("Nombre", "Ult","Dif","Max" ,"Min","Volumen","Efectivo","Fecha","Hora")
+        names(ibex1)<-nombres
+      #Limpiamos la tabla y corregimos columnas
+        ibex1$Efectivo<-gsub(".","",ibex1$Efectivo, fixed = TRUE) # quito puntos
+        ibex1$Efectivo<-gsub(",",".",ibex1$Efectivo, fixed = TRUE) #cambio coma por punto
+        ibex1$Efectivo<-as.numeric(ibex1$Efectivo) # convierto en numerico
+        ibex1$Fecha<- as.Date(strptime(ibex1$Fecha, "%d/%m/%Y")) # convierto a fecha
+        nombres<-gsub(".","",nombres, fixed = TRUE)
+        names(ibex1)<-nombres
+      return(ibex1)
+}
+
+# variable reactiva que llama a su vez a la función de scrapping
+ibex1 <- reactive({
+          invalidateLater(1000*30,session)
+            # Actualiza la fecha cada vez que 
+            output$contador<- renderText({as.character(as.POSIXct(Sys.time()))})
+            lee_web(url.ibex2) 
+})
+
+# pinta la tabla de los datos del IBEX
+renderDataTable({
+    DT::datatable(ibex1() , options = list(pageLength = 35,
+    bPaginate = TRUE), rownames= FALSE) %>% # Opciones formato de tabla básicas
+     formatStyle("Dif",# formto de la col de % Dif
+        background = styleInterval(c(0),c("coral","lightgreen"))) %>%
+    formatStyle("Efectivo", # formato de la columna de efectivo
+        background = styleColorBar(range(ibex1()$Efectivo), 'lightblue'),
+        backgroundSize = '98% 60%',
+        backgroundRepeat = 'no-repeat',
+        backgroundPosition = 'center') %>%
+    formatStyle(names(ibex1()), lineHeight='50%')  # reduce el alto de TODAS las filas 
+})
+
+```
+
+
+
+
+
+
+
+
+
+
