@@ -26,8 +26,9 @@ Como es un tema que a muchos os puede interesar, voy a resumir el proceso, los t
 Lo primero es escribir el libro y para esto nada mejor que empezar con un simple documento markdown o `*.Rmd` desde RSTUDIO. 
 
 La sintaxis *Rmarkdown* es muy simple y potente, básicamente sólo debes poner una almohadilla `#` delante del título del capítulo y escribir en testo plano el resto. 
-Puedes ver más cosas de la sintaxis RMarkdown [aquí](../mdbasic/). También he escrito varios artículos en el blog relacionados para ayudar a sacar documentos de calidad usando R:
+Puedes ver más cosas de la sintaxis RMarkdown [aquí](../mdbasic/). También he escrito varios artículos en el blog relacionados con el tema de imprimir en pdf y obtener documentos de calidad usando R:
 
+ * [guia-para-imprimir-en-pdf-desde-r](../guia-para-imprimir-en-pdf-desde-r)
  * [tinytex tener Latex desde R sin esfuerzo](../tinytex-tener-latex-desde-r-sin-esfuerzo)
  * [Editar documentos pdf a dos columnas](../editar-a-dos-columnas)
  * [Informes html con Rmarkdown](../informes-html-con-rmarkdown)
@@ -211,7 +212,7 @@ El resultado es que el índice general queda personalizado, y que ninguno de los
 
 ![Indice personalizado](/post/2021-01-07-editar-un-libro-con-r/index.es_files/indice001.png)
 
-Respecto al formato de los capítulos también hemos añadido un cuadrado gris delante `$\blacksquare$` del nombre, pero podríamos poner una imagen o cualquier otra cosa.
+Respecto al formato de los capítulos también hemos añadido un cuadrado gris delante `$\blacksquare$` del nombre, y quitado la numeración y el nombre por defecto "Capítulo"", pero podríamos poner una imagen o cualquier otra cosa.
 
 ![Nuevo formato capitulos](/post/2021-01-07-editar-un-libro-con-r/index.es_files/titu003.png)
 
@@ -234,11 +235,11 @@ El índice general lo genera por defecto al principio del pdf, pero podemos inse
 ```
 Este código anterior mete una lista de las figuras del libro, tanto las insertadas con sintaxis de Rmarkdown como las generadas con chunks de código. Por cierto, para insertar una foto o imagen lo más sencillo es usar markdown, pero también lo podemos hacer con R así con pleno control de forma:
 
-```
-'''{r fotor01, fig.cap='Imagen de Marco Aurelio en las monedas de época', out.width='50%', fig.asp=.75, fig.align='center',eval=TRUE, echo=FALSE}
+````markdown
+```{r fotor01, fig.cap='Imagen de Marco Aurelio en las monedas de época', out.width='50%', fig.asp=.75, fig.align='center',eval=TRUE, echo=FALSE}
 knitr::include_graphics('fotos/Marcus_Aurelius.jpg')
-'''
 ```
+````
 
 El comando *LaTeX* `titlepage` indica una página tipo portada sin encabezado ni pie de página. `<!--` es el símbolo de comentarios en *LaTeX*. Como vemos *LaTeX* es totalmente compatible con Markdown en el mismo fichero.
 
