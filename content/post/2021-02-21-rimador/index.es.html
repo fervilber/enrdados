@@ -1,0 +1,266 @@
+---
+title: Rimador
+author: F.VilBer
+date: '2021-02-21'
+slug: []
+categories:
+  - Programas
+  - Shiny
+  - educación
+tags:
+  - app
+  - curiosidades
+  - divertido
+  - flexdashboard
+  - shiny
+description: ''
+thumbnail: '/post/2021-02-21-rimador/images/rimador_VilBer.png'
+---
+
+
+
+<div id="rimador" class="section level2">
+<h2>Rimador</h2>
+<p>Esta semana los peques tenían que hacer una poesía para el cole, como veréis queridos lectores, los niños son una fuente inagotable de ideas incluso para programar con R.</p>
+<p>Hace tiempo que abandoné mi parte artística así que, para compensar la oxidación mental se me ocurrió programar una sencilla aplicación que busque rimas y nos ayude a crear versos.</p>
+</div>
+<div id="idea-del-programa" class="section level2">
+<h2>Idea del programa</h2>
+<p>La idea parece sencilla, se trata 1) de escribir una palabra, 2) que una función descomponga en sílabas esta palabra, 3) que otra función busque palabras con la misma terminación.</p>
+<p>El resultado en forma de tabla con palabra de terminación similar nos puede ayudar a finalizar el verso que empezamos.</p>
+<p>Vamos manos a la obra.</p>
+</div>
+<div id="lemario" class="section level2">
+<h2>Lemario</h2>
+<p>Lo primero que hice fue buscar un lemario, o tabla de palabras en español, algunos lenguajes como LaTeX tienen lemarios, pero encontré esta magnifica web en github: <a href="https://github.com/olea/lemarios" target="_blank" rel="noopener"><span>github.com/olea/lemarios </span> </a>.</p>
+<p>En ella no solo proporcionan un lemario completo con mas de ochentamil palabras en español sino que además, tiene otro fichero con verbos conjugados que podríamos añadir al <em>lemario</em> para aumentar nuestra base de datos de palabras.</p>
+<p>Descargamos estos ficheros a nuestro directorio de trabajo así:</p>
+<pre class="r"><code># verbos conjugados en español
+url &lt;- &quot;https://github.com/olea/lemarios/raw/master/verbos-espanol-conjugaciones.txt&quot;
+download.file(url,destfile = &quot;./data/verbos-espanol-conjugaciones.txt&quot;)
+
+# Lemario completo de términos en español
+url &lt;- &quot;https://github.com/olea/lemarios/raw/master/lemario-general-del-espanol.txt&quot;
+download.file(url,destfile = &quot;./data/lemario-general-del-espanol.txt&quot;)</code></pre>
+</div>
+<div id="silabear" class="section level2">
+<h2>Silabear</h2>
+<p>El <em>lemario</em> es una lista de palabras y será la base de datos principal, ahora debemos programar una función que cada palabra del fichero línea a línea y nos calcule las sílabas. Esto no me ha resultado tan fácil como pensaba, y además el resultado no ha sido perfecto.</p>
+<p>He encontrado solo dos librerías que tengan funciones de silabeo (separar en sílabas), la primera opción con el paquete <code>hyphenatr</code>.</p>
+<pre class="r"><code># Para instalar hyphenatr:
+#  devtools::install_github(&quot;hrbrmstr/hyphenatr&quot;)
+library(hyphenatr)
+#seleccionamos el diccionario de Español
+switch_dict(&quot;es_ANY&quot;)
+# Usamos la función hyphenate para silabear
+hyphenate(&quot;alucinante&quot;,simplify=&quot;-&quot;)</code></pre>
+<pre><code>## [1] &quot;alu-ci-nan-te&quot;</code></pre>
+<pre class="r"><code>hyphenate(&quot;mordisco&quot;,simplify=&quot;-&quot;)</code></pre>
+<pre><code>## [1] &quot;mordis-co&quot;</code></pre>
+<p>La función <code>hyphenate()</code> no es en realidad para silabear, sino para cortar palabras al final del párrafo, es decir para separar en guiones. Y como puedes ver en los resultados anteriores no lo hace muy bien, dejando muchas palabras sin dividir. Por tanto descartamos esta opción.</p>
+<p>Buscando soluciones encontré el paquete <a href="https://github.com/unDocUMeantIt/koRpus" target="_blank" rel="noopener"><span>Korpus </span> </a> que tiene muchas funciones de análisis de textos. El resultado es mucho mejor, aunque no es perfecto. <em>Os ruego que si conocéis algún paquete o función mejor para separar en sílabas lo digáis en los comentarios</em>.</p>
+<p>El funcionamiento en <code>Korpus</code> es similar, hay que cargar la librería y después el idioma. La función de silabeo es <code>hyphen()</code>, que no busca exactamente silabear sino separar en guiones fin de línea como la anterior.</p>
+<pre class="r"><code># Para instalar Korpus
+## install.packages(&quot;koRpus&quot;)
+library(koRpus)
+# para instalar el lenguaje inglés y español:
+##install.koRpus.lang(lang=c(&quot;en&quot;, &quot;es&quot;))
+# Cargamos el idioma español
+library(sylly.es)
+# separa en silabas una palabra
+hyphen(&quot;mordisco&quot;, hyph.pattern=&quot;es&quot;,min.length=1)</code></pre>
+<pre><code>## 
+  |                                                                            
+  |                                                                      |   0%
+  |                                                                            
+  |======================================================================| 100%</code></pre>
+<pre><code>##   syll       word
+## 1    3 mor-dis-co</code></pre>
+<pre class="r"><code># mostramos el objeto resultado de hyphen:
+aux&lt;-hyphen(&quot;montañoso&quot;, hyph.pattern=&quot;es&quot;,min.length=1)</code></pre>
+<pre><code>## 
+  |                                                                            
+  |                                                                      |   0%
+  |                                                                            
+  |======================================================================| 100%</code></pre>
+<pre class="r"><code>   str(aux)</code></pre>
+<pre><code>## Formal class &#39;kRp.hyphen&#39; [package &quot;sylly&quot;] with 3 slots
+##   ..@ lang  : chr &quot;es&quot;
+##   ..@ desc  :List of 5
+##   .. ..$ num.syll         : num 4
+##   .. ..$ syll.distrib     : num [1:6, 1] 1 1 0 100 100 0
+##   .. .. ..- attr(*, &quot;dimnames&quot;)=List of 2
+##   .. .. .. ..$ : chr [1:6] &quot;num&quot; &quot;cum.sum&quot; &quot;cum.inv&quot; &quot;pct&quot; ...
+##   .. .. .. ..$ : chr &quot;4&quot;
+##   .. ..$ syll.uniq.distrib: num [1:6, 1] 1 1 0 100 100 0
+##   .. .. ..- attr(*, &quot;dimnames&quot;)=List of 2
+##   .. .. .. ..$ : chr [1:6] &quot;num&quot; &quot;cum.sum&quot; &quot;cum.inv&quot; &quot;pct&quot; ...
+##   .. .. .. ..$ : chr &quot;4&quot;
+##   .. ..$ avg.syll.word    : num 4
+##   .. ..$ syll.per100      : num 400
+##   ..@ hyphen:&#39;data.frame&#39;:   1 obs. of  2 variables:
+##   .. ..$ syll: num 4
+##   .. ..$ word: chr &quot;mon-ta-ño-so&quot;</code></pre>
+<pre class="r"><code>   # mostramos solo el data frame de silabas:
+   aux@hyphen</code></pre>
+<pre><code>##   syll         word
+## 1    4 mon-ta-ño-so</code></pre>
+<p>La función <code>hyphen()</code> da el resultado en una clase de objeto especial, que contiene a su vez 3 propiedades (van precedidas de <code>@</code>), estos son <code>@lang</code>, <code>@desc</code> y <code>@hyphen</code>. El que nos interesa y que contiene las sílabas es el <em>data.frame</em> llamado <code>@hyphen</code>.</p>
+<p>A los objetos de una clase en R se accede con el símbolo <code>@</code> de la misma forma que usamos <code>$</code> para una columna de una <em>data.frame</em>.</p>
+</div>
+<div id="tabla-de-rimas" class="section level2">
+<h2>Tabla de rimas</h2>
+<p>Como punto final vamos a calcular una tabla que contenga la base de datos de rimas que usaremos en la app. Para cada palabra del lemario calcularemos sus sílabas, le damos la vuelta para quedarnos solo con las 3 últimas y las almacenamos en la tabla.</p>
+<p>Para añadir las opciones del <em>rimadoR</em>, además de la última sílaba consonante, también vamos a calcular la rima vocal, quitando las consonantes de las sílabas calculadas en el paso anterior.</p>
+<p>Un punto interesante en el código que vas a ver abajo es que he evitado el uso de bucles. La programación con R va mucho más fluída y rápida si lo hacemos sin bucles (for … next), y para este caso con una tabla de 87.899 registros la función <code>map()</code> del paquete <code>purrr</code> es imprescindible <a href="https://enrdados.netlify.app/post/chuleta-de-purrr/" target="_blank" rel="noopener"><span>puedes ver este articulo del blog sobre purrr y listas en R </span> </a> .</p>
+<p>El siguiente código crea una tabla con las palabras, calcula y separa por sílabas, da la vuelta al vector de sílabas y por último almacena en 3 columnas llamadas c0, c1 y c2 las últimas 3 sílabas consonantes de la palabra, y como v0, v1 y v2 las 3 últimas silabas vocales de la misma palabra. Luego almacenamos la tabla en un fichero llamado <em>bdsilabas.csv</em> que después usaremos en la aplicación <em>shiny</em>.</p>
+<pre class="r"><code># Cargamos la librería Korpus
+library(koRpus)
+library(sylly.es) # cargamos el idioma esp
+library(tidyverse) # para usar purrr map
+
+# Leemos el fichero de lemario que descargamos antes
+# y almacenamos las palabras en un data frame.
+file&lt;-&quot;./data/lemario-general-del-espanol.txt&quot;
+lemario&lt;-readLines(file, encoding=&quot;UTF-8&quot;)
+dt&lt;-data.frame(palabra=lemario)
+# nrow(dt)
+
+# calculamos las sílabas de cada palabra
+silabas&lt;-(hyphen(dt$palabra, hyph.pattern=&quot;es&quot;,min.length=1))
+   # guardo solo la la data frame con las sílabas y el num de silabas   
+   bd&lt;-cbind(dt,silabas@hyphen)
+   rm(silabas) # borro la variable de clase para limpiar
+# separo las silabas encontradas en un vector
+list_aux&lt;- strsplit(bd$word,&quot;-&quot;) 
+# le damos la vuelta al vector para dejar primero
+# las últimas silabas. strsplit da como resultado una lista
+# por lo que usamos map() para aplicar a cada elemento 
+# de la lista la función rev() 
+list_aux &lt;- map(list_aux, ~.x %&gt;% rev())
+
+# Almacenamos las 3 columnas de rima consonante
+bd$c0&lt;- map_chr(list_aux, ~.x[1])
+bd$c1&lt;- map_chr(list_aux, ~.x[2])
+bd$c2&lt;- map_chr(list_aux, ~.x[3])
+
+# Quitamos la consonantes para tener la rima vocal
+ bd$v0&lt;- gsub(&quot;[^aeiouáéíóú]&quot;,&quot;&quot;,bd$c0)
+ bd$v1&lt;- gsub(&quot;[^aeiouáéíóú]&quot;,&quot;&quot;,bd$c1)
+ bd$v2&lt;- gsub(&quot;[^aeiouáéíóú]&quot;,&quot;&quot;,bd$c2)
+
+# veamos unas palabras de ejemplo 
+bd[sample(1:80000,10),]
+
+#Guardamos la tabla calculada como bdsilabas.csv 
+write.table(bd,&quot;bdsilabas.csv&quot;,
+            quote = FALSE, # Sin dobles comillas en cadenas
+            sep = &quot;;&quot;, # Separador de campos
+            row.names = FALSE # No coge nombres de filas del DF
+            )</code></pre>
+</div>
+<div id="crear-aplicación-shiny" class="section level2">
+<h2>Crear aplicación shiny</h2>
+<p>Con el material base hecho ahora nos toca hacer la app dinámica para poder hacer las consultas.</p>
+<p>Usaré como siempre <em>flexdashboard</em>. <a href="https://enrdados.netlify.app/post/shiny-facil-con-flexdashboard-iv/" target="_blank" rel="noopener"><span> Consulta aquí la serie de articulos dedicados a felx en este blog </span> </a></p>
+<p>La app será sencilla, con una barra lateral en la que podremos meter la palabra inicial y las opciones de rima, y la parte central será el resultado como consulta directa de la tabla. Puedes ver esta imagen del aspecto final:</p>
+<div class="figure">
+<img src="images/rimador_VilBer.png" alt="" />
+<p class="caption">RimadoR</p>
+</div>
+<p>Nuestra app se ejecuta en local con este código:</p>
+<pre class="markdown"><code>---
+title: &quot;RimadoR&quot;
+output:
+  flexdashboard::flex_dashboard:
+    theme: spacelab    
+    orientation: columns
+    vertical_layout: fill
+editor_options: 
+  chunk_output_type: console
+runtime: shiny
+---
+
+```r &#39;{r setup, include=FALSE}
+library(flexdashboard)
+library(DT)
+#library(rvest)
+#library(dplyr)
+library(stringr) # funciones de palabras
+library(koRpus)
+library(sylly.es)
+```
+
+&lt;style&gt; .datatables{ overflow: auto; font-size: 9pt} &lt;/style&gt; 
+
+# Rimador by Ferran VilBer
+
+```r &#39;{r}
+# lee la tabla de lemario con silabas
+bd&lt;-read.csv(&quot;bdsilabas.csv&quot;,header = T, sep = &quot;;&quot; )
+```
+
+## Entradas {.sidebar data-width=150}
+
+```r &#39;{r}
+# Barra lateral de controles
+## palabra input
+textInput(&quot;palabra&quot;, &quot;Busca rima de:&quot;, value = &quot;gladiador&quot;) # limitamos el tamaño 
+#  calcula las silabas de la palabra anterior
+textInput(&quot;silabas&quot;, &quot;silabas&quot;, value = &quot;silaba&quot;)
+# 
+pal &lt;- reactive({
+  sila&lt;-hyphen(str_to_lower(input$palabra), hyph.pattern=&quot;es&quot;,min.length=1)[1,2]
+  rev(unlist(strsplit(sila,&quot;-&quot;)[1]))
+  })
+# escribe la palabra separada de silabas al revés
+renderText(pal())
+# insertamos una linea de separacion
+tags$hr(style=&quot;border-color: black;&quot;)
+
+#cambia en tiempo real el silabeo
+observeEvent(input$palabra, {
+   y &lt;- input$palabra
+   if (is.null(y)) y &lt;- &quot;gladiador&quot;
+   #chs &lt;- if(y==&quot;invalido&quot;) 0:54 else 0:74
+   sila&lt;-hyphen(y, hyph.pattern=&quot;es&quot;,min.length=1)[1,2]
+   updateTextInput(session, &quot;silabas&quot;, value = sila)
+})
+# opciones de rima
+checkboxGroupInput(&quot;rimas&quot;, &quot;Tipo de rima:&quot;,
+                  choices = list(&quot;consonante final&quot;, &quot;consonante anterior&quot;, &quot;vocal final&quot;, &quot;vocal anterior&quot;, &quot;vocal 3&quot;),
+                  selected=list(&quot;consonante final&quot;, &quot;vocal anterior&quot;))
+
+```
+
+## Tabla de datos
+
+```r &#39;{r tablaa}
+# pinta la tabla con los filtros aplicados
+DT::renderDataTable({
+    filtro&lt;-bd
+    if(&quot;consonante final&quot; %in% input$rimas)
+      filtro &lt;- filtro[filtro$c0==pal()[1],]
+    if(&quot;consonante anterior&quot; %in% input$rimas)
+      filtro &lt;- filtro[filtro$c1==pal()[2],]
+    if(&quot;vocal final&quot; %in% input$rimas){
+      v0&lt;- gsub(&quot;[^aeiouáéíóú]&quot;,&quot;&quot;,pal()[1])
+      filtro &lt;- filtro[filtro$v0==v0,]
+    }
+    if(&quot;vocal anterior&quot; %in% input$rimas){
+      v1&lt;- gsub(&quot;[^aeiouáéíóú]&quot;,&quot;&quot;,pal()[2])
+      filtro &lt;- filtro[filtro$v1==v1,]}
+    if(&quot;vocal 3&quot; %in% input$rimas){
+      v2&lt;- gsub(&quot;[^aeiouáéíóú]&quot;,&quot;&quot;,pal()[3])
+      filtro &lt;- filtro[filtro$v2==v2,]}
+
+ DT::datatable(filtro, rownames = FALSE ,options = list(
+    bPaginate = TRUE,
+    pageLength = 20,
+    # para pasarlo a Español visto en: https://rstudio.github.io/DT/004-i18n.html
+    language = list(url = &#39;//cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json&#39;),
+    order = list(list(1, &#39;asc&#39;))
+  ))
+})
+```</code></pre>
+</div>
