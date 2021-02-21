@@ -27,8 +27,8 @@ thumbnail: '/post/2021-02-21-rimador/images/rimador_VilBer.png'
 <div id="idea-del-programa" class="section level2">
 <h2>Idea del programa</h2>
 <p>La idea parece sencilla, se trata 1) de escribir una palabra, 2) que una función descomponga en sílabas esta palabra, 3) que otra función busque palabras con la misma terminación.</p>
-<p>El resultado en forma de tabla con palabra de terminación similar nos puede ayudar a finalizar el verso que empezamos.</p>
-<p>Vamos manos a la obra.</p>
+<p>El resultado que buscamos será una aplicación en la que pongas una palabra y busque otras con similar terminación o <em>rima</em>, que nos ayude a finalizar el verso.</p>
+<p>Manos a la obra.</p>
 </div>
 <div id="lemario" class="section level2">
 <h2>Lemario</h2>
@@ -45,8 +45,8 @@ download.file(url,destfile = &quot;./data/lemario-general-del-espanol.txt&quot;)
 </div>
 <div id="silabear" class="section level2">
 <h2>Silabear</h2>
-<p>El <em>lemario</em> es una lista de palabras y será la base de datos principal, ahora debemos programar una función que cada palabra del fichero línea a línea y nos calcule las sílabas. Esto no me ha resultado tan fácil como pensaba, y además el resultado no ha sido perfecto.</p>
-<p>He encontrado solo dos librerías que tengan funciones de silabeo (separar en sílabas), la primera opción con el paquete <code>hyphenatr</code>.</p>
+<p>El <em>lemario</em> es una lista de palabras y será la base de datos principal, ahora debemos programar una función que cada palabra del fichero línea a línea y nos calcule las sílabas. Esto no me ha resultado tan fácil como pensaba, y el resultado no es perfecto, pero bueno ya lo mejoraremos en el futuro.</p>
+<p>He encontrado dos librerías que tienen funciones de silabeo (separar en sílabas), la primera opción con el paquete <code>hyphenatr</code>.</p>
 <pre class="r"><code># Para instalar hyphenatr:
 #  devtools::install_github(&quot;hrbrmstr/hyphenatr&quot;)
 library(hyphenatr)
@@ -68,15 +68,7 @@ library(koRpus)
 # Cargamos el idioma español
 library(sylly.es)
 # separa en silabas una palabra
-hyphen(&quot;mordisco&quot;, hyph.pattern=&quot;es&quot;,min.length=1)</code></pre>
-<pre><code>## 
-  |                                                                            
-  |                                                                      |   0%
-  |                                                                            
-  |======================================================================| 100%</code></pre>
-<pre><code>##   syll       word
-## 1    3 mor-dis-co</code></pre>
-<pre class="r"><code># mostramos el objeto resultado de hyphen:
+# mostramos el objeto resultado de hyphen:
 aux&lt;-hyphen(&quot;montañoso&quot;, hyph.pattern=&quot;es&quot;,min.length=1)</code></pre>
 <pre><code>## 
   |                                                                            
@@ -168,6 +160,8 @@ write.table(bd,&quot;bdsilabas.csv&quot;,
 <img src="images/rimador_VilBer.png" alt="" />
 <p class="caption">RimadoR</p>
 </div>
+<p>Como cosas interesantes he usado un <code>observeEvent()</code>. Lo que hace es vigilar los cambios de un <code>inputText</code> y si se producen hace que se actualice -en tiempo real- otro <code>inputText</code> diferente con las silabas. Es decir según escribimos la palabra, va calculando las sílabas y las escribe en otro <code>inputText</code> usando dentro del <code>observeEvent</code> la función <code>updateTextInput()</code>.</p>
+<p>Para filtrar la tabla con las opciones de rima usamos un <code>checkboxGroupInput</code> con varias opciones. Y para mostrar los resultados una DT con todo su dinamismo. Puedes ver un truco para que los botones del DT se vean en español.</p>
 <p>Nuestra app se ejecuta en local con este código:</p>
 <pre class="markdown"><code>---
 title: &quot;RimadoR&quot;

@@ -26,9 +26,9 @@ Hace tiempo que abandoné mi parte artística así que, para compensar la oxidac
 
 La idea parece sencilla, se trata 1) de escribir una palabra, 2) que una función descomponga en sílabas esta palabra, 3) que otra función busque palabras con la misma terminación.
 
-El resultado en forma de tabla con palabra de terminación similar nos puede ayudar a finalizar el verso que empezamos.
+El resultado que buscamos será una aplicación en la que pongas una palabra y busque otras con similar terminación o *rima*, que nos ayude a finalizar el verso.
 
-Vamos manos a la obra.
+Manos a la obra.
 
 ## Lemario
 Lo primero que hice fue buscar un lemario, o tabla de palabras en español, algunos lenguajes como LaTeX tienen lemarios, pero encontré esta magnifica web en github: <a href="https://github.com/olea/lemarios" target="_blank" rel="noopener"><span>github.com/olea/lemarios </span> </a>.
@@ -48,9 +48,9 @@ download.file(url,destfile = "./data/lemario-general-del-espanol.txt")
 ```
 
 ## Silabear
-El *lemario* es una lista de palabras y será la base de datos principal, ahora debemos programar una función que cada palabra del fichero línea a línea y nos calcule las sílabas. Esto no me ha resultado tan fácil como pensaba, y además el resultado no ha sido perfecto.
+El *lemario* es una lista de palabras y será la base de datos principal, ahora debemos programar una función que cada palabra del fichero línea a línea y nos calcule las sílabas. Esto no me ha resultado tan fácil como pensaba, y el resultado no es perfecto, pero bueno ya lo mejoraremos en el futuro.
 
-He encontrado solo dos librerías que tengan funciones de silabeo (separar en sílabas), la primera opción con el paquete `hyphenatr`. 
+He encontrado dos librerías que tienen funciones de silabeo (separar en sílabas), la primera opción con el paquete `hyphenatr`. 
 
 ```{r test_hyphenatr}
 # Para instalar hyphenatr:
@@ -78,7 +78,6 @@ library(koRpus)
 # Cargamos el idioma español
 library(sylly.es)
 # separa en silabas una palabra
-hyphen("mordisco", hyph.pattern="es",min.length=1)
 # mostramos el objeto resultado de hyphen:
 aux<-hyphen("montañoso", hyph.pattern="es",min.length=1)
    str(aux)
@@ -157,6 +156,9 @@ La app será sencilla, con una barra lateral en la que podremos meter la palabra
 
 ![RimadoR](images/rimador_VilBer.png)
 
+Como cosas interesantes he usado un `observeEvent()`. Lo que hace es vigilar los cambios de un `inputText` y si se producen hace que se actualice -en tiempo real- otro `inputText` diferente con las silabas. Es decir según escribimos la palabra, va calculando las sílabas y las escribe en otro `inputText` usando dentro del `observeEvent` la función `updateTextInput()`.
+
+Para filtrar la tabla con las opciones de rima usamos un `checkboxGroupInput` con varias opciones. Y para mostrar los resultados una DT con todo su dinamismo. Puedes ver un truco para que los botones del DT se vean en español.
 
 Nuestra app se ejecuta en local con este código:
 
