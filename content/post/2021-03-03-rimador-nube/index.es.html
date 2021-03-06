@@ -16,11 +16,6 @@ description: ''
 thumbnail: '/post/2021-03-03-rimador-nube/images/nube2.png'
 ---
 
-<script src="{{< blogdown/postref >}}index.es_files/htmlwidgets/htmlwidgets.js"></script>
-<link href="{{< blogdown/postref >}}index.es_files/wordcloud2/wordcloud.css" rel="stylesheet" />
-<script src="{{< blogdown/postref >}}index.es_files/wordcloud2/wordcloud2-all.js"></script>
-<script src="{{< blogdown/postref >}}index.es_files/wordcloud2/hover.js"></script>
-<script src="{{< blogdown/postref >}}index.es_files/wordcloud2-binding/wordcloud2.js"></script>
 
 
 <p>El rimador que hicimos semana pasada quedó un poco soso. Así que, vamos a programar unas algunas mejoras para hacer la aplicación más divertida, al fin y al cabo era para jugar y que la usaran los peques de la casa.</p>
@@ -147,7 +142,9 @@ head(tab)</code></pre>
 ## 5     algún    1
 ## 6    alguna    1</code></pre>
 <pre class="r"><code>#pintamos la nube de palabras con wordcloud2
-wordcloud2(tab, color = &quot;random-light&quot;, backgroundColor = &quot;white&quot;)</code></pre>
-<div id="htmlwidget-1" style="width:672px;height:480px;" class="wordcloud2 html-widget"></div>
-<script type="application/json" data-for="htmlwidget-1">{"x":{"word":["a","acordarme","adarga","algo","algún","alguna","ama","amigo","antigua","añadidura","años","así","astillero","aunque","autores","basta","calzas","campo","carnero","carnes","casa","caso","caza","cincuenta","como","complexión","con","concluían","conjeturas","consumían","corredor","cuarenta","cuento","cuyo","de","decir","deja","dél","della","deste","días","diferencia","domingos","duelos","edad","el","en","enjuto","ensillaba","entender","entresemana","era","escriben","esto","fiestas","fino","flaco","frisaba","galgo","gran","ha","hacienda","hay","hidalgo","honraba","importa","la","lantejas","lanza","las","llamaba","llegaba","lo","los","lugar","madrugador","mancha","más","mesmo","mozo","mucho","narración","no","noches","nombre","nuestro","o","olla","palomino","pantuflos","para","partes","pasaba","pero","plaza","poco","podadera","por","punto","que","quebrantos","quesada","quieren","quiero","quijada","quijana","recia","resto","rocín","rostro","sábados","salga","salpicón","sayo","se","seco","sobrenombre","sobrina","su","sus","tenía","tiempo","tomaba","tres","un","una","vaca","veinte","velarte","vellorí","velludo","verdad","verisímiles","viernes","vivía","y"],"freq":[2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,3,1,1,1,1,1,1,1,21,1,1,1,1,1,1,1,1,1,1,3,6,1,1,1,1,1,1,2,1,1,1,1,1,1,1,1,1,2,1,1,6,1,1,3,1,1,2,9,1,1,1,3,1,1,1,1,4,1,1,2,1,1,1,1,1,1,1,1,1,1,1,1,1,10,1,1,1,1,1,1,1,1,2,1,1,1,1,1,4,1,1,1,3,1,2,1,1,1,4,3,1,1,1,1,1,1,1,1,1,7],"fontFamily":"Segoe UI","fontWeight":"bold","color":"random-light","minSize":0,"weightFactor":8.57142857142857,"backgroundColor":"white","gridSize":0,"minRotation":-0.785398163397448,"maxRotation":0.785398163397448,"shuffle":true,"rotateRatio":0.4,"shape":"circle","ellipticity":0.65,"figBase64":null,"hover":null},"evals":[],"jsHooks":{"render":[{"code":"function(el,x){\n                        console.log(123);\n                        if(!iii){\n                          window.location.reload();\n                          iii = False;\n\n                        }\n  }","data":null}]}}</script>
+#wordcloud2(tab, color = &quot;random-light&quot;, backgroundColor = &quot;white&quot;)</code></pre>
+<div class="figure">
+<img src="images/nubew2.png" alt="" />
+<p class="caption">la nueva app de rimas</p>
+</div>
 </div>

@@ -149,6 +149,7 @@ tab <- table(palabras[[1]])
 tab <- data.frame(word = names(tab), freq = as.numeric(tab))
 head(tab)
 #pintamos la nube de palabras con wordcloud2
-wordcloud2(tab, color = "random-light", backgroundColor = "white")
+#wordcloud2(tab, color = "random-light", backgroundColor = "white")
 ```
 
+![la nueva app de rimas](images/nubew2.png)
