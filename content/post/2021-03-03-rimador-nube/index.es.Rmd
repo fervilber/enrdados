@@ -13,7 +13,7 @@ tags:
   - flexdashboard
   - shiny
 description: ''
-thumbnail: '/post/2021-03-03-rimador-nube/images/nube2.png'
+thumbnail: '/post/2021-03-03-rimador-nube/images/nubew3.png'
 ---
 
 El rimador que hicimos semana pasada quedó un poco soso. Así que, vamos a programar unas algunas mejoras para hacer la aplicación más divertida, al fin y al cabo era para jugar y que la usaran los peques de la casa.
@@ -109,20 +109,23 @@ El resultado es nuestra nueva app de rimas:
 
 ![la nueva app de rimas](images/nube.png)
 
+o así para la palabra "alma":
+
+![la nueva app de rimas](images/nube2.png)
 
 ## Otras nubes más complejas
-Ya que estamos con nubes solo comentar que además del paquete `wordcloud` está la versión 2 llamada `wordcloud2` que permite muchas más opciones para las nubes de palabras. Una ventaja de `wordcloud2` es que tiene un objeto específico para shiny (`renderWordcloud2`).
+Ya que estamos con nubes de palabras, hay otra librería de R llamada `wordcloud2` que permite muchas más opciones. Una ventaja de `wordcloud2` es que tiene un objeto específico para *Shiny* (`renderWordcloud2`) con lo que aporta dinamismo ya que al pasar el ratón encima de cada palabra dice la frecuencia.
+También tiene funciones curiosas para trastear como `letterCloud()`. Puedes encontrar algunos ejemplos <a href="https://cran.r-project.org/web/packages/wordcloud2/vignettes/wordcloud.html" target="_blank" rel="noopener"><span>aquí</span> </a>
 
-Veamos un ejemplo simple con el texto inicial del Quijote:
+Veamos como hacer una nube a partir de un texto, usando esta nueva opción. Para calcular las frecuencias he usado `tokenizers`, de la que algún día haremos un post específico, ya que es una librería de *Text Processing* muy interesante.
 
 ```{r, nubespalabras}
-
 # librería de text mining para tokenizar textos
 library(tokenizers)
 # para instalar el paquete
 #install.packages("wordcloud2")
 library(wordcloud2)
-
+# texto de ejemplo (El Quijote) del que extraeremos la nube de palabras
 texto<-c("En un lugar de la Mancha, de cuyo nombre no quiero acordarme,
          no ha mucho tiempo que vivía un hidalgo de los de lanza en astillero,
          adarga antigua, rocín flaco y galgo corredor. Una olla de algo más vaca
@@ -149,7 +152,17 @@ tab <- table(palabras[[1]])
 tab <- data.frame(word = names(tab), freq = as.numeric(tab))
 head(tab)
 #pintamos la nube de palabras con wordcloud2
+# está comentado porque he subido una imagen fija
 #wordcloud2(tab, color = "random-light", backgroundColor = "white")
 ```
 
-![la nueva app de rimas](images/nubew2.png)
+![Nube de palabras del inicio de El Quijote](images/nubew2.png)
+
+
+## Resultado final
+
+Con estos cambios nos queda una aplicación muy divertida, con la que hacemos versos mucho más fácilmente, y todo con super R. 
+
+Ejemplo de rimas con la palabra "hache": 
+
+![la nueva app de rimas](images/nubew3.png)

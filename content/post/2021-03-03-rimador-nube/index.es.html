@@ -13,7 +13,7 @@ tags:
   - flexdashboard
   - shiny
 description: ''
-thumbnail: '/post/2021-03-03-rimador-nube/images/nube2.png'
+thumbnail: '/post/2021-03-03-rimador-nube/images/nubew3.png'
 ---
 
 
@@ -98,18 +98,25 @@ renderPlot({
 <img src="images/nube.png" alt="" />
 <p class="caption">la nueva app de rimas</p>
 </div>
+<p>o así para la palabra “alma”:</p>
+<div class="figure">
+<img src="images/nube2.png" alt="" />
+<p class="caption">la nueva app de rimas</p>
+</div>
 </div>
 <div id="otras-nubes-más-complejas" class="section level2">
 <h2>Otras nubes más complejas</h2>
-<p>Ya que estamos con nubes solo comentar que además del paquete <code>wordcloud</code> está la versión 2 llamada <code>wordcloud2</code> que permite muchas más opciones para las nubes de palabras. Una ventaja de <code>wordcloud2</code> es que tiene un objeto específico para shiny (<code>renderWordcloud2</code>).</p>
-<p>Veamos un ejemplo simple con el texto inicial del Quijote:</p>
+<p>Ya que estamos con nubes de palabras, hay otra librería de R llamada <code>wordcloud2</code> que permite muchas más opciones. Una ventaja de <code>wordcloud2</code> es que tiene un objeto específico para <em>Shiny</em> (<code>renderWordcloud2</code>) con lo que aporta dinamismo ya que al pasar el ratón encima de cada palabra dice la frecuencia.
+También tiene funciones curiosas para trastear como <code>letterCloud()</code>. Puedes encontrar algunos ejemplos <a href="https://cran.r-project.org/web/packages/wordcloud2/vignettes/wordcloud.html" target="_blank" rel="noopener"><span>aquí</span> </a></p>
+<p>Veamos como hacer una nube a partir de un texto, usando esta nueva opción. Para calcular las frecuencias he usado <code>tokenizers</code>, de la que algún día haremos un post específico, ya que es una librería de <em>Text Processing</em> muy interesante.</p>
 <pre class="r"><code># librería de text mining para tokenizar textos
 library(tokenizers)
 # para instalar el paquete
 #install.packages(&quot;wordcloud2&quot;)
 library(wordcloud2)</code></pre>
 <pre><code>## Warning: package &#39;wordcloud2&#39; was built under R version 4.0.4</code></pre>
-<pre class="r"><code>texto&lt;-c(&quot;En un lugar de la Mancha, de cuyo nombre no quiero acordarme,
+<pre class="r"><code># texto de ejemplo (El Quijote) del que extraeremos la nube de palabras
+texto&lt;-c(&quot;En un lugar de la Mancha, de cuyo nombre no quiero acordarme,
          no ha mucho tiempo que vivía un hidalgo de los de lanza en astillero,
          adarga antigua, rocín flaco y galgo corredor. Una olla de algo más vaca
          que carnero, salpicón las más noches, duelos y quebrantos los sábados,
@@ -142,9 +149,19 @@ head(tab)</code></pre>
 ## 5     algún    1
 ## 6    alguna    1</code></pre>
 <pre class="r"><code>#pintamos la nube de palabras con wordcloud2
+# está comentado porque he subido una imagen fija
 #wordcloud2(tab, color = &quot;random-light&quot;, backgroundColor = &quot;white&quot;)</code></pre>
 <div class="figure">
 <img src="images/nubew2.png" alt="" />
+<p class="caption">Nube de palabras del inicio de El Quijote</p>
+</div>
+</div>
+<div id="resultado-final" class="section level2">
+<h2>Resultado final</h2>
+<p>Con estos cambios nos queda una aplicación muy divertida, con la que hacemos versos mucho más fácilmente, y todo con super R.</p>
+<p>Ejemplo de rimas con la palabra “hache”:</p>
+<div class="figure">
+<img src="images/nubew3.png" alt="" />
 <p class="caption">la nueva app de rimas</p>
 </div>
 </div>
