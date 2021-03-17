@@ -233,7 +233,6 @@ map_cieza %>% mutate(popup_info=paste(sep = "<br/>", paste0("<b>","<i>", year,"<
                     opacity = 1)
 ```
 
-
 ![Imagen del mapa final](images/m_cieza01.png)
 
 Espero que os guste este mapa, saludos.
