@@ -202,7 +202,7 @@ También he cambiado el modo de hacer la escala de color, usaremos la función `
 
 Este es el resultado final, espero que os guste y no dejeis de ver el blog de <a href="https://dominicroye.github.io/es/2019/visualizar-el-crecimiento-urbano/" target="_blank" rel="noopener"><span> Dominic Royé </span> </a> del que sacamos la idea y código.
 
-```{r,mapafinal1, warning=FALSE, message=FALSE}
+```{r,mapafinal1, warning=FALSE, message=FALSE, eval=FALSE}
 library(sf)
 # cargamos Leaflet
 library(leaflet)
@@ -232,7 +232,6 @@ map_cieza %>% mutate(popup_info=paste(sep = "<br/>", paste0("<b>","<i>", year,"<
                     title = "Antiguedad edificacion",
                     opacity = 1)
 ```
-
 
 Espero que os guste este mapa, saludos.
 
