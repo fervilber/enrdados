@@ -1,0 +1,178 @@
+---
+title: R logos con HexSticker
+author: F.VilBer
+date: '2021-03-20'
+slug: []
+categories:
+  - diseño
+  - R
+tags:
+  - dibujo
+  - R
+  - tipografía
+  - gráficos
+description: 'logos hexagonales de R con hexSticker'
+thumbnail: '/post/2021-03-20-r-logos-con-hexsticker/images/portada.png'
+---
+
+<script src="{{< blogdown/postref >}}index.es_files/header-attrs/header-attrs.js"></script>
+
+
+<p>Cuando hice el logo del blog no sabía que existía un paquete dedicado a esto de hacer logos hexagonales en R, así que lo diseñé con un programa gráfico al estilo “tradicional”.</p>
+<p>El ecosistema de R está creciendo tan rápido que hoy día podemos encontrar librerías para TODO, incluso para pintar nuestro logo hexagonal sin salir del entorno del programa. Preparad vuestra imaginación que hoy vamos a hablar de la librería <a href="https://github.com/GuangchuangYu/hexSticker">hexSticker</a> con la que vamos a diseñar unos cuantos logos.</p>
+<div id="hexsticker" class="section level2">
+<h2>hexSticker</h2>
+<p>Se trata de un paquete que puedes instalar desde CRAN, y cuya web de desarrollo está en github <a href="https://github.com/GuangchuangYu/hexSticker" class="uri">https://github.com/GuangchuangYu/hexSticker</a>. Para instalar el paquete:</p>
+<pre class="r"><code># Instalar el paquete
+install.packages(&quot;hexSticker&quot;)</code></pre>
+<p>Su uso principal es para hacer logos de nuevos paquetes, pero también lo puedes usar para lo que quieras relacionado con pintar hexágonos, que es lo que hace.</p>
+<p>Básicamente crea un hexágono en el que puedes elegir los colores de fondo, el borde y algunos parámetros gráficos, además puedes insertar dentro unos complementos que son:</p>
+<ul>
+<li>una imagen externa (jpg, png, svg…), o un gráfico de ggplot que sitúa en el centro del hexágono</li>
+<li>un título o nombre del paquete que por defecto sitúa como texto en el centro</li>
+<li>un enlace web, por defecto situado en la parte baja derecha de la figura.</li>
+</ul>
+<p>Para cada una de estas cosas nos deja unas opciones de personalización como desplazarlas un poco en x o y por el lienzo, modificar el tipo y tamaño de letra y los colores. Además tiene otros argumentos para limpiar la zona exterior del hexágono si se sale la imagen (<code>white_around_sticker</code>) o añadir un reflejo luminoso al logo (<code>spotlight</code>) que da un toque especial más profesional.</p>
+<p>Lo mejor es ver cómo funciona sobre ejemplos. En este primer caso tenemos una pequeña imagen (png) de un globo con fondo transparente que queremos poner en el centro del sticker:</p>
+<pre class="r"><code>library(hexSticker)</code></pre>
+<pre><code>## Warning: package &#39;hexSticker&#39; was built under R version 4.0.4</code></pre>
+<pre class="r"><code>#ruta relativa a la imagen de fondo que queremos en el logo
+imgurl &lt;- &quot;images/globo2.png&quot;
+
+# creamos nuestro sicker
+logo.1&lt;-sticker(imgurl, #imagen de fondo
+             s_x=1, s_y=1, # posición imagen relativa 1=centro
+             s_width=0.6, s_height=0.5, #estirar la imagen ancho-largo 
+             #opciones del título
+             package=&quot;GloboR&quot;, # titulo del logo
+             p_color = &quot;black&quot;, #color de la fuente de titulo
+             p_size=15, # tamaño fuente del titulo
+             p_x = 0.7, p_y = 1.4, #posicion del titulo
+             #opciones de la url
+             url = &quot;www.enrdados.net&quot;, # url
+             u_color = &quot;white&quot;, # color fuente enlace
+             u_size = 6, # tamaño del fuente enlace
+             h_fill=&quot;salmon&quot;, h_color=&quot;black&quot;,h_size = 2, #color de relleno, borde hex y grosor de linea
+             #opciones generales
+             filename=&quot;globo1.png&quot;, # fichero de salida
+             white_around_sticker = T,# recorta el borde exterior del hex
+             spotlight=F) #añade una luz que ilumina parte del sticker
+             #dpi = 600)
+
+logo.1</code></pre>
+<p><img src="{{< blogdown/postref >}}index.es_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<div class="figure">
+<img src="globo1.png" alt="" />
+<p class="caption">logo de globo</p>
+</div>
+</div>
+<div id="globorr" class="section level2">
+<h2>GloboRR</h2>
+<p>Esta vez partimos de un png transparente que metemos en un hexagono de color azul y añadimos un brillo en el sticker</p>
+<pre class="r"><code>library(hexSticker) # Create Hexagon Sticker in R 
+library(showtext)   # Using Fonts More Easily in R Graphs  </code></pre>
+<pre><code>## Loading required package: sysfonts</code></pre>
+<pre><code>## Loading required package: showtextdb</code></pre>
+<pre class="r"><code>#Loading Google fonts (http://www.google.com/fonts)
+font_add_google(&quot;Inconsolata&quot;, &quot;incon&quot;)  
+
+logo.2&lt;-sticker(
+   # Subplot (image)
+   subplot = &quot;images/globo2.png&quot;,       # nombre y ruta relativa de la imagen
+   s_y = 1,                          # Posición  (y)
+   s_x = 1.1,                       # Posición  (x)     
+   s_width = 0.6,                   # ancho , escala 1=sin cammbios   
+   s_height=0.6,                    # alto   
+   # Font
+   package = &quot;GloboR&quot;,            # titulo 
+   p_size = 15,                       # Fuente tamaño
+   p_y = 0.8,                        # Posición tit (y)
+   p_x=0.6,                         # Posición tit (x)
+   p_family = &quot;incon&quot;,               # Define fuente letra
+   # Spotlight
+   spotlight = TRUE,                 # pone el brillo o luz
+   l_y=0.8,                          # Posición de la luz (y)
+   l_x=0.7,                          # Posición de luz (x)
+   # Sticker colors
+   h_fill = &quot;#5d8aa6&quot;,               # Color del fondo 
+   h_color = &quot;#2A5773&quot;,             # Color del borde
+   h_size=3,                        # ancho del borde
+   # Resolution
+   dpi=600,                         # Sets DPI
+   # Save
+   filename=&quot;logo3.png&quot;               # define el fichero destino
+                                     # donde almacena el sticker 
+   )
+
+logo.2</code></pre>
+<p><img src="{{< blogdown/postref >}}index.es_files/figure-html/unnamed-chunk-3-1.png" width="672" />
+<img src="logo3.png" alt="logo3" /></p>
+<div id="stiker-de-enrdados" class="section level3">
+<h3>Stiker de enRdados</h3>
+<p>Aunque tengo el logo del blog hecho, he visto que el hexágono no me salió perfecto, vamos que está como estirado. Para arreglarlo voy a usar <code>hexSticker</code> tomando el logo actual como fondo de uno nuevo generado con la librería.</p>
+<pre class="r"><code>#ruta relativa a la imagen de fondo del icono
+imgurl &lt;- &quot;images/LogoenRdados.png&quot;
+logoenRdados&lt;-sticker(imgurl, #imagen de fondo
+             s_x=1.01, s_y=0.95, # posicion imagen
+             s_width=1.1, s_height=1, #estirar la imagen ancho-largo 
+             package=&quot;&quot;, # nombre del paquete
+             p_color = &quot;black&quot;, #color de la fuente de paquete
+             p_size=10, # tamaño fuente del paquete
+             p_x = 1, p_y = 1,
+             url = &quot;www.enrdados.net&quot;, # url
+             u_color = &quot;white&quot;, # color fuente enlace
+             u_size = 5, # tamaño del fuente enlace
+             h_fill=&quot;#f9690e&quot;, h_color=&quot;firebrick4&quot;,h_size=3, #relleno y borde hex
+             filename=&quot;logo2.png&quot;, # fichero de salida
+             white_around_sticker = T,# recorta el borde exterior del hex
+             spotlight=F, #añade una luz que ilumina parte del sticker
+             dpi = 600) # higher dpi means higher resolution)
+
+#añade una linea de hexagono nueva
+#p.3 &lt;- p.2 +  geom_hexagon(size = 1, fill = NA, color = &quot;black&quot;)
+logoenRdados</code></pre>
+<p><img src="{{< blogdown/postref >}}index.es_files/figure-html/logoenredados-1.png" width="672" />
+<img src="logo2.png" alt="enrdados logo" /></p>
+</div>
+<div id="sticker-con-ggplot" class="section level3">
+<h3>Sticker con ggplot</h3>
+<p>Por ultimo vamos a hacer un logo nuevo usando una gráfica de ggplot, en este caso un mapa de España para el que usaré la librería <code>mapSpain</code> de <a href="https://ropenspain.es/">rOpenSpain</a>, por cierto no dejes de ver esta web, están haciendo un trabajo tremendo para acceso a datos libres en España.</p>
+<pre class="r"><code>library(hexSticker)
+library(ggplot2)
+library(mapSpain) # de rOpenSpain
+library(sf) # para capas</code></pre>
+<pre><code>## Linking to GEOS 3.8.0, GDAL 3.0.4, PROJ 6.3.1</code></pre>
+<pre class="r"><code># cargamos una capa de españa con las comunidades autónomas
+CCAA.sf &lt;- esp_get_ccaa() # función de mapSpain
+
+mapaESP&lt;-ggplot(CCAA.sf) +
+    geom_sf(color = &quot;black&quot;, fill = &quot;lightgrey&quot;)+
+    theme_void() # quita ejes y escalas del mapa
+
+# vemos el mapa generado:
+mapaESP</code></pre>
+<p><img src="{{< blogdown/postref >}}index.es_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<pre class="r"><code># ahora creamos el sticker con este mapa imagen de ggplot
+logo.mapaES &lt;- sticker(mapaESP,
+                  s_x=1, s_y=0.9, s_width=1.5, s_height=2,                     
+                  package=&quot;EspañaRR &quot;,
+                  p_color = &quot;black&quot;, #color de la fuente de paquete
+                  p_size=10, # tamaño fuente del paquete
+                  p_x = 1, p_y = 1.5,  
+             url = &quot;www.enrdados.net&quot;, # url
+             u_color = &quot;white&quot;, # color fuente enlace
+             u_size = 4, # tamaño del fuente enlace
+             #hexagono:
+             h_fill=&quot;#478bca&quot;, h_color=&quot;black&quot;,h_size = 2, # relleno y borde hex
+             filename=&quot;mapa-sticker.png&quot;, # fichero de salida
+             white_around_sticker = T,# recorta el borde exterior del hex
+             spotlight=T,l_x=0.5,l_y=1.4)
+
+
+logo.mapaES</code></pre>
+<p><img src="{{< blogdown/postref >}}index.es_files/figure-html/unnamed-chunk-4-2.png" width="672" />
+<img src="mapa-sticker.png" alt="enrdados logo" /></p>
+<p>Esto es todo, espero que con los ejemplos quede claro cómo usar HexSticker.</p>
+<p>Adelante con R!</p>
+</div>
+</div>
