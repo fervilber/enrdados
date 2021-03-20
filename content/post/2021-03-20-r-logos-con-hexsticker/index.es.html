@@ -34,9 +34,8 @@ install.packages(&quot;hexSticker&quot;)</code></pre>
 </ul>
 <p>Para cada una de estas cosas nos deja unas opciones de personalización como desplazarlas un poco en x o y por el lienzo, modificar el tipo y tamaño de letra y los colores. Además tiene otros argumentos para limpiar la zona exterior del hexágono si se sale la imagen (<code>white_around_sticker</code>) o añadir un reflejo luminoso al logo (<code>spotlight</code>) que da un toque especial más profesional.</p>
 <p>Lo mejor es ver cómo funciona sobre ejemplos. En este primer caso tenemos una pequeña imagen (png) de un globo con fondo transparente que queremos poner en el centro del sticker:</p>
-<pre class="r"><code>library(hexSticker)</code></pre>
-<pre><code>## Warning: package &#39;hexSticker&#39; was built under R version 4.0.4</code></pre>
-<pre class="r"><code>#ruta relativa a la imagen de fondo que queremos en el logo
+<pre class="r"><code>library(hexSticker)
+#ruta relativa a la imagen de fondo que queremos en el logo
 imgurl &lt;- &quot;images/globo2.png&quot;
 
 # creamos nuestro sicker
@@ -60,20 +59,14 @@ logo.1&lt;-sticker(imgurl, #imagen de fondo
              #dpi = 600)
 
 logo.1</code></pre>
-<p><img src="{{< blogdown/postref >}}index.es_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
-<div class="figure">
-<img src="globo1.png" alt="" />
-<p class="caption">logo de globo</p>
-</div>
+<p><img src="globo1.png" width="40%" /></p>
 </div>
 <div id="globorr" class="section level2">
 <h2>GloboRR</h2>
 <p>Esta vez partimos de un png transparente que metemos en un hexagono de color azul y añadimos un brillo en el sticker</p>
 <pre class="r"><code>library(hexSticker) # Create Hexagon Sticker in R 
-library(showtext)   # Using Fonts More Easily in R Graphs  </code></pre>
-<pre><code>## Loading required package: sysfonts</code></pre>
-<pre><code>## Loading required package: showtextdb</code></pre>
-<pre class="r"><code>#Loading Google fonts (http://www.google.com/fonts)
+library(showtext)   # Using Fonts More Easily in R Graphs  
+#Loading Google fonts (http://www.google.com/fonts)
 font_add_google(&quot;Inconsolata&quot;, &quot;incon&quot;)  
 
 logo.2&lt;-sticker(
@@ -105,8 +98,7 @@ logo.2&lt;-sticker(
    )
 
 logo.2</code></pre>
-<p><img src="{{< blogdown/postref >}}index.es_files/figure-html/unnamed-chunk-3-1.png" width="672" />
-<img src="logo3.png" alt="logo3" /></p>
+<p><img src="logo3.png" width="40%" /></p>
 <div id="stiker-de-enrdados" class="section level3">
 <h3>Stiker de enRdados</h3>
 <p>Aunque tengo el logo del blog hecho, he visto que el hexágono no me salió perfecto, vamos que está como estirado. Para arreglarlo voy a usar <code>hexSticker</code> tomando el logo actual como fondo de uno nuevo generado con la librería.</p>
@@ -131,8 +123,7 @@ logoenRdados&lt;-sticker(imgurl, #imagen de fondo
 #añade una linea de hexagono nueva
 #p.3 &lt;- p.2 +  geom_hexagon(size = 1, fill = NA, color = &quot;black&quot;)
 logoenRdados</code></pre>
-<p><img src="{{< blogdown/postref >}}index.es_files/figure-html/logoenredados-1.png" width="672" />
-<img src="logo2.png" alt="enrdados logo" /></p>
+<p><img src="logo2.png" width="40%" /></p>
 </div>
 <div id="sticker-con-ggplot" class="section level3">
 <h3>Sticker con ggplot</h3>
@@ -140,9 +131,9 @@ logoenRdados</code></pre>
 <pre class="r"><code>library(hexSticker)
 library(ggplot2)
 library(mapSpain) # de rOpenSpain
-library(sf) # para capas</code></pre>
-<pre><code>## Linking to GEOS 3.8.0, GDAL 3.0.4, PROJ 6.3.1</code></pre>
-<pre class="r"><code># cargamos una capa de españa con las comunidades autónomas
+library(sf) # para capas
+
+# cargamos una capa de españa con las comunidades autónomas
 CCAA.sf &lt;- esp_get_ccaa() # función de mapSpain
 
 mapaESP&lt;-ggplot(CCAA.sf) +
@@ -150,9 +141,9 @@ mapaESP&lt;-ggplot(CCAA.sf) +
     theme_void() # quita ejes y escalas del mapa
 
 # vemos el mapa generado:
-mapaESP</code></pre>
-<p><img src="{{< blogdown/postref >}}index.es_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
-<pre class="r"><code># ahora creamos el sticker con este mapa imagen de ggplot
+mapaESP
+
+# ahora creamos el sticker con este mapa imagen de ggplot
 logo.mapaES &lt;- sticker(mapaESP,
                   s_x=1, s_y=0.9, s_width=1.5, s_height=2,                     
                   package=&quot;EspañaRR &quot;,
@@ -170,8 +161,7 @@ logo.mapaES &lt;- sticker(mapaESP,
 
 
 logo.mapaES</code></pre>
-<p><img src="{{< blogdown/postref >}}index.es_files/figure-html/unnamed-chunk-4-2.png" width="672" />
-<img src="mapa-sticker.png" alt="enrdados logo" /></p>
+<p><img src="mapa-sticker.png" width="40%" /></p>
 <p>Esto es todo, espero que con los ejemplos quede claro cómo usar HexSticker.</p>
 <p>Adelante con R!</p>
 </div>

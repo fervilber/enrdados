@@ -40,7 +40,7 @@ Para cada una de estas cosas nos deja unas opciones de personalización como des
 
 Lo mejor es ver cómo funciona sobre ejemplos. En este primer caso tenemos una pequeña imagen (png) de un globo con fondo transparente que queremos poner en el centro del sticker:
 
-```{r}
+```{r,eval=FALSE}
 library(hexSticker)
 #ruta relativa a la imagen de fondo que queremos en el logo
 imgurl <- "images/globo2.png"
@@ -68,14 +68,15 @@ logo.1<-sticker(imgurl, #imagen de fondo
 logo.1
 ```
 
-![logo de globo](globo1.png)
-
+```{r, echo=FALSE, out.width="40%"}
+knitr::include_graphics("globo1.png")
+```
 
 ## GloboRR 
 
 Esta vez partimos de un png transparente que metemos en un hexagono de color azul y añadimos un brillo en el sticker
 
-```{r}
+```{r,eval=FALSE}
 library(hexSticker) # Create Hexagon Sticker in R 
 library(showtext)   # Using Fonts More Easily in R Graphs  
 #Loading Google fonts (http://www.google.com/fonts)
@@ -111,13 +112,16 @@ logo.2<-sticker(
 
 logo.2
 ```
-![logo3](logo3.png)
+
+```{r, echo=FALSE, out.width="40%"}
+knitr::include_graphics("logo3.png")
+```
 
 ### Stiker de enRdados
 
 Aunque tengo el logo del blog hecho, he visto que el hexágono no me salió perfecto, vamos que está como estirado. Para arreglarlo voy a usar `hexSticker` tomando el logo actual como fondo de uno nuevo generado con la librería.
 
-```{r, logoenredados}
+```{r,logoenredados,eval=FALSE}
 #ruta relativa a la imagen de fondo del icono
 imgurl <- "images/LogoenRdados.png"
 logoenRdados<-sticker(imgurl, #imagen de fondo
@@ -140,13 +144,15 @@ logoenRdados<-sticker(imgurl, #imagen de fondo
 #p.3 <- p.2 +  geom_hexagon(size = 1, fill = NA, color = "black")
 logoenRdados
 ```
-![enrdados logo](logo2.png)
+```{r, echo=FALSE, out.width="40%"}
+knitr::include_graphics("logo2.png")
+```
 
 ### Sticker con ggplot
 
 Por ultimo vamos a hacer un logo nuevo usando una gráfica de ggplot, en este caso un mapa de España para el que usaré la librería `mapSpain` de [rOpenSpain](https://ropenspain.es/), por cierto no dejes de ver esta web, están haciendo un trabajo tremendo para acceso a datos libres en España.
 
-```{r}
+```{r,eval=FALSE}
 library(hexSticker)
 library(ggplot2)
 library(mapSpain) # de rOpenSpain
@@ -182,7 +188,9 @@ logo.mapaES <- sticker(mapaESP,
 logo.mapaES
 
 ```
-![enrdados logo](mapa-sticker.png)
+```{r, echo=FALSE, out.width="40%"}
+knitr::include_graphics("mapa-sticker.png")
+```
 
 Esto es todo, espero que con los ejemplos quede claro cómo usar HexSticker.
 
