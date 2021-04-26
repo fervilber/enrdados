@@ -1,0 +1,276 @@
+---
+title: Office desde R
+author: F.VilBer
+date: '2021-04-26'
+slug: []
+categories:
+  - editar documentos
+tags:
+  - formato
+  - ggplot
+  - R
+description: 'Como hacer documentos de Office desde R.'
+thumbnail: '/post/2021-04-26-office-desde-r/images/office_vs_R.jpg'
+---
+
+<script src="{{< blogdown/postref >}}index.es_files/header-attrs/header-attrs.js"></script>
+
+
+<p>Hoy no voy a convencer a nadie de las ventajas y maravillas de usar R en el trabajo diario, incluso para la generación de documentos, informes y cartas… no, hoy no, la batalla está perdida desde hace tiempo, pero al menos vamos a alumbrar una opción para domar a la bestia directamente desde sus entrañas, pues desde R vamos a poder generar documentos del paquete para oficinas más extendido.</p>
+<p><strong>Microsoft Office</strong> es una suite ofimática que todos conocemos. Hoy vamos a mostar cómo trabajar documentos Word, el procesador de texto de Office, desde R usando el paquete <a href="https://davidgohel.github.io/officer/">officer</a>. Esta librería nos permite usar la aplicación WORD (también EXCEL Y Power Point) desde entorno R, y aplicar automatización y programación directamente en estos formatos con lo que nos abre un mundo de posibilidades.</p>
+<div id="antecedentes" class="section level2">
+<h2>Antecedentes</h2>
+<p>Crear documentos Word desde RSTUDIO es fácil con <code>Knit</code> pues cualquier documento <em>markdown</em> puede imprimirse en varios formatos por ejemplo html, pdf o word. Esto lo vimos <a href="https://enrdados.netlify.app/post/informes-html-con-rmarkdown/" target="_blank" rel="noopener"><span> aquí </span> </a>.</p>
+<p>Lo que aporta <code>officer</code> es un control completo de <em>Office</em> desde el entorno de R y especialmente el poder programar sin necesidad de hacerlo en Visual Basic, todo con lenguaje R.</p>
+</div>
+<div id="primeros-pasos-con-officer" class="section level2">
+<h2>Primeros pasos con officer</h2>
+<p><code>officer</code> en un paquete de R muy completo, vamos a ir introduciendo algunos comandos y ejemplos. Personalmente lo primero que hice para usar esta librerñia es guardar una plantilla Word con los estilos, encabezados y pié de página que necesito. Este documento es el que llamaré más tarde para completarlo y usar los estilos que ya tengo definidos.</p>
+<p>Para este ejemplo el <em>doc</em> de plantilla se llama <code>plantilla_enrdados.docx</code> y contiene unos estilos personalizados.
+Puedes encontrar un manual completo de este paquete <a href="https://ardata-fr.github.io/officeverse/index.html#the-officeverse">aquí</a>.</p>
+<p>Vamos con los primeros ejemplos, primero vamos a ver los estilos que tenemos disponibles en la plantilla que hemos creado:</p>
+<pre class="r"><code>  library(officer)
+# lee el fichero plantilla
+  doc &lt;-read_docx(path = &quot;plantilla/plantilla_enredados.docx&quot;)
+# guarda los estilos en una tabla
+  estilos&lt;-styles_info(doc)
+  head(estilos)</code></pre>
+</div>
+<div id="crear-nuevo-doc" class="section level2">
+<h2>Crear nuevo doc</h2>
+<p>Para crear un documento basta con llamar a la función <code>doc &lt;- read_docx()</code>. Si queremos que tome de ejemplo la plantilla debemos poner la ruta al documento word base. También deberías cargar la librería <code>(magrittr)</code> que nos permite usar el comando <em>pipe</em> <code>%&gt;%</code> en código y enlazar llamadas de función con el formato <em>“tubería”</em>.</p>
+<p>Veamos un ejemplo en el que leemos la plantilla base e insertamos un párrafo y una tabla. Usaremos las funciones <code>body_add_par()</code> y <code>body_add_table()</code> indicando el estilo con el que se insertan. Finalmente imprimimos el documento, que nos queda como un nuevo fichero en el directorio de trabajo.</p>
+<pre class="r"><code>library(officer)
+library(magrittr)
+doc &lt;- read_docx(path = &quot;plantilla/plantilla_enredados.docx&quot;) %&gt;%
+  body_add_par(&quot;Hola mundo!&quot;, style = &quot;Normal&quot;) %&gt;%
+  body_add_table(estilos, style = &quot;Table Grid&quot;)%&gt;%
+  body_add_par(&quot;Esto es todo por ahora.&quot;, style = &quot;Normal&quot;)
+# guardamo el nuevo doc con un nombre
+print(doc, target = &quot;ex_1.docx&quot;)</code></pre>
+<p>Si vamos a la carpeta de trabajo tendremos un nuevo documento: “ex_1.docx”, con el siguiente contenido.</p>
+<div class="figure">
+<img src="images/tabla01.png" alt="" />
+<p class="caption">Primer doc generado</p>
+</div>
+</div>
+<div id="insertar-tablas" class="section level2">
+<h2>Insertar tablas</h2>
+<p>Como hemos visto, insertamos cualquier tabla de datos (en data frame) con la función <code>body_add_table()</code>.</p>
+</div>
+<div id="insertar-imagenes" class="section level2">
+<h2>Insertar imagenes</h2>
+<p>Para insertar imágenes tenemos varias opciones, la más simple es la función <code>body_add_img()</code> en la que pasamos como argumentos el documento donde se inserta, y la ruta de la imagen. Si además queremos añadir un título y una numeración automática a la imagen usaremos las funciones <code>block_caption()</code> y <code>run_autonum()</code>.</p>
+<p>Veamos un ejemplo:</p>
+<pre class="r"><code>require(officer)
+require(magrittr)
+doc &lt;- read_docx()
+# añadir una imagen al documento doc
+  doc &lt;- body_add_img(doc, src = &quot;imag/chillida-tierra.jpg&quot;,
+                      height = 3, width = 3,
+                      style = &quot;centered&quot;)
+# calculamos el autonumero
+  run_num &lt;- run_autonum(seq_id = &quot;Fig&quot;, pre_label = &quot;Fig. &quot;, post_label = &quot;: &quot;)
+# creamos el bloque del título de imagen 
+  caption &lt;- block_caption(&quot;fotos antiguas&quot;, style = &quot;centered&quot;, autonum = run_num )
+# insertamos el titulo en el documento y después un salto de línea
+  doc &lt;- body_add_caption(doc, caption) %&gt;% body_add_break()
+#Guardamos el fichero creado con código
+  print(doc, target = &quot;imagen0.docx&quot;)</code></pre>
+<div class="figure">
+<img src="images/imagenes00.png" alt="" />
+<p class="caption">Insertar una imagen en un doc de word desde RSTUDIO</p>
+</div>
+<p>Puede parecer que con esto trabajamos mucho más que abriendo el Word e insertando la imagen, pero la ventaja invisible es que podemos automatizar estas tareas. Más adelante veremos cómo crear un <em>script</em> que lea las imágenes en un directorio completo y las inserte directamente en el documento Word con su título y numeración.</p>
+<p>Otra opción para insertar imágenes - en este caso las generadas con código R- es la función <code>body_add_plot</code> que inserta la salida de la función <code>plot</code>, o la función <code>body_add_gg()</code> que hace lo mismo para gráficos de hechos con <code>ggplot2</code>.</p>
+<pre class="r"><code>doc &lt;- read_docx()
+
+if( capabilities(what = &quot;png&quot;) )
+  doc &lt;- body_add_plot(doc,
+    value = plot_instr(
+      code = {barplot(1:5, col = 2:6)}),
+      style = &quot;centered&quot; )
+
+print(doc, target = tempfile(fileext = &quot;.docx&quot;) )</code></pre>
+<p>Dentro del argumento <code>value</code>, podemos meter tanto el código como en el ejemplo anterior o la variable con el gráfico, como haremos en el ejemplo completo.</p>
+<div id="insertar-muchas-imagenes" class="section level3">
+<h3>Insertar muchas imagenes</h3>
+<p>Los que hemos usado <em>Microsoft Office</em> sabemos lo incómodo y problemático que es hacer estas cosas desde la suite, por lo que hacerlo con código R es una liberación y además bastante fácil.</p>
+<p>Tenemos una carpeta llamada <em>“imag”</em> en nuestro directorio de trabajo, en la que hay muchas fotos y queremos ponerlas todas en un doc de Word, veamos como lo hacemos:</p>
+<pre class="r"><code># Inserta todas las imágenes de una carpeta en un doc
+require(officer)
+require(magrittr)
+doc &lt;- read_docx() # creamos un doc
+# Añadimos un titulo de capitulo y un parrafo vacio
+doc &lt;- body_add_par(doc,value = &quot;Fotos&quot;, style = &quot;heading 1&quot;) %&gt;%
+       body_add_par(&quot;  &quot;, style = &quot;Normal&quot;)
+
+# Guardamos en la variable imagenes una lista de todas las del directorio que sean jpg
+imagenes&lt;-list.files(&quot;imag/&quot;, pattern = &quot;*.jpg&quot;, full.names = TRUE ) 
+# Insertamos las imagenes en el documento  
+doc &lt;- body_add_img(doc, src = imagenes, height = 2, width = 2, style = &quot;Image Caption&quot;)
+# Guardamos el documento en el dir de trabajo con este nombre
+print(doc, target = &quot;imagenes1.docx&quot;)</code></pre>
+<p>El resultado es este, ha sido muy fácil y en un momento:</p>
+<div class="figure">
+<img src="images/imagenes01.png" alt="" />
+<p class="caption">Insertar muchas imagenes sin titulos</p>
+</div>
+<p>Como vemos se han insertado todas las imágenes juntas, sin títulos. Para insertar cada imagen por separado y con numeración y título hay que decirselo, por ejemplo con este código:</p>
+<pre class="r"><code>require(officer)
+require(magrittr)
+# Crea un docx
+  doc &lt;- read_docx()
+# Inserta un título y párrafo vacío
+  doc &lt;- body_add_par(doc,value = &quot;Fotos&quot;, style = &quot;heading 1&quot;) %&gt;%
+       body_add_par(&quot;  &quot;, style = &quot;Normal&quot;)
+# lee los nombres de las imágenes
+# y la ruta completa y lo almacena en 2 var
+  ruta&lt;-&quot;imag/&quot;
+  imagenes_n&lt;-list.files(ruta, pattern = &quot;*.[jp][pn]g&quot;, full.names = FALSE )
+  imagenes&lt;-list.files(ruta, pattern = &quot;*.[jp][pn]g&quot;, full.names = TRUE )
+  
+# Inserta cada imag en el doc con un bucle for
+for(i in seq_along(imagenes)){
+  doc &lt;- body_add_img(doc, src = imagenes[[i]],
+                      height = 2.5, width = 4,
+                      style = &quot;Image Caption&quot;)
+  # numera la imágen
+  run_num &lt;- run_autonum(seq_id = &quot;fig&quot;, pre_label = &quot;Fig. &quot;, post_label = &quot;: &quot;)
+  # Les pone un titulo
+  caption &lt;- block_caption(paste(&quot;foto.&quot;,imagenes_n[[i]]), style = &quot;graphic title&quot;, autonum = run_num )
+  # Mete el titulo numerado
+  doc &lt;- body_add_caption(doc, caption) 
+}
+# guarda el doc
+  print(doc, target = &quot;imagenes2.docx&quot;)</code></pre>
+<p>Hay que tener cuidado y usar los estilos que tenga disponibles el documento word, aunque de todas formas si pones uno que no exista te avisa en el panel y dice cuales puedes usar.</p>
+<p>El resultado ahora es este, te puedes imaginar que cuando se trata de muchas imagenes puede ahorrarte mucho tiempo.</p>
+<div class="figure">
+<img src="images/imagenes02.png" alt="" />
+<p class="caption">Insertar imágenes con títulos y numeración</p>
+</div>
+</div>
+</div>
+<div id="marcadores" class="section level2">
+<h2>Marcadores</h2>
+<p>Hasta ahora hemos añadido párrafos o imágenes de forma secuencial en el documento, en orden, pero con <em>officer</em> podemos elegir en qué parte del documento insertamos cada elemento posicionando el puntero interno con alguna de las funciones marcador: <code>cursor_begin(doc)</code>, <code>cursor_bookmark(doc, id)</code>, <code>cursor_end(doc)</code>, <code>cursor_reach(doc, keyword)</code>, <code>cursor_forward(doc)</code>, <code>cursor_backward(doc)</code>.</p>
+<p>Estas funciones complementan a esta que crean marcadores: <code>body_bookmark(doc, "nombre_marcador")</code>.</p>
+</div>
+<div id="indice-del-documento" class="section level2">
+<h2>Indice del documento</h2>
+<p>Para insertar un índice (TOC = tabla de contenido) en el documento usaremos la función <code>body_add_toc(level=2)</code>, indicando hasta qué nivel de título queremos que salga.</p>
+<pre class="r"><code># Creamos un marcador donde queremos el indice
+doc&lt;- body_bookmark(doc,&quot;pos_indice&quot;)
+#insertamos TOC
+doc&lt;- cursor_bookmark(doc, &quot;pos_indice&quot;) %&gt;%
+        body_add_par(&quot;Índice&quot;, style = &quot;Title&quot;) %&gt;%
+        body_add_toc(level = 1) #solo titulos nivel 1  </code></pre>
+<p>En el ejemplo completo tienes también la forma de insertar un índice de imagenes, figuras o tablas, como verás solo depende del estilo que selecciones.</p>
+</div>
+<div id="insertar-documento-externo" class="section level2">
+<h2>Insertar documento externo</h2>
+<p>Otra función interesante de es <code>body_add_docx(doc, ruta_documento_a_insertar, marcador_de_posicion)</code> que inserta el texto de un documento word en otro, lo que nos sirve para unir documentos.</p>
+</div>
+<div id="ejemplo-completo" class="section level2">
+<h2>Ejemplo completo</h2>
+<p>Como resumen vamos a generar un documento completo y complejo de word con R, fijaos bien en que el documento se hace añadiendo párrafos con <code>body_add_par()</code> y asignando a estos párrafos un estilo. Según el estilo asignado puede ser un título 1, 2, o un texto normal.</p>
+<p>Partimos de una plantilla que contiene estilos propios con los que habitualmente trabajo, y con un encabezado y pie de la página ya personalizado. Este documento vacío es lo que sirve de plantilla.</p>
+<p>En algunos puntos ponemos un marcador, para luego poder volver e insertar cosas posteriormente en ese preciso lugar.</p>
+<pre class="r"><code># Cargamos las librería
+library(officer)
+library(magrittr) # para usar operador %&gt;% pipe
+
+# Leemos la plantilla
+  doc_3 &lt;-read_docx(path = &quot;plantilla/plantilla_enredados.docx&quot;)
+# Empezamos con el titulo, subtitulo  y autor7
+  doc_3 &lt;-body_add_par(doc_3,&quot;INFORME 1t 2021&quot;, style = &quot;Title&quot;) %&gt;%
+        body_add_par(&quot;20 abril 2021&quot;, style = &quot;Subtitle&quot;) %&gt;%
+        body_add_par(&quot;F. VilBer&quot;, style = &quot;Autor&quot;) 
+
+#Añadimos un párrafo normal
+  doc_3 &lt;-body_add_par(doc_3 ,&quot;Este es el resumen del informe en el que os mostraremos la verdad más pura que existe y la infinita claridad de ideas que son necesarias para triunfar en la venta de canicas de plástico.&quot;, style = &quot;Abstract&quot;) %&gt;%
+    body_bookmark(&quot;pos_indice&quot;) %&gt;% # marca una posición
+    body_add_par(&quot;CAPÍTULO 1&quot;, style = &quot;heading 1&quot;) %&gt;%
+    body_add_par(&quot;Más allá de las montañas azules estaban los seres enanos del bosque, nadie como ellos ....&quot;, style = &quot;Normal&quot;)
+
+# Añadimos una imagen 
+  ruta_img&lt;-&quot;imag/TRONCO1.jpg&quot;
+  doc_3 &lt;-body_add_img(doc_3,src = ruta_img,
+                       height = 1.2, width = 2,
+                       style = &quot;Figure&quot;) %&gt;% 
+          body_add_caption(block_caption(&quot;Tronco&quot;, style = &quot;Image Caption&quot;, 
+                    autonum = run_autonum(seq_id = &quot;fig&quot;, pre_label = &quot;Fig. &quot;,
+                                      post_label = &quot;: &quot;, bkm = &quot;marca_tronco&quot;) ))
+
+#Añadimos otro documento y lo insertamos como párrafo    
+  doc_3 &lt;-body_add_docx(doc_3,src = &quot;plantilla/pliego.docx&quot;) 
+
+# añadimos una tabla
+  estilos&lt;-styles_info(doc_3) # esta es la tabla que usaremos
+
+  doc_3&lt;-body_add_par(doc_3,&quot;Insertar una tabla&quot;, style = &quot;heading 2&quot;) %&gt;% # titulo 1
+    body_add_par(&quot;Exponemos los 20 primeros estilos contenidos en este documento. &quot;) %&gt;%
+    body_add_table(head(estilos, n = 10), style = &quot;Table&quot;,first_column = TRUE) %&gt;%
+    body_add_caption(block_caption(&quot;TABLA DE ESTILOS&quot;, style = &quot;Table Caption&quot;))%&gt;%
+    body_add_par(&quot; &quot;) %&gt;% 
+# Añadimos algún capítlo de ejemplo
+    body_add_par(value = &quot;CAPITULO 2. Imágenes&quot;, style = &quot;heading 1&quot;) %&gt;% 
+    body_add_par(value = &quot;Imagen plot&quot;, style = &quot;heading 2&quot;) 
+# metemos una imagen autonumerada de plor
+  if( capabilities(what = &quot;png&quot;) )
+  doc_3 &lt;- body_add_plot(doc_3,
+        value = plot_instr(
+          code = {barplot(1:10, col = 2:6, axes=T)}),
+          style = &quot;Figure&quot;,height = 5, width = 5)
+    #run_rum es para autonumericos como figuras etc..
+    run_num &lt;- run_autonum(seq_id = &quot;fig&quot;, pre_label = &quot;Fig. &quot;, post_label = &quot;: &quot;)
+    caption &lt;- block_caption(&quot;grafica de barras&quot;, style = &quot;Image Caption&quot;, autonum = run_num )
+    # Añadimos el titulo de la imagen y un salto de linea
+  doc_3 &lt;- body_add_caption(doc_3, caption) #%&gt;% body_add_break()
+
+  doc_3 &lt;-body_add_par(doc_3,value = &quot;Imagen de ggplot&quot;, style = &quot;heading 2&quot;) %&gt;%
+    body_add_par(&quot;Este es un ejemplo más complejo en el que usamos patchwork para juntar gráficos mediante código y luego imprimirlos en word.&quot;, style = &quot;Normal&quot;)
+
+# test de insertar imagenes ggplot
+        library(ggplot2)
+        library(patchwork)
+        library(cowplot)
+        p4&lt;-ggdraw() +
+          draw_image(&quot;imag/1972.jpg&quot;) 
+        # juntamos gráficos 
+        p3&lt;-p4 +p4
+
+  doc_3 &lt;- body_add_gg(doc_3, p3, style = &quot;Figure&quot;,height = 2, width = 6)
+  run_num &lt;- run_autonum(seq_id = &quot;fig&quot;, pre_label = &quot;Fig. &quot;, post_label = &quot;: &quot;)
+  caption &lt;- block_caption(&quot;Grafico de ggplot compuesto&quot;,
+                           style = &quot;Image Caption&quot;,
+                           autonum = run_num )
+  # Añadimos el titulo de la imagen y un salto de linea
+  doc_3 &lt;- body_add_caption(doc_3, caption)
+
+# Insertamos el indice del documento en el principio, en el marcador pos_indi que ya creamos antes
+  doc_3&lt;- cursor_bookmark(doc_3, &quot;pos_indice&quot;) %&gt;%
+        body_add_par(&quot;Índice&quot;, style = &quot;Title&quot;) %&gt;%
+        body_add_toc(level = 2) %&gt;% # añade indice de nivel 2 %&gt;% 
+        body_add_par(&quot;Índice de figuras&quot;, style = &quot;Title&quot;) %&gt;% 
+        body_add_toc(style = &quot;Image Caption&quot;) %&gt;% 
+        body_add_par(&quot;Índice de tablas&quot;, style = &quot;Title&quot;) %&gt;% 
+        body_add_toc(style = &quot;Table Caption&quot;)%&gt;%
+        body_add_break()# Salto de página
+
+# vamos de nuevo al final del documento
+  doc_3&lt;-cursor_end(doc_3)
+  doc_3 &lt;- body_add_par(doc_3, &quot;Este es el nuevo final del documento&quot;, style = &quot;Normal&quot;)
+
+print(doc_3, target = &quot;usar_officer.docx&quot;)</code></pre>
+<div class="figure">
+<img src="images/doc_completo1.png" alt="" />
+<p class="caption">Indice y primera pag del documento visto en Word</p>
+</div>
+<div class="figure">
+<img src="images/doc_completo.png" alt="" />
+<p class="caption">Doc completo, imagen de páginas</p>
+</div>
+<p>Espero que os sea de utilidad, cualquier comentario, sugerencia o simplemente saludar por acá, dejad comentario y compartiR.</p>
+</div>
