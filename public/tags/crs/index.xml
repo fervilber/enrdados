@@ -1,45 +1,0 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>CRS on EnRdados</title>
-    <link>/tags/crs/</link>
-    <description>Recent content in CRS on EnRdados</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>es</language>
-    <lastBuildDate>Tue, 03 Sep 2019 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="/tags/crs/index.xml" rel="self" type="application/rss+xml" />
-    
-    
-    <item>
-      <title>Poster mapa con OSM </title>
-      <link>/post/poster-mapa-con-osm/</link>
-      <pubDate>Tue, 03 Sep 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/post/poster-mapa-con-osm/</guid>
-      <description>Estaba navegando por la red, y encontré una de esas cosas curiosas, que me encantan, una web que te imprime en alta calidad un mapa de tu ciudad, o región en un póster.
-Puedes pensar que eso es una tontería, hasta con imprimir un mapa directamente de google, o mejor de los de CARTO BD o una imagen de la tierra desde satélite, pero no, no es suficiente, hacer un mapa es algo más artístico y complejo que eso, y me llamó la atención la selección tan chula de colores y fondos que tiene y la sencillez desnuda de las líneas y fondos que usan, pues carecen de texto.</description>
-    </item>
-    
-    <item>
-      <title>Leaflet mapas dinamicos </title>
-      <link>/post/leaflet-mapas-dinamicos/</link>
-      <pubDate>Thu, 14 Mar 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/post/leaflet-mapas-dinamicos/</guid>
-      <description>IndiceLeafletPrimeros pasosCargar capas en el mapaAñadir capas shp y kmlmapviewOpciones de personalizaciónCapa baseAñadir gruposOtras opciones zoom etcpopupsColoresleaflet.extrasLeafletLeaflet es indiscutiblemente el lider de las librerías de código abierto para la creación de mapas dinámicos libres. Está escrita en JavaScript y por tanto pensada para internet desde sus entrañas.</description>
-    </item>
-    
-    <item>
-      <title>Geoposicionar fotografias</title>
-      <link>/post/geoposicionar-fotograf%C3%ADas/</link>
-      <pubDate>Wed, 16 Jan 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/post/geoposicionar-fotograf%C3%ADas/</guid>
-      <description>Objetivo Crear un mapa en R en el que esté marcada la geo localización de cada una de las fotos que hemos hecho.
-Antecedentes En mi trabajo hacemos muchas visitas a campo en las que recabar información, anotar, medir y sobre todo, hacer muchas fotografías.
-Las fotos se seleccionan y editan para los informes. Si se trata de un par de fotos es poco trabajo, pero cuando hay que insertar 20, 50 o más la cosa se complica.</description>
-    </item>
-    
-  </channel>
-</rss>

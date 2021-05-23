@@ -1,75 +1,0 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>markdown on EnRdados</title>
-    <link>/categories/markdown/</link>
-    <description>Recent content in markdown on EnRdados</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>es</language>
-    <lastBuildDate>Tue, 03 Mar 2020 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="/categories/markdown/index.xml" rel="self" type="application/rss+xml" />
-    
-    
-    <item>
-      <title>Informes html con Rmarkdown</title>
-      <link>/post/informes-html-con-rmarkdown/</link>
-      <pubDate>Tue, 03 Mar 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/post/informes-html-con-rmarkdown/</guid>
-      <description>Voy a mostraros algunos trucos, mas bien -ayudas rápidas- para hacer informes de calidad en formato web (HTML) usando RSTUDIO + R-markdown. No se trata de explicar Rmarkdown, para eso hay cientos de manuales muy completos como este , solo dar algunas pinceladas de cosas que a mi me resultan útiles para hacer informes.
-¡Manos a la obra!
-ÍndiceFormato general del documentoQuitar la pajaInsertar imágenesImagen en encabezadoInsertar tablasLinksPestañasFormato general del documentoSiempre que empezamos un documento Rmarkdown nuevo, el formato general y el tipo de salida la definimos con el encabezado YAML.</description>
-    </item>
-    
-    <item>
-      <title>Shiny facil con flexdashboard</title>
-      <link>/post/shiny-facil-con-flexdashboard/</link>
-      <pubDate>Wed, 04 Dec 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/post/shiny-facil-con-flexdashboard/</guid>
-      <description>noCómo crear aplicaciones web dinámicas con RHace unos días, realicé un taller sobre cómo crear aplicaciones web con R usando flexdashboard que fue organizado por UMUR. La idea de hacer estos encuentros surgió en una reunión de socios hace unos meses, y creo que están saliendo muy bien, pues aprovechamos para vernos, tomar un RCofee y hablar un rato de R con personas reales…. algo que no puedes hacer con los amigos… al menos no con los míos .</description>
-    </item>
-    
-    <item>
-      <title>Presentaciones con R</title>
-      <link>/post/presentaciones-con-r/</link>
-      <pubDate>Mon, 14 Oct 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/post/presentaciones-con-r/</guid>
-      <description>Hace unos días tuve que hacer una presentación en público. Solía hacerlas con powerpoint, es lo habitual en mi ámbito profesional, pero esta vez decidí probar con R, simplemente por ver qué podía hacer, y tener un nuevo reto semanal  .
-Es más difícil, eso está claro, pero solo porque cuesta arrancar con algo nuevo. Cuando te apañas bien con una herramienta el cambio cuesta, una vez sabes el potencial, y le echas un poco de valor al cambio, descubres otros mundos y ves que incluso es mejor herramienta (la nueva).</description>
-    </item>
-    
-    <item>
-      <title>Guía para imprimir en pdf desde R</title>
-      <link>/post/guia-para-imprimir-en-pdf-desde-r/</link>
-      <pubDate>Fri, 05 Apr 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/post/guia-para-imprimir-en-pdf-desde-r/</guid>
-      <description>He hecho una recopilación de indicaciones, trucos y preguntas para aprender a imprimir informes de calidad desde R con RSTUDIO, knitr y LaTeX . Creo que es un tema imprescindible para los científicos o ingenieros pues al final, nuestro trabajo debe ser plasmado en documentos y las posibilidades que ofrece R con rmarkdown y LaTeX son realmente sorprendentes.
-LaTeX es el procesador de textos por excelencia, pero hemos de reconocer que no es fácil iniciarse, es un lenguaje de marcado poderoso, pero muy complejo, por eso es tan importante la aprición de otros lenguajes intermedios como rmarkdown, que simplifican las reglas de marcado y hacen de traductores.</description>
-    </item>
-    
-    <item>
-      <title>markdown básico</title>
-      <link>/post/mdbasic/</link>
-      <pubDate>Thu, 06 Dec 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/post/mdbasic/</guid>
-      <description>&lt;p&gt;El principal propósito de este artículo es tener a mano un resumen para los formatos básicos de markdown.&lt;/p&gt;
-&lt;p&gt;RSTUDIO pone a disposición de los usuarios una chuleta resumida muy bueno con gran parte de los formatos de sintaxis, pero creo conveniente ponerlo a mano también en el blog&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>MathJax</title>
-      <link>/post/mathjax/</link>
-      <pubDate>Sat, 14 Apr 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/post/mathjax/</guid>
-      <description>&lt;p&gt;&lt;em&gt;MathJax&lt;/em&gt; es una librería JavaScript que permite ver ecuaciones y notación matemática en casi cualquier navegador moderno.
-Podemos usarla directamente en nuestros post de blogdown sin necesidad de acudir al formato Rmd, es decir con markdown puro de la siguiente forma:&lt;/p&gt;</description>
-    </item>
-    
-  </channel>
-</rss>

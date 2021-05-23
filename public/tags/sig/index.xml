@@ -1,97 +1,0 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>SIG on EnRdados</title>
-    <link>/tags/sig/</link>
-    <description>Recent content in SIG on EnRdados</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>es</language>
-    <lastBuildDate>Tue, 03 Sep 2019 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="/tags/sig/index.xml" rel="self" type="application/rss+xml" />
-    
-    
-    <item>
-      <title>Poster mapa con OSM </title>
-      <link>/post/poster-mapa-con-osm/</link>
-      <pubDate>Tue, 03 Sep 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/post/poster-mapa-con-osm/</guid>
-      <description>Estaba navegando por la red, y encontré una de esas cosas curiosas, que me encantan, una web que te imprime en alta calidad un mapa de tu ciudad, o región en un póster.
-Puedes pensar que eso es una tontería, hasta con imprimir un mapa directamente de google, o mejor de los de CARTO BD o una imagen de la tierra desde satélite, pero no, no es suficiente, hacer un mapa es algo más artístico y complejo que eso, y me llamó la atención la selección tan chula de colores y fondos que tiene y la sencillez desnuda de las líneas y fondos que usan, pues carecen de texto.</description>
-    </item>
-    
-    <item>
-      <title>Leaflet mapas dinamicos </title>
-      <link>/post/leaflet-mapas-dinamicos/</link>
-      <pubDate>Thu, 14 Mar 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/post/leaflet-mapas-dinamicos/</guid>
-      <description>IndiceLeafletPrimeros pasosCargar capas en el mapaAñadir capas shp y kmlmapviewOpciones de personalizaciónCapa baseAñadir gruposOtras opciones zoom etcpopupsColoresleaflet.extrasLeafletLeaflet es indiscutiblemente el lider de las librerías de código abierto para la creación de mapas dinámicos libres. Está escrita en JavaScript y por tanto pensada para internet desde sus entrañas.</description>
-    </item>
-    
-    <item>
-      <title>Mapas con tmap</title>
-      <link>/post/mapas-con-tmap/</link>
-      <pubDate>Tue, 05 Mar 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/post/mapas-con-tmap/</guid>
-      <description>Vamos a hacer una breve exposición de la library(tmap), un paquete de mapas con sintaxis estilo ggplot y bastante simple de usar.
-Es un paquete que está en cran, pero también puedes descargarlo de github.
-Como ejemplo tomaremos los datos de una capa shp bajada de la web del Ministerio, con las comunidades autónomas de España.
-tmapEl primer problema que veo es con Cataluña, bueno me explico, la capa debía estar con otro código y no con UTF-8 por lo que la letra ñ, la ha lee mal, y por eso he tenido que arreglar esto antes de continuar.</description>
-    </item>
-    
-    <item>
-      <title>Manual de sf para SIG</title>
-      <link>/post/manual-de-sf-para-sig/</link>
-      <pubDate>Tue, 26 Feb 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/post/manual-de-sf-para-sig/</guid>
-      <description>Hace poco tiempo, usar SIG en R era bastante difícil. Teníamos que aprender el uso de muchas librerías diferentes que no tenían conexión de sintaxis. En mi caso acostumbrado a usar Arcgis y QGIS, veía que las opciones de R en aquel entonces estaban bastante limitadas, pero siempre creí que tenía un gran futuro para hacer SIG, solo faltaba tiempo de desarrollo.
-La principal librería para SIG y datos espaciales era sp, pero necesitabas siempre buscar funciones complementarias en otros paquetes.</description>
-    </item>
-    
-    <item>
-      <title>Test de Rorschach</title>
-      <link>/post/test-de-rorschach/</link>
-      <pubDate>Mon, 18 Feb 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/post/test-de-rorschach/</guid>
-      <description>La generación de formas al azar es muy interesante desde el punto de vista artístico, pero también del psicológico. Una mancha representa lo que queramos ver en ella, lo que nuestro subconsciente desea ver y percibe de su forma. Esta percepción puede decirnos mucha cosas sobre nuestra personalidad y soprendernos.
-Hermann RorschachHermann Rorschach(1884-1922) fue un psiquiatra suizo especializado en psicoanálisis. Es ampliamente conocido por ser el inventor del test de Rorschach, una técnica que analiza el impacto visual de ciertas imágenes en la percepción del individuo.</description>
-    </item>
-    
-    <item>
-      <title>Mapas del tesoro</title>
-      <link>/post/mapa-del-tesoro/</link>
-      <pubDate>Thu, 24 Jan 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/post/mapa-del-tesoro/</guid>
-      <description>trueUna vuelta más sobre el generador de islas aleatoriasHace unas semanas publiqué un artículo dedicado a generar islas aeatorias. Fue un tema que gustó mucho y también a mis hijos, por lo que estoy realizando una versión en Shiny que permita ejecutar en línea el código y estará disponible para todos aquí.
-También he visto que se puede aprovechar y darle alguna vuelta más profesional al asunto, en concreto para aprender de SIG (Sistemas de Información Geográfica), así que, manos a la obra que vamos a hacer mapas con R, vamos a crear Mapas del Tesoro.</description>
-    </item>
-    
-    <item>
-      <title>Geoposicionar fotografias</title>
-      <link>/post/geoposicionar-fotograf%C3%ADas/</link>
-      <pubDate>Wed, 16 Jan 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/post/geoposicionar-fotograf%C3%ADas/</guid>
-      <description>Objetivo Crear un mapa en R en el que esté marcada la geo localización de cada una de las fotos que hemos hecho.
-Antecedentes En mi trabajo hacemos muchas visitas a campo en las que recabar información, anotar, medir y sobre todo, hacer muchas fotografías.
-Las fotos se seleccionan y editan para los informes. Si se trata de un par de fotos es poco trabajo, pero cuando hay que insertar 20, 50 o más la cosa se complica.</description>
-    </item>
-    
-    <item>
-      <title>Crear mapas estaticos con R</title>
-      <link>/post/crear-mapas-estaticos/</link>
-      <pubDate>Thu, 10 Jan 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/post/crear-mapas-estaticos/</guid>
-      <description>¿qué son los mapas estáticos?Los mapas fijos o estáticos son los de siempre, que se contraponen a los nuevos o dinámicos en los que se permite interactuar. Estos mapas fijos son solo imágenes de unarepresentación geográfica.
-Estos mapas tienen cada vez menos uso, pero siguen siendo útiles para insertar en documentos y libros. Estamos tan acostumbrados a interactuar con los mapas,a hacer zoom o localizar poblaciones de forma dinámica que es hasta raro querer un simple mapa como imagen.</description>
-    </item>
-    
-  </channel>
-</rss>

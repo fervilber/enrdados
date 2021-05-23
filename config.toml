@@ -1,50 +1,65 @@
 baseurl = "https://enrdados.netlify.com/"
-title = "EnRdados"
+title = "enRdados"
 languageCode = "es"
 defaultContentLanguage = "es"
 paginate = "10" # Number of posts per page
 theme = "Mainroad"
 disqusShortname = "www-enrdados-net" # Enable comments by entering your Disqus shortname
 googleAnalytics = "UA-141606881-1" # Enable Google Analytics by entering your tracking id
-ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
-
 
 [Author]
   name = "F.VilBer"
-  bio = "Hola soy Fernando VilBer, ingeniero de caminos y entusiasta usuario de R."
-  avatar = "/img/gritos.jpg"
+  bio = "Fernando Villalba Bergado, Ingeniero de CCP y entusiasta usuario de R."
+  avatar = "img/gritos.jpg"
 
 [Params]
-  subtitle = "Hablamos de R, programación y otras cosas..." # Subtitle of your site
-  description = "Web personal sobre R, el lenguaje de la ciencia" # Description of your site
-  logo = "../img/R_logo.svg.png"
+  description = "Hablamos de R, programación y otras cosas..." # Description of your site
+  copyright = "F.VilBer"
   opengraph = true
+  schema = true # Enable Schema
   twitter_cards = false
   readmore = false # Show "Read more" button in list if true
   authorbox = true
-  post_navigation = true
-  postSections = ["post"]
-  dateformat = "2006-01-02" # change the format of date
-  mathjax = true
-  math = true
-  #highlightjsVersion = "9.11.0"
-  highlightjsCDN = "//cdn.bootcss.com"
-  highlightjsLang = ["r", "yaml"]
-  highlightjsTheme = "hybrid"
-  MathJaxCDN = "//cdn.bootcss.com"
+  toc = true # Enable Table of Contents
+  pager = true
+  post_meta = ["date", "categories"] # Order of post meta information
+  mathjax = true # Enable MathJax
+  mathjaxPath = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js" # Specify MathJax path
+  mathjaxConfig = "TeX-AMS-MML_SVG" # Specify MathJax config
+
+[Params.style.vars]
+  highlightColor = "#e22d30" # Override highlight color
+
+  # Override font-family sets. Secondary font-family set responsible for pre, code, kbd, and samp tags font
+  # Take care of different quotes OR escaping symbols in these params if necessary
+  fontFamilyPrimary = "'Open Sans', Helvetica, Arial, sans-serif"
+  fontFamilySecondary = "SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace"
+
+[Params.logo]
+  image = "img/LogoenRdados_p.png"
+  subtitle = "Hablamos de R, programación y otras cosas..." # Logo subtitle
 
 [Params.sidebar]
   home = "right"   # Configure layout for home page
   list = "right"   # Configure layout for list pages
   single = "right" # Configure layout for single pages
   # Enable widgets in given order
-  widgets = ["search","recent", "categories", "taglist", "social"]#,"sidemenu"
+  widgets = ["search", "recent", "categories", "social", "taglist", "languages"]
 
 [Params.widgets]
   recent_num = 5 # Set the number of articles in the "Recent articles" widget
-  tags_counter = true # Enable counter for each tag in "Tags" widget (disabled by default)
+  tags_counter = false # Enable counter for each tag in "Tags" widget (disabled by default)
 
 [Params.widgets.social]
   # Enable parts of social widget
   email = "fervilber@gmail.com"
+  twitter = "enrdados"
   github = "fervilber"
+  linkedin = "fervilber"
+  social_rss = "RSS_feed"
+
+[[Params.widgets.social.custom]]
+  title = "RSS feed"
+  url = "https://enrdados.netlify.com/index.xml"
+  icon = "svg/rss.svg" # Optional. Path relative to layouts/partials
+  

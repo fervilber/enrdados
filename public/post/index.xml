@@ -1,489 +1,0 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>Posts on EnRdados</title>
-    <link>/post/</link>
-    <description>Recent content in Posts on EnRdados</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>es</language>
-    <lastBuildDate>Sun, 08 Nov 2020 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
-    
-    
-    <item>
-      <title>Control de acceso web</title>
-      <link>/post/control-de-acceso-web/</link>
-      <pubDate>Sun, 08 Nov 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/post/control-de-acceso-web/</guid>
-      <description>Una de las cosas por las que vale la pena aprender R es por lo fácil que resulta hacer aplicaciones web dinámicas. Esto lo podéis comprobar en la serie de post que realicé sobre shiny, enfocado al desarrollo de app con la librería flexdashboard.
- I. Sintaxis y uso simple de flexdashboard II. htmlwidgets III. crosstalk IV.App shiny con flexdashboard   La verdad es que yo no uso Shiny, porque siempre que tengo que hacer una aplicación o gráfica dinámica uso flexdashboard o flex para los amigos :-) .</description>
-    </item>
-    
-    <item>
-      <title>Series temporales con arima II</title>
-      <link>/post/series-temporales-con-arima-ii/</link>
-      <pubDate>Sun, 25 Oct 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/post/series-temporales-con-arima-ii/</guid>
-      <description>El anterior post fue una introducción a los modelos ARIMA, ahora vamos a ver ejemplos prácticos.
-Recuerda que es importante saber interpretar las gráficas de los correlogramas ACF y PACF que nos dan el orden del modelo según esta guía:
-AR(p)MA(q)ARMA(p,q)ACFvarios puntos con coef&amp;gt;0 decayendo0 excepto los q primerosvarios puntos con coef&amp;gt;0 decayendoPACF0 excepto los p primerosvarios puntos con coef&amp;gt;0varios puntos con coef&amp;gt;0Utilizaremos principalmente las librerías astsa y forecast cada una tiene unas funciones para hacer el proceso.</description>
-    </item>
-    
-    <item>
-      <title>Series temporales con ARIMA I</title>
-      <link>/post/series-temporales-con-arima-i/</link>
-      <pubDate>Tue, 20 Oct 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/post/series-temporales-con-arima-i/</guid>
-      <description>ARIMAMuchos hemos estudiado en la carrera los modelos “clásicos” ARIMA sin enterarnos de nada. No echo la culpa a mis profes de estadística, son temas muy teóricos y con formulación matemática extensa que se dan con muy poca práctica, por lo que terminamos sin saber realmente ni cómo, ni donde aplicarlo.
-Ahora que mi profe soy yo, me he decidido a entender estos modelos para ver si les saco partido para el pronóstico de series temporales.</description>
-    </item>
-    
-    <item>
-      <title>el sol y el origen del tiempo</title>
-      <link>/post/el-sol-y-el-origen-del-tiempo/</link>
-      <pubDate>Fri, 10 Jul 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/post/el-sol-y-el-origen-del-tiempo/</guid>
-      <description>Durante las vacaciones hago el esfuerzo de leer algunas cosas ajenas a lo habitual, pero que me gustan, este año estoy con lecturas cósmicas, y me apetece comentarlas en el blog.
-En nuestras vidas modernas repletas de móviles, ordenadores y pantallas conectadas no precibimos la naturalidad del tiempo como antes, es decir como antes de que existieran estos inventos tecnológicos. Cuesta pensar cómo lograrían nuestros tatarabuelos saber la hora del día, el día del mes o los años de una persona sin móviles…¿lo habés pensado alguna vez?</description>
-    </item>
-    
-    <item>
-      <title>Gráficas con ggplot II</title>
-      <link>/post/graficas-con-ggplot-ii/</link>
-      <pubDate>Sat, 25 Apr 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/post/graficas-con-ggplot-ii/</guid>
-      <description>Hace tiempo escribí un post gráficas con ggplot , que es la librería más conocida y de las más completas de gráficos en R. En el artículo dejé muchos tipos de gráficas en el tintero, y especialmente los addon, por lo que vamos a retomar este asunto y dar ejemplos interesantes con esta fantástica librería.
-Graficas de barras simplesVoy a hacer una gráfica inicial bastante simple, sobre la que iremos añadiendo cosas, y complementos.</description>
-    </item>
-    
-    <item>
-      <title>Bitcoin el dinero digital</title>
-      <link>/post/bitcoin-el-dinero-digital/</link>
-      <pubDate>Tue, 21 Apr 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/post/bitcoin-el-dinero-digital/</guid>
-      <description>Como estamos de cuarentena, he aprovechado para pasar a limpio y compartir unas notas sobre bitcoin -el dinero digital-, que tengo escritas desde hace meses. Es un tema off-topic, que me gusta, no solo por sus implicaciones reales, también por lo que supone de cambio mental, de ser tu propio banco, de aprender a cacharrear electrónica básica y desmontar PC viejos para crear dinero!</description>
-    </item>
-    
-    <item>
-      <title>Camino crítico y Gantt de un Proyecto</title>
-      <link>/post/camino-critico/</link>
-      <pubDate>Mon, 06 Apr 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/post/camino-critico/</guid>
-      <description>Los ingenieros llamamos camino crítico a la secuencia de actividades que determinan el tiempo más corto en el que es posible terminar una obra. Indica por tanto la duración mínima del proyecto, cualquier retraso en una actividad del camino crítico afecta a la fecha fin de las obras.
-En este artículo, vamos a ver una forma sencilla de calcular la ruta crítica con R y además aprovecharemos para usar la librería timevis que hace líneas temporales con una salida gráfica muy atractiva y dinámica que podemos usar en nuestros proyectos de shiny .</description>
-    </item>
-    
-    <item>
-      <title>Informes html con Rmarkdown</title>
-      <link>/post/informes-html-con-rmarkdown/</link>
-      <pubDate>Tue, 03 Mar 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/post/informes-html-con-rmarkdown/</guid>
-      <description>Voy a mostraros algunos trucos, mas bien -ayudas rápidas- para hacer informes de calidad en formato web (HTML) usando RSTUDIO + R-markdown. No se trata de explicar Rmarkdown, para eso hay cientos de manuales muy completos como este , solo dar algunas pinceladas de cosas que a mi me resultan útiles para hacer informes.
-¡Manos a la obra!
-ÍndiceFormato general del documentoQuitar la pajaInsertar imágenesImagen en encabezadoInsertar tablasLinksPestañasFormato general del documentoSiempre que empezamos un documento Rmarkdown nuevo, el formato general y el tipo de salida la definimos con el encabezado YAML.</description>
-    </item>
-    
-    <item>
-      <title>shiny fácil con flexdashboard IV</title>
-      <link>/post/shiny-facil-con-flexdashboard-iv/</link>
-      <pubDate>Thu, 06 Feb 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/post/shiny-facil-con-flexdashboard-iv/</guid>
-      <description>Cuarto y último capítulo de la guía para hacer aplicaciones web en R con la librería flexdashboard. Parece mentira, pero éste es el único en el que vamos a usar Shiny. Espero que en los anteriores capítulos hayas visto que no siempre es necesario complicarse para hacer aplicaciones web de calidad con R, y que hay otras opciones más sencillas como los htmlwidgets o crosstalk que son herramientas simples y poderosas a las que debes dar una oportunidad en tu código R.</description>
-    </item>
-    
-    <item>
-      <title>crosstalk</title>
-      <link>/post/crosstalk/</link>
-      <pubDate>Thu, 30 Jan 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/post/crosstalk/</guid>
-      <description>Applicaciones web con R IIITercera parte de la guía para hacer aplicaciones web en R con la librería flexdashboard. Los anteriores articulos fueron estos:
-I. Sintaxis y uso simple de flexdashboardII. htmlwidgetsEn esta ocasión vamos a explicar el uso de otra librería muy interesante, que añade muchas posibilidades desde el lado cliente, es decir sin hacer uso del servidor que es la parte más complicada para los “NO INFORMÁTICOS”.</description>
-    </item>
-    
-    <item>
-      <title>Shiny fácil con flexdashboard II</title>
-      <link>/post/shiny-facil-con-flexdashboard-ii/</link>
-      <pubDate>Mon, 27 Jan 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/post/shiny-facil-con-flexdashboard-ii/</guid>
-      <description>Segunda parte. Applicaciones web con RSeguimos con el manual para hacer aplicaciones web en R. En esta segunda parte vamos a ver cómo añadimos dinamismo e interacción con el usuario.
-En el artículo anterior vimos la sintaxis para crear fácilmente una web con lenguaje Rmarkdown, usando la librería flexdashboard. Como recordarás es bastante simple… se hace usando las almohadillas para el formateado de la web que flexdashboard interpreta como páginas ( una sola almohadilla: #), columnas o filas (##) o cajas (3 de lo mismo: ###).</description>
-    </item>
-    
-    <item>
-      <title>Shiny facil con flexdashboard</title>
-      <link>/post/shiny-facil-con-flexdashboard/</link>
-      <pubDate>Wed, 04 Dec 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/post/shiny-facil-con-flexdashboard/</guid>
-      <description>noCómo crear aplicaciones web dinámicas con RHace unos días, realicé un taller sobre cómo crear aplicaciones web con R usando flexdashboard que fue organizado por UMUR. La idea de hacer estos encuentros surgió en una reunión de socios hace unos meses, y creo que están saliendo muy bien, pues aprovechamos para vernos, tomar un RCofee y hablar un rato de R con personas reales…. algo que no puedes hacer con los amigos… al menos no con los míos .</description>
-    </item>
-    
-    <item>
-      <title>Enseñar a programar</title>
-      <link>/post/ense%C3%B1ar-a-programar/</link>
-      <pubDate>Fri, 08 Nov 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/post/ense%C3%B1ar-a-programar/</guid>
-      <description>Hace un tiempo quería poner un resumen de enlaces a buenas webs para aprender R, pero como estoy desde el verano programando con los niños he pensado en poneros algunos enlaces a las páginas que uso para enseñarles.
-Llevo años intentando que los niños disfruten con la programación y creo que con estas lo he conseguido.
-Programar es una de la habilidades más interesantes y que mejor desarrollan la creatividad y la imaginación de las personas.</description>
-    </item>
-    
-    <item>
-      <title>Presentaciones con R</title>
-      <link>/post/presentaciones-con-r/</link>
-      <pubDate>Mon, 14 Oct 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/post/presentaciones-con-r/</guid>
-      <description>Hace unos días tuve que hacer una presentación en público. Solía hacerlas con powerpoint, es lo habitual en mi ámbito profesional, pero esta vez decidí probar con R, simplemente por ver qué podía hacer, y tener un nuevo reto semanal  .
-Es más difícil, eso está claro, pero solo porque cuesta arrancar con algo nuevo. Cuando te apañas bien con una herramienta el cambio cuesta, una vez sabes el potencial, y le echas un poco de valor al cambio, descubres otros mundos y ves que incluso es mejor herramienta (la nueva).</description>
-    </item>
-    
-    <item>
-      <title>Vision artificial con R</title>
-      <link>/post/vision-artificial-con-r/</link>
-      <pubDate>Wed, 11 Sep 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/post/vision-artificial-con-r/</guid>
-      <description>Vision artificialLa visión artificial trata de cómo procesar, analizar y comprender imágenes. Algo intuitivo para los humanos, como distinguir los objetos que vemos en una habitación, es muy difícil de hacer para una máquina. Las imágenes incluyen mucha informacióny los ordenadores hasta ahora no estaban capacidatos para entenderla, ya lo dice el refrán: una imagen vale más que mil palabras.
-En este proceso de sacar la información de las imágenes se ha avanzado muchísimo en los últimos años, y lo que antes era casi impensable, hoy día está al alcance de pocas líneas de código.</description>
-    </item>
-    
-    <item>
-      <title>Poster mapa con OSM </title>
-      <link>/post/poster-mapa-con-osm/</link>
-      <pubDate>Tue, 03 Sep 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/post/poster-mapa-con-osm/</guid>
-      <description>Estaba navegando por la red, y encontré una de esas cosas curiosas, que me encantan, una web que te imprime en alta calidad un mapa de tu ciudad, o región en un póster.
-Puedes pensar que eso es una tontería, hasta con imprimir un mapa directamente de google, o mejor de los de CARTO BD o una imagen de la tierra desde satélite, pero no, no es suficiente, hacer un mapa es algo más artístico y complejo que eso, y me llamó la atención la selección tan chula de colores y fondos que tiene y la sencillez desnuda de las líneas y fondos que usan, pues carecen de texto.</description>
-    </item>
-    
-    <item>
-      <title>Numeros montaña</title>
-      <link>/post/numeros-monta%C3%B1a/</link>
-      <pubDate>Fri, 23 Aug 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/post/numeros-monta%C3%B1a/</guid>
-      <description>Números montañaAunque he tenido poco tiempo de relax este verano -los que teneis hijos sabeis de lo que hablo-,.. para el resto !disfrutad de vuestro tiempo! equivalente a 2 o tres vidas mías!!!, he leído algunas cosas interesantes y curiosas que me han mantenido en forma mental.
-Una de ellas es este blog de matemáticas https://mathsedideas.blogspot.com/ en el que proponían 42 juegos matemáticos para el verano. Como os imagináis no llegué más allá de las primeras propuestas, pero me hicieron disfrutar un buen rato: aprendí la existencia de hex un juego de mesa curioso, y descubrí los números montaña, a los que vamos a dedicar hoy este artículo experimento.</description>
-    </item>
-    
-    <item>
-      <title>Chuleta de purrr</title>
-      <link>/post/chuleta-de-purrr/</link>
-      <pubDate>Thu, 06 Jun 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/post/chuleta-de-purrr/</guid>
-      <description>¿Qué es purrr?purrr es un paquete que permite realizar bucles de una manera no convencional, diferente, quizás más fácil de entender, al tratarlos como funciones naturales.
-Se trata de una librería creada por RSTUDIO dentro del universo tidyverse, cada vez más completo y poderoso. Este paquete purrr entra en el campo de programación funcional. Básicamente trata de sustituir código de programación base por órdenes “humanas”, es decir con funciones.</description>
-    </item>
-    
-    <item>
-      <title>Instalar R en la nube 2 La forma facil</title>
-      <link>/post/instalar-r-en-la-nube-2-la-forma-facil/</link>
-      <pubDate>Mon, 20 May 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/post/instalar-r-en-la-nube-2-la-forma-facil/</guid>
-      <description>En los dos artículos anteriores he explicado cómo instalé R, RSTUDIO y Shiny en la nube de Amazon Web Service o AWS. El proceso, aunque aparentemente fácil, me ha llevado muchos quebraderos de cabeza fundamentalmente por temas ajenos a R y relacionados nstalación en linux ubuntu, que no domino lo suficiente.
-Problemas de instalación Hay que tener alguna experiencia previa o echarle valor para enfrentarse a cada paso a una nueva contrariedad, por ejemplo me ha sido imposible instalar algunas librerías, quizás por dependencias que no he logrado sacar, problemas para que Shiny no reconociera la carpeta de trabajo del usuario etc&amp;hellip;</description>
-    </item>
-    
-    <item>
-      <title>Instalar R Shiny en AWS</title>
-      <link>/post/instalar-r-shiny-en-aws/</link>
-      <pubDate>Wed, 08 May 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/post/instalar-r-shiny-en-aws/</guid>
-      <description>Tras unos días de prueba de la instalación de R en la nube de amazon AWS, he pasado por fases de todo tipo. Al principio fue bastante bien, pero en cuanto quise instalar librerías de GIS o incluso algunas básicas todo fueron problemas.
-Estas semanas de trabajo en AWS me ha dado cierta experiencia que me gustaría compartir, pues apenas he encontrado información en la web, y desde luego nada en Español.</description>
-    </item>
-    
-    <item>
-      <title>Instalar R en la nube con amazon</title>
-      <link>/post/instalar-r-en-la-nube-con-amazon/</link>
-      <pubDate>Fri, 26 Apr 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/post/instalar-r-en-la-nube-con-amazon/</guid>
-      <description>Llevo tiempo con la idea de comprar un servidor-PC con Shiny para casa, la idea está, pero el tiempo para hacerlo no, así que en Semana Santa he aprovechado los días lluviosos para reciclar unos PCs viejos, de esos del 2003 e instalar Ubuntu, R y ponerlos en marcha.
-Aunque me lo he pasado bien cacharreando, no he conseguido nada decente, esos ordenadores de 32 bits con 16 años, hay que poner puppylinux y ya no tiran ni para ver un película.</description>
-    </item>
-    
-    <item>
-      <title>TinyTeX tener LaTeX desde R sin esfuerzo</title>
-      <link>/post/tinytex-tener-latex-desde-r-sin-esfuerzo/</link>
-      <pubDate>Thu, 11 Apr 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/post/tinytex-tener-latex-desde-r-sin-esfuerzo/</guid>
-      <description>Con el último artículo he aprovechado para actualizar RSTUDIO y de paso, probar TinyTeX la versión de \(\LaTeX\) ligera para R que ha hecho Yihui Xie.
-La verdad que, hasta ahora me he apañado bien con MikTeX, pero esta versión de \(\LaTeX\) requiere cierta paciencia y un aprendizaje que no todo el mundo es capaz de sacrificar para la utilidad que obtiene, por eso la idea de una versión de \(\LaTeX\) sencilla y manejable desde R me pareció fantástica y esa es TinyTeX.</description>
-    </item>
-    
-    <item>
-      <title>Gráficas con ggplot</title>
-      <link>/post/graficas-con-ggplot/</link>
-      <pubDate>Mon, 08 Apr 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/post/graficas-con-ggplot/</guid>
-      <description>noManual breve de cómo hacer gráficos con la librería ggplot2, que es el más usado y completo paquete gráfico de R, con la ventaja de usar los criterios de gramática gráfica en su estructura.
-La gramática gráfica es un sistema de representación ordenado del trazado de gráficos. Consiste en dividir las partes que intervienen en pintar datos y analizarlo como si de la gramática ortográfica se tratase, otorgando a cada elemento una función característica.</description>
-    </item>
-    
-    <item>
-      <title>Guía para imprimir en pdf desde R</title>
-      <link>/post/guia-para-imprimir-en-pdf-desde-r/</link>
-      <pubDate>Fri, 05 Apr 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/post/guia-para-imprimir-en-pdf-desde-r/</guid>
-      <description>He hecho una recopilación de indicaciones, trucos y preguntas para aprender a imprimir informes de calidad desde R con RSTUDIO, knitr y LaTeX . Creo que es un tema imprescindible para los científicos o ingenieros pues al final, nuestro trabajo debe ser plasmado en documentos y las posibilidades que ofrece R con rmarkdown y LaTeX son realmente sorprendentes.
-LaTeX es el procesador de textos por excelencia, pero hemos de reconocer que no es fácil iniciarse, es un lenguaje de marcado poderoso, pero muy complejo, por eso es tan importante la aprición de otros lenguajes intermedios como rmarkdown, que simplifican las reglas de marcado y hacen de traductores.</description>
-    </item>
-    
-    <item>
-      <title>Ojos </title>
-      <link>/post/ojos/</link>
-      <pubDate>Sat, 30 Mar 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/post/ojos/</guid>
-      <description>He estado con lío esta semana, pero hace tiempo que quería hacer algo divertido como un generador de caras.. como eso lo veo complejo, vamos a empezar por un generador de ojos.
-Me sorprendió lo sencillo que ha resultado hacer un ojo humano con funciones gráficas en R, casi en 5 minutos teníamos una ecuación que daba el pego, resultaba aparente y bastante fácil, hasta mi hija de 7 años se quedó encantada y empezó a jugar con los colores del iris.</description>
-    </item>
-    
-    <item>
-      <title>Leaflet mapas dinamicos </title>
-      <link>/post/leaflet-mapas-dinamicos/</link>
-      <pubDate>Thu, 14 Mar 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/post/leaflet-mapas-dinamicos/</guid>
-      <description>IndiceLeafletPrimeros pasosCargar capas en el mapaAñadir capas shp y kmlmapviewOpciones de personalizaciónCapa baseAñadir gruposOtras opciones zoom etcpopupsColoresleaflet.extrasLeafletLeaflet es indiscutiblemente el lider de las librerías de código abierto para la creación de mapas dinámicos libres. Está escrita en JavaScript y por tanto pensada para internet desde sus entrañas.</description>
-    </item>
-    
-    <item>
-      <title>graficos de red con igraph</title>
-      <link>/post/graficos-de-red-con-igraph/</link>
-      <pubDate>Mon, 11 Mar 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/post/graficos-de-red-con-igraph/</guid>
-      <description>Los gráficos de red son un tipo de diagramas en los que se pintan las relaciones entre nodos, por lo que sirven para representar datos con vínculos cruzados tipo red.
-Vamos a explicar cómo realizar un gráfico de red con la librería igraph, como siempre en R, tenemos varias opciones y librerías que los hacen, pero esta me ha parecido bastante buena y con opciones de personalización suficientes.
-igraphLa pasada semana realizamos un ejemplo de gráfica Sankey, y en cierta forma los gráficos de red son el tipo generalizado de gráficos Sankey, con muchas más opciones.</description>
-    </item>
-    
-    <item>
-      <title>Gráficos Snakey con R</title>
-      <link>/post/graficos-snakey-con-r/</link>
-      <pubDate>Thu, 07 Mar 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/post/graficos-snakey-con-r/</guid>
-      <description>Hace unos días ví un informe con un tipo de gráficos poco habitual. Se trataba de una gráfica de flujo que se suelen denominar como diagramas de Sankey.
-Se ha quedado con ese nombre por el ingeniero militar irlandés Matthew Henry Phineas Riall Sankey, que aunque no fue el inventor del gráfico, lo usó con acierto para una representación gráfica del flujo de energía en la máquina de vapor.</description>
-    </item>
-    
-    <item>
-      <title>Mapas con tmap</title>
-      <link>/post/mapas-con-tmap/</link>
-      <pubDate>Tue, 05 Mar 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/post/mapas-con-tmap/</guid>
-      <description>Vamos a hacer una breve exposición de la library(tmap), un paquete de mapas con sintaxis estilo ggplot y bastante simple de usar.
-Es un paquete que está en cran, pero también puedes descargarlo de github.
-Como ejemplo tomaremos los datos de una capa shp bajada de la web del Ministerio, con las comunidades autónomas de España.
-tmapEl primer problema que veo es con Cataluña, bueno me explico, la capa debía estar con otro código y no con UTF-8 por lo que la letra ñ, la ha lee mal, y por eso he tenido que arreglar esto antes de continuar.</description>
-    </item>
-    
-    <item>
-      <title>Algoritmo golfo cabo</title>
-      <link>/post/algoritmo-golfo-cabo/</link>
-      <pubDate>Mon, 04 Mar 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/post/algoritmo-golfo-cabo/</guid>
-      <description>Hace unas semanas escribí un artículo de cómo generar un polígono de isla aleatoria, después lo complementamos con habilidades gráficas para crear una aplicación que hace mapas del tesoro aleatorios con varias islas y muchos adornos, lo puedes ver aquí.
-Cuando estuve programando el mapa del tesoro busqué un algoritmo que ayudara a localizar los puntos en el perímetro que fueran cabos y los puntos que fueran bahías o golfos, con la idea de poner nombres a estos puntos singulares, para que el mapa fuera realista.</description>
-    </item>
-    
-    <item>
-      <title>Manual de sf para SIG</title>
-      <link>/post/manual-de-sf-para-sig/</link>
-      <pubDate>Tue, 26 Feb 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/post/manual-de-sf-para-sig/</guid>
-      <description>Hace poco tiempo, usar SIG en R era bastante difícil. Teníamos que aprender el uso de muchas librerías diferentes que no tenían conexión de sintaxis. En mi caso acostumbrado a usar Arcgis y QGIS, veía que las opciones de R en aquel entonces estaban bastante limitadas, pero siempre creí que tenía un gran futuro para hacer SIG, solo faltaba tiempo de desarrollo.
-La principal librería para SIG y datos espaciales era sp, pero necesitabas siempre buscar funciones complementarias en otros paquetes.</description>
-    </item>
-    
-    <item>
-      <title>Árbol genealógico</title>
-      <link>/post/arbol-genealogico/</link>
-      <pubDate>Fri, 22 Feb 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/post/arbol-genealogico/</guid>
-      <description>Una de las ventajas de usar R es que su comunidad es tan grande, que hay librerías para cualquier tema, por raro que nos parezca.
-Por ejemplo, hace un tiempo quise hacer un árbol genealógico de la familia, y en vez de buscar herramientas por la web o hacerlo con Excel, pensé que debía existir algún paquete de R para esto… dicho y hecho cuestión de buscar un rato y encontré algunas soluciones muy interesantes.</description>
-    </item>
-    
-    <item>
-      <title>Test de Rorschach</title>
-      <link>/post/test-de-rorschach/</link>
-      <pubDate>Mon, 18 Feb 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/post/test-de-rorschach/</guid>
-      <description>La generación de formas al azar es muy interesante desde el punto de vista artístico, pero también del psicológico. Una mancha representa lo que queramos ver en ella, lo que nuestro subconsciente desea ver y percibe de su forma. Esta percepción puede decirnos mucha cosas sobre nuestra personalidad y soprendernos.
-Hermann RorschachHermann Rorschach(1884-1922) fue un psiquiatra suizo especializado en psicoanálisis. Es ampliamente conocido por ser el inventor del test de Rorschach, una técnica que analiza el impacto visual de ciertas imágenes en la percepción del individuo.</description>
-    </item>
-    
-    <item>
-      <title>Aprendizaje Supervisado</title>
-      <link>/post/aprendizaje-supervisado/</link>
-      <pubDate>Wed, 13 Feb 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/post/aprendizaje-supervisado/</guid>
-      <description>El aprendizaje supervisado es una técnica usada en minería de datos, en la que se genera una función de pronóstico a partir del entrenamiento sobre datos etiquetados, es decir, aprendemos a partir de casos reales y extrapolamos el resultado a los casos futuros.
-Se dice que es supervisado porque, previamente debe existir una clasificación o etiquetado de los datos que es lo que aporta el conocimiento. Otros modelos como las redes neuronales no necesitan este conocimiento previo para realizar el pronóstico.</description>
-    </item>
-    
-    <item>
-      <title>Waldeinsamkeit</title>
-      <link>/post/waldeinsamkeit/</link>
-      <pubDate>Mon, 11 Feb 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/post/waldeinsamkeit/</guid>
-      <description>Hace unos días, paseando por Murcia vi un cartel que anunciaba un concierto. No sabía de qué grupo se trataba, pero me llamó poderosamente la atención su diseño.
-Era un cartel en blanco y negro con una línea quebrada que parecían la silueta de una sierra y debajo el reflejo de esa forma en color opuesto. El grupo en cuestión se llama Waldenskeit y suenan muy bien como podéis comprobar en el enlace.</description>
-    </item>
-    
-    <item>
-      <title>Mapas del tesoro</title>
-      <link>/post/mapa-del-tesoro/</link>
-      <pubDate>Thu, 24 Jan 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/post/mapa-del-tesoro/</guid>
-      <description>trueUna vuelta más sobre el generador de islas aleatoriasHace unas semanas publiqué un artículo dedicado a generar islas aeatorias. Fue un tema que gustó mucho y también a mis hijos, por lo que estoy realizando una versión en Shiny que permita ejecutar en línea el código y estará disponible para todos aquí.
-También he visto que se puede aprovechar y darle alguna vuelta más profesional al asunto, en concreto para aprender de SIG (Sistemas de Información Geográfica), así que, manos a la obra que vamos a hacer mapas con R, vamos a crear Mapas del Tesoro.</description>
-    </item>
-    
-    <item>
-      <title>Hacer un bosque con R</title>
-      <link>/post/hacer-un-bosque-con-r/</link>
-      <pubDate>Sat, 19 Jan 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/post/hacer-un-bosque-con-r/</guid>
-      <description>Seguimos con los modelos sencillos para talleres de programación, y este es bastante interesante.
-Se trata de, a partir de modelos muy simples generar un árbol,pintándolo en el tablero de r, y después generar muchos de estos árboles de forma aleatoria para formar un bosque.
-Crear un árbolLa idea es pintar una linea como tronco (de altura h), y en la punta de arriba un circulo (de radio r) que será la copa del árbol.</description>
-    </item>
-    
-    <item>
-      <title>Geoposicionar fotografias</title>
-      <link>/post/geoposicionar-fotograf%C3%ADas/</link>
-      <pubDate>Wed, 16 Jan 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/post/geoposicionar-fotograf%C3%ADas/</guid>
-      <description>Objetivo Crear un mapa en R en el que esté marcada la geo localización de cada una de las fotos que hemos hecho.
-Antecedentes En mi trabajo hacemos muchas visitas a campo en las que recabar información, anotar, medir y sobre todo, hacer muchas fotografías.
-Las fotos se seleccionan y editan para los informes. Si se trata de un par de fotos es poco trabajo, pero cuando hay que insertar 20, 50 o más la cosa se complica.</description>
-    </item>
-    
-    <item>
-      <title>Generador de islas aleatorias</title>
-      <link>/post/generador-de-islas-aleatorias/</link>
-      <pubDate>Mon, 14 Jan 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/post/generador-de-islas-aleatorias/</guid>
-      <description>Tras hacer el generador de ciudades me entró el gusanillo y he pensado otros talleres de programación para niños, se trata de desarrollar clases cortas como introducción a la programación de algoritmos y su aplicación directa en R.
-Hablando con mi hijo mayor, pensamos que podía ser interesante crear un modelo para crear mapas de islas del tesoro… Como a mi me gustan mucho los mapas la idea me pareció genial y nos hemos puesto manos a la obra.</description>
-    </item>
-    
-    <item>
-      <title>Crear mapas estaticos con R</title>
-      <link>/post/crear-mapas-estaticos/</link>
-      <pubDate>Thu, 10 Jan 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/post/crear-mapas-estaticos/</guid>
-      <description>¿qué son los mapas estáticos?Los mapas fijos o estáticos son los de siempre, que se contraponen a los nuevos o dinámicos en los que se permite interactuar. Estos mapas fijos son solo imágenes de unarepresentación geográfica.
-Estos mapas tienen cada vez menos uso, pero siguen siendo útiles para insertar en documentos y libros. Estamos tan acostumbrados a interactuar con los mapas,a hacer zoom o localizar poblaciones de forma dinámica que es hasta raro querer un simple mapa como imagen.</description>
-    </item>
-    
-    <item>
-      <title>Pintar una ciudad con R</title>
-      <link>/post/pintar-un-edificio-con-r/</link>
-      <pubDate>Wed, 09 Jan 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/post/pintar-un-edificio-con-r/</guid>
-      <description>Como empezó todoLlevo tiempo pensando cómo enseñar a programar a un niño. Mis hijos va a clases de robótica en la que usan Lego para crear objetos a los que programan movimientos. Son unas clases divertidas, se lo pasan muy bien al tiempo que aprenden.
-Quiero hacer algo parecido con R, talleres sencillos, y que llamen la atención de un niño, vamos, que aguante un rato atento y sin distraerse.</description>
-    </item>
-    
-    <item>
-      <title>Resaltar sintaxis</title>
-      <link>/post/resaltar-sintaxis/</link>
-      <pubDate>Mon, 07 Jan 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/post/resaltar-sintaxis/</guid>
-      <description>AntecedentesAunque conseguí que la plantilla de Hugo funcionase bien y crear un flujo correcto en el blog usando blogdown, he visto que la sintaxis que viene por defecto en los bloques de código es muy simple. Tan solo resalta en gris el bloque.
-Me gustaría, ya que esto es un blog de programación en R, que los bloques de código apareciesen con un resaltado más vivo, con formato para comandos y funciones.</description>
-    </item>
-    
-    <item>
-      <title>Documento a dos columnas</title>
-      <link>/post/editar-a-dos-columnas/</link>
-      <pubDate>Fri, 04 Jan 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/post/editar-a-dos-columnas/</guid>
-      <description>&lt;p&gt;Suelo trabajar con unos modelos de proyecto tipo para generar documentos. Cuando inicio un nuevo proyecto los copio y cambio cosas sobre estas plantillas.&lt;/p&gt;
-&lt;p&gt;Hoy quería hacer un documento en formato &lt;code&gt;pdf&lt;/code&gt; con salida en &lt;strong&gt;dos columnas&lt;/strong&gt;. Es algo que ya había necesitado antes, así que me puse a buscar.&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>Crear un blog con blogdown (2)</title>
-      <link>/post/crear-un-blog-con-blogdown-2/</link>
-      <pubDate>Thu, 03 Jan 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/post/crear-un-blog-con-blogdown-2/</guid>
-      <description>Problemas He sufrido bastante hasta que la web del blog ha funcionado de manera fluída. Primero por la instalacion de HUGO en Netlify, y después con otros aspectos pequeños que provocaban errores.
-Voy a air poniendo los errores que hacían petar el sistema:
-Errores con Git Para subir las cosas desde mi PC a gitHub en RSTUDIO, he usado siempre el entorno git que tiene por defecto, pero con blogdown he tenido muchos problemas y acabo haciendolo de manera manual desde Terminal.</description>
-    </item>
-    
-    <item>
-      <title>Crear un blog con blogdown (1)</title>
-      <link>/post/crear-un-blog-con-blogdown-1/</link>
-      <pubDate>Tue, 01 Jan 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/post/crear-un-blog-con-blogdown-1/</guid>
-      <description>Antes Llevo ya varias semanas con la idea de crear un blog con la herramienta blogdown de Yihue Xie, la cuestión de si cambiar a blogdown no es simple, aunque tienen muchas cosas buenas, yo me apaño bastante bien con otras herramientas como docuwiki que me gustan mucho, me aportasn flexibilidad y puedo editar desde cualquier sitio, pero el problema es que para usar especificamente con R hay que pasar las gráficas, tablas y datos a estilos diferentes y eso con blogdown lo tienes de inmediato.</description>
-    </item>
-    
-    <item>
-      <title>markdown básico</title>
-      <link>/post/mdbasic/</link>
-      <pubDate>Thu, 06 Dec 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/post/mdbasic/</guid>
-      <description>&lt;p&gt;El principal propósito de este artículo es tener a mano un resumen para los formatos básicos de markdown.&lt;/p&gt;
-&lt;p&gt;RSTUDIO pone a disposición de los usuarios una chuleta resumida muy bueno con gran parte de los formatos de sintaxis, pero creo conveniente ponerlo a mano también en el blog&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>MathJax</title>
-      <link>/post/mathjax/</link>
-      <pubDate>Sat, 14 Apr 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/post/mathjax/</guid>
-      <description>&lt;p&gt;&lt;em&gt;MathJax&lt;/em&gt; es una librería JavaScript que permite ver ecuaciones y notación matemática en casi cualquier navegador moderno.
-Podemos usarla directamente en nuestros post de blogdown sin necesidad de acudir al formato Rmd, es decir con markdown puro de la siguiente forma:&lt;/p&gt;</description>
-    </item>
-    
-  </channel>
-</rss>

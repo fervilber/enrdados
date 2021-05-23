@@ -1,77 +1,0 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>markdown on EnRdados</title>
-    <link>/tags/markdown/</link>
-    <description>Recent content in markdown on EnRdados</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>es</language>
-    <lastBuildDate>Tue, 03 Mar 2020 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="/tags/markdown/index.xml" rel="self" type="application/rss+xml" />
-    
-    
-    <item>
-      <title>Informes html con Rmarkdown</title>
-      <link>/post/informes-html-con-rmarkdown/</link>
-      <pubDate>Tue, 03 Mar 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/post/informes-html-con-rmarkdown/</guid>
-      <description>Voy a mostraros algunos trucos, mas bien -ayudas rápidas- para hacer informes de calidad en formato web (HTML) usando RSTUDIO + R-markdown. No se trata de explicar Rmarkdown, para eso hay cientos de manuales muy completos como este , solo dar algunas pinceladas de cosas que a mi me resultan útiles para hacer informes.
-¡Manos a la obra!
-ÍndiceFormato general del documentoQuitar la pajaInsertar imágenesImagen en encabezadoInsertar tablasLinksPestañasFormato general del documentoSiempre que empezamos un documento Rmarkdown nuevo, el formato general y el tipo de salida la definimos con el encabezado YAML.</description>
-    </item>
-    
-    <item>
-      <title>Presentaciones con R</title>
-      <link>/post/presentaciones-con-r/</link>
-      <pubDate>Mon, 14 Oct 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/post/presentaciones-con-r/</guid>
-      <description>Hace unos días tuve que hacer una presentación en público. Solía hacerlas con powerpoint, es lo habitual en mi ámbito profesional, pero esta vez decidí probar con R, simplemente por ver qué podía hacer, y tener un nuevo reto semanal  .
-Es más difícil, eso está claro, pero solo porque cuesta arrancar con algo nuevo. Cuando te apañas bien con una herramienta el cambio cuesta, una vez sabes el potencial, y le echas un poco de valor al cambio, descubres otros mundos y ves que incluso es mejor herramienta (la nueva).</description>
-    </item>
-    
-    <item>
-      <title>TinyTeX tener LaTeX desde R sin esfuerzo</title>
-      <link>/post/tinytex-tener-latex-desde-r-sin-esfuerzo/</link>
-      <pubDate>Thu, 11 Apr 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/post/tinytex-tener-latex-desde-r-sin-esfuerzo/</guid>
-      <description>Con el último artículo he aprovechado para actualizar RSTUDIO y de paso, probar TinyTeX la versión de \(\LaTeX\) ligera para R que ha hecho Yihui Xie.
-La verdad que, hasta ahora me he apañado bien con MikTeX, pero esta versión de \(\LaTeX\) requiere cierta paciencia y un aprendizaje que no todo el mundo es capaz de sacrificar para la utilidad que obtiene, por eso la idea de una versión de \(\LaTeX\) sencilla y manejable desde R me pareció fantástica y esa es TinyTeX.</description>
-    </item>
-    
-    <item>
-      <title>Geoposicionar fotografias</title>
-      <link>/post/geoposicionar-fotograf%C3%ADas/</link>
-      <pubDate>Wed, 16 Jan 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/post/geoposicionar-fotograf%C3%ADas/</guid>
-      <description>Objetivo Crear un mapa en R en el que esté marcada la geo localización de cada una de las fotos que hemos hecho.
-Antecedentes En mi trabajo hacemos muchas visitas a campo en las que recabar información, anotar, medir y sobre todo, hacer muchas fotografías.
-Las fotos se seleccionan y editan para los informes. Si se trata de un par de fotos es poco trabajo, pero cuando hay que insertar 20, 50 o más la cosa se complica.</description>
-    </item>
-    
-    <item>
-      <title>markdown básico</title>
-      <link>/post/mdbasic/</link>
-      <pubDate>Thu, 06 Dec 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/post/mdbasic/</guid>
-      <description>&lt;p&gt;El principal propósito de este artículo es tener a mano un resumen para los formatos básicos de markdown.&lt;/p&gt;
-&lt;p&gt;RSTUDIO pone a disposición de los usuarios una chuleta resumida muy bueno con gran parte de los formatos de sintaxis, pero creo conveniente ponerlo a mano también en el blog&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>MathJax</title>
-      <link>/post/mathjax/</link>
-      <pubDate>Sat, 14 Apr 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/post/mathjax/</guid>
-      <description>&lt;p&gt;&lt;em&gt;MathJax&lt;/em&gt; es una librería JavaScript que permite ver ecuaciones y notación matemática en casi cualquier navegador moderno.
-Podemos usarla directamente en nuestros post de blogdown sin necesidad de acudir al formato Rmd, es decir con markdown puro de la siguiente forma:&lt;/p&gt;</description>
-    </item>
-    
-  </channel>
-</rss>
