@@ -1,0 +1,140 @@
+---
+title: "Unir varias gráficas en una"
+author: "F.VilBer"
+date: '2021-05-30'
+slug: [unir-varias-graficas-en-una]
+categories:
+ - R
+ - diseño
+tags:
+ - ggplot
+ - gráficos
+ - formato
+description: 'Vamos a ver la librería patchwork y como usarla para unir varias gráficas en una'
+thumbnail: '/post/2021-05-30-unir-varias-graficas-en-una/images/pach2.png'
+---
+
+<script src="{{< blogdown/postref >}}index.es_files/header-attrs/header-attrs.js"></script>
+
+
+<div id="unir-gráficas-con-r" class="section level2">
+<h2>Unir gráficas con R</h2>
+<p>Seguro que alguna vez has necesitado juntar varias gráficas hechas con R y has acabado uniéndolas en un programa de diseño de imagen (estilo photoshop, paint…) en vez de seguir con R.</p>
+<p>Hace unos días tenía que escribir un informe y no me convencía poner cada gráfico por separado pues estaban relacionados, me acordé que un día había usado una librería de R para esto (<code>cowplot</code>) y ya puestos en materia acabé descubriendo <code>patchwork</code> que es, como dicen en su <a href="https://patchwork.data-imaginist.com/index.html">propia web</a>, ridículamente simple y justo lo que necesitaba.</p>
+</div>
+<div id="patchwork" class="section level2">
+<h2>patchwork</h2>
+<p>Alguna vez había usado la función <code>plot_grid</code> de <code>cowplot</code> (ya vimos algo de cowplot <a href="../graficas-con-ggplot-ii">aquí</a>), pero <code>patchwork</code> hace el trabajo mucho más simple y puesto que es solo una utilidad, cuanto más simple mejor.</p>
+<p>Lo que conseguimos con <code>patchwork</code> es unir varias gráficas de ggplot en una misma salida o imagen en la que además podemos poner anotaciones extra. Esto es súper útil en artículos, presentaciones e informes, y aporta calidad a nuestros trabajos.</p>
+<p>Es tan simple que asusta, veamos un ejemplo, me he liado un poco, pero es por no usar las series de ejemplo, voy a vrear una serie temporal aleatoria y con ella pinto 3 gráficas distintas: la de línea de tiempo, un histograma y otra q-q.</p>
+<p>Empecemos generando las serie y la tabla de datos así:</p>
+<pre class="r"><code># generamos unas series para pintar despues
+library(astsa) # para generar la serie aleatoria
+library(ggplot2) 
+library(cowplot)
+
+# Genero serie aleatoria de 500
+ar &lt;- arima.sim(model=list(order=c(1,1,0),ar= 0.8), n=500)
+# le añado fecha y convierto en serie temporal
+mi_ts&lt;-ts(ar, start = c(1990,3), frequency = 12)
+# convierto la serie en data.frame
+xy&lt;-data.frame(x=time(mi_ts),y=mi_ts)
+
+xy$year&lt;-round(xy$x)
+# dibujo la serie temporal como linea
+p1&lt;-ggplot(xy, aes(x=x, y=y))+
+          geom_line(color = &quot;#00AFBB&quot;, size = 1) +
+          labs(title=&quot;Gráfica de tiempo&quot;) +
+          labs(y = &#39;Valor&#39;, x= &quot;Fecha&quot;) +
+          theme_cowplot(8) # formato que me gusta y letra 8
+# dibujo el histograma de la serie 
+p2&lt;-ggplot(xy, aes(y))+
+        geom_histogram(bins=10, aes(fill=..count..))+
+        labs(title=&#39;Frecuencia de datos temporales&#39;)+
+        labs(y = &#39;Frecuencia&#39;) +
+        geom_rug()+ # añado lineas negras abajo
+        theme_cowplot(8) # formato
+
+#p3&lt;-ggplot(xy, aes(y))+ geom_freqpoly(binwidth = 5, size=2) + theme_cowplot(8)
+# dibujo gráfica q-q de la serie
+p3&lt;-ggplot(xy, aes(sample=y)) +
+        stat_qq()+
+        stat_qq_line()+ # añado linea 45º
+        theme_cowplot(8)</code></pre>
+<p>Una vez que tenemos 3 gráficas de ggplot distintas llamadas p1, p2 y p3. Ahora es cuando vamos a usar <code>patchwork</code> para representar juntas las gráficas, pero con distintas opciones, verás qué simple:</p>
+<pre class="r"><code>library(patchwork) # la librería que estamos viendo
+# Creamos gráficos con patchwork
+# 1. en pila una debajo de otra
+p1 / p2</code></pre>
+<p><img src="{{< blogdown/postref >}}index.es_files/figure-html/uso-1.png" width="672" /></p>
+<pre class="r"><code># 2. Una junto a otra
+p1 + p2 + p3</code></pre>
+<p><img src="{{< blogdown/postref >}}index.es_files/figure-html/uso-2.png" width="672" /></p>
+<pre class="r"><code># 3. Dos arriba y una abajo
+(p1 | p3) / p2</code></pre>
+<p><img src="{{< blogdown/postref >}}index.es_files/figure-html/uso-3.png" width="672" /></p>
+</div>
+<div id="anotaciones" class="section level2">
+<h2>Anotaciones</h2>
+<p>Además de poder juntar los gráficos en la forma que queramos, el paquete nos permite meter anotaciones nuevas sobre la imagen unida.
+Para insertar títulos, subtítulos hacemos lo siguiente, esto lo vamos a hacer con la última gráfica.</p>
+<pre class="r"><code># nombramos la gráfica y la guardamos en una variable
+g_fer&lt;-(p1 | p3) / p2
+# añadimos las anotaciones:
+g_fer + plot_annotation(
+  title = &#39;Resumen de la serie temporal&#39;,
+  subtitle = &#39;Estas 3 gráficas nos muestran el comportamiento de la serie&#39;,
+  caption = &#39;Nota: @enRdados.net&#39;
+)&amp;   theme(text = element_text(&#39;mono&#39;))</code></pre>
+<p><img src="{{< blogdown/postref >}}index.es_files/figure-html/titulos-1.png" width="672" /></p>
+</div>
+<div id="etiquetado" class="section level2">
+<h2>Etiquetado</h2>
+<p>Otra utilidad de <code>patchwork</code> es el etiquetado de cada gráfica, esto es una maravilla y como todo súper simple, basta con añadir el parámetro <code>tag_levels</code> con cualquiera de los siguientes valores:</p>
+<ul>
+<li>‘1’ para números</li>
+<li>‘A’ para letras mayúsculas latinas.</li>
+<li>‘a’ para letras minúsculas latinas.</li>
+<li>‘I’ para usar números romanos mayúsculas.</li>
+<li>‘i’ números romanos minúsculas.</li>
+</ul>
+<p>Por ejemplo:</p>
+<pre class="r"><code>g_fer + plot_annotation(tag_levels = &#39;A&#39;)</code></pre>
+<p><img src="{{< blogdown/postref >}}index.es_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<p>Un truco si quieres las etiquetas más grandes es definir el <em>theme</em>, como veremos. También puedes añadir prefijos o sufijos a los números:</p>
+<pre class="r"><code>g_fer + plot_annotation(tag_levels = &#39;A&#39;,tag_prefix = &#39;Fig. &#39;)+
+  theme(plot.tag = element_text(size = 12))</code></pre>
+<p><img src="{{< blogdown/postref >}}index.es_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+</div>
+<div id="no-solo-ggplot" class="section level2">
+<h2>No solo ggplot</h2>
+<p>Aunque esta librería está pensada para usar gráficas de <em>ggplot</em>, podemos insertar otros gráficos en las posiciones y usar otras funciones gráficas como <em>plot</em> o incluso tablas usando la libraría <code>gridExtra</code>.</p>
+<pre class="r"><code># añadimos una tabla 
+library(gridExtra)
+# añado una columna nueva a la data.frame
+xy$y1&lt;-round(xy$y)
+
+# pintamos la gráfica y una tabla
+p1 + gridExtra::tableGrob(xy[1:10, c(&#39;year&#39;, &#39;y1&#39;)]) +
+      plot_annotation(tag_levels = &#39;A&#39;) &amp; 
+      theme(plot.tag = element_text(size = 12))</code></pre>
+<p><img src="{{< blogdown/postref >}}index.es_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p>Por ejemplo para insertar un gráfico de la función <code>plot</code>:</p>
+<pre class="r"><code># insertar otras gráficas
+(p1) + (~hist(mi_ts))</code></pre>
+<p><img src="{{< blogdown/postref >}}index.es_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<pre class="r"><code>p1 / ~plot(mi_ts)</code></pre>
+<p><img src="{{< blogdown/postref >}}index.es_files/figure-html/unnamed-chunk-4-2.png" width="672" /></p>
+</div>
+<div id="enlaces" class="section level2">
+<h2>Enlaces</h2>
+<p>Puedes encontrar más información sobre esto de agregar gráficas en los siguientes enlaces:</p>
+<ul>
+<li><a href="https://ggplot2-book.org/arranging-plots.html" class="uri">https://ggplot2-book.org/arranging-plots.html</a></li>
+<li><a href="https://patchwork.data-imaginist.com/" class="uri">https://patchwork.data-imaginist.com/</a></li>
+</ul>
+<p>Otra librería completísima para multigráficas en plotly, en este caso permite además interaccion dinámica con ellas, puedes encontrar toda la información a partir de aquí:</p>
+<ul>
+<li><a href="https://plotly-r.com/arranging-views.html" class="uri">https://plotly-r.com/arranging-views.html</a></li>
+</ul>
+</div>

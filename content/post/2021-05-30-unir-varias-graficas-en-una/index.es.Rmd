@@ -1,0 +1,161 @@
+---
+title: "Unir varias gráficas en una"
+author: "F.VilBer"
+date: '2021-05-30'
+slug: [unir-varias-graficas-en-una]
+categories:
+ - R
+ - diseño
+tags:
+ - ggplot
+ - gráficos
+ - formato
+description: 'Vamos a ver la librería patchwork y como usarla para unir varias gráficas en una'
+thumbnail: '/post/2021-05-30-unir-varias-graficas-en-una/images/pach2.png'
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(error=FALSE,echo = TRUE, warning = FALSE, message = FALSE)
+#/post/2021-05-30-unir-graficas-en-una-imagen/images/pach1.png
+# '/post/2021-04-26-office-desde-r/images/pach2.png'
+``` 
+
+## Unir gráficas con R
+
+Seguro que alguna vez has necesitado juntar varias gráficas hechas con R y has acabado uniéndolas en un programa de diseño de imagen (estilo photoshop, paint...) en vez de seguir con R.
+
+Hace unos días tenía que escribir un informe y no me convencía poner cada gráfico por separado pues estaban relacionados, me acordé que un día había usado una librería de R para esto (`cowplot`) y ya puestos en materia acabé descubriendo `patchwork` que es, como dicen en su [propia web](https://patchwork.data-imaginist.com/index.html), ridículamente simple y justo lo que necesitaba.
+
+
+## patchwork
+Alguna vez había usado la función `plot_grid` de `cowplot` (ya vimos algo de cowplot [aquí](../graficas-con-ggplot-ii)), pero `patchwork` hace el trabajo mucho más simple y puesto que es solo una utilidad, cuanto más simple mejor.
+
+Lo que conseguimos con `patchwork` es unir varias gráficas de ggplot en una misma salida o imagen en la que además podemos poner anotaciones extra. Esto es súper útil en artículos, presentaciones e informes, y aporta calidad a nuestros trabajos.
+
+Es tan simple que asusta, veamos un ejemplo, me he liado un poco, pero es por no usar las series de ejemplo, voy a vrear una serie temporal aleatoria y con ella pinto 3 gráficas distintas: la de línea de tiempo, un histograma y otra q-q.
+
+Empecemos generando las serie y la tabla de datos así:
+
+```{r multigraf1}
+# generamos unas series para pintar despues
+library(astsa) # para generar la serie aleatoria
+library(ggplot2) 
+library(cowplot)
+
+# Genero serie aleatoria de 500
+ar <- arima.sim(model=list(order=c(1,1,0),ar= 0.8), n=500)
+# le añado fecha y convierto en serie temporal
+mi_ts<-ts(ar, start = c(1990,3), frequency = 12)
+# convierto la serie en data.frame
+xy<-data.frame(x=time(mi_ts),y=mi_ts)
+
+xy$year<-round(xy$x)
+# dibujo la serie temporal como linea
+p1<-ggplot(xy, aes(x=x, y=y))+
+          geom_line(color = "#00AFBB", size = 1) +
+          labs(title="Gráfica de tiempo") +
+          labs(y = 'Valor', x= "Fecha") +
+          theme_cowplot(8) # formato que me gusta y letra 8
+# dibujo el histograma de la serie 
+p2<-ggplot(xy, aes(y))+
+        geom_histogram(bins=10, aes(fill=..count..))+
+        labs(title='Frecuencia de datos temporales')+
+        labs(y = 'Frecuencia') +
+        geom_rug()+ # añado lineas negras abajo
+        theme_cowplot(8) # formato
+
+#p3<-ggplot(xy, aes(y))+ geom_freqpoly(binwidth = 5, size=2) + theme_cowplot(8)
+# dibujo gráfica q-q de la serie
+p3<-ggplot(xy, aes(sample=y)) +
+        stat_qq()+
+        stat_qq_line()+ # añado linea 45º
+        theme_cowplot(8)
+```
+
+Una vez que tenemos 3 gráficas de ggplot distintas llamadas p1, p2 y p3. Ahora es cuando vamos a usar `patchwork` para representar juntas las gráficas, pero con distintas opciones, verás qué simple:
+
+```{r uso, message=FALSE, warning=FALSE}
+library(patchwork) # la librería que estamos viendo
+# Creamos gráficos con patchwork
+# 1. en pila una debajo de otra
+p1 / p2
+
+# 2. Una junto a otra
+p1 + p2 + p3
+
+# 3. Dos arriba y una abajo
+(p1 | p3) / p2
+```
+
+## Anotaciones
+Además de poder juntar los gráficos en la forma que queramos, el paquete nos permite meter anotaciones nuevas sobre la imagen unida. 
+Para insertar títulos, subtítulos hacemos lo siguiente, esto lo vamos a hacer con la última gráfica.
+
+```{r titulos, warning=FALSE}
+# nombramos la gráfica y la guardamos en una variable
+g_fer<-(p1 | p3) / p2
+# añadimos las anotaciones:
+g_fer + plot_annotation(
+  title = 'Resumen de la serie temporal',
+  subtitle = 'Estas 3 gráficas nos muestran el comportamiento de la serie',
+  caption = 'Nota: @enRdados.net'
+)&   theme(text = element_text('mono'))
+```
+
+## Etiquetado
+
+Otra utilidad de `patchwork` es el etiquetado de cada gráfica, esto es una maravilla y como todo súper simple, basta con añadir el parámetro `tag_levels` con cualquiera de los siguientes valores:
+
+ * '1' para números
+ * 'A' para letras mayúsculas latinas.
+ * 'a' para letras minúsculas latinas.
+ * 'I' para usar números romanos mayúsculas.
+ * 'i' números romanos minúsculas.
+ 
+Por ejemplo:
+
+```{r}
+g_fer + plot_annotation(tag_levels = 'A')
+```
+
+Un truco si quieres las etiquetas más grandes es definir el *theme*, como veremos. También puedes añadir prefijos o sufijos a los números:
+```{r}
+g_fer + plot_annotation(tag_levels = 'A',tag_prefix = 'Fig. ')+
+  theme(plot.tag = element_text(size = 12))
+```
+
+## No solo ggplot
+Aunque esta librería está pensada para usar gráficas de *ggplot*, podemos insertar otros gráficos en las posiciones y usar otras funciones gráficas como *plot* o incluso tablas usando la libraría `gridExtra`.
+
+```{r}
+# añadimos una tabla 
+library(gridExtra)
+# añado una columna nueva a la data.frame
+xy$y1<-round(xy$y)
+
+# pintamos la gráfica y una tabla
+p1 + gridExtra::tableGrob(xy[1:10, c('year', 'y1')]) +
+      plot_annotation(tag_levels = 'A') & 
+      theme(plot.tag = element_text(size = 12))
+```
+
+Por ejemplo para insertar un gráfico de la función `plot`:
+
+```{r}
+# insertar otras gráficas
+(p1) + (~hist(mi_ts))
+
+p1 / ~plot(mi_ts)
+```
+
+## Enlaces
+Puedes encontrar más información sobre esto de agregar gráficas en los siguientes enlaces:
+
+- <https://ggplot2-book.org/arranging-plots.html>
+- <https://patchwork.data-imaginist.com/>
+
+Otra librería completísima para multigráficas en plotly, en este caso permite además interaccion dinámica con ellas, puedes encontrar toda la información a partir de aquí:
+
+ * <https://plotly-r.com/arranging-views.html>
+
+
