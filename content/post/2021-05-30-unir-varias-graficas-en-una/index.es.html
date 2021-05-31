@@ -24,7 +24,7 @@ thumbnail: '/post/2021-05-30-unir-varias-graficas-en-una/images/pach2.png'
 </div>
 <div id="patchwork" class="section level2">
 <h2>patchwork</h2>
-<p>Alguna vez había usado la función <code>plot_grid</code> de <code>cowplot</code> (ya vimos algo de cowplot <a href="../graficas-con-ggplot-ii">aquí</a>), pero <code>patchwork</code> hace el trabajo mucho más simple y puesto que es solo una utilidad, cuanto más simple mejor.</p>
+<p>Alguna vez había usado la función <code>plot_grid</code> de <code>cowplot</code> (ya vimos algo de cowplot <a href="../graficas-con-ggplot-ii">aquí</a>), pero la librería <code>patchwork</code> hace el trabajo mucho más simple y puesto que es solo una utilidad, cuanto más simple mejor.</p>
 <p>Lo que conseguimos con <code>patchwork</code> es unir varias gráficas de ggplot en una misma salida o imagen en la que además podemos poner anotaciones extra. Esto es súper útil en artículos, presentaciones e informes, y aporta calidad a nuestros trabajos.</p>
 <p>Es tan simple que asusta, veamos un ejemplo, me he liado un poco, pero es por no usar las series de ejemplo, voy a vrear una serie temporal aleatoria y con ella pinto 3 gráficas distintas: la de línea de tiempo, un histograma y otra q-q.</p>
 <p>Empecemos generando las serie y la tabla de datos así:</p>
@@ -119,8 +119,8 @@ p1 + gridExtra::tableGrob(xy[1:10, c(&#39;year&#39;, &#39;y1&#39;)]) +
       plot_annotation(tag_levels = &#39;A&#39;) &amp; 
       theme(plot.tag = element_text(size = 12))</code></pre>
 <p><img src="{{< blogdown/postref >}}index.es_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
-<p>Por ejemplo para insertar un gráfico de la función <code>plot</code>:</p>
-<pre class="r"><code># insertar otras gráficas
+<p>Por ejemplo para insertar un gráfico de la función <code>plot</code> solo hay que insertar el simbolo <code>~</code> delante así:</p>
+<pre class="r"><code># insertar otras gráficas no ggplot
 (p1) + (~hist(mi_ts))</code></pre>
 <p><img src="{{< blogdown/postref >}}index.es_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 <pre class="r"><code>p1 / ~plot(mi_ts)</code></pre>
@@ -128,12 +128,12 @@ p1 + gridExtra::tableGrob(xy[1:10, c(&#39;year&#39;, &#39;y1&#39;)]) +
 </div>
 <div id="enlaces" class="section level2">
 <h2>Enlaces</h2>
-<p>Puedes encontrar más información sobre esto de agregar gráficas en los siguientes enlaces:</p>
+<p>Puedes encontrar más información sobre esto de agregar y unir gráficas en los siguientes enlaces:</p>
 <ul>
 <li><a href="https://ggplot2-book.org/arranging-plots.html" class="uri">https://ggplot2-book.org/arranging-plots.html</a></li>
 <li><a href="https://patchwork.data-imaginist.com/" class="uri">https://patchwork.data-imaginist.com/</a></li>
 </ul>
-<p>Otra librería completísima para multigráficas en plotly, en este caso permite además interaccion dinámica con ellas, puedes encontrar toda la información a partir de aquí:</p>
+<p>Otra librería completísima para multigráficas es <em>plotly</em> , que además tiene la ventaja de que al ser javascript tiene interacción dinámica. Puedes encontrar toda la información de plotly a partir de aquí:</p>
 <ul>
 <li><a href="https://plotly-r.com/arranging-views.html" class="uri">https://plotly-r.com/arranging-views.html</a></li>
 </ul>

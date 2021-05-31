@@ -28,7 +28,7 @@ Hace unos días tenía que escribir un informe y no me convencía poner cada gr�
 
 
 ## patchwork
-Alguna vez había usado la función `plot_grid` de `cowplot` (ya vimos algo de cowplot [aquí](../graficas-con-ggplot-ii)), pero `patchwork` hace el trabajo mucho más simple y puesto que es solo una utilidad, cuanto más simple mejor.
+Alguna vez había usado la función `plot_grid` de `cowplot` (ya vimos algo de cowplot [aquí](../graficas-con-ggplot-ii)), pero la librería `patchwork` hace el trabajo mucho más simple y puesto que es solo una utilidad, cuanto más simple mejor.
 
 Lo que conseguimos con `patchwork` es unir varias gráficas de ggplot en una misma salida o imagen en la que además podemos poner anotaciones extra. Esto es súper útil en artículos, presentaciones e informes, y aporta calidad a nuestros trabajos.
 
@@ -139,22 +139,22 @@ p1 + gridExtra::tableGrob(xy[1:10, c('year', 'y1')]) +
       theme(plot.tag = element_text(size = 12))
 ```
 
-Por ejemplo para insertar un gráfico de la función `plot`:
+Por ejemplo para insertar un gráfico de la función `plot` solo hay que insertar el simbolo `~` delante así:
 
 ```{r}
-# insertar otras gráficas
+# insertar otras gráficas no ggplot
 (p1) + (~hist(mi_ts))
 
 p1 / ~plot(mi_ts)
 ```
 
 ## Enlaces
-Puedes encontrar más información sobre esto de agregar gráficas en los siguientes enlaces:
+Puedes encontrar más información sobre esto de agregar y unir gráficas en los siguientes enlaces:
 
 - <https://ggplot2-book.org/arranging-plots.html>
 - <https://patchwork.data-imaginist.com/>
 
-Otra librería completísima para multigráficas en plotly, en este caso permite además interaccion dinámica con ellas, puedes encontrar toda la información a partir de aquí:
+Otra librería completísima para multigráficas es *plotly* , que además tiene la ventaja de que al ser javascript tiene interacción dinámica. Puedes encontrar toda la información de plotly a partir de aquí:
 
  * <https://plotly-r.com/arranging-views.html>
 
