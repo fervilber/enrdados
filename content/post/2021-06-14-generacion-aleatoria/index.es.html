@@ -1,0 +1,289 @@
+---
+title: Generación aleatoria
+author: F.VilBer
+date: '2021-06-14'
+slug: [generacion-aleatoria]
+categories:
+ - R
+tags:
+ - series temporales
+ - ggplot
+ - graficas
+description: 'Métodos de generacion de series aleatorias en R'
+thumbnail: '/post/2021-06-14-generacion-aleatoria/images/aleatorio.png'
+editor_options: 
+  chunk_output_type: console
+---
+
+<script src="{{< blogdown/postref >}}index.es_files/header-attrs/header-attrs.js"></script>
+
+
+<div id="generación-de-series-aleatorias" class="section level2">
+<h2>Generación de series aleatorias</h2>
+<p>A veces, necesitamos crear series de datos “inventados” para comprobar modelos, estudios o hipótesis. La generación aleatoria es un tema interesante y útil por lo que he recopilado en este artículo diferentes métodos sencillos que uso para crear series de datos “de la nada”.</p>
+<p>Se trata de simples funciones de <em>Rbase</em> con las que podemos generar series aleatorias o secuencias con propiedades predefinidas, imprescindibles para validación de modelos.</p>
+<p>Empecemos por lo básico:</p>
+</div>
+<div id="función-sample" class="section level2">
+<h2>función <code>sample</code></h2>
+<p>Quizás la función más simple, potente y olvidada para generar una serie de datos aleatorios es <code>sample()</code>. Solo hay que indicarle como argumento el vector origen del que se extraen los datos (números, letras ..), después el número de elementos de la serie a generar y si se puede o no repetir elemento.</p>
+<pre class="r"><code>set.seed(123) # semilla de inicio
+# No admite repeticiones:
+sample(1:10, 5, replace = F)</code></pre>
+<pre><code>## [1]  3 10  2  8  6</code></pre>
+<pre class="r"><code># Si admite repeticiones:
+sample(LETTERS[1:3], 10, replace = T)</code></pre>
+<pre><code>##  [1] &quot;C&quot; &quot;A&quot; &quot;B&quot; &quot;B&quot; &quot;A&quot; &quot;B&quot; &quot;C&quot; &quot;A&quot; &quot;C&quot; &quot;C&quot;</code></pre>
+<p>En realidad estas funciones como <code>sample</code> generan lo que se denomina <em>pseudoaleatoriedad</em>, esto es, no son puramente aleatorias pero se parecen muchísimo. Además tienen una característica esencial y es que son reproducibles - con los mismos y exactos valores- si se parte de la misma semilla. Por esto, si queremos que otros comprueben los cálculos hay que aportar la semilla inicial, esto se con la función <code>set.seed</code>.</p>
+<p>La función <code>sample</code> es muy útil cuando queremos generar números enteros de un conjunto predefinido, así:</p>
+<pre class="r"><code>vec&lt;-c(3,24,77,91)
+sample(vec,10,replace=T)</code></pre>
+<pre><code>##  [1]  3 91  3  3  3 77 91 24 77 24</code></pre>
+<p>O para crear una serie de letras o una serie binaria, combinando con la función <code>ifelse</code>:.</p>
+<pre class="r"><code># generamos letras minusculas
+  sample(letters[2:16],10)</code></pre>
+<pre><code>##  [1] &quot;j&quot; &quot;o&quot; &quot;d&quot; &quot;e&quot; &quot;b&quot; &quot;h&quot; &quot;f&quot; &quot;m&quot; &quot;k&quot; &quot;c&quot;</code></pre>
+<pre class="r"><code># Generamos serie binaria 0/1
+  x1&lt;-sample(1:10,20,replace=T)
+# filtro con ifelse generamos una binomial
+  ifelse(x1&gt;5,1,0)</code></pre>
+<pre><code>##  [1] 1 1 1 1 1 0 1 0 1 1 0 0 1 0 0 1 1 1 0 1</code></pre>
+<p>Otra opción de <code>sample</code> interesante, es que se pueden asignar probabilidades a cada suceso, por lo que si queremos una serie binaria con un 20% de <strong>ceros</strong> y un 80% de <strong>unos</strong> lo haremos utilizando el argumento <code>prob</code>, así:</p>
+<pre class="r"><code># serie con probabilidad dada 
+  serie01&lt;-sample(0:1, 20, replace=T, prob=c(0.2,0.8))
+  serie01</code></pre>
+<pre><code>##  [1] 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 1 1 1 1 1</code></pre>
+<pre class="r"><code>#resumen de resultados
+  table(serie01)</code></pre>
+<pre><code>## serie01
+##  0  1 
+##  3 17</code></pre>
+<p>Con este argumento es sencillo inventarse encuestas o series para ejercicios de estadística.</p>
+</div>
+<div id="función-seq" class="section level2">
+<h2>Función <code>seq</code></h2>
+<p>La función <code>seq(min, max, by, len)</code> permite hacer secuencias de números y generar un vector con las características que le indicamos.</p>
+<p>Es uno de los pilares básicos para crear cualquier serie aleatoria incremental o fechas espaciadas. Ten en cuenta que solo hacen falta 3 de sus 4 argumentos para generar la serie, por lo que se pueden definir de muchas formas jugando con con el valor mínimo, el máximo, la longitud total de la serie (<code>len=</code>) o el intervalo (<code>by=</code>) entre elementos.</p>
+<pre class="r"><code># Creamos una serie de 0 a 10 de 5 en 5.
+x &lt;- seq(0,100,by = 5)
+
+# secuencia de enteros
+as.integer(seq(1, 80,length.out=12))</code></pre>
+<pre><code>##  [1]  1  8 15 22 29 36 44 51 58 65 72 80</code></pre>
+<pre class="r"><code># length.out=5 especifica la longitud de la serie
+# pero podemos simplificarlo por len
+seq(4,24,len=5)</code></pre>
+<pre><code>## [1]  4  9 14 19 24</code></pre>
+</div>
+<div id="secuencia-de-fechas" class="section level2">
+<h2>Secuencia de fechas</h2>
+<p>Con <code>seq</code> creamos también fechas espaciadas un mismo intervalo para crear series temporales, por ejemplo así:</p>
+<pre class="r"><code># secuencia de fechas
+    ini=as.Date(&quot;31/05/2021&quot;, format=&quot;%d/%m/%Y&quot;)
+    seq(ini, by=2,len=5) # dias</code></pre>
+<pre><code>## [1] &quot;2021-05-31&quot; &quot;2021-06-02&quot; &quot;2021-06-04&quot; &quot;2021-06-06&quot; &quot;2021-06-08&quot;</code></pre>
+<pre class="r"><code>    seq(ini, by=&quot;week&quot;,len=5) # semanal</code></pre>
+<pre><code>## [1] &quot;2021-05-31&quot; &quot;2021-06-07&quot; &quot;2021-06-14&quot; &quot;2021-06-21&quot; &quot;2021-06-28&quot;</code></pre>
+<pre class="r"><code>    seq(ini, by=&quot;year&quot;,len=5)  # anual</code></pre>
+<pre><code>## [1] &quot;2021-05-31&quot; &quot;2022-05-31&quot; &quot;2023-05-31&quot; &quot;2024-05-31&quot; &quot;2025-05-31&quot;</code></pre>
+<pre class="r"><code>    seq(ini, by=&quot;quarter&quot;,len=5) </code></pre>
+<pre><code>## [1] &quot;2021-05-31&quot; &quot;2021-08-31&quot; &quot;2021-12-01&quot; &quot;2022-03-03&quot; &quot;2022-05-31&quot;</code></pre>
+<pre class="r"><code>    fin=as.Date(&quot;30/09/2021&quot;, format=&quot;%d/%m/%Y&quot;)
+    seq(from=ini,to=fin, by=&quot;week&quot;)</code></pre>
+<pre><code>##  [1] &quot;2021-05-31&quot; &quot;2021-06-07&quot; &quot;2021-06-14&quot; &quot;2021-06-21&quot; &quot;2021-06-28&quot;
+##  [6] &quot;2021-07-05&quot; &quot;2021-07-12&quot; &quot;2021-07-19&quot; &quot;2021-07-26&quot; &quot;2021-08-02&quot;
+## [11] &quot;2021-08-09&quot; &quot;2021-08-16&quot; &quot;2021-08-23&quot; &quot;2021-08-30&quot; &quot;2021-09-06&quot;
+## [16] &quot;2021-09-13&quot; &quot;2021-09-20&quot; &quot;2021-09-27&quot;</code></pre>
+<pre class="r"><code>    seq(from=ini,to=fin, len=12)</code></pre>
+<pre><code>##  [1] &quot;2021-05-31&quot; &quot;2021-06-11&quot; &quot;2021-06-22&quot; &quot;2021-07-03&quot; &quot;2021-07-14&quot;
+##  [6] &quot;2021-07-25&quot; &quot;2021-08-05&quot; &quot;2021-08-16&quot; &quot;2021-08-27&quot; &quot;2021-09-07&quot;
+## [11] &quot;2021-09-18&quot; &quot;2021-09-30&quot;</code></pre>
+</div>
+<div id="función-rep" class="section level2">
+<h2>Función <code>rep</code></h2>
+<p>Otra función que nos permite hacer series es <code>rep</code> y sirve para repetir una secuencia varias veces.</p>
+<pre class="r"><code>secuencia&lt;-c(1,3,7)
+rep(secuencia,4)</code></pre>
+<pre><code>##  [1] 1 3 7 1 3 7 1 3 7 1 3 7</code></pre>
+<pre class="r"><code>#misma forma de llamar la función:
+rep.int(secuencia,4)</code></pre>
+<pre><code>##  [1] 1 3 7 1 3 7 1 3 7 1 3 7</code></pre>
+<pre class="r"><code>rep_len(secuencia,12)</code></pre>
+<pre><code>##  [1] 1 3 7 1 3 7 1 3 7 1 3 7</code></pre>
+</div>
+<div id="rnorm-y-similares" class="section level2">
+<h2>rnorm y similares</h2>
+<p>Rbase dispone de varias funciones de generación aleatoria de números según algunas distribuciones estadísticas. Las más conocidas son <code>runif()</code> y <code>rnorm()</code>, pero existen unas cuantas más:</p>
+<ul>
+<li><code>runif()</code> genera números aleatorios uniformemente distribuidos entre 0 y 1, o entre los valores que especifiquemos <code>runif(100, min = 0, max = 50)</code>
+*<code>rnorm(n, mean = 0, sd = 1)</code> genera números aleatorios que siguen la distribución normal de media y desviación estándar dada.</li>
+<li><code>rbinom(n, size = 100, prob = 0.5)</code> genera números aleatorios discretos binomiales. Esta distribución indica el éxito de experimentos aleatorios de éxito/fracaso (solo dos opciones). La función de distribución binomial especifica el número de veces que puede ocurrir un evento en un número independiente de tiradas dado por <code>size</code> y donde <code>prob</code> es la probabilidad de la ocurrencia del evento en una simple tirada.</li>
+<li><code>rpois(n, lambda = 4)</code>, <em>Poisson</em> es otra distribución de números discretos que se usa en experimentos de colas de tiempo.</li>
+<li><code>rexp(n, rate = 1)</code> o <em>Exponencial</em> es una distribución que expresa el tiempo entre eventos en un proceso de Poisson.</li>
+<li><code>rgamma(n, shape = 1)</code> genera números según la distribución <em>gamma</em>. Puede ser interesante ya que muchos procesos naturales siguen este tipo de distribución.</li>
+</ul>
+<p>Usar una u otra serie generadora dependerá del objetivo que persigamos, a modo de ejemplo y para ver gráficamente las diferencias entre las funciones de distribución vamos a crear algunas series.</p>
+<p>Juntaremos los datos en una tabla y representaremos gráficamente los histogramas para comparar y apreciar mejor estas diferencias.</p>
+<pre class="r"><code>#library(patchwork) # para pintar juntas las graficas
+library(ggplot2)
+library(cowplot) # formato de ggplot
+library(reshape2) # para unir colum tabla
+
+n=1000  # num de elementos generados
+# variable x
+  ini=as.Date(&quot;07/07/1993&quot;, format=&quot;%d/%m/%Y&quot;)
+  x&lt;- seq(ini, by=1,len=n) # dias
+# generamos las variables y
+  y_nor&lt;-rnorm(n, mean = 0, sd = 2)
+  y_uni&lt;-round(runif(n,-10,10))
+  y_bin&lt;-rbinom(n, size = 10, prob = 1/2)
+  y_exp&lt;-rexp(n, rate = 1)
+  y_poi&lt;-rpois(n, lambda = 5)
+  y_gam&lt;-rgamma(n, shape = 1) 
+
+# unimos todo en un data frame y pintamos las series generadas
+df&lt;-data.frame(x,y_nor,y_uni,y_bin,y_exp,y_poi,y_gam)
+df1&lt;-melt(df ,  id.vars = &#39;x&#39;, variable.name = &#39;series&#39;)
+ggplot(df1, aes(x,value)) + geom_line(aes(colour = series))+facet_grid(series ~ .)</code></pre>
+<p><img src="{{< blogdown/postref >}}index.es_files/figure-html/seriesaleatorias-1.png" width="672" /></p>
+<pre class="r"><code># pintamos los histogramas para apreciar mejor las diferencias
+p1&lt;-  ggplot(df1, aes(x=value, fill=series))+
+        geom_histogram(binwidth =1,alpha=0.6,colour=&quot;black&quot;, position = &#39;identity&#39;) +
+        facet_wrap(vars(series))+
+        theme_cowplot(8)
+p1</code></pre>
+<p><img src="{{< blogdown/postref >}}index.es_files/figure-html/seriesaleatorias-2.png" width="672" /></p>
+<p>Las diferencias son claras a simple vista, y aunque no entramos en profundidad podemos intuir que cada una sirve para usos distintos. Las series aleatorias con estas funciones nos dan infinitas posibilidades, algunas funciones generan solo números positivos, otras tanto positivos como negativos, unas son uniformes en el rango mientras otras tienen un máximo centrado con más o menos inclinación a punta.
+Conocer el significado y explicación teórica de cada de estas distribuciones estadísticas es lo recomendable para saber en qué situaciones pueden usarse por lo que haremos un artículo en el futuro con casos prácticos realistas.</p>
+<p>Por ejemplo, puedes usar Poisson para crear una serie de eventos en el tiempo, como los días de lluvia en un periodo.</p>
+<pre class="r"><code>library(xts)
+# Generamos lluvia aleatoria entre dos fechas
+# variable x fechas invierno 21
+  ini=as.Date(&quot;01/01/2021&quot;, format=&quot;%d/%m/%Y&quot;)
+  fin=as.Date(&quot;31/03/2021&quot;, format=&quot;%d/%m/%Y&quot;)
+  x&lt;- seq(ini,fin, by=1) # dias
+# serie de lluvias con poisson y norm  
+y&lt;-rpois(length(x), lambda = .1)*rnorm(length(x),mean = 30, sd = 18)
+lluviaDiaria&lt;-xts(y,order.by=x)
+autoplot(lluviaDiaria)</code></pre>
+<p><img src="{{< blogdown/postref >}}index.es_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<pre class="r"><code># creamos otra vista de la serie en calendario
+library(calendR)
+calendR(#year = 2021,
+  start_date = ini, # Custom start date
+        end_date = fin,
+        start = &quot;M&quot;,
+        subtitle = &quot;Dias de lluvia&quot;,
+        special.days = y, 
+        gradient = TRUE,
+        special.col = rgb(0, 0, 1, alpha = 0.3), 
+        low.col = &quot;white&quot;,
+        weeknames.size = 4,
+        months.size=8)   </code></pre>
+<p><img src="{{< blogdown/postref >}}index.es_files/figure-html/unnamed-chunk-7-2.png" width="672" /></p>
+<p>Las posibilidades gráficas de R son inmensas, ya has visto como podemos pintar un calendario, veamos alguna otra opcion de ver las series generadas como por ejemplo la vista matricial de los datos con la función ìmage`.</p>
+<pre class="r"><code>set.seed(7777)
+n=400
+s5&lt;-ifelse(rgamma(n, shape = 1)&gt;0.5,1,0)
+
+# imagen matriz
+image(matrix(s5,20,20),
+      col=c(&quot;white&quot;,&quot;darkred&quot;),axes = FALSE, asp=1/1)</code></pre>
+<p><img src="{{< blogdown/postref >}}index.es_files/figure-html/imagematrix-1.png" width="672" /></p>
+<pre class="r"><code>s6&lt;-cumsum(rnorm(n))
+plot(s6,type=&quot;l&quot;, main=&quot;Camino aleatorio&quot;,xlab=&quot;&quot;)</code></pre>
+<p><img src="{{< blogdown/postref >}}index.es_files/figure-html/imagematrix-2.png" width="672" /></p>
+<pre class="r"><code>image(matrix(s6,20,20),
+      col=c(1:10),axes = FALSE, asp=1/1)</code></pre>
+<p><img src="{{< blogdown/postref >}}index.es_files/figure-html/imagematrix-3.png" width="672" /></p>
+</div>
+<div id="series-arima" class="section level2">
+<h2>Series ARIMA</h2>
+<p>La funcion <code>arima.sim</code> también de Rbase es otra que nos sirve para generar series aleatorias, en este caso usando los procesos autoregresivos de <em>ARIMA</em> lo que abre un abanico inmenso siempre que conozcas el significado de cada orden <em>(p,i q)</em> de las ARIMA. Esto lo vimos en detalle en este post <a href="../series-temporales-con-arima-i">series temporales con ARIMA 1</a> y <a href="../series-temporales-con-arima-ii">series temporales con ARIMA 2</a>.</p>
+<p>Con ARIMA generamos paseos aleatorios, ruido blanco y multitud de otras series combinando parámetros de cada uno de los órdenes.</p>
+<pre class="r"><code>set.seed(555)
+# usamos la funion arima.sim de Rbase para generar
+# Ruido blanco order=c(0,0,0)
+plot(arima.sim(model=list(order=c(0,0,0)),n=100),ylab=&quot;&quot;, main=&quot;Ruido blanco&quot;)</code></pre>
+<p><img src="{{< blogdown/postref >}}index.es_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<pre class="r"><code># Camino aleatorio order=c(0,1,0)
+plot(arima.sim(model=list(order=c(0,1,0)),n=100),ylab=&quot;&quot;, main=&quot;Camino aleatorio&quot;) </code></pre>
+<p><img src="{{< blogdown/postref >}}index.es_files/figure-html/unnamed-chunk-8-2.png" width="672" /></p>
+<pre class="r"><code># añadimos fecha como x,en una serie mensual de valores
+    ini=as.Date(&quot;1/01/2000&quot;, format=&quot;%d/%m/%Y&quot;)
+    x&lt;-seq(ini, by=&quot;months&quot;,length.out=48)
+    y&lt;-arima.sim(model=list(order=c(0,1,0)),n=47)
+plot(x,y,type=&quot;l&quot;,main=&quot;Serie camino aleatorio mensual&quot;, xlab=&quot;Fecha&quot;)</code></pre>
+<p><img src="{{< blogdown/postref >}}index.es_files/figure-html/unnamed-chunk-8-3.png" width="672" /></p>
+<pre class="r"><code>#y1&lt;-xts(y,order.by=x)
+# Otros casos de ejemplo
+  n=1000 # numero de valores a generar
+    ini=as.Date(&quot;1/01/2000&quot;, format=&quot;%d/%m/%Y&quot;)
+    x&lt;-seq(ini, by=1,len=n+1) # +1 por i=1 orden diff
+    y&lt;-100+arima.sim(model=list(order=c(0,1,2),ma= c(2,-0.5)),n)
+plot(x,y,type=&quot;l&quot;,main=&quot;Evolucion valor A&quot;,
+     xlab=&quot;&quot;, col=&quot;red&quot;)</code></pre>
+<p><img src="{{< blogdown/postref >}}index.es_files/figure-html/unnamed-chunk-8-4.png" width="672" /></p>
+</div>
+<div id="ejemplo-encuesta-simulada" class="section level2">
+<h2>Ejemplo encuesta simulada</h2>
+<p>Por último veamos cómo crear los datos de una encuesta que necesitamos para un ejercicio de clase. Es interesante generar los datos nosotros porque así controlamos la forma de las variables resultado, y podemos interpretar mejor los futuros ejercicios que mandemos a los alumnos sobre la encuesta.</p>
+<p>Vamos a imaginar que esta encuesta consta de 3 preguntas, que son:</p>
+<ul>
+<li>pregunta 1, respuestas posibles: SI/NO, con un 20% de probabilidad del SI y un 80% del NO.</li>
+<li>pregunta 2, con 3 posibles respuestas que clasificamos en <em>a/b/c</em>, con un 60/30/10 % de probabilidad de cada opción.</li>
+<li>pregunta 3, esta es una pregunta con respuesta gradual, una valoracion de 0 a 10, que queremos sea una normal con media 6 y solo admite numeros enteros.</li>
+</ul>
+<p>El objetivo es generar una tabla final con un registro ( o fila) por cada usuario que haya respondido y una columna para cada respuesta de las 3.</p>
+<p>Queremos generar una muestra de 100 encuestados, así que con estos datos empecemos:</p>
+<pre class="r"><code>library(patchwork) # para pintar juntas las graficas
+n=100 # numencuestados
+# creamos 3 series una para cada pregunta de la encuesta
+# Pregunta A: Si/NO con 20% de SI
+A&lt;-ifelse(runif(n)&gt;0.8,&quot;SI&quot;,&quot;NO&quot;) # 1=si
+A&lt;-as.factor(A) # lo convertimos a factor
+# creamos la tabla con la primera col
+tabla_encuesta&lt;-data.frame(A)
+
+
+# Pregunta B: 3 respuestas posibles 3 prob
+# usando sample para asignar prob a cada respuesta posible
+B&lt;-sample(c(&quot;a&quot;,&quot;b&quot;,&quot;c&quot;),size=100,replace = T,prob=c(0.6,0.3,0.1))
+tabla_encuesta$B&lt;-as.factor(B)
+
+# Pregunta C: valoracion de 0 a 10. entero
+C&lt;-round(rnorm(n,6,2))
+C&lt;-ifelse(C&gt;10,10,C) # comprobamos que no sea &gt; de 10
+# Añadimos la ultima respuesta
+ tabla_encuesta$C&lt;-as.factor(C)
+ 
+tabla_encuesta$id&lt;-rownames(tabla_encuesta)
+head(tabla_encuesta,10)</code></pre>
+<pre><code>##     A B C id
+## 1  NO b 5  1
+## 2  NO a 5  2
+## 3  NO a 3  3
+## 4  NO a 6  4
+## 5  SI a 6  5
+## 6  NO a 5  6
+## 7  SI a 8  7
+## 8  NO a 8  8
+## 9  NO a 3  9
+## 10 NO b 8 10</code></pre>
+<pre class="r"><code>#Graficas de respuesta de la encuesta
+p1&lt;-ggplot(data=tabla_encuesta, aes(x=A)) +
+  geom_bar(aes(fill=A),show.legend = FALSE)+
+        theme_cowplot(8)
+
+p2&lt;-ggplot(data=tabla_encuesta, aes(x=B)) +
+  geom_bar(aes(fill=B),show.legend = FALSE)+
+        theme_cowplot(8)
+p3&lt;-ggplot(data=tabla_encuesta, aes(x=C)) +
+  geom_bar(aes(fill=C),show.legend = FALSE)+
+        theme_cowplot(8)
+
+# grafica conjunta con patchwork
+g_encuesta&lt;-(p1 + p2) /p3
+g_encuesta+ plot_annotation(tag_levels = &#39;A&#39;,tag_prefix = &#39;Pregunta. &#39;)</code></pre>
+<p><img src="{{< blogdown/postref >}}index.es_files/figure-html/encuesta-1.png" width="672" /></p>
+</div>
