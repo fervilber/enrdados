@@ -1,0 +1,149 @@
+---
+title: leer tabla en pdf
+author: F.VilBer
+date: '2021-07-01'
+slug: []
+categories:
+  - R
+tags:
+  - pdf
+  - listas
+description: 'leemos una tabla contenida en un pdf desde R'
+thumbnail: '/post/2021-07-01-leer-tabla-en-pdf/images/pdf2r.png'
+---
+
+<script src="{{< blogdown/postref >}}index.es_files/header-attrs/header-attrs.js"></script>
+
+
+<p>Vamos a ver cómo leer un documento pdf desde R con la librería <code>pdftools</code>. Se trata de un paquete interesante para leer pdf vectoriales, es decir, los que contienen texto vectorizado, esto no nos vale para archivos <em>pdf</em> tipo imagen, que son aquellos que -aunque contengan texto-, este se guarda como imagen sin vectorizar. En estos casos hay otras librerías que hacen el <em>OCR</em>, conversión y lectura previo necesario, como <code>tabulazer</code> o la librería <code>imageR</code>, aunque necesitas tener Java para esto los resultados son espectaculares. Las funciones OCR están disponibles en otras librerías de rOpenSci como el paquete <code>tesseract</code>.</p>
+<p>Como quiero mostrar un ejemplo sencillo, pero completo, vamos a usar una tabla descargada al azar de una web pública. Por proximidad he descargado un listado de notas del conservatorio de mi localidad que está en pdf y lo vamos a pasar a un data frame de R.</p>
+<p>Vamos a la faena:</p>
+<div id="pdftools" class="section level2">
+<h2>pdftools</h2>
+<p>Lo primero es instalar la librería <code>pdftools</code>, que al estar en CRAN es un paso simple. Tambian puedes buscar en la web de desarrollo <a href="https://github.com/ropensci/pdftools">aquí</a>.</p>
+<p>Usaremos la función tubería de <code>tidyverse</code> y las librerías <code>stringr</code> para expresiones regulares y <code>purrr</code> para listas.</p>
+<p>El fichero pdf del que queremos extraer los datos lo he almacenado en el directorio local de trabajo y se llama <em>“Listado de notas Prep. 2021.pdf”</em>.</p>
+<p>Con la función que vamos a usar de <code>pdftools</code> es <code>pdf_text()</code> que convierte el pdf a texto. Almacena el documento como una lista en la que cada página del pdf es un elememnto nuevo de la lista.</p>
+<p>Para distinguir las líneas de cada página usaremos la función <code>str_split</code> del paquete de manejo de textos <code>stringr</code>.</p>
+<pre class="r"><code>library(tidyverse)
+library(stringr)
+library(pdftools)
+
+# leemos las paginas del pdf una a una y separamos por filas
+fich_pdf&lt;-pdf_text(&quot;Listado de notas Prep. 2021.pdf&quot;) %&gt;% 
+   str_split(&quot;\n&quot;)
+
+str(fich_pdf)</code></pre>
+<pre><code>## List of 2
+##  $ : chr [1:46] &quot;Concejalía de Educación&quot; &quot;&quot; &quot;&quot; &quot;&quot; ...
+##  $ : chr [1:34] &quot;Concejalía de Educación&quot; &quot;&quot; &quot;&quot; &quot;&quot; ...</code></pre>
+<pre class="r"><code># numero de paginas del documento
+length(fich_pdf) # longitud de la lista</code></pre>
+<pre><code>## [1] 2</code></pre>
+<pre class="r"><code># numero de lineas por pag
+lengths(fich_pdf) # longitud de cada elemento de la lista</code></pre>
+<pre><code>## [1] 46 34</code></pre>
+<pre class="r"><code># vemos el principio de la pag 1
+head(fich_pdf[[1]],10)</code></pre>
+<pre><code>##  [1] &quot;Concejalía de Educación&quot;                                                                                
+##  [2] &quot;&quot;                                                                                                       
+##  [3] &quot;&quot;                                                                                                       
+##  [4] &quot;&quot;                                                                                                       
+##  [5] &quot;                                  ESCUELA MUNICIPAL DE MÚSICA&quot;                                          
+##  [6] &quot;&quot;                                                                                                       
+##  [7] &quot;              RESULTADOS ALUMNADO DE PREPARATORIO JUNIO 2021&quot;                                           
+##  [8] &quot;&quot;                                                                                                       
+##  [9] &quot;              N.º            APELLIDOS Y NOMBRE                         NOTA FINAL F. NACIMIENTO&quot;       
+## [10] &quot;                1. Lucas Gómez, Rubén                                        9,86            25/04/2013&quot;</code></pre>
+<p>Si visualizamos la variable <code>fich_pdf</code> veremos que hay varias líneas tanto al principio como al final que contienen encabezados y cosas que no nos interesa, pues el objetivo es leer la tabla de alumnos con su nota.</p>
+<p>Las eliminamos directamente de la variable y nos quedamos solo con las líneas de cada página que contienen datos. Hemos empezado borrando las líneas finales para que no cambie la numeración de la variable.</p>
+<p>Después unimos los elementos de la lista en una única variable usando <code>unlist</code>, ya que tenemos datos en la pagina 1 y en la 2 como dos elementos distintos de una lista y lo queremos como una <em>data.frame</em>. La función <code>str_squish</code> es otra función de <code>stringr</code> para tratamiento de textos que básicamente suprime los espacios sobrantes o repetidos.</p>
+<pre class="r"><code># me quedo solo con líneas de datos de la tabla
+#Ojo primero las de abajo para no cambiar la numeracion
+fich_pdf[[1]] &lt;- fich_pdf[[1]][-41:-46]
+fich_pdf[[1]] &lt;- fich_pdf[[1]][-1:-8]
+# ahora la pagina 2
+fich_pdf[[2]] &lt;- fich_pdf[[2]][-13:-34]
+fich_pdf[[2]] &lt;- fich_pdf[[2]][-1:-4]
+
+#juntamos todo en un data frame
+# quitamos espacios sobrantes con str_squish
+aux&lt;-unlist(fich_pdf) %&gt;% str_squish()
+#quito primera linea
+aux&lt;-aux[-1]
+head(aux)</code></pre>
+<pre><code>## [1] &quot;1. Lucas Gómez, Rubén 9,86 25/04/2013&quot;             
+## [2] &quot;2. Morote Herrera, José María 9,73 18/04/2008&quot;     
+## [3] &quot;3. Montiel Abellán, Gabriela 9,48 16/01/2013&quot;      
+## [4] &quot;4. Rojas Moreno, Emma 9,48 05/05/2012&quot;             
+## [5] &quot;5. Buitrago Martínez, Carmen María 9,27 13/07/2012&quot;
+## [6] &quot;6. Verdú Ayala, Martina 9,25 11/10/2009&quot;</code></pre>
+</div>
+<div id="sacar-un-data-frame-de-datos" class="section level2">
+<h2>sacar un data frame de datos</h2>
+<p>Con esto ya tenemos la tabla extraída del pdf, aunque en formato texto -como líneas de caracteres-. Para extraer los datos de manera útil debemos trabajar un poco más. Para esto vamos a usar las poderosísimas <strong>expresiones regulares</strong> o <strong>REGEXP</strong> (de “REGgular EXPressions”).</p>
+<p>Se trata simplemente de una formulación estandar para separar o seleccionar parte de los caracteres de un texto. Para esto se usan expresiones <em>tipo</em> que las funciones de procesamiento de textos interpretan de forma homogénea. El problema con estas REGEXP es que son algo difíciles de entender a la primera, es mejor verlo con ejemplos.</p>
+<div class="figure">
+<img src="images/regex.png" alt="" />
+<p class="caption">regexp</p>
+</div>
+<p>Por ejemplo en nuestro caso tenemos un vector llamado aux, en el que hemos almacenado cada línea de una tabla en formato texto. Todas las líneas comienzan con un número (de orden) y tras este primer número hay un punto. Pues con la expresión siguiente: <code>"[[:digit:]]+(?=\\.)"</code> conseguimos diferenciar estos números iniciales al decir a R que busque en cada línea varios digitos <code>[[:digit:]]+</code> (el + indica que son mas de uno) que después finalizan con un punto <code>(?=\\.)</code>.</p>
+<p>Las dos barras indican un caracter especial y el símbolo (=?) se usa para decir que finaliza o (&lt;=?) que va delante.</p>
+<p>En esta web tienes una <a href="https://evoldyn.gitlab.io/evomics-2018/ref-sheets/R_strings.pdf">chuleta con estas expresiones</a> que hay que tener a mano cuando trabajas cosas de texto.
+Vamos a extraer con regexp los datos que necesitanos:</p>
+<pre class="r"><code># almacenamos en el vector num los números de línea
+num&lt;-aux %&gt;% str_extract(&quot;[[:digit:]]+(?=\\.)&quot;)
+
+# sacamos los apellidos:
+#     está precedido por . y espacio y finalizan con coma , mas un espacio
+apellido&lt;-aux %&gt;% str_extract(&quot;(?&lt;=\\.\\s)[[:print:]]+(?=\\,\\s)&quot;)
+
+# quito las variables ya leidas del vector
+aux1&lt;-str_squish(substring(aux, first = 4)) 
+aux1&lt;-str_replace_all( aux1, apellido,&quot;&quot; )
+# quito la coma y espacio
+aux1&lt;-substring(aux1, first = 3)
+
+# Extraigo el nombre:
+# el nombre comienza con la coma y espacio y finaliza con espacio y digito y coma seguidos
+nom&lt;-aux1 %&gt;% str_extract(&quot;[[:print:]]+(?=\\s[[:digit:]]\\,)&quot;)
+aux1&lt;-str_replace_all( aux1, nom,&quot;&quot; ) # lo quito de aux1 el nombre
+aux1&lt;-str_squish(aux1) # quitamos espacios sobrantes
+# vemos el resultado
+head(aux1)</code></pre>
+<pre><code>## [1] &quot;9,86 25/04/2013&quot; &quot;9,73 18/04/2008&quot; &quot;9,48 16/01/2013&quot; &quot;9,48 05/05/2012&quot;
+## [5] &quot;9,27 13/07/2012&quot; &quot;9,25 11/10/2009&quot;</code></pre>
+<p>Así vamos leyendo cada variable que nos interesa y extrayendo del texto datos.
+Las variables que nos quedan son la nota y la fecha de nacimiento. Separadas por un espacio por lo que podemos usar <code>strsplit</code>, pero ojo, esta función crear una lista para cada elemento.
+Para extraer el primero elemento de cada uno de los elementos de la lista vamos a usar las funciones <code>map</code> del paquete <code>purrr</code> que ya tenemos en memoria pues es de tidyverse.
+Estas funciones son súper útiles para el manejo de listas como vimos aquí <a href="../chuleta-de-purrr">chuleta-de-purrr</a>.</p>
+<pre class="r"><code>aux2&lt;-aux1 %&gt;% strsplit(split= &quot; &quot;)
+walk(aux2[1:6],print) # vemos los 6 primeros elementos</code></pre>
+<pre><code>## [1] &quot;9,86&quot;       &quot;25/04/2013&quot;
+## [1] &quot;9,73&quot;       &quot;18/04/2008&quot;
+## [1] &quot;9,48&quot;       &quot;16/01/2013&quot;
+## [1] &quot;9,48&quot;       &quot;05/05/2012&quot;
+## [1] &quot;9,27&quot;       &quot;13/07/2012&quot;
+## [1] &quot;9,25&quot;       &quot;11/10/2009&quot;</code></pre>
+<pre class="r"><code># extraemos el primer elemento de cada elemento de la lista
+nota&lt;-map_chr(aux2,~.x[[1]])
+#cambiamos coma por punto porque tengo configuracion de decimal como punto
+nota&lt;-as.double(str_replace(nota,&quot;,&quot;,&quot;.&quot;))
+
+# Extraemos la fecha que es el segundo elemento de cada elemento de la lista
+# y le damos formato de fecha adecuada
+fecha&lt;-as.Date(map_chr(aux2,~.x[[2]]),&quot;%d/%m/%Y&quot;)</code></pre>
+<p>Con esto ya tenemos todas las variables, así que lo juntamos en un data frame y listo reto conseguido!!!.</p>
+<pre class="r"><code># por último ya tenemos los datos de tabla al completo
+# y creamos el data.frame final
+tabla&lt;-data.frame(id=num,apellido=apellido,nombre=nom,nota=nota,fecha=fecha)
+head(tabla)</code></pre>
+<pre><code>##   id          apellido       nombre nota      fecha
+## 1  1       Lucas Gómez        Rubén 9.86 2013-04-25
+## 2  2    Morote Herrera   José María 9.73 2008-04-18
+## 3  3   Montiel Abellán     Gabriela 9.48 2013-01-16
+## 4  4      Rojas Moreno         Emma 9.48 2012-05-05
+## 5  5 Buitrago Martínez Carmen María 9.27 2012-07-13
+## 6  6       Verdú Ayala      Martina 9.25 2009-10-11</code></pre>
+<p>Espero que os haya gustado el post, un saludo veraniego!!</p>
+</div>
