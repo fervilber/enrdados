@@ -1,8 +1,8 @@
 ---
-title: arboles con funciones recursivas
+title: Árboles con funciones recursivas
 author: F.VilBer
 date: '2021-09-23'
-slug: []
+slug: [arboles-con-funciones-recursivas]
 categories:
   - diseño
   - R
@@ -21,7 +21,7 @@ knitr::opts_chunk$set(error=FALSE,echo = TRUE, warning = FALSE, message = FALSE)
 
 ## Arte generativo con R
 
-Hace un par de post hablamos de la generación de números aleatorios [ ver aquí](../generacion-aleatoria), y hoy vuelvo a insistir en este tema fascinante que me embruja sin remedio. En cierta forma, lo que me atrae es la belleza del caos, la incomprensión de cómo una sucesión espontánea y aleatoria de números puede llegar a transformarse en objetos cotidianos y naturales de increíble belleza.
+Hace un par de post hablamos de la generación de números aleatorios [ver aquí](../2021-06-14-generacion-aleatoria), y hoy vuelvo a insistir en este tema fascinante que me embruja sin remedio. En cierta forma, lo que me atrae es la belleza del caos, la incomprensión de cómo una sucesión espontánea y aleatoria de números puede llegar a transformarse en objetos cotidianos y naturales de increíble belleza.
 
 Esto es especialmente visible en los seres vivos, que muestran una geometría compleja , caótica y de una belleza sublime que a la vista de experimentos como el que vamos a realizar puede ser fruto del puro azar.
 
