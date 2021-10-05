@@ -19,15 +19,15 @@ thumbnail: '/post/2021-09-23-arboles-con-funciones-recursivas/images/ARBOL_DOBLE
 
 <div id="arte-generativo-con-r" class="section level2">
 <h2>Arte generativo con R</h2>
-<p>Hace un par de post hablamos de la generación de números aleatorios <a href="../2021-06-14-generacion-aleatoria">ver aquí</a>, y hoy vuelvo a insistir en este tema fascinante que me embruja sin remedio. En cierta forma, lo que me atrae es la belleza del caos, la incomprensión de cómo una sucesión espontánea y aleatoria de números puede llegar a transformarse en objetos cotidianos y naturales de increíble belleza.</p>
-<p>Esto es especialmente visible en los seres vivos, que muestran una geometría compleja , caótica y de una belleza sublime que a la vista de experimentos como el que vamos a realizar puede ser fruto del puro azar.</p>
-<p>Hoy vamos a crear una función que hace formas arbóreas fractales con con un método muy simple, las funciones recursivas.</p>
+<p>Hace un par de post hablamos de la generación de números aleatorios <a href="../2021-06-14-generacion-aleatoria">ver aquí</a>. Hoy vuelvo a insistir en este tema fascinante que me embruja sin remedio. En cierta forma, lo que me atrae es la belleza del caos, la sorpresa de ver cómo una sucesión espontánea y aleatoria de números puede llegar a transformarse en imágenes de objetos cotidianos y naturales.</p>
+<p>Esto es especialmente visible en los seres vivos, que muestran una geometría compleja, caótica aunque en ella subyace un ritmo matemático, caótico, fractal. Como veras en este experimento la belleza natural puede ser fruto del puro azar, simple sucesión aleatoria de ramificaciones.</p>
+<p>Hoy vamos a crear una función que hace formas arbóreas fractales con con un método muy simple, <strong>las funciones recursivas</strong>.</p>
 </div>
 <div id="algoritmo" class="section level2">
 <h2>Algoritmo</h2>
-<p>La idea es la siguiente: partiremos de un punto en el plano -la base del tronco- y dibujamos ahí una línea vertical. Luego a partir de ese punto vamos dibujando ramas cada con líneas.</p>
-<p>Creamos una función llamada <code>ramas()</code> que tiene de argumentos el punto de inicio de la rama, la longitud, anchura y ángulo de la rama. Se trata de una simple función de pintar líneas, a la que vamos a llamar de forma recursiva una y otra vez en cada bifurcación.</p>
-<p>En nuestro experimento solo hacemos bifurcaciones, pero si quieres prueba a poner la posibilidad de dividir en 1,2 o 3 ramas en cada bifurcación, aunque esto aumenta sobremanera las ramas y satura la memoria del PC a poco que te descuides.</p>
+<p>La idea es la siguiente: partiremos de un punto en el plano -la base del tronco- y dibujamos ahí una línea (vertical). Luego a partir del punto final de esa línea vamos dibujando ramas aleatorias, bifurcando en cada nodo.</p>
+<p>Creamos una función llamada <code>ramas()</code> que tiene de argumentos el punto de inicio de la rama, la longitud, anchura y ángulo de la rama. Se trata de una simple función de pintar líneas, a la que vamos a llamar de forma recursiva una y otra vez en cada nodo final de rama.</p>
+<p>En este experimento solo hacemos bifurcaciones, pero si quieres puedes probar a poner la posibilidad de dividir no solo en 1 o 2, sino en 3 ramas en cada bifurcación, aunque esto aumenta sobremanera las ramas y satura la memoria del PC a poco que te descuides.</p>
 <pre class="r"><code>####################################
 ######## Función que pinta el arbol    
 parbol &lt;-
@@ -125,12 +125,11 @@ par(bg = &#39;black&#39;)
 parbol(100,150)
 parbol(100,200,sobreescribe=1)</code></pre>
 <p><img src="{{< blogdown/postref >}}index.es_files/figure-html/unnamed-chunk-1-2.png" width="672" /></p>
-<p>Las funciones recursivas suelen dar problemas con la memoria de trabajo del sistema. Son lentas cuando llegan a un ponto de explosión esponencial por lo que hay que tener cierto cuidado en no pasarse y limitar el bucle.</p>
-<p>Si intentas reproducir este código, empieza con un valor pequeño del parámetro <code>ramificacion</code> como 15 y ve aumentando este parámetro poco a poco. Si notas que se ralentiza mucho el resultado ya sabes donde tienes el límite.</p>
+<p>Las funciones recursivas suelen dar problemas con la memoria de trabajo del sistema. Son lentas cuando llegan a un punto de explosión exponencial de ramas, por lo que hay que tener cierto cuidado en no pasarse y limitar el bucle.</p>
+<p>Si intentas reproducir este código, empieza con un valor pequeño del parámetro <code>ramificacion=15</code>, por ejemplo <em>15</em> y ve aumentando este número poco a poco. Si notas que se ralentiza mucho el resultado ya sabes donde tienes el límite.</p>
 </div>
 <div id="conclusiones" class="section level2">
 <h2>Conclusiones</h2>
-<p>Si te ha gustado este experimento, prueba a hacer una aplicación shiny en la que los argumentos sean variables con input, y así podrás ver cómo afecta cada uno a la forma.</p>
-<p>Hace un tiempo escribí un post en el que dibujábamos un bosque en R, con otras funciones y propósito, pero <a href="../hacer-un-bosque-con-r">aquí está si quieres echar un vistazo</a>
-Lluego generamos una</p>
+<p>Si te ha gustado este experimento, prueba hacer una aplicación <em>shiny</em> en la que los argumentos sean variables introducidos con selectores <em>inputs</em>, y así podrás ver cómo afecta cada uno a la imagen generada.</p>
+<p>Hace un tiempo escribí un post en el que dibujábamos un bosque en R, con otras funciones y propósito, pero <a href="../hacer-un-bosque-con-r">aquí está si quieres echar un vistazo</a>.</p>
 </div>

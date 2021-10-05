@@ -1,5 +1,5 @@
 ---
-title: Gráficos Snakey con R
+title: Gráficos Sankey con R
 author: F.VilBer
 date: '2019-03-07'
 slug: graficos-snakey-con-r
@@ -9,18 +9,22 @@ categories:
 tags:
   - R
   - graficas
-description: 'Cómo hacer diagramas de flujo Sankey '
+description: 'Cómo hacer diagramas de flujo Sankey con R '
 thumbnail: '/post/2019-03-07-graficos-snakey-con-r_files/sankey.png'
 toc: no
 editor_options: 
   chunk_output_type: console
 ---
 
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
 <script src="/rmarkdown-libs/htmlwidgets/htmlwidgets.js"></script>
 <script src="/rmarkdown-libs/d3/d3.min.js"></script>
 <script src="/rmarkdown-libs/sankey/sankey.js"></script>
 <script src="/rmarkdown-libs/sankeyNetwork-binding/sankeyNetwork.js"></script>
 
+<div id="TOC">
+
+</div>
 
 <p>Hace unos días ví un informe con un tipo de gráficos poco habitual. Se trataba de una gráfica de flujo que se suelen denominar como diagramas de <em>Sankey</em>.</p>
 <p>Se ha quedado con ese nombre por el ingeniero militar irlandés <a href="https://en.wikipedia.org/wiki/Matthew_Henry_Phineas_Riall_Sankey">Matthew Henry Phineas Riall Sankey</a>, que aunque no fue el inventor del gráfico, lo usó con acierto para una representación gráfica del flujo de energía en la máquina de vapor.</p>
@@ -31,9 +35,9 @@ editor_options:
 <p>Básicamente se trata de preparar los datos en una tabla de 3 columnas: origen, destino y volumen de flujo. También tendremos una tabla con los nombres de los nodos.</p>
 <p>El código es el siguiente:</p>
 <pre class="r"><code> # Ejemplo de diagrama de flujo SANKEY
- library(networkD3)      # cargamos librería
-
- # Definimos los nodos de la red, que se numeran automáticamente de 0 a ..
+ library(networkD3)      # cargamos librería</code></pre>
+<pre><code>## Warning: package &#39;networkD3&#39; was built under R version 4.0.5</code></pre>
+<pre class="r"><code> # Definimos los nodos de la red, que se numeran automáticamente de 0 a ..
  nodes = data.frame(&quot;name&quot; = 
                    c(&quot;Fuente clara&quot;,  # Node 0
                      &quot;Bombeo 1&quot;,      # Node 1
@@ -79,7 +83,8 @@ editor_options:
 <div id="colorear-flujo" class="section level2">
 <h2>Colorear flujo</h2>
 <p>Entre las opciones de la librería está el colorear los flujos, que se denominan <code>Links</code>.</p>
-<p>Vamos a ver un ejemplo del gasto energético entre las fuentes de energía y los sectores que la gastan. Los datos originales son una tabla con: origen, destino, nombre, valor, del flujo, y tipo de energía.</p>
+<p>Vamos a ver un ejemplo del gasto energético entre las fuentes de energía y los sectores que la gastan.
+Los datos originales son una tabla con: origen, destino, nombre, valor, del flujo, y tipo de energía.</p>
 <pre class="r"><code>  # Descargamos los datos 
     URL &lt;- paste0(&#39;https://cdn.rawgit.com/christophergandrud/networkD3/&#39;,
           &#39;master/JSONdata/energy.json&#39;)

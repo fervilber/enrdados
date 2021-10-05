@@ -1,5 +1,5 @@
 ---
-title: Gráficos Snakey con R
+title: Gráficos Sankey con R
 author: F.VilBer
 date: '2019-03-07'
 slug: graficos-snakey-con-r
@@ -9,7 +9,7 @@ categories:
 tags:
   - R
   - graficas
-description: 'Cómo hacer diagramas de flujo Sankey '
+description: 'Cómo hacer diagramas de flujo Sankey con R '
 thumbnail: '/post/2019-03-07-graficos-snakey-con-r_files/sankey.png'
 toc: no
 editor_options: 

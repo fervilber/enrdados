@@ -21,19 +21,19 @@ knitr::opts_chunk$set(error=FALSE,echo = TRUE, warning = FALSE, message = FALSE)
 
 ## Arte generativo con R
 
-Hace un par de post hablamos de la generación de números aleatorios [ver aquí](../2021-06-14-generacion-aleatoria), y hoy vuelvo a insistir en este tema fascinante que me embruja sin remedio. En cierta forma, lo que me atrae es la belleza del caos, la incomprensión de cómo una sucesión espontánea y aleatoria de números puede llegar a transformarse en objetos cotidianos y naturales de increíble belleza.
+Hace un par de post hablamos de la generación de números aleatorios [ver aquí](../2021-06-14-generacion-aleatoria). Hoy vuelvo a insistir en este tema fascinante que me embruja sin remedio. En cierta forma, lo que me atrae es la belleza del caos, la sorpresa de ver cómo una sucesión espontánea y aleatoria de números puede llegar a transformarse en imágenes de objetos cotidianos y naturales.
 
-Esto es especialmente visible en los seres vivos, que muestran una geometría compleja , caótica y de una belleza sublime que a la vista de experimentos como el que vamos a realizar puede ser fruto del puro azar.
+Esto es especialmente visible en los seres vivos, que muestran una geometría compleja, caótica aunque en ella subyace un ritmo matemático, caótico, fractal. Como veras en este experimento la belleza natural puede ser fruto del puro azar, simple sucesión aleatoria de ramificaciones.
 
-Hoy vamos a crear una función que hace formas arbóreas fractales con con un método muy simple, las funciones recursivas.
+Hoy vamos a crear una función que hace formas arbóreas fractales con con un método muy simple, **las funciones recursivas**.
 
 ## Algoritmo
 
-La idea es la siguiente: partiremos de un punto en el plano -la base del tronco- y dibujamos ahí una línea vertical. Luego a partir de ese punto vamos dibujando ramas cada con líneas.
+La idea es la siguiente: partiremos de un punto en el plano -la base del tronco- y dibujamos ahí una línea (vertical). Luego a partir del punto final de esa línea vamos dibujando ramas aleatorias, bifurcando en cada nodo.
 
-Creamos una función llamada `ramas()` que tiene de argumentos el punto de inicio de la rama, la longitud, anchura y ángulo de la rama. Se trata de una simple función de pintar líneas, a la que vamos a llamar de forma recursiva una y otra vez en cada bifurcación. 
+Creamos una función llamada `ramas()` que tiene de argumentos el punto de inicio de la rama, la longitud, anchura y ángulo de la rama. Se trata de una simple función de pintar líneas, a la que vamos a llamar de forma recursiva una y otra vez en cada nodo final de rama. 
 
-En nuestro experimento solo hacemos bifurcaciones, pero si quieres prueba a poner la posibilidad de dividir en 1,2 o 3 ramas en cada bifurcación, aunque esto aumenta sobremanera las ramas y satura la memoria del PC a poco que te descuides.
+En este experimento solo hacemos bifurcaciones, pero si quieres puedes probar a poner la posibilidad de dividir no solo en 1 o 2, sino en 3 ramas en cada bifurcación, aunque esto aumenta sobremanera las ramas y satura la memoria del PC a poco que te descuides.
 
 
 ```{r funciones}
@@ -139,13 +139,12 @@ parbol(100,150)
 parbol(100,200,sobreescribe=1)
 ```
 
-Las funciones recursivas suelen dar problemas con la memoria de trabajo del sistema. Son lentas cuando llegan a un ponto de explosión esponencial por lo que hay que tener cierto cuidado en no pasarse y limitar el bucle.
+Las funciones recursivas suelen dar problemas con la memoria de trabajo del sistema. Son lentas cuando llegan a un punto de explosión exponencial de ramas, por lo que hay que tener cierto cuidado en no pasarse y limitar el bucle.
 
-Si intentas reproducir este código, empieza con un valor pequeño del parámetro `ramificacion` como 15 y ve aumentando este parámetro poco a poco. Si notas que se ralentiza mucho el resultado ya sabes donde tienes el límite.
+Si intentas reproducir este código, empieza con un valor pequeño del parámetro `ramificacion=15`, por ejemplo *15* y ve aumentando este número poco a poco. Si notas que se ralentiza mucho el resultado ya sabes donde tienes el límite.
 
 ## Conclusiones
   
-Si te ha gustado este experimento, prueba a hacer una aplicación shiny en la que los argumentos sean variables con input, y así podrás ver cómo afecta cada uno a la forma.
+Si te ha gustado este experimento, prueba hacer una aplicación *shiny* en la que los argumentos sean variables introducidos con selectores *inputs*, y así podrás ver cómo afecta cada uno a la imagen generada.
 
-Hace un tiempo escribí un post en el que dibujábamos un bosque en R, con otras funciones y propósito, pero [aquí está si quieres echar un vistazo](../hacer-un-bosque-con-r)
-Lluego generamos una 
+Hace un tiempo escribí un post en el que dibujábamos un bosque en R, con otras funciones y propósito, pero [aquí está si quieres echar un vistazo](../hacer-un-bosque-con-r).
