@@ -1,0 +1,198 @@
+---
+title: Función sílabas
+author: F.VilBer
+date: '2022-02-07'
+slug: [funcion-silabas]
+categories:
+  - R
+  - programas
+tags:
+  - formato
+  - tipografía
+  - palabras
+description: 'funcion para calcular las sílabas de una palabra en español'
+thumbnail: ''
+---
+
+<script src="{{< blogdown/postref >}}index.es_files/header-attrs/header-attrs.js"></script>
+
+
+<p>El año pasado hice un programaita simple para ayudar a los pequeños poetas, lo llamé <a href="../2021-03-203-rimador-nube">rimador</a>. Se trataba de escribir una palabra y el programa buscaba otras con la misma terminación o <em>rima</em>, según algunos parámetros. Así, podías buscar palabras que rimaran solo en las vocales últimas o en rima exacta consonante.</p>
+<p>El caso es que no encontré ningún paquete, ni función con el que calcular la <strong>división en sílabas en español</strong> y que permita calcular estas rimas.</p>
+<p>Hay alguna función que se usa para guionado (<em>hyphen</em> en inglés), que es cortar una palabra al final de línea por un guión y seguir en la de abajo, como <em>hyphenate</em> de la librería <em>hyphenatr</em>. Estas funciones no son nada buenas para nuestro bello y complejo idioma castellano..</p>
+<p>Tenía pendiente programar una función de silabeo mejor, y bueno, al fin saqué un rato para pasar los apuntes y salió esta que les muestro aquí, por si les hace falta. Quizás alguno la necesite para hacer eso que está tan de moda del <em>Natural Language Processing</em> con R. En tal caso solo les pido que lo comenten aquí abajo ⬇️.</p>
+<p>La verdad que esta funcioncita no lo hace nada mal, y hasta el momento no le vi fallos.</p>
+<p>Lo ideal sería meterla en un paquete, pero eso mejor otro día, que ando fatal de tiempo como habrán comprobado los seguidores de este pequeño blog.</p>
+<p>Por cierto, he dejado una versión en línea del <a href="https://nolugar.shinyapps.io/nube_rimas2/">rimador aquí</a>.así que ya no hay excusa para los poetas perezosos!!</p>
+<div id="función-silabeo-en-castellano" class="section level2">
+<h2>Función silabeo en Castellano</h2>
+<p>Básicamente la función <em>silabas()</em> toma una palabra y devuelve un vector con las sílabas de dicha palabra. También está la opción de que devuelva la palabra separando las sílabas con guiones <em>silaba()</em>.</p>
+<p>Además de la función base, he programado 4 funciones auxiliares que ayudan en el proceso identificando si una vocal tiene tilde o no con la función (<em>tieneTilde</em>), o si un carácter es o no vocal con <em>Vocal</em>. La función <em>Letra</em> distingue si el carácter de entrada es un símbolo o una letra. <em>TipoVocal</em> diferencia vocales abiertas de cerradas y <em>Comb</em> busca combinaciones de 2 consonantes en castellano que forman parte de una misma sílaba.</p>
+<div class="figure">
+<img src="images/Pasted%20image%2020220207203302.png" alt="" />
+<p class="caption">esquema</p>
+</div>
+</div>
+<div id="código" class="section level2">
+<h2>Código</h2>
+<p>El código se muestra a continuación, para usarlo, una vez cargadas todas las funciones prueba a hacer esto <code>silaba(mariposa)</code> o <code>silabag(mariposa)</code> y verás el resultado.</p>
+<pre class="r"><code>#####################################################
+# Funciones para silabear una palabra en castellano #
+# Autor: Fernando Villalba Bergado                  #
+#        www.enRdados.net                           #
+#####################################################
+
+library(stringr) 
+
+# Función que es TRUE si es una vocal acentuada con tilde
+tieneTilde &lt;- function(c) {
+  c = tolower(c)
+  tildes = c(&quot;á&quot;, &quot;é&quot;, &quot;í&quot;, &quot;ó&quot;, &quot;ú&quot;)
+  if (c %in%  tildes) {
+      return(T)
+  } else{
+      return(F)
+  }
+}
+
+#Vocal= Funcion que determina si es o no vocal un caracter
+Vocal &lt;- function(c) {
+  V = T
+  c = tolower(c) #LCase(c)
+  vocales = c(&quot;a&quot;, &quot;á&quot;, &quot;e&quot;, &quot;é&quot;, &quot;i&quot;, &quot;í&quot;, &quot;o&quot;, &quot;ó&quot;, &quot;u&quot;, &quot;ú&quot;, &quot;ü&quot;)
+  if (c %in%  vocales) {
+    V = T
+  } else{
+    V = F
+  }
+  return(V)
+}
+
+# Funcion que dice si es vocal abierta o cerrada
+TipoVocal &lt;- function(c) {
+  # 0 = no es vocal
+  # 1 = vocal abierta
+  # -1 = vocal cerrada
+  V = 0 # si no es vocal
+  c = tolower(c) #pasa a minúscula
+  if (Vocal(c)) {
+    v_cerrada = c(&quot;i&quot;, &quot;í&quot;, &quot;u&quot;, &quot;ú&quot;, &quot;ü&quot;)
+    if (c %in%  v_cerrada) {
+      V = -1
+    } else{
+      V = 1
+    } 
+  }
+  return(V)
+  #Ejemplo: TipoVocal(&quot;a&quot;)
+}
+
+# Letra = funcion que nos dice si es una letra = True o no (puede ser un símbolo)
+Letra &lt;- function(c) {
+  l = F
+  c = tolower(c) # pasa a minúscula
+  if ((c &gt;= &quot;a&quot; &amp;  c &lt;= &quot;z&quot; | c == &quot;ñ&quot;) |
+      (c == &quot;á&quot; |  c == &quot;é&quot; | c == &quot;í&quot; | c == &quot;ó&quot; | c == &quot;ú&quot; | c == &quot;ü&quot;)
+      ) {
+    l = T
+  } else{
+    l = F
+  }
+  
+  return(l)
+}
+
+# Comb = funcion que nos dice si las letras seleccionadas son alguna de las combinaciones de consonantes marcadas
+Comb &lt;- function(c) {
+  Cmb = T
+  c = tolower(c)
+  combi &lt;-
+    c(&quot;bl&quot;,&quot;br&quot;,
+      &quot;cl&quot;,&quot;cr&quot;,
+      &quot;dl&quot;,&quot;dr&quot;,
+      &quot;fl&quot;,&quot;fr&quot;,
+      &quot;gl&quot;,&quot;gr&quot;,
+      &quot;pl&quot;,&quot;pr&quot;,
+      &quot;tl&quot;,&quot;tr&quot;,
+      &quot;kl&quot;,&quot;kr&quot;,
+      &quot;ll&quot;,&quot;rr&quot;,
+      &quot;ch&quot;,&quot;qu&quot;
+    )
+  if (c %in%  combi) {
+    Cmb = T
+  } else{
+    Cmb = F
+  } #-1=cerrada
+  return(Cmb)
+}
+
+
+silabas &lt;- function(miP) {
+  V = 0
+  S = &quot;&quot;
+  A = &quot;&quot;
+  Sig = &quot;&quot;
+  l = nchar(miP) #str_length(miP)
+  miP = str_trim(miP)
+  Va = F
+  silabas = c(NULL)
+  #if(miP !=&quot;palabra&quot;){1}else{2}
+  if (miP != &quot;&quot;) {
+    for (i in seq.int(from = l, to = 1)) {
+      Ta = F # T de antes
+      c = str_sub(miP, i, i) # c = substring(miP, i, i)
+      Vc = Vocal(c)
+      Vs = Vocal(Sig)
+      Tvc = TipoVocal(c)
+      Tvs = TipoVocal(Sig)
+      Cmb = paste0(c, Sig)
+      if (Vc &amp; !Vs) {
+        V = V + 1
+      }
+      if (V &gt; 1 &amp; !Vs) {
+        Ta = T
+      }
+      else if ((!Vc &amp; !Vs &amp; !Comb(Cmb)) &amp; (V = 1 &amp; i &gt; 1)) {
+        Ta = T
+      }
+    #  if((TipoVocal(&quot;a&quot;) == -1 &amp; tieneTilde(&quot;í&quot;) &amp; TipoVocal(&quot;í&quot;))){1}
+      else if ((Tvc == 1 &amp; Tvs == 1) |
+               (Tvc == -1 &amp; tieneTilde(c) &amp; Vs) |
+               (Tvc == 1 &amp; (Tvs == -1 &amp; tieneTilde(Sig))) |
+               ((Vc &amp; Vs) &amp; (c == Sig))) {
+        Ta = T
+        V = V + 1
+      }
+      if (Ta == T) {
+        #Añade la nueva sílaba
+        if(S !=&quot;&quot;){silabas = c(S, silabas)}
+        #silabas = c(S, silabas) #append(silabas,S)
+        S = c
+        V = V - 1
+      } else{
+        S = paste0(c, S)
+      }
+      Sig = c
+    }
+    #Añade la nueva sílaba
+    #silabas = c(S, silabas)
+    if(S !=&quot;&quot;){silabas = c(S, silabas)}
+  } else{
+    return(F) # si no es correcto 
+  }
+  return(silabas)
+}
+
+#silabasg = funcion que calcula las sílabas de una palabra separada por guiones
+silabasg&lt;-function(c){
+  paste(silabas(c),collapse=&quot;-&quot;) 
+}
+
+# Vamos a probar
+silabas(&quot;campana&quot;)</code></pre>
+<pre><code>## [1] &quot;cam&quot; &quot;pa&quot;  &quot;na&quot;</code></pre>
+<pre class="r"><code>silabasg(&quot;mariposa&quot;)</code></pre>
+<pre><code>## [1] &quot;ma-ri-po-sa&quot;</code></pre>
+<pre class="r"><code>silabasg(&quot;frágil&quot;)</code></pre>
+<pre><code>## [1] &quot;frá-gil&quot;</code></pre>
+</div>
