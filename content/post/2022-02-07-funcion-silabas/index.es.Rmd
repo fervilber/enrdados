@@ -19,7 +19,7 @@ thumbnail: ''
 knitr::opts_chunk$set(error=FALSE,echo = TRUE, warning = FALSE, message = FALSE)
 ```
 
-El año pasado hice un programaita simple para ayudar a los pequeños poetas, lo llamé [rimador](../2021-03-203-rimador-nube). Se trataba de escribir una palabra y el programa buscaba otras con la misma terminación o *rima*, según algunos parámetros. Así, podías buscar palabras que rimaran solo en las vocales últimas o en rima exacta consonante.
+El año pasado hice un programaita simple para ayudar a los pequeños poetas, lo llamé [rimador](../2021-03-03-rimador-nube). Se trataba de escribir una palabra y el programa buscaba otras con la misma terminación o *rima*, según algunos parámetros. Así, podías buscar palabras que rimaran solo en las vocales últimas o en rima exacta consonante.
 
 El caso es que no encontré ningún paquete, ni función con el que calcular la **división en sílabas en español** y que permita calcular estas rimas.
 
