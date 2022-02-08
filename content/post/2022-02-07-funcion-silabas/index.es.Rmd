@@ -31,7 +31,7 @@ La verdad que esta funcioncita no lo hace nada mal, y hasta el momento no le vi 
 
 Lo ideal sería meterla en un paquete, pero eso mejor otro día, que ando fatal de tiempo como habrán comprobado los seguidores de este pequeño blog.
 
-Por cierto, he dejado una versión en línea del [rimador aquí](https://nolugar.shinyapps.io/nube_rimas2/).así que ya no hay excusa para los poetas perezosos!!
+Por cierto, he dejado una versión en línea del [rimador aquí](https://nolugar.shinyapps.io/nube_rimas2/), así que ya no hay excusa para los poetas perezosos, ¡pruébalo!.
 
 ## Función silabeo en Castellano
 
