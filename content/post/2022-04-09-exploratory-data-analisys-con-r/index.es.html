@@ -1,0 +1,585 @@
+---
+title: Exploratory Data Analisys con R
+author: F.VilBer
+date: '2022-04-09'
+slug: []
+categories:
+  - R
+tags:
+  - data minning
+  - graficas
+description: 'EDA con R, echar un vistazo a los datos'
+thumbnail: '/post/2022-04-09-exploratory-data-analisys-con-r/images/EDA_P.png'
+---
+
+<script src="{{< blogdown/postref >}}index.es_files/header-attrs/header-attrs.js"></script>
+
+
+<div id="eda1" class="section level2">
+<h2>Exploratory Data Analisys con R</h2>
+<p>Llamamos Análisis Exploratorio de Datos (acrónimo <strong>EDA</strong> del inglés) al proceso inicial de reconocimiento o, lo que sencillamente entendemos como <strong>echar un vistazo</strong> a los datos y así empezar a comprender un poco lo que contienen y qué se puede hacer con ellos.</p>
+<p>He dividido el artículo en 3 partes, en la primera vemos <em>“lo básico”</em> e imprescindible que son las funciones de <em>RBase</em> para echar un vistazo a los datos tabulados. En la <a href="#p2">segunda parte</a> hablamos de las librerías especícifas para <em>EDA</em> que aportan gran valor al simplificar procesos, gráficas y en general facilitar el primer contacto con datos tabulados para su mejor comprensión. En concreto veremos los paquetes <code>skimr</code>, <code>visdat</code> y el que más me gusta <code>inspecdf</code>.</p>
+<p>En la <a href="#p3">3º parte</a> os indico, sin entrar en mucho detalle, algunos paquetes que hacen <em>EDA</em> de forma automatizada generando completos informes con un click.</p>
+</div>
+<div id="intro" class="section level1">
+<h1>Introducción. Trabajar con tablas</h1>
+<p>Una tabla es un conjunto estructurado de datos ordenados en filas (registros) y columnas (variables).</p>
+<p>Antes de empezar a usar una tabla en nuestros análisis, lo primero que debemos comprobar es que se trata de <strong>datos procesados</strong>, es decir, que cumplen estas 5 reglas:</p>
+<ol style="list-style-type: decimal">
+<li>cada variable debe estar en una sola columna</li>
+<li>cada observación debe estar en una fila diferente</li>
+<li>debe haber una tabla para cada tipo de variables</li>
+<li>cada variable o columna debe tener un nombre y este debe tener sentido.</li>
+<li>cada tabla debe estar en un fichero diferente.</li>
+</ol>
+<p>Lo habitual, es que <strong>NO LOS CUMPLA</strong>, y tengamos que trabajar sobre los <em>datos brutos</em> hasta obtener una tabla de <em>datos procesados</em>. En este post veremos, como ejemplo, las funciones para pasar de tabla larga a tabla ancha para cumplir estas reglas.</p>
+<div id="obtención-de-datos" class="section level2">
+<h2>Obtención de datos</h2>
+<p>Para ver un caso real de verdad y no la típica tabla de ejemplo de una librería os propongo buscar datos en alguna de estas webs:</p>
+<ul>
+<li><a href="https://www.kaggle.com/">kaggle</a> es una web que ofrece <em>open data</em></li>
+<li><a href="https://www.littlemissdata.com/blog/10-datasets-kids">10-datasets-kids</a></li>
+<li>La EU ofrece datos y tablas en abierto “oficiales” <a href="https://data.europa.eu/es" class="uri">https://data.europa.eu/es</a></li>
+<li>Datos económicos del<a href="https://datacatalog.worldbank.org/search?q=spain&amp;sort=last_updated_date%20desc">banco muncial</a></li>
+<li><a href="https://datasetsearch.research.google.com/">google researche</a></li>
+<li><a href="https://datos.gob.es/">Gobierno de España</a></li>
+</ul>
+<div id="descarga-de-datos-de-trabajo" class="section level3">
+<h3>Descarga de datos de trabajo</h3>
+<p>Para nuestro ejemplo vamos a usar datos de compra-venta de viviendas en España que he encontrado en la web de datos abiertos del Gobierno de España <a href="https://datos.gob.es/es/catalogo/ea0010587-hipotecas-anuales-por-naturaleza-de-la-finca-provincias-duracion-en-anos-y-numero-e-importe-hpt-identificador-api-3240">aquí</a>.</p>
+<p>Podemos descargar el fichero directamente de la web con formato <code>csv</code> o copiar el enlace a R y bajarlo con código como explico en el bloque siguiente. Usamos la función <code>read.csv()</code> para leer el fichero descargado.</p>
+<pre class="r"><code># descarga de datos directamente con R
+library(RCurl)
+viv&lt;-getURL(&quot;https://www.ine.es/jaxiT3/files/t/es/csv_bdsc/3240.csv&quot;)</code></pre>
+<pre class="r"><code># Lectura de la tabla csv a R
+viv_df&lt;-read.csv(viv,header = T,sep = &quot;;&quot;,strip.white = TRUE,stringsAsFactors = F, encoding=&quot;UTF-8&quot;)</code></pre>
+<p>En realidad, te confieso que para leer esta tabla correctamente he tenido que descargar antes los datos y ver algunas cosas internas del fichero, como ver si tiene encabezado de las columnas (<code>header = T</code>), ver qué separador de campos usa (<code>sep = ";"</code>). También he incluido el <code>encoding="UTF-8"</code> que hace que la lectura de tildes y <em>eñes</em> del español se lean bien y no se corrompa con extraños símbolos.</p>
+<p>Como ves, obtener los datos requiere de un proceso de prueba y error 💪 . Por eso me gusta empezar con casos reales y no con <em>data.frame</em> de prueba que traen los paquetes, que ya tienen todo masticadito y perfecto.</p>
+</div>
+</div>
+<div id="p1" class="section level2">
+<h2>Parte 1. Primer vistazo -EDA</h2>
+<p>Ahora que tenemos la tabla bruta lo primero es echar un vistazo a los datos y para eso lo mejor es usar las funciones de <em>RBase</em> clásicas que son:</p>
+<ul>
+<li><code>str()</code>➡️ muestra un resumen de la estructura de la tabla</li>
+<li><code>head()</code> y <code>tail()</code> ➡️ muestra los primeros o últimos registros</li>
+<li><code>summary()</code>➡️ hace un resumen estadistico por variables</li>
+<li><code>glimpse()</code> de <em>dplyr</em> lo mismo que str, pero más compacto.</li>
+<li><code>dim()</code> ➡️ da las dimensiones de la tabla</li>
+<li><code>nrow()</code>,<code>ncol()</code> ➡️ el número de filas o de columnas que tiene.</li>
+<li><code>table(df$col1)</code> ➡️ resúmenes agregados por columan (cuenta casos</li>
+<li><code>unique()</code>➡️ nos muestra los valores únicos (sin repeticiones) de una variable</li>
+<li><code>aggregate()</code> ➡️ una función super util para resumir y agregar datos de manera simple.</li>
+<li><code>View(df)</code> te muestra la tabla con las celdas directamente en RSTUDIO.</li>
+</ul>
+<p>Veamos algún ejemplo:</p>
+<pre class="r"><code># Primer vistazo a los datos con RBase
+#str(viv_df)  # = que glimpse()
+head(viv_df,3)</code></pre>
+<pre><code>##   X.U.FEFF.Naturaleza.de.la.finca     Provincias Duración.en.años
+## 1                Fincas de secano Total Nacional            Total
+## 2                Fincas de secano Total Nacional            Total
+## 3                Fincas de secano Total Nacional            Total
+##      Número.e.importe Periodo  Total
+## 1 Número de hipotecas    2003 20.616
+## 2 Número de hipotecas    2002 19.909
+## 3 Número de hipotecas    2001 18.664</code></pre>
+<pre class="r"><code>#tail(viv_df,3)
+#summary(viv_df)
+dplyr::glimpse(viv_df)</code></pre>
+<pre><code>## Rows: 47,700
+## Columns: 6
+## $ X.U.FEFF.Naturaleza.de.la.finca &lt;chr&gt; &quot;Fincas de secano&quot;, &quot;Fincas de secano&quot;~
+## $ Provincias                      &lt;chr&gt; &quot;Total Nacional&quot;, &quot;Total Nacional&quot;, &quot;T~
+## $ Duración.en.años                &lt;chr&gt; &quot;Total&quot;, &quot;Total&quot;, &quot;Total&quot;, &quot;Total&quot;, &quot;T~
+## $ Número.e.importe                &lt;chr&gt; &quot;Número de hipotecas&quot;, &quot;Número de hipo~
+## $ Periodo                         &lt;int&gt; 2003, 2002, 2001, 2000, 1999, 1998, 19~
+## $ Total                           &lt;chr&gt; &quot;20.616&quot;, &quot;19.909&quot;, &quot;18.664&quot;, &quot;19.361&quot;~</code></pre>
+<p>Con estas funciones verás que se trata de una tabla de 6 columnas y 47.700 filas. El primer problema es que los nombres de las columnas son muy largos, y esto no va bien para los futuros gráficos, así que vamos a renombrar las variables. esto se hace de una manera simple pasando un vector con los nombres nuevos ordenados:</p>
+<pre class="r"><code># Nuevos nombres de las columnas
+names(viv_df)&lt;-c( &quot;t_finca&quot;, &quot;provincia&quot;, &quot;años&quot;,&quot;importe&quot;,&quot;periodo&quot;,&quot;total&quot;)</code></pre>
+<p>A mi me gusta ver una muestra aleatoria de datos y uso este pequeño truco</p>
+<pre class="r"><code># Mostrar 6 registros aleatorios
+viv_df[sample(1:nrow(viv_df),6),]</code></pre>
+<pre><code>##                               t_finca   provincia            años
+## 25787                         Solares   44 Teruel       No consta
+## 46617            Total bienes muebles  41 Sevilla           Total
+## 35088            Total fincas urbanas   30 Murcia       No consta
+## 33138            Total fincas urbanas    11 Cádiz    Hasta 9 años
+## 5430                Fincas de regadío 02 Albacete    Hasta 9 años
+## 39845 Total fincas rústicas y urbanas     24 León De 10 a 15 años
+##                    importe periodo  total
+## 25787  Número de hipotecas    1997       
+## 46617 Importe de hipotecas    1997  1.899
+## 35088  Número de hipotecas    1996     83
+## 33138 Importe de hipotecas    1996 51.369
+## 5430   Número de hipotecas    1994     13
+## 39845  Número de hipotecas    1999  3.617</code></pre>
+</div>
+<div id="de-tabla-larga-a-tabla-ancha" class="section level2">
+<h2>De tabla larga a tabla ancha</h2>
+<p>En el resumen <code>summary()</code> de los datos he visto algo raro…. si os fijais, la columna “<em>importe</em>” tiene solo dos posibles valores Número de hipotecas, Importe de hipotecas y tiene pinta de que a cada valor de <em>importe</em> le corresponde un valor de la columna <em>total</em>. Esto no cumple los principios de <a href="#intro">datos procesados</a>.</p>
+<p>Han incluido dos variables en una misma columna. Es un típico caso de <em>tabla larga</em>, que hay que pasar a <em>tabla ancha</em>. Cada uno de los dos valores únicos de la columna “<em>importe</em>” están relacionados con la columna “<em>total</em>”, así que vamos a <strong>desdoblar</strong> esta columna en dos usando la librería <code>tidyr</code>incluida en <em>tidyverse</em> con la función <code>pivot_wider()</code> en la que decimos la columna que contiene los nombres y la columna que tiene los datos y la desdobla así creando 2 nuevas columnas.</p>
+<pre class="r"><code>library(tidyverse)# tidyr
+# vamos a coger los datos de nombre de la col importe y los valores de total
+viv_ancha &lt;- pivot_wider(viv_df, names_from = importe, values_from = total)
+# cambiamos los nombres de las dos columnas nuevas
+names(viv_ancha)[5]&lt;-&quot;num_hipo&quot;
+names(viv_ancha)[6]&lt;-&quot;import_hipo&quot;
+
+# Vemos algunos registros aleatorios de esta nueva tabla
+viv_ancha[sample(1:nrow(viv_ancha),6),]</code></pre>
+<pre><code>## # A tibble: 6 x 6
+##   t_finca              provincia              años  periodo num_hipo import_hipo
+##   &lt;chr&gt;                &lt;chr&gt;                  &lt;chr&gt;   &lt;int&gt; &lt;chr&gt;    &lt;chr&gt;      
+## 1 Otros                21 Huelva              Hast~    2003 &quot;283&quot;    &quot;41.055&quot;   
+## 2 Fincas de secano     18 Granada             De 1~    2000 &quot;566&quot;    &quot;40.166&quot;   
+## 3 Otros                33 Asturias            De 1~    2003 &quot;826&quot;    &quot;112.502&quot;  
+## 4 Total bienes muebles 38 Santa Cruz de Tene~ Total    2000 &quot;&quot;       &quot;&quot;         
+## 5 Fincas de secano     16 Cuenca              De 1~    2001 &quot;140&quot;    &quot;6.130&quot;    
+## 6 Otros                15 Coruña, A           De 1~    2002 &quot;735&quot;    &quot;84.966&quot;</code></pre>
+<p>El proceso inverso se haría con la función <code>pivot_longer()</code>.</p>
+</div>
+<div id="convertir-a-números-los-factores" class="section level2">
+<h2>Convertir a números los factores</h2>
+<p>Hay varias columnas numéricas que como vemos en el resumen las toma como factores o texto según hayamos usado <code>stringsAsFactors = T</code> en la lectura de los datos. El problema es que las variables numéricas no las ha interpretado como tal, quizás por el punto de los miles,así que vamos a quitarlo y transformar a numéricas.</p>
+<p>Para hacer esto usaremos la función <code>gsub(patron_a_cambiar,texto_remplazo,vector)</code>.</p>
+<pre class="r"><code># convertimos las columnas de texto a numéricas y antes eliminamos el punto de miles
+viv_ancha$import_hipo&lt;-as.numeric(gsub(&quot;[.]&quot;, &quot;&quot;,viv_ancha$import_hipo))
+viv_ancha$num_hipo&lt;-as.numeric(gsub(&quot;[.]&quot;, &quot;&quot;,viv_ancha$num_hipo))
+
+# Vemos algunos registros aleatorios
+viv_ancha[sample(1:nrow(viv_ancha),6),]</code></pre>
+<pre><code>## # A tibble: 6 x 6
+##   t_finca                         provincia   años  periodo num_hipo import_hipo
+##   &lt;chr&gt;                           &lt;chr&gt;       &lt;chr&gt;   &lt;int&gt;    &lt;dbl&gt;       &lt;dbl&gt;
+## 1 Total fincas rústicas           43 Tarrago~ Hast~    1994       75        8721
+## 2 Otros                           52 Melilla  Total    1999        8         535
+## 3 Total bienes muebles            44 Teruel   No c~    1997       NA          NA
+## 4 Viviendas                       11 Cádiz    Mayo~    1996     4315      177040
+## 5 Viviendas                       38 Santa C~ Total    1999    11614      635678
+## 6 Total fincas rústicas y urbanas 20 Gipuzkoa No c~    1998      221       23752</code></pre>
+</div>
+<div id="valores-inválidos" class="section level2">
+<h2>Valores inválidos</h2>
+<p>Ahora nos surge otro problema, y es que vemos que los datos tiene muchos valores inválidos o <em>NA</em>. Los valores inválidos hay que contarlos siempre, para estimar la calidad de la muestra y quitarlos o imputarlos (rellenar con formulación en caso de que lo creamos necesario). En nuestro ejemplo fundamentalmente los quitaremos para las gráficas, pero hay que ver cuantos hay con las funciones siguientes.</p>
+<pre class="r"><code>sum(is.na(viv_ancha)) # cuenta los NAs totales</code></pre>
+<pre><code>## [1] 7930</code></pre>
+<pre class="r"><code>sum(complete.cases(viv_ancha)) # cuenta los casos completos de la tabla</code></pre>
+<pre><code>## [1] 19882</code></pre>
+<pre class="r"><code>nrow(na.omit(viv_ancha))# omite los casos inválidos y cuenta los que hay</code></pre>
+<pre><code>## [1] 19882</code></pre>
+<pre class="r"><code>#guardamos una nueva tabla solo con casos completos
+viv_ancha2&lt;-na.omit(viv_ancha)</code></pre>
+</div>
+<div id="aggregate" class="section level2">
+<h2>aggregate</h2>
+<p>Solo nos queda añadir al resumen de funciones un ejemplo de <code>aggregate</code> que para mi es una de las funciones más útiles en esta fase de ver los datos, pues nos permite hacer subtotales fácilmente.</p>
+<pre class="r"><code># calculamos el num de hipotecas por año, descontando el total nacional
+aggregate(num_hipo ~ periodo,viv_ancha[!viv_ancha$provincia == &quot;Total Nacional&quot;,],sum)</code></pre>
+<pre><code>##    periodo num_hipo
+## 1     1994  3054724
+## 2     1995  2888260
+## 3     1996  2941378
+## 4     1997  3417252
+## 5     1998  3797014
+## 6     1999  4196080
+## 7     2000  4452730
+## 8     2001  4479478
+## 9     2002  5021326
+## 10    2003  5566308</code></pre>
+</div>
+</div>
+<div id="p2" class="section level1">
+<h1>Parte 2. Librerías para EDA básico</h1>
+<p>Hemos visto las funciones básicas de R para echar un vistazo inicial a los datos, a estas funciones les podemos añadir todas las funciones gráficas que queramos, con las que poder pintar las variables y sus relaciones (como <code>hist()</code>, <code>plot()</code>, o librerías como <code>ggplot()</code>), pero en lugar de hacerlo así, dedicaremos esta 2º parte a ver paquetes <em>específicos para EDA</em> y que directamente nos dan unas buenas funciones gráficas y tablas resumen en pocas líneas de código.</p>
+<div id="skimr" class="section level2">
+<h2>skimr</h2>
+<p><code>skimr</code> es una librería que da un primer vistazo bueno y rápido al generar una <em>mini-gráfica</em> de histograma, así como un resumen completo por variables, pensado especialmente para verlo en pantalla y no para generar informes finales.</p>
+<pre class="r"><code>library(skimr)
+skim(viv_ancha) # función principal</code></pre>
+<table>
+<caption><span id="tab:unnamed-chunk-10">Table 1: </span>Data summary</caption>
+<tbody>
+<tr class="odd">
+<td align="left">Name</td>
+<td align="left">viv_ancha</td>
+</tr>
+<tr class="even">
+<td align="left">Number of rows</td>
+<td align="left">23850</td>
+</tr>
+<tr class="odd">
+<td align="left">Number of columns</td>
+<td align="left">6</td>
+</tr>
+<tr class="even">
+<td align="left">_______________________</td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">Column type frequency:</td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">character</td>
+<td align="left">3</td>
+</tr>
+<tr class="odd">
+<td align="left">numeric</td>
+<td align="left">3</td>
+</tr>
+<tr class="even">
+<td align="left">________________________</td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">Group variables</td>
+<td align="left">None</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Variable type: character</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">skim_variable</th>
+<th align="right">n_missing</th>
+<th align="right">complete_rate</th>
+<th align="right">min</th>
+<th align="right">max</th>
+<th align="right">empty</th>
+<th align="right">n_unique</th>
+<th align="right">whitespace</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">t_finca</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">5</td>
+<td align="right">31</td>
+<td align="right">0</td>
+<td align="right">9</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">provincia</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">7</td>
+<td align="right">25</td>
+<td align="right">0</td>
+<td align="right">53</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">años</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">5</td>
+<td align="right">16</td>
+<td align="right">0</td>
+<td align="right">5</td>
+<td align="right">0</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Variable type: numeric</strong></p>
+<table>
+<colgroup>
+<col width="10%" />
+<col width="7%" />
+<col width="10%" />
+<col width="7%" />
+<col width="7%" />
+<col width="3%" />
+<col width="5%" />
+<col width="5%" />
+<col width="6%" />
+<col width="6%" />
+<col width="29%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">skim_variable</th>
+<th align="right">n_missing</th>
+<th align="right">complete_rate</th>
+<th align="right">mean</th>
+<th align="right">sd</th>
+<th align="right">p0</th>
+<th align="right">p25</th>
+<th align="right">p50</th>
+<th align="right">p75</th>
+<th align="right">p100</th>
+<th align="left">hist</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">periodo</td>
+<td align="right">0</td>
+<td align="right">1.00</td>
+<td align="right">1998.50</td>
+<td align="right">2.87</td>
+<td align="right">1994</td>
+<td align="right">1996.0</td>
+<td align="right">1998.5</td>
+<td align="right">2001.00</td>
+<td align="right">2003</td>
+<td align="left">▇▇▇▇▇</td>
+</tr>
+<tr class="even">
+<td align="left">num_hipo</td>
+<td align="right">3962</td>
+<td align="right">0.83</td>
+<td align="right">4003.88</td>
+<td align="right">31203.57</td>
+<td align="right">1</td>
+<td align="right">28.0</td>
+<td align="right">170.0</td>
+<td align="right">1103.25</td>
+<td align="right">927629</td>
+<td align="left">▇▁▁▁▁</td>
+</tr>
+<tr class="odd">
+<td align="left">import_hipo</td>
+<td align="right">3968</td>
+<td align="right">0.83</td>
+<td align="right">298009.94</td>
+<td align="right">2496672.87</td>
+<td align="right">2</td>
+<td align="right">2002.5</td>
+<td align="right">14202.0</td>
+<td align="right">87294.75</td>
+<td align="right">99932769</td>
+<td align="left">▇▁▁▁▁</td>
+</tr>
+</tbody>
+</table>
+<p>Se puede extraer cada una de las partes de este resumen:</p>
+<pre class="r"><code>#resumen de valores numéricos
+viv_ancha %&gt;%
+  skim() %&gt;%
+  yank(&quot;numeric&quot;)</code></pre>
+<p><strong>Variable type: numeric</strong></p>
+<table>
+<colgroup>
+<col width="10%" />
+<col width="7%" />
+<col width="10%" />
+<col width="7%" />
+<col width="7%" />
+<col width="3%" />
+<col width="5%" />
+<col width="5%" />
+<col width="6%" />
+<col width="6%" />
+<col width="29%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">skim_variable</th>
+<th align="right">n_missing</th>
+<th align="right">complete_rate</th>
+<th align="right">mean</th>
+<th align="right">sd</th>
+<th align="right">p0</th>
+<th align="right">p25</th>
+<th align="right">p50</th>
+<th align="right">p75</th>
+<th align="right">p100</th>
+<th align="left">hist</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">periodo</td>
+<td align="right">0</td>
+<td align="right">1.00</td>
+<td align="right">1998.50</td>
+<td align="right">2.87</td>
+<td align="right">1994</td>
+<td align="right">1996.0</td>
+<td align="right">1998.5</td>
+<td align="right">2001.00</td>
+<td align="right">2003</td>
+<td align="left">▇▇▇▇▇</td>
+</tr>
+<tr class="even">
+<td align="left">num_hipo</td>
+<td align="right">3962</td>
+<td align="right">0.83</td>
+<td align="right">4003.88</td>
+<td align="right">31203.57</td>
+<td align="right">1</td>
+<td align="right">28.0</td>
+<td align="right">170.0</td>
+<td align="right">1103.25</td>
+<td align="right">927629</td>
+<td align="left">▇▁▁▁▁</td>
+</tr>
+<tr class="odd">
+<td align="left">import_hipo</td>
+<td align="right">3968</td>
+<td align="right">0.83</td>
+<td align="right">298009.94</td>
+<td align="right">2496672.87</td>
+<td align="right">2</td>
+<td align="right">2002.5</td>
+<td align="right">14202.0</td>
+<td align="right">87294.75</td>
+<td align="right">99932769</td>
+<td align="left">▇▁▁▁▁</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="visdat" class="section level2">
+<h2>visdat</h2>
+<p>Otro paquete para ver los datos es <code>visdat</code>. Esta librería tiene una gráfica que me gusta bastante como resumen, con la función <code>vis_dat()</code>, que muestra la distribución por tipo de dato, e incluso los <code>NA</code>:</p>
+<pre class="r"><code>library(visdat)
+
+#vis_miss(viv_ancha)
+vis_dat(viv_ancha)</code></pre>
+<p><img src="{{< blogdown/postref >}}index.es_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+</div>
+<div id="inspectdf" class="section level2">
+<h2>inspectdf</h2>
+<p>Como tercera opción y la que más me gusta está la librería <em>inspectdf</em> que proporciona gráficos resumen de gran calidad y concreción. La salida gráfica para las variables factores está muy conseguida y en general son intuitivos y de fácil comprensión.</p>
+<p>Podeis encontrar más información en este fantástico <a href="https://www.littlemissdata.com/blog/inspectdf">post de littlemissdata</a>. Veamos varias gráficas obtenidas con esta librería aplicada directamente a algunas de las tablas que hemos procesado en el ejemplo.</p>
+<pre class="r"><code>#devtools::install_github(&quot;alastairrushworth/inspectdf&quot;)
+library(inspectdf)
+
+# Graficas EDA con inspectdf sobre los datos de ejemplo
+inspect_types(viv_ancha) %&gt;% show_plot() # tipos de datos</code></pre>
+<p><img src="{{< blogdown/postref >}}index.es_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<pre class="r"><code>inspect_mem(viv_ancha) %&gt;% show_plot() # basic sizing information</code></pre>
+<p><img src="{{< blogdown/postref >}}index.es_files/figure-html/unnamed-chunk-13-2.png" width="672" /></p>
+<pre class="r"><code>inspect_na(viv_ancha) %&gt;% show_plot() # no va</code></pre>
+<p><img src="{{< blogdown/postref >}}index.es_files/figure-html/unnamed-chunk-13-3.png" width="672" /></p>
+<pre class="r"><code>inspect_cat(viv_ancha) %&gt;% show_plot() # ver categóricos</code></pre>
+<p><img src="{{< blogdown/postref >}}index.es_files/figure-html/unnamed-chunk-13-4.png" width="672" />
+La gráfica que proporciona dividiendo por categorías es de lo mejor que he visto, muy visual y que permite un primer vistazo potente.</p>
+<p>Las que resumen los datos numéricos también, pero en la tabla de muestra no se aprecia, así que vamos a pintar más ejemplos, pero usando la tabla <code>airquality</code> con datos de calidad del aire:</p>
+<pre class="r"><code>inspect_num(airquality) %&gt;% show_plot() # explorar los numeric</code></pre>
+<p><img src="{{< blogdown/postref >}}index.es_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<pre class="r"><code>inspect_types(airquality) %&gt;% show_plot()</code></pre>
+<p><img src="{{< blogdown/postref >}}index.es_files/figure-html/unnamed-chunk-14-2.png" width="672" /></p>
+<pre class="r"><code>inspect_num(airquality) %&gt;% show_plot()</code></pre>
+<p><img src="{{< blogdown/postref >}}index.es_files/figure-html/unnamed-chunk-14-3.png" width="672" /></p>
+<p>Una cosa interesante de <em>inspectdf</em> es que se puede comprar dos tablas similares, que tengan las mismas columnas y nos da gráficas muy interesantes. Por ejemplo, las tablas <em>viv_ancha</em> y <em>viv_ancha2</em> se diferencian en que quitamos los NA o inválidos, veamos como lo representa:</p>
+<pre class="r"><code># comparativa de dos tablas procesadas una sin NA
+inspect_na(viv_ancha,viv_ancha2) %&gt;% show_plot() # no va</code></pre>
+<p><img src="{{< blogdown/postref >}}index.es_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+<pre class="r"><code>inspect_cat(viv_ancha, viv_ancha2) %&gt;% show_plot() # ver </code></pre>
+<p><img src="{{< blogdown/postref >}}index.es_files/figure-html/unnamed-chunk-15-2.png" width="672" /></p>
+</div>
+</div>
+<div id="p3" class="section level1">
+<h1>Parte 3. EDA automático</h1>
+<p>En esta tercera parte veremos paquetes que generan un informe completo y automático a partir de la tabla de datos, son la solución para tontos: <em>pulse el botón rojo y listo</em> 😜.</p>
+<p>En realidad estas librerías son excelentes cuando tenemos unos datos de partida complejos con muchas columnas y registros, pues dan una salida resumen rápida y estructurada con excelentes gráficas, perfectas para copiar en informes.</p>
+<div id="dataexplorer" class="section level2">
+<h2>DataExplorer</h2>
+<p><code>DataExplorer</code> es la librería más conocida para análisis exploratorio <em>EDA</em>. Es muy simple y ofrece una salida -tipo informe- que aporta muchísima información. Su uso es tan fácil que asusta, solo cargamos la librería y llamamos la función <code>create_report</code> sobre la tabla que queremos ver.</p>
+<pre class="r"><code>library(DataExplorer)
+# llamada a la función informe automático
+create_report(viv_ancha)</code></pre>
+<p>Lo que hace la función <code>create_report</code> es generar un documento en formato <em>html</em> llamado <em>report.html</em> que se guarda en el directorio de trabajo (si no sabes cual es usa <code>getwd()</code>). Si abrimos ese fichero veremos un completo análisis cuyo indice es el siguiente:</p>
+<div class="figure">
+<img src="images/dataexplorer_index.png" alt="" />
+<p class="caption">indice del informe DataExplorrer</p>
+</div>
+<p>Cada una de las gráficas y tablas del informe se puede hacer de forma independiente con funciones específicas de la librería, por ejemplo:</p>
+<pre class="r"><code>library(DataExplorer)
+introduce(viv_ancha) #tabla resumen de columnas y tipos</code></pre>
+<pre><code>## # A tibble: 1 x 9
+##    rows columns discrete_columns continuous_columns all_missing_columns
+##   &lt;int&gt;   &lt;int&gt;            &lt;int&gt;              &lt;int&gt;               &lt;int&gt;
+## 1 23850       6                3                  3                   0
+## # ... with 4 more variables: total_missing_values &lt;int&gt;, complete_rows &lt;int&gt;,
+## #   total_observations &lt;int&gt;, memory_usage &lt;dbl&gt;</code></pre>
+<pre class="r"><code># gráfico intro
+plot_intro(viv_ancha)</code></pre>
+<p><img src="{{< blogdown/postref >}}index.es_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
+<pre class="r"><code> #plot_missing(viv_ancha)
+ #plot_bar(viv_ancha) # grafica de factores
+plot_bar(viv_ancha,by = &quot;t_finca&quot;) # grafica de un</code></pre>
+<p><img src="{{< blogdown/postref >}}index.es_files/figure-html/unnamed-chunk-17-2.png" width="672" /></p>
+<pre class="r"><code> #plot_correlation(viv_ancha, maxcat = 5L) # correlacion de 5 primeras categorías
+ #plot_histogram(viv_ancha)</code></pre>
+<p>Puedes encontrar más información de este paquete en:<a href="https://cran.r-project.org/web/packages/DataExplorer/vignettes/dataexplorer-intro.html" class="uri">https://cran.r-project.org/web/packages/DataExplorer/vignettes/dataexplorer-intro.html</a></p>
+</div>
+<div id="smarteda" class="section level2">
+<h2>SmartEDA</h2>
+<p>Otra librería parecida es <code>SmartEDA</code>, con un funcionamiento similar a <code>DataExplorer</code>, aunque tiene una diferencias muy agradecida y es que escribe el código de cada gráfica o tabla en el informe. La función principal es <code>ExpReport()</code></p>
+<pre class="r"><code>library(SmartEDA)
+data&lt;- airquality
+# funcioin que genera un informa completo
+ExpReport(data,op_file=&#39;informeEDA.html&#39;)
+
+# si queremos alguna gráfica o tabla por separado
+ExpData(data=data,type=1)
+ExpData(data=data,type=2)
+
+ExpNumStat(data,by=&quot;A&quot;,gp=NULL,Qnt=seq(0,1,0.1),MesofShape=2,Outlier=TRUE,round=2)
+# una tabla resumen con multitud de estadisticos de las variables numericas
+ExpNumStat(viv_ancha,by=&quot;A&quot;,gp=NULL,round=2)</code></pre>
+<p>Esta es una imagen del informe de salida:</p>
+<p><img src="images/SmartEDA.png" width="400" /></p>
+</div>
+<div id="dlookr" class="section level2">
+<h2>dlookr</h2>
+<p>Otra librería, para mi la mejor, para EDA es <a href="https://choonghyunryu.github.io/dlookr/">dlookr</a>. Con una simple función nos genera un completísimo informe de los datos origen en formato página web.</p>
+<p>Además tiene mil opciones de estadísticos, gráficas o transformaciones, incluso imputación de valores NA (relleno de datos).</p>
+<p>Vamos a poner algunos simples ejemplos. Para generar el informe completo se usa la función <code>diagnose_web_report()</code> o <code>eda_web_report()</code> según el interés ultimo que buscamos.</p>
+<pre class="r"><code>library(dlookr)
+library(dplyr)
+#library(nycflights13)# Para los datos de ejemplo 
+eda_web_report(viv_ancha2)
+diagnose_web_report(viv_ancha) # </code></pre>
+<p>Una imagen del informe de salida es así:</p>
+<div class="figure">
+<img src="images/dlookr.png" width="400" alt="" />
+<p class="caption">dlookr imagen de informe salida</p>
+</div>
+<p>La librería tiene mil opciones de análisis y entre las funciones disponibles, aquí van algunos ejemplos:</p>
+<pre class="r"><code>library(dlookr)
+library(dplyr)
+
+diagnose(viv_ancha)</code></pre>
+<pre><code>## # A tibble: 6 x 6
+##   variables   types     missing_count missing_percent unique_count unique_rate
+##   &lt;chr&gt;       &lt;chr&gt;             &lt;int&gt;           &lt;dbl&gt;        &lt;int&gt;       &lt;dbl&gt;
+## 1 t_finca     character             0             0              9    0.000377
+## 2 provincia   character             0             0             53    0.00222 
+## 3 años        character             0             0              5    0.000210
+## 4 periodo     integer               0             0             10    0.000419
+## 5 num_hipo    numeric            3962            16.6         5027    0.211   
+## 6 import_hipo numeric            3968            16.6        12661    0.531</code></pre>
+<pre class="r"><code>describe(viv_ancha)</code></pre>
+<pre><code>## # A tibble: 3 x 26
+##   variable        n    na    mean      sd se_mean    IQR skewness kurtosis   p00
+##   &lt;chr&gt;       &lt;int&gt; &lt;int&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;
+## 1 periodo     23850     0   1998.  2.87e0 1.86e-2     5       0      -1.22  1994
+## 2 num_hipo    19888  3962   4004.  3.12e4 2.21e+2  1075.     18.2   381.       1
+## 3 import_hipo 19882  3968 298010.  2.50e6 1.77e+4 85292.     22.4   619.       2
+## # ... with 16 more variables: p01 &lt;dbl&gt;, p05 &lt;dbl&gt;, p10 &lt;dbl&gt;, p20 &lt;dbl&gt;,
+## #   p25 &lt;dbl&gt;, p30 &lt;dbl&gt;, p40 &lt;dbl&gt;, p50 &lt;dbl&gt;, p60 &lt;dbl&gt;, p70 &lt;dbl&gt;,
+## #   p75 &lt;dbl&gt;, p80 &lt;dbl&gt;, p90 &lt;dbl&gt;, p95 &lt;dbl&gt;, p99 &lt;dbl&gt;, p100 &lt;dbl&gt;</code></pre>
+<pre class="r"><code>normality(viv_ancha)</code></pre>
+<pre><code>## # A tibble: 3 x 4
+##   vars        statistic  p_value sample
+##   &lt;chr&gt;           &lt;dbl&gt;    &lt;dbl&gt;  &lt;dbl&gt;
+## 1 periodo         0.936 6.93e-42   5000
+## 2 num_hipo        0.100 1.13e-88   5000
+## 3 import_hipo     0.105 1.52e-88   5000</code></pre>
+<pre class="r"><code>plot_normality(viv_ancha)</code></pre>
+<p><img src="{{< blogdown/postref >}}index.es_files/figure-html/unnamed-chunk-20-1.png" width="672" /><img src="{{< blogdown/postref >}}index.es_files/figure-html/unnamed-chunk-20-2.png" width="672" /><img src="{{< blogdown/postref >}}index.es_files/figure-html/unnamed-chunk-20-3.png" width="672" /></p>
+<pre class="r"><code>plot_correlate(viv_ancha)</code></pre>
+<p><img src="{{< blogdown/postref >}}index.es_files/figure-html/unnamed-chunk-20-4.png" width="672" /></p>
+<p>Recomendamos leer su web y la descripción de las funciones al detalle para sacar partido a esta maravilla.</p>
+</div>
+</div>
