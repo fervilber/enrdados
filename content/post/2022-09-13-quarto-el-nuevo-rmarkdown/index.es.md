@@ -2,25 +2,23 @@
 title: Quarto el nuevo rMarkdown
 author: F.Vilber
 date: '2022-09-13'
+slug: []
 categories:
   - markdown
 tags:
   - markdown
 description: 'Quarto es el nuevo lenguaje documental de RSTUDIO'
 thumbnail: '/post/2022-09-13-quarto-el-nuevo-rmarkdown/images/quarto_1.jpg'
-slug: quarto-el-nuevo-rmarkdown
 toc: true
 ---
 
-<img src="images/quarto_1.jpg" alt="rmarkdown y quarto" width="80%"/>
-
 ## Quarto el nuevo rMarkdown
 
-La novedad de este verano ha sido la publicación de (Quarto)[https://quarto.org/] por RSTUDIO, que como veremos se trata de un nuevo *Rmarkdown* "mejorado".
+La novedad de este verano ha sido la publicación de (Quarto)[https://quarto.org/] por RSTUDIO, que como veremos, se trata de un nuevo *Rmarkdown* "mejorado".
 
 Según parece el objetivo principal que persiguen con este nuevo lenguaje de publicación, es integrar mejoras, pero especialmente ampliar su territorio de uso a los programadores de *python*, y presentar un estándar más escalable a otros lenguajes.
 
-El anuncio oficial del pasado 28 de julio lo puedes leer [aquí] (https://www.rstudio.com/blog/announcing-quarto-a-new-scientific-and-technical-publishing-system/).
+El anuncio oficial del pasado 28 de julio lo puedes leer [aquí](https://www.rstudio.com/blog/announcing-quarto-a-new-scientific-and-technical-publishing-system/).
 
 *rMarkdown* ha sido sin duda uno de los impulsores del ecosistema R, haciendo fácil la integración de código en texto lo que simplifica la publicación de artículos y documentos en cualquier formato conocido y de calidad excelente. Rmarkdown básicamente permite integrar script de código dentro de documentos de texto que luego exportamos a pdf, Word, html o LaTeX entre muchos otros resultados.
 
@@ -92,7 +90,9 @@ Al igual que existe RPubs para publicar Rmarkdown, los creadores de Quarto han h
 Aquí puedes encontrar una guía completa de cómo usar este lenguaje:
  
  * https://quarto.org/
- 
+ * <a href="https://quarto.org/"
+target="_blank" rel="noopener">
+<span>quarto.org</span></a>
  
 Un saludo amig@s y
 
