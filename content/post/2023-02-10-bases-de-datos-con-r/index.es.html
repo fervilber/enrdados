@@ -1,0 +1,241 @@
+---
+title: Bases de datos con R
+author: F.VilBer
+date: '2023-02-10'
+slug: []
+categories:
+  - R
+tags:
+  - series temorales
+description: 'Como usar bases de datos desde R, ma manera fácil'
+thumbnail: ''
+---
+
+
+
+<p>Usar una base de datos para nuestros programas o análisis de datos en R es bastante más fácil de lo parece y es una forma interesante de almacenar los datos y acceder a ellos de manera estructurada. Sinceramente creo que la mayoría no lo usa por puro desconocimiento, pero los datos en bases de datos están mejor guardados, se gestionan mejor y es más fácil compartirlos que en ficheros, así que vamos a poner un ejemplo simple de uso que os anime y os sirva para vuestros propios proyectos.</p>
+<div id="t1" class="section level2">
+<h2>Ficheros nativos de R para datos</h2>
+<p>Antes de entrar en el tema de bases de datos, lo normal es que usemos para almacenamiento de los datos ficheros tipo <code>*.csv</code> por ejemplo, pero R tiene dos formatos nativos para almacenar en local datos que son interesantes se trata de los tipos: <code>*.RData</code> y <code>*.RDS</code> con la ventaja de ser muy compactos y de acceso súper rápido.</p>
+<p>La diferencia entre ambos es que el formato <em>.RData</em> guarda varios objetos, mientras que los <em>.RDS</em> solo pueden almacenar uno, aunque si ese uno es una lista … pues tienes ya varios objetos.</p>
+<p>Su uso es muy sencillo, basta con usar la función <code>save()</code> y <code>load()</code> para los <em>.RData</em>, y los datos se nos cargan en memoria con el mismo nombre que tenían:</p>
+<pre class="r"><code># Guardamos todos los objetos de la sesión
+save(list = ls(all = TRUE), file= &quot;./datos/todos.RData&quot;)
+
+# para cargarlos después usamos load
+load(&quot;./datos/datos/todos.RData&quot;)</code></pre>
+<p>El caso de <em>.RDS</em> es parecido, con la ventaja de que al importar le podemos dar nombre, cosa que con <em>.RData</em> no se puede ya que lo importa todo tal cual se almacenó :</p>
+<pre class="r"><code># guardar un objeto como rds
+write_rds(mi_objeto, &quot;datos/variable.rds&quot;)
+
+# importar un objeto RDS
+objeto1 &lt;- readRDS(&quot;datos/variable.rds&quot;)</code></pre>
+<p>Como vemos almacenar los datos de trabajo en estos formatos es simple, pero no es una manera estructurada de tenerlos, ni de acceder a ellos ordenadamente lo que se consigue a través de bases de datos.</p>
+</div>
+<div id="t2" class="section level2">
+<h2>Bases de datos en R</h2>
+<p>Si los datos tabulados son la base de tu investigación en R, quizás sería conveniente no usar ficheros locales (<em>.RData</em>, <em>.csv</em>) y te interese organizarlos en una base de datos donde estarán más ordenados y el acceso será eficiente y optimizado. Las bases de datos llevan ya unos cuantos años con nosotros y la programación de los <em>drivers</em> de acceso interno está altamente optimizada.</p>
+<p>Una base de datos (típica tipo relacional) es un conjunto de tablas con columnas-variables y filas-registros. Estas tablas pueden estar relacionadas unas con otras mediante enlaces (joins) siempre que tengan algún campo común que las ligue.</p>
+<p>Para consultar una base de datos relacional se usa el lenguaje SQL (<em>Structured Query Language</em>) que es un estándar aceptado por todos los sistemas. Existen varios tipos de bases de datos, pero para entornos de programación habituales las más usadas son las bases de datos relacionales, que son las típicas formadas por tablas de variables y registros.</p>
+<p>Nota: Actualmente se usa mucha información tipo no relacional o <em>NoSQL</em> en bases de datos formadas por estructuras flexibles no tabuladas (por ejemplo formada por ficheros JSON). Este tipo de bases de datos es también accesible desde R, pero se escapa de esta breve introducción al tema.</p>
+<p>Para acceder a una base de datos se han creado driver específicos que gestionan la parte compleja y permiten interactuar de manera sencilla con ellas. Este <em>driver</em> es específico para cada tipo de base de datos y básicamente dependen del creador de la misma y los principales son: los sistemas <em>JDBC</em> (de Oracle) o el <em>ODBC</em> (de Microsoft). Al final estos entornos actúan como APIs, gestionando la comunicación entre la base de datos y el lado del cliente y son estándares.</p>
+<p>En R hay paquetes que permiten la conexión <em>ODBC</em> directamente, la JDBC tiene que pasar por Java, pero vamos a simplificar las cosas, nos olvidamos de ODBC y vamos directos a usar <strong>DBI</strong> (<em>DataBase Interface</em>). <em>DBI</em> fue una propuesta para dar acceso nativo a bases de datos desde R, tiene muchas ventajas, unos métodos claros y una forma de trabajo simple.</p>
+<p>El paquete DBI proporciona la sintaxis adecuada para acceso a múltiples tipos de bases de datos (SQLite, MySQL, MariaDB, PostgreSQL, Oracle). Esta librería aporta funciones genéricas para interactuar con la la base de datos desde R permitiendo por ejemplo mandar consultas SQL.</p>
+<p>Usar el paquete DBI es bastante simple, pero tiene una desventaja, y es que para usar la base de datos debemos saber cómo hacer consultas a la misma (debemos usar el lenguaje SQL). Aunque este lenguaje de consultas es sencillo, no resulta adecuado para entorno de programación, pues sus llamadas son en texto plano y se extienden bastante. Además para consultas complejas se puede complicar con mucho texto descriptivo. Por lo tanto, y aunque anotamos que podemos usar <code>library(DBI)</code> para muchas cosas, no va a ser el paquete que usemos en este ejemplo introductorio a las bases de datos en R, y apostamos por lo más simple y directo que es usar <em>dplyr</em>.</p>
+</div>
+<div id="dplyr" class="section level2">
+<h2>dplyr</h2>
+<p>Esta librería (<em>dplyr</em>) integra a la perfección el entorno R de <em>tidyverse</em> con las bases de datos (usa DBI de fondo) y da como resultado una forma natural de usar desde R accesos a bases de datos utilizando el mismo tipo de programación y coherencia de datos a la que estamos acostumbrados los erreros.</p>
+<p>Además contiene conectores para la mayoría de los tipos habituales de bases de datos entre las que se encuentran SQLite, PostgreSQL, MySQL/MariaDB, Hadoop, Spark, Hive, Impala.</p>
+<p>Para hacer este sencillo, pero completo ejemplo vamos a usar <em>RSQLite</em>, que es una extensión de las bases de datos <a href="https://www.sqlite.org/index.html">SQLite</a> sobre el motor de R. Todo lo necesario para esto lo tenemos en la librería <em>RSQLite</em>.</p>
+<p><em>SQLite</em> es motor de bases de datos más usado del mundo, es de código libre, dominio público y un motor rápido, pequeño, optimizado y autocontenido que incluye todos los estándares que pueden esperarse de bases de datos habituales.</p>
+</div>
+<div id="ejemplo-práctico" class="section level2">
+<h2>Ejemplo práctico</h2>
+<p>Vamos con el caso práctico, que va de bolsa, un tema que ya sabeis que me gusta, y del que además podemos descargar muchos datos de internet.</p>
+<p>En este caso vamos a usar las series diarias de un par de acciones de bolsa y las vamos a almacenar en una base de datos <em>RSQLite</em> todo desde R.</p>
+<p>Lo primero es cargar las librerías que necesitamos y con la función <code>dbConnect</code> creamos directamente la base de datos en una ruta local que se almacenará como un fichero tipo <em>.rsqlite</em>. Si existiese ya el fichero, en lugar de crearse se conectaría a la misma, estableciendo una conexión que es el enlace que usaremos en cada llamada posterior.
+<em>RSQLite</em> es autocontenido por lo que es una opción estupenda para almacenar los datos en el equivalente a un fichero, pero con la ventaja de ser base de datos.</p>
+<pre class="r"><code># Librerías necesarias( aunque en el pc tienes que tener ODBC instalado)
+	library(RSQLite)
+	library(dplyr)
+
+# CREARMOS BASE DE DATOS 
+# para ello establecemos la conexión inicial
+	con &lt;- dbConnect(
+	  SQLite(),
+	  &quot;datos_bolsa.sqlite&quot;, # ruta local de la bd
+	  extended_types = TRUE  # es necesario para que almacene tipos no integer
+	)
+
+# para cerrar la conexion una vez finalizadas las consultas usaremos:
+# dbDisconnect(con)</code></pre>
+<p>Si es la primera vez que lo ejecutamos, la base de datos estará vacía, así que lo primero será descargar unos datos de prueba para llenar una primera tabla, para esto vamos a usar la librería <code>tidyquant</code>, que permite descargar datos de bolsa de yahoo a una tabla tipo tibble con la función <code>tq_get()</code>.</p>
+<pre class="r"><code># usaremos la libraría tidyquant para descargar datos de bolsa de internet
+	library(tidyquant)
+# La función tq_get() descarga datos del ticker
+# bajamos datos diarios de los valores de neflix y microsoft
+	aux&lt;-tq_get(c(&quot;NFLX&quot;,&quot;MSFT&quot;),get=&quot;stock.prices&quot;,from = &quot; 2022-01-01&quot;)
+	aux&lt;-na.omit(aux) # quitamos los NA si los hubiera
+	glimpse(aux) # vemos lo descargado que es un tibble</code></pre>
+<pre><code>## Rows: 556
+## Columns: 8
+## $ symbol   &lt;chr&gt; &quot;NFLX&quot;, &quot;NFLX&quot;, &quot;NFLX&quot;, &quot;NFLX&quot;, &quot;NFLX&quot;, &quot;NFLX&quot;, &quot;NFLX&quot;, &quot;NFLX…
+## $ date     &lt;date&gt; 2022-01-03, 2022-01-04, 2022-01-05, 2022-01-06, 2022-01-07, …
+## $ open     &lt;dbl&gt; 605.61, 599.91, 592.00, 554.34, 549.46, 538.49, 536.99, 544.2…
+## $ high     &lt;dbl&gt; 609.99, 600.41, 592.84, 563.36, 553.43, 543.69, 543.91, 544.2…
+## $ low      &lt;dbl&gt; 590.56, 581.60, 566.88, 542.01, 538.22, 526.32, 530.07, 532.0…
+## $ close    &lt;dbl&gt; 597.37, 591.15, 567.52, 553.29, 541.06, 539.85, 540.84, 537.2…
+## $ volume   &lt;dbl&gt; 3067500, 4393100, 4148700, 5711800, 3382900, 4486100, 3077800…
+## $ adjusted &lt;dbl&gt; 597.37, 591.15, 567.52, 553.29, 541.06, 539.85, 540.84, 537.2…</code></pre>
+<p>Ya tenemos los datos en la variable <em>aux</em>, y para almacenarlo como tabla en la base de datos usaremos la función <code>dbWriteTable()</code>:</p>
+<pre class="r"><code># CREAMOS UNA TABLA EN LA BASE DE DATOS
+     dbWriteTable(con, # nombre de la conexión a la bd
+	    &quot;DAT_DIARIOS&quot;, # nombre de la tabla creada
+	    value = aux,   # valores que se meten en la tabla
+        overwrite = TRUE
+    )
+
+# VER LAS TABLAS EXISTENTES EN LA BD
+    dbListTables(con)</code></pre>
+<pre><code>## [1] &quot;DAT_DIARIOS&quot;</code></pre>
+<pre class="r"><code># VER LOS CAMPOS EXISTENTES EN UNA TABLA
+    dbListFields(con, &quot;DAT_DIARIOS&quot;)</code></pre>
+<pre><code>## [1] &quot;symbol&quot;   &quot;date&quot;     &quot;open&quot;     &quot;high&quot;     &quot;low&quot;      &quot;close&quot;    &quot;volume&quot;  
+## [8] &quot;adjusted&quot;</code></pre>
+<pre class="r"><code># PARA BORRAR UNA TABLA
+#   dbRemoveTable(con, &quot;DAT_DIARIOS&quot;)</code></pre>
+<p>Con este simple código hemos creado la base de datos, y una primera tabla llamada DAT_DIARIOS en la que se han almacenado varios campos con los datos diarios descargados de internet de dos valores de bolsa.</p>
+<p>Si quisiéramos añadir nuevos datos a esta misma tabla, por ejemplo descargando otros datos diarios de otro valor lo haríamos con la función añadir <code>dbAppendTable()</code> así:</p>
+<pre class="r"><code># Descargamos otra serie diaria de datos de bolsa de AAPL (apple)
+	aux&lt;-tq_get(c(&quot;AAPL&quot;),get=&quot;stock.prices&quot;,from = &quot; 2022-01-01&quot;)
+	aux&lt;-na.omit(aux) # quitamos los NA si los hubiera
+	glimpse(aux) # vemos lo descargado que es un tibble</code></pre>
+<pre><code>## Rows: 278
+## Columns: 8
+## $ symbol   &lt;chr&gt; &quot;AAPL&quot;, &quot;AAPL&quot;, &quot;AAPL&quot;, &quot;AAPL&quot;, &quot;AAPL&quot;, &quot;AAPL&quot;, &quot;AAPL&quot;, &quot;AAPL…
+## $ date     &lt;date&gt; 2022-01-03, 2022-01-04, 2022-01-05, 2022-01-06, 2022-01-07, …
+## $ open     &lt;dbl&gt; 177.83, 182.63, 179.61, 172.70, 172.89, 169.08, 172.32, 176.1…
+## $ high     &lt;dbl&gt; 182.88, 182.94, 180.17, 175.30, 174.14, 172.50, 175.18, 177.1…
+## $ low      &lt;dbl&gt; 177.71, 179.12, 174.64, 171.64, 171.03, 168.17, 170.82, 174.8…
+## $ close    &lt;dbl&gt; 182.01, 179.70, 174.92, 172.00, 172.17, 172.19, 175.08, 175.5…
+## $ volume   &lt;dbl&gt; 104487900, 99310400, 94537600, 96904000, 86709100, 106765600,…
+## $ adjusted &lt;dbl&gt; 180.9597, 178.6631, 173.9106, 171.0075, 171.1765, 171.1964, 1…</code></pre>
+<pre class="r"><code># Esta vez en lugar de escribir la tabla usamos append para añadir datos a la misma
+    dbAppendTable(con, &quot;DAT_DIARIOS&quot;, aux) </code></pre>
+<pre><code>## [1] 278</code></pre>
+<p>Si hubiésemos que añadir un registro sería mejor usar la función <code>rows_insert()</code> o <code>rows_update()</code> para actualizar datos de una selección concreta (<a href="https://kevinwang09.github.io/compare-r-sql/basic.html">ver esta web para ejemplos</a>).</p>
+</div>
+<div id="acceso-a-la-bd" class="section level2">
+<h2>Acceso a la BD</h2>
+<p>Una vez creada y con datos, ¿cómo accedemos a ellos?. Pues hay que tener en cuenta una cosa, cuando hacemos una consulta <em>DBI</em> o con <em>dplyr</em> por defecto el resultado que nos muestra no es completo, nos da solo el encabezado o las primeras líneas de la consulta, por lo que si vamos a usar los datos consultados tenemos que o bien descargar la base de datos completa a memoria con la función <code>collect()</code>, o usar <code>dbFetch()</code> si usamos la libraría <em>DBI</em>.</p>
+<pre class="r"><code># ACCESO A LA BD DESDE R
+# para tener todos los datos en local usamos la función collect
+    db &lt;- tbl(con, &quot;DAT_DIARIOS&quot;) # Lee la bd como consulta, 
+    # para usar de forma completa hay que descargar con collect  
+    db &lt;- db |&gt; collect() # ahora si tenemos una copia exacta
+    glimpse(db) # vemos los datos</code></pre>
+<pre><code>## Rows: 834
+## Columns: 8
+## $ symbol   &lt;chr&gt; &quot;NFLX&quot;, &quot;NFLX&quot;, &quot;NFLX&quot;, &quot;NFLX&quot;, &quot;NFLX&quot;, &quot;NFLX&quot;, &quot;NFLX&quot;, &quot;NFLX…
+## $ date     &lt;date&gt; 2022-01-03, 2022-01-04, 2022-01-05, 2022-01-06, 2022-01-07, …
+## $ open     &lt;dbl&gt; 605.61, 599.91, 592.00, 554.34, 549.46, 538.49, 536.99, 544.2…
+## $ high     &lt;dbl&gt; 609.99, 600.41, 592.84, 563.36, 553.43, 543.69, 543.91, 544.2…
+## $ low      &lt;dbl&gt; 590.56, 581.60, 566.88, 542.01, 538.22, 526.32, 530.07, 532.0…
+## $ close    &lt;dbl&gt; 597.37, 591.15, 567.52, 553.29, 541.06, 539.85, 540.84, 537.2…
+## $ volume   &lt;dbl&gt; 3067500, 4393100, 4148700, 5711800, 3382900, 4486100, 3077800…
+## $ adjusted &lt;dbl&gt; 597.37, 591.15, 567.52, 553.29, 541.06, 539.85, 540.84, 537.2…</code></pre>
+<pre class="r"><code>    # comprobamos que tenemos los datos de los 3 valores descargados
+    unique(db$symbol)</code></pre>
+<pre><code>## [1] &quot;NFLX&quot; &quot;MSFT&quot; &quot;AAPL&quot;</code></pre>
+<p>Como veis, en 4 líneas hemos creado una base de datos completa que nos permite un acceso ordenado. Para compartir los datos bastaría con pasar el fichero <code>datos_bolsa.rsqlite</code> y crear desde R una nueva conexión a los mismos.</p>
+<p>Además al usar <a href="https://solutions.posit.co/connections/db/getting-started/">dplyr</a> las consultas a la base de datos se simplifican mucho y no es necesario saber <em>SQL</em> al hacer <em>dplyr</em> de traductor interlingua.</p>
+<p>Vamos a ver algunos ejemplos de consultas con <em>dplyr</em> sobre nuestra base de datos. en primer lugar vamos a realizar una gráfica de los valores descargados.</p>
+<pre class="r"><code># para pintar un gráfico
+library(ggplot2)
+
+# HACEMOS CONSULTA Y PINTAMOS GRÁFICA
+db %&gt;% filter(date &gt; &quot;2022-01-01&quot;) %&gt;% group_by(symbol) %&gt;% collect() %&gt;% ggplot(aes(x = date, group = symbol)) +         geom_candlestick(aes(open = open, high = high, low = low, close = close)) +
+        labs(title = &quot;Gráficas diarias&quot;, 
+             subtitle = &quot;Fecha&quot;,
+            y = &quot;Precio&quot;, x = &quot;&quot;) + 
+        facet_wrap(~ symbol, ncol=2, scale = &quot;free_y&quot;) +
+        theme_tq() # plantilla tidyquant</code></pre>
+<p><img src="{{< blogdown/postref >}}index.es_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+</div>
+<div id="consultas-con-dplyr" class="section level2">
+<h2>Consultas con dplyr</h2>
+<p>Para hacer consultas con <code>dplyr</code> usaremos el operador tubería (“pipe”) <code>%&gt;%</code> que enlaza la salida de una consulta con la siguiente. Las principales funciones que podemos usar de consulta y subselección de <code>dplyr</code> son:</p>
+<ul>
+<li><code>select()</code> para seleccionar campos o variables</li>
+<li><code>filter()</code> para seleccionar filas o registros y</li>
+<li><code>mutate()</code> para crear campos nuevos calculados.</li>
+<li><code>group_by()</code> agrupa los datos por cada valor de la variable/es indicadas</li>
+</ul>
+<p>Aunque hay muchas más disponibles:</p>
+<ul>
+<li><code>left_join()</code>, permite enlazar tablas, la primera con la segunda nombrada siempre que tengan una columna común que sirve de enlace.</li>
+<li><code>rename()</code> cambia de nombre una columna</li>
+<li><code>arrange()</code> ordena por la columna seleccionada</li>
+<li><code>transmute()</code> calcula una variable y se queda solo con esta nueva borrando el resto</li>
+<li><code>summarise()</code> calcula medias o cualquier función sobre una variable</li>
+<li><code>starts_with()</code>, <code>ends_with()</code>, <code>contains()</code>,<code>matches()</code> operadores para consulta que indica que el nombre empieza con, termina, contiene, coincide con. estos operadores están en la libraría <code>library(tidyselect)</code>.</li>
+</ul>
+<p><em>Tidyverse</em> funciona con <em>tibbles</em> en lugar de <em>data.frames</em>, la verdad que apenas notarás las diferencias, pero tienen algunas mejoras como en la presentación por defecto en pantalla. Si partimos de <em>data.frame</em> podemos hacer una conversión rápida con la función <code>as_tibble()</code> y la opuesta con <code>as.data.frame()</code>.</p>
+<p>Veamos algunos ejemplos de uso de nuestra nueva base de datos de valores diarios:</p>
+<pre class="r"><code># Seleccionar los valores de fecha y cierre de MICROSOFT desde enero 23
+  consulta1&lt;- db %&gt;% select(date,symbol,close) %&gt;% filter(date &gt; &quot;2023-01-01&quot; &amp; symbol==&quot;MSFT&quot; )
+  glimpse(consulta1)</code></pre>
+<pre><code>## Rows: 27
+## Columns: 3
+## $ date   &lt;date&gt; 2023-01-03, 2023-01-04, 2023-01-05, 2023-01-06, 2023-01-09, 20…
+## $ symbol &lt;chr&gt; &quot;MSFT&quot;, &quot;MSFT&quot;, &quot;MSFT&quot;, &quot;MSFT&quot;, &quot;MSFT&quot;, &quot;MSFT&quot;, &quot;MSFT&quot;, &quot;MSFT&quot;,…
+## $ close  &lt;dbl&gt; 239.58, 229.10, 222.31, 224.93, 227.12, 228.85, 235.77, 238.51,…</code></pre>
+<pre class="r"><code>#Selecciona los ultimos valores de la bd
+  db %&gt;% last(3)</code></pre>
+<pre><code>## # A tibble: 3 × 8
+##   symbol date        open  high   low close   volume adjusted
+##   &lt;chr&gt;  &lt;date&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;
+## 1 AAPL   2023-02-07  151.  155.  151.  155. 83322600     155.
+## 2 AAPL   2023-02-08  154.  155.  151.  152. 64120100     152.
+## 3 AAPL   2023-02-09  154.  154.  150.  151. 56007100     151.</code></pre>
+<pre class="r"><code># Cuenta cuantos datos diarios por valor
+  db %&gt;% select(date,symbol,adjusted) %&gt;%
+    group_by(symbol) %&gt;% tally()  </code></pre>
+<pre><code>## # A tibble: 3 × 2
+##   symbol     n
+##   &lt;chr&gt;  &lt;int&gt;
+## 1 AAPL     278
+## 2 MSFT     278
+## 3 NFLX     278</code></pre>
+<pre class="r"><code># qué valores hay   
+  db %&gt;%  distinct(symbol)</code></pre>
+<pre><code>## # A tibble: 3 × 1
+##   symbol
+##   &lt;chr&gt; 
+## 1 NFLX  
+## 2 MSFT  
+## 3 AAPL</code></pre>
+<pre class="r"><code># Consulta de calculos resumen
+  db %&gt;% select(symbol,adjusted) %&gt;% group_by(symbol) %&gt;% summarise(
+    min= min(adjusted),
+    max= max(adjusted),
+    var= sd(adjusted)
+  )</code></pre>
+<pre><code>## # A tibble: 3 × 4
+##   symbol   min   max   var
+##   &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 AAPL    125.  181.  13.2
+## 2 MSFT    214.  332.  25.1
+## 3 NFLX    166.  597.  91.7</code></pre>
+<pre class="r"><code># selecciona los valores de octubre 22 DE microsoft
+  consulta2 &lt;- db %&gt;% select(date,symbol,adjusted) %&gt;% filter(between(date,as.Date(&quot;2022-10-01&quot;),as.Date(&quot;2022-10-31&quot;)) &amp; symbol == &quot;MSFT&quot;) 
+
+  # HACEMOS CONSULTA Y PINTAMOS GRÁFICA
+  consulta2 %&gt;% ggplot(aes(x = date, group = symbol)) +         geom_line(aes(y=adjusted)) +
+        labs(title = &quot;Octubre 22 MSFT&quot;, 
+             subtitle = &quot;Fecha&quot;,
+            y = &quot;Precio&quot;, x = &quot;&quot;) +
+        theme_tq() # plantilla tidyquant</code></pre>
+<p><img src="{{< blogdown/postref >}}index.es_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+</div>

@@ -10,7 +10,6 @@ tags:
   - "formato"
   - "markdown"
   - "sintaxis"
-toc: true
 ---
 
 El principal propósito de este artículo es tener a mano un resumen para los formatos básicos de markdown.
