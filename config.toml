@@ -1,4 +1,4 @@
-baseurl = "https://enrdados.netlify.com/"
+baseurl = "https://enrdados.netlify.app/"
 title = "enRdados"
 languageCode = "es"
 defaultContentLanguage = "es"
