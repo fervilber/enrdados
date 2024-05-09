@@ -1,0 +1,361 @@
+---
+title: trrr
+author: F.VilBer
+date: '2024-05-01'
+slug: []
+categories:
+  - diseño
+tags:
+  - dibujo
+  - divertido
+description: 'Creacion de partituras gráficas'
+thumbnail: '/post/2024-05-01-trrr/images/circulos1.png'
+---
+
+
+
+<div id="trrr.." class="section level2">
+<h2>trrr..</h2>
+<p>Qué mejor que retomar el blog con un gran arranque onomatopéyico “trrr..” es el sonido de un temblor, de un rugido de moto, un arranque brutal… eso es lo que os propongo en este regreso tras una larga ausencia, empecemos!.</p>
+<div class="float">
+<img src="images/c27724a0-8455-4619-b606-205ea758710a.png" alt="partitura grafica" />
+<div class="figcaption">partitura grafica</div>
+</div>
+<p>Este juego músico-visual se me ocurrió en Granada hace unos días. Resulta que estaba paseando por esa bella ciudad y pasamos al patio del palacio de la Madraza, donde había una exposición de los (<em>Escalona Brothers</em>)[<a href="https://lamadraza.ugr.es/evento/trrrr-escalona-brothers/" class="uri">https://lamadraza.ugr.es/evento/trrrr-escalona-brothers/</a>].</p>
+<p>En medio del bullicio nocturno de la ciudad, me encontré de repente en un precioso patio de esos con encanto <em>granaino</em>. En la sala de exposiciones contigua encontré tirado en el suelo un pobre piano maltrecho, destrozado, con su arpa sangrante y una invasión de extraños temblores sónicos.</p>
+<p>Me llamó poderosamente la atención unos dibujos muy simples de círculos y líneas en blanco y negro repartidos por la sala de exposiciones. Me quedé con uno de los folletos de la exposición en los que pude leer, ya a la mañana siguiente, que se trataba de representaciones de “<em>partituras gráficas, compuestas por símbolos inspirados en mapas de enjambres sísmicos</em>”.</p>
+<div class="float">
+<img src="images/escalona.jpg" alt="Partitura grafica" />
+<div class="figcaption"><em>Partitura grafica</em></div>
+</div>
+<p>No negaré que la elegante descripción de sus creadores me dejó tocado 😂, y fue en ese momento cuando pensé en hacer mi particular versión de estas <em>“partituras gráficas”</em>, usando, claro está, R.</p>
+<div class="float">
+<img src="images/25b50787-2f29-41ec-b057-5c1a5178aac6.png" alt="Muestra de partitura gráfica creada con R" />
+<div class="figcaption"><em><em>Muestra de partitura gráfica creada con R</em></em></div>
+</div>
+<p>Las imágenes de los hermanos Escalona muestran una composición gráfica abstracta en blanco y negro. En ellas hay una serie de círculos negros concéntricos de diferentes tamaños y estilos que parecen estar conectados por finas líneas, creando una estructura que podría asemejarse a una red o un diagrama de conexiones.</p>
+</div>
+<div id="de-la-idea-al-programa" class="section level1">
+<h1>De la idea al programa</h1>
+<p>El programa que voy a mostraros es el último de una serie de pruebas que paso a paso han ido conformándose hasta crear las funciones y flujo final, aunque básicamente mantienen la primera idea original que os cuento.</p>
+<p>Realmente la primerísima idea para hacer estos dibujos en R, fue usar un paquete como <em>igraph</em>, del que ya hice un post hace tiempo <a href="http://enrdados.net/post/graficos-de-red-con-igraph/">Igraph</a> u otros como <code>visNetwork</code> que aunque no lo he usado parece muy interesante ya que se pueden crear gráficos de red interactivos parecidos a los que buscamos.</p>
+<p><img src="images/visnetwork.jpg" alt="red creada con el paquete visNetwork" />
+El problema que tuve con estos paquetes es que no supe solucionar cómo crear los estilos propios para los círculos, así que cambié de estrategia tendría que progrtamar todo desde cero.</p>
+<p>Muchos de mis post, más que de programación, son de diseño gráfico con R, es una debilidad que tengo, y eso que R no parece un programa bueno para esto, pero al final le sacamos partido, mira sino estos post de hace tiempo:</p>
+<ul>
+<li><a href="../pintar-un-edificio-con-r">Ciudad con R</a></li>
+<li><a href="../hacer-un-bosque-con-r">Dibujar un bosque con R</a></li>
+<li><a href="../2021-09-23-arboles-con-funciones-recursivas">Árboles fractales</a></li>
+<li><a href="../waldeinsamkeit">Waldeinsamkeit</a></li>
+<li><a href="../ojos">Dibujar ojos con R</a></li>
+</ul>
+<div id="descripción-del-programa" class="section level2">
+<h2>Descripción del programa</h2>
+<p>Para empezar me imaginé un lienzo sobre el que pintar aleatoriamente unos puntos. La función <code>initialize_canvas()</code> crea este lienzo blanco con el ancho y alto que le pasemos de parámetros.</p>
+<p>Después la función <code>generate_circus()</code> crea una tabla con los puntos que serán el centro de los círculos así como algunas características de estos como el radio y estilo. Los círculos se pintarán con unos estilos diferentes sacados de las partituras gráficas de los <em>Escalona Brothers</em>, para crear estos estilos haré una función distinta llamada <code>draw_circles(circles)</code>.</p>
+<p>Luego de crear los puntos y el correspondiente círculo hay que hacer la jerarquía de red , los enlaces entre círculos. Este apartado me ha llevado más pruebas que el resto. se trata de crear los enlaces mediante una estructura jerárquica familiar, donde algunos círculos actúan como “padres” de otros. Para esto he creado la función <code>assign_family_structure_ii()</code> que aunque empezó siendo muy simple, pues la primera prueba era puramente aleatoria, no quedaba bien y he tenido que meter más reglas como dar preferencia a los grandes radios como padres, y la cercanía a estos como hijos, así como cierta limitación de distancia.</p>
+<p>Para unir los padres con los hijos usé primero una simple línea, pero no quedaban bien, así que los cambié por <em>splines</em>, pero apenas había diferencia ya que solo usaba los dos puntos de los centros como definición del <em>spline</em>. La funcion final llamada <code>draw_splinessss(circles)</code> es algo más compleja pues añade un punto intermedio a la recta entre 2 círculos y lo desplaza para que el spline final tenga cierta curvatura.</p>
+<p>Finalmente en la función <code>pinta_cuadro_circulos()</code> junta todo el proceso en una.</p>
+</div>
+<div id="funciones-del-programa" class="section level2">
+<h2>Funciones del Programa</h2>
+<ol style="list-style-type: decimal">
+<li><strong><code>initialize_canvas(width, height)</code></strong>:
+<ul>
+<li><strong>Descripción</strong>: Establece el área de dibujo (lienzo) en R, dibuja un rectángulo que delimita este lienzo y añade una firma con la fecha actual.</li>
+<li><strong>Parámetros</strong>:
+<ul>
+<li><code>width</code>: Ancho del lienzo.</li>
+<li><code>height</code>: Alto del lienzo.</li>
+</ul></li>
+</ul></li>
+</ol>
+<pre class="r"><code>## Programa generador de partituras gráficas
+## Autor: Fernando Villalba
+## Fecha: abril 2014
+###########################################
+  set.seed(123) # semilla aleatoria
+# Paso 1: Función para establecer el lienzo
+initialize_canvas &lt;- function(width, height) {
+  # incializa el gráfico en blanco
+  plot(NULL, xlim=c(0, width), ylim=c(0, height), type=&quot;n&quot;, asp=1,axes = FALSE, xlab = &quot;&quot;, ylab = &quot;&quot;, main = &quot;&quot;)
+  # pinta un rectangulo de los bordes de ancho 
+  rect(0, 0, width, height,lwd=5)
+  # Obtener la fecha actual en formato deseado
+  fecha_actual &lt;- format(Sys.Date(), &quot;%d %B %Y&quot;)
+  # Añadir firma y fecha en la esquina inferior derecha
+  # Usar bquote para insertar la variable evaluada en la expresión
+  firma_fecha &lt;- bquote(italic(&quot;VilBer&quot;) ~ &quot;-&quot; ~ .(fecha_actual))
+ # text(x=95, y=5, labels=firma_fecha, adj=1, cex=0.8, font=3)
+  mtext(side=1, line=-1, adj=1, text=firma_fecha, cex=0.8, font=2)
+}</code></pre>
+<ol start="2" style="list-style-type: decimal">
+<li><strong><code>generate_circus(num_circles, width, height, min_radius, max_radius, nrad)</code></strong>:
+<ul>
+<li><strong>Descripción</strong>: Genera un conjunto de círculos con posiciones y radios aleatorios dentro de los límites del lienzo, asegurándose de que los círculos no se superpongan más de una distancia mínima especificada.</li>
+<li><strong>Parámetros</strong>:
+<ul>
+<li><code>num_circles</code>: Número de círculos a generar.</li>
+<li><code>width</code>, <code>height</code>: Dimensiones del lienzo.</li>
+<li><code>min_radius</code>, <code>max_radius</code>: Rango de radios para los círculos.</li>
+<li><code>nrad</code>: Factor que define la separación mínima entre círculos en función de su radio.</li>
+</ul></li>
+</ul></li>
+</ol>
+<pre class="r"><code># Paso 2: Función para crear la tabla con los datos de los circulos
+generate_circus &lt;- function(num_circles, width, height, min_radius, max_radius, nrad) {
+  # num_circles = numero de circulos en el lienzo
+  # width, height = ancho y alto del lienzo 
+  # min_radius, max_radius = min y max valor del radio de los circulos generados
+  # nrad = indica la distancia de separación minima de los circulos, para que no se superpongan en numero de veces el radio maximo
+  circles &lt;- data.frame(id = integer(0), x = numeric(0), y = numeric(0), radius = numeric(0), estilo = integer(0),id_padre = integer(0))
+  max_attempts &lt;- 1000  # Límite de intentos para evitar bucles infinitos
+  
+  for (i in 1:num_circles) {
+    valid &lt;- FALSE
+    attempts &lt;- 0
+    
+    while (!valid &amp;&amp; attempts &lt; max_attempts) {
+      # Genera un nuevo punto y radio
+      new_x &lt;- runif(1, min_radius, width - min_radius)
+      new_y &lt;- runif(1, min_radius, height - min_radius)
+      new_radius &lt;- runif(1, min_radius, max_radius)
+      attempts &lt;- attempts + 1
+      
+      # Verifica la distancia con todos los círculos ya creados
+      if (nrow(circles) == 0) {
+        valid &lt;- TRUE
+      } else {
+        distances &lt;- sqrt((circles$x - new_x)^2 + (circles$y - new_y)^2)
+        min_distance_needed &lt;- nrad * max(max_radius, new_radius)  # nrad veces el radio máximo de cualquiera
+        valid &lt;- all(distances &gt;= min_distance_needed)
+      }
+    }
+    
+    if (valid) {
+      style &lt;- sample(1:5, 1)
+      circles &lt;- rbind(circles, data.frame(id = i, x = new_x, y = new_y, radius = new_radius, estilo=style, id_padre = 0))
+    } else {
+      stop(&quot;No fue posible colocar todos los círculos tras &quot;, max_attempts, &quot; intentos.&quot;)
+    }
+  }
+  
+  # Asignación de ID del padre (opcional y personalizable)
+circles$id_padre &lt;- sapply(circles$id, function(x) {
+  if (runif(1) &lt; 0.7) {
+    # 70% de probabilidad de que el círculo no tenga padre
+    return(0)
+  } else {
+    # Los círculos con radios mayores tienen más posibilidad de ser elegidos como padres
+    # Calculamos pesos, donde el peso es proporcional al radio
+    weights &lt;- circles$radius / min(circles$radius)  # Esto asegura que el círculo más pequeño tenga peso 1
+    weights &lt;- weights * ifelse(circles$radius &gt;= median(circles$radius), 3, 1)  # Doble de peso si el radio es mayor o igual que la mediana
+    
+    # Asegurarse de no incluir el propio círculo como su padre
+    weights[x] &lt;- 0
+    
+    # Selecciona un id de padre de acuerdo con los pesos
+    return(sample(circles$id, 1, prob = weights))
+  }
+})
+
+  return(circles)
+}</code></pre>
+<ol start="3" style="list-style-type: decimal">
+<li><strong><code>assign_family_structure_ii(circles, width, height)</code></strong>:
+<ul>
+<li><strong>Descripción</strong>: Asigna una estructura jerárquica de relaciones padre-hijo a los círculos basada en su proximidad y tamaño. Los círculos solo pueden ser padres de otros círculos si están dentro de una distancia menor a cuarto de la diagonal del lienzo.</li>
+<li><strong>Parámetros</strong>:
+<ul>
+<li><code>circles</code>: DataFrame de círculos generados.</li>
+<li><code>width</code>, <code>height</code>: Dimensiones del lienzo.</li>
+</ul></li>
+</ul></li>
+</ol>
+<pre class="r"><code># Paso 3: Función que crea la relación entre padre-hijo de los circulos
+# asigna la estructura de padre hijo
+assign_family_structure_ii &lt;- function(circles, width, height) {
+  # Calcular 1/4 de la diagonal del lienzo
+  max_distance &lt;- 0.25 * sqrt(width^2 + height^2)
+
+  # Ordenar círculos por radio de mayor a menor y resetear índices
+  circles &lt;- circles[order(-circles$radius), ]
+  circles$id &lt;- seq_len(nrow(circles))  # Asignar un ID consecutivo a cada círculo
+  circles$id_padre &lt;- 0  # Inicializar todos los id_padre a 0
+
+  # Iterar sobre cada círculo para asignar hijos
+  for (i in 1:nrow(circles)) {
+    if (circles$id_padre[i] == 0) {  # Solo si el círculo no tiene aún un padre asignado
+      # Determinar cuántos hijos asignar
+      num_cercanos &lt;- sample(0:(nrow(circles)/4), 1)
+
+      if (num_cercanos &gt; 0) {
+        # Calcular distancias desde el círculo actual a todos los demás
+        distances &lt;- sqrt((circles$x - circles$x[i])^2 + (circles$y - circles$y[i])^2)
+        distances[i] &lt;- Inf  # Evitar que un círculo sea su propio hijo
+
+        # Filtrar por distancia máxima permitida
+        within_distance &lt;- distances &lt; max_distance
+
+        # Ordenar por distancia y seleccionar los &#39;num_cercanos&#39; más cercanos que no tengan padre asignado y estén dentro del límite de distancia
+        closest_indices &lt;- order(distances)
+        child_candidates &lt;- closest_indices[circles$id_padre[closest_indices] == 0 &amp; within_distance[closest_indices]][1:num_cercanos]
+
+        # Asignar el id actual como padre a los círculos más cercanos sin padre asignado y dentro del límite de distancia
+        circles$id_padre[child_candidates] &lt;- circles$id[i]
+      }
+    }
+  }
+
+  return(circles)
+}</code></pre>
+<ol start="4" style="list-style-type: decimal">
+<li><strong><code>draw_splinessss(circles)</code></strong>:
+<ul>
+<li><strong>Descripción</strong>: Dibuja líneas curvas (splines) entre círculos padres e hijos para visualizar las relaciones familiares.</li>
+<li><strong>Parámetros</strong>:
+<ul>
+<li><code>circles</code>: DataFrame de círculos con estructura familiar asignada.</li>
+</ul></li>
+</ul></li>
+</ol>
+<pre class="r"><code># Paso 4: Funciones de dibujo 
+# dibuja splines entre los centros de los circulos padre e hijos
+draw_splinessss &lt;- function(circles) {
+  # Asegura que los splines se dibujan sobre los círculos existentes
+  par(new = TRUE)
+
+  for (i in 1:nrow(circles)) {
+    if (circles$id_padre[i] != 0) {
+      # Encuentra el círculo padre
+      padre &lt;- circles[circles$id == circles$id_padre[i], ]
+      if (nrow(padre) == 1) {  # Asegúrate de que el padre existe
+        # Define los puntos inicial y final para el spline
+        x1 &lt;- circles$x[i]
+        y1 &lt;- circles$y[i]
+        x2 &lt;- padre$x
+        y2 &lt;- padre$y
+        radio_menor &lt;- max(circles$radius[i], padre$radius)
+
+        # Calcula el punto medio
+        xm &lt;- (x1 + x2) / 2
+        ym &lt;- (y1 + y2) / 2
+
+        # Desplazamiento perpendicular a la línea entre los puntos
+        # Calcula un vector perpendicular
+        dx &lt;- x2 - x1
+        dy &lt;- y2 - y1
+        # Normaliza y rota 90 grados
+        len &lt;- sqrt(dx^2 + dy^2)
+        dx_perp &lt;- -dy / len
+        dy_perp &lt;- dx / len
+        # Calcula el punto de desviación
+        xm_desplazado &lt;- xm + radio_menor * dx_perp
+        ym_desplazado &lt;- ym + radio_menor * dy_perp
+
+        # Puntos para xspline incluyen el punto desviado
+        x_points &lt;- c(x1, xm_desplazado, x2)
+        y_points &lt;- c(y1, ym_desplazado, y2)
+        
+        # Dibuja un spline entre el hijo y el padre con curvatura
+        xspline(x = x_points, y = y_points, shape = sample(c(-1,1), 1), border = &quot;black&quot;, lwd = 1)
+      }
+    }
+  }
+}</code></pre>
+<ol start="5" style="list-style-type: decimal">
+<li><strong><code>draw_circles(circles)</code></strong>:
+<ul>
+<li><strong>Descripción</strong>: Visualiza los círculos en el lienzo, aplicando estilos variados que incluyen círculos rellenos, círculos con bordes, y círculos con decoraciones adicionales como mini planetas.</li>
+<li><strong>Parámetros</strong>:
+<ul>
+<li><code>circles</code>: DataFrame de círculos con estilos y posiciones definidas.</li>
+</ul></li>
+</ul></li>
+</ol>
+<pre class="r"><code># Funcion que pinta los circulos según el estilo 
+draw_circles &lt;- function(circles) {
+  apply(circles, 1, function(circle) {
+    # Asigna un estilo de forma aleatoria para demostración; ajusta según la lógica deseada
+    style &lt;- circle[&quot;estilo&quot;]# sample(1:5, 1)
+
+    if (style == 1) {
+      # Dibujar círculo negro con relleno negro
+      symbols(circle[&quot;x&quot;], circle[&quot;y&quot;], circles=circle[&quot;radius&quot;], inches=FALSE, add=TRUE, fg=&quot;black&quot;, bg=&quot;black&quot;)
+    } else if (style == 2) {
+      # Dibujar círculo con borde negro y relleno blanco
+      symbols(circle[&quot;x&quot;], circle[&quot;y&quot;], circles=circle[&quot;radius&quot;], inches=FALSE, add=TRUE, fg=&quot;black&quot;, bg=&quot;white&quot;)
+    } else if (style == 3) {
+      # Dibujar círculos concéntricos
+      for (i in 2:5) {
+        symbols(circle[&quot;x&quot;], circle[&quot;y&quot;], circles = circle[&quot;radius&quot;] * i, inches = FALSE, add = TRUE)
+      }
+      symbols(circle[&quot;x&quot;], circle[&quot;y&quot;], circles = circle[&quot;radius&quot;] * 4+0.2*circle[&quot;radius&quot;], inches = FALSE, add = TRUE)
+      symbols(circle[&quot;x&quot;], circle[&quot;y&quot;], circles = circle[&quot;radius&quot;], inches = FALSE, add = TRUE, fg = &quot;black&quot;,bg = &quot;black&quot;)
+    } else if (style == 4) {
+      # Dibujar dos círculos concéntricos y una letra encima
+      symbols(circle[&quot;x&quot;], circle[&quot;y&quot;], circles=circle[&quot;radius&quot;] * 2, inches=FALSE, add=TRUE, fg=&quot;black&quot;, bg=&quot;white&quot;)
+      symbols(circle[&quot;x&quot;], circle[&quot;y&quot;], circles=circle[&quot;radius&quot;], inches=FALSE, add=TRUE, fg=&quot;black&quot;, bg=&quot;black&quot;)
+      angle &lt;- runif(1, 0, 360)  # Genera un ángulo aleatorio entre 0 y 360 grados
+      text(circle[&quot;x&quot;], circle[&quot;y&quot;], &quot;lll&quot;, col=&quot;white&quot;, cex=1.5, srt=angle)
+  #    text(circle[&quot;x&quot;], circle[&quot;y&quot;], &quot;lll&quot;, col=&quot;white&quot;, cex=1.5)  # Puedes cambiar &quot;R&quot; por cualquier otra letra
+    } else if (style == 5) {
+      # Dibuja un circulo con mini planetas alrededor
+      # 1. el circulo central
+      symbols(circle[&quot;x&quot;], circle[&quot;y&quot;], circles=circle[&quot;radius&quot;], inches=FALSE, add=TRUE, fg=&quot;black&quot;, bg=&quot;black&quot;)
+      # 2. los planetas
+        n_planet=sample(2:5, 1) # numero de planetas 
+        for (i in 1:n_planet){
+          rad_mini&lt;- circle[&quot;radius&quot;] / 4  # un cuarto del radio del planeta central
+          r_orbit&lt;- sample(2:5, 1) # dist orbital del planeta en num de radios del central
+          ang_planet &lt;- runif(1, min = 0, max = 2*pi) # angulo del planeta en radianes 
+        # Calcular la posición de cada mini círculo
+          x_mini &lt;- circle[&quot;x&quot;] + r_orbit * circle[&quot;radius&quot;] * cos(ang_planet)
+          y_mini &lt;- circle[&quot;y&quot;] + r_orbit * circle[&quot;radius&quot;] * sin(ang_planet)
+        # Dibujar los mini círculos y las líneas que los unen al círculo principal
+        # Todos los mini círculos son negros macizos  
+          symbols(x_mini, y_mini, circles=rad_mini, inches=FALSE, add=TRUE, fg=&quot;black&quot;, bg=&quot;black&quot;) 
+        # Dibuja la linea que lo une al planet central     
+          lines(c(circle[&quot;x&quot;],x_mini ), c(circle[&quot;y&quot;], y_mini), col = &quot;black&quot;)     
+        }
+      }
+  })# fin de funcion appply
+}</code></pre>
+<ol start="6" style="list-style-type: decimal">
+<li><strong><code>pinta_cuadro_circulos(width, height, radio_min, radio_max, rad_cercania, num_circles)</code></strong>:
+<ul>
+<li><strong>Descripción</strong>: Función principal que orquesta la creación del lienzo, la generación de círculos, la asignación de la estructura familiar y la visualización final de los círculos y sus conexiones.</li>
+<li><strong>Parámetros</strong>:
+<ul>
+<li><code>width</code>, <code>height</code>: Dimensiones del lienzo.</li>
+<li><code>radio_min</code>, <code>radio_max</code>: Rango de radios para los círculos.</li>
+<li><code>rad_cercania</code>: Factor de cercanía para evitar superposición de círculos.</li>
+<li><code>num_circles</code>: Número de círculos a generar.</li>
+</ul></li>
+</ul></li>
+</ol>
+<pre class="r"><code># Función que recoge todo lo anterior para pintar un cuadro
+pinta_cuadro_circulos&lt;-function(width=1000,height=800,radio_min=5,radio_max=50,rad_cercania=1,num_circles=10){
+    #num_circles &lt;- sample(3:20, 1)  # Número aleatorio de círculos entre 5 y 20
+    par(mar=c(0.1, 0.1, 0.1, 0.1))
+    initialize_canvas(width, height)
+    clip(0, width, 0, height) # recorta el dibujo por el corte con los ejes
+    circles &lt;- generate_circus(num_circles, width, height, radio_min, radio_max, rad_cercania)
+    circles1 &lt;-assign_family_structure_ii(circles, width, height)
+    draw_splinessss(circles1)
+    draw_circles(circles1)
+}</code></pre>
+</div>
+</div>
+<div id="uso" class="section level1">
+<h1>Uso</h1>
+<p>Con cada llamada a la función <code>pinta_cuadro_circulos()</code>, se genera un nuevo lienzo de partitura gráfica, espero que os guste.</p>
+<div class="float">
+<img src="images/cde12cbb-78a1-483f-a56f-a1ae54b7bdc3.png" alt="partitura gráfica" />
+<div class="figcaption">partitura gráfica</div>
+</div>
+<p>Otro ejemplo:</p>
+<pre class="r"><code>pinta_cuadro_circulos(radio_min=2,radio_max=45,rad_cercania=3,num_circles=20)</code></pre>
+<p><img src="{{< blogdown/postref >}}index.es_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<pre><code>## NULL</code></pre>
+</div>
