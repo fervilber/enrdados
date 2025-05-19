@@ -1,0 +1,228 @@
+---
+title: Pasatiempos de sumas emparejadas
+author: F.VilBer
+date: '2025-05-15'
+slug: []
+categories:
+  - educación
+tags:
+  - gráficos
+  - matemáticas
+  - R
+description: 'Hacemos un juego matematico con R'
+thumbnail: '/post/2025-05-15-pasatiempos-de-sumas-emparejadas/images/2025-05-14 portada libro2peq.jpg'
+---
+
+
+
+<p>¡Saludos, enRdados!</p>
+<p>Hoy os traigo una de esas ideas que mezclan mis pasiones: <strong>R</strong>, el diseño gráfico, la educación y el emprendimiento. Ya sabéis que me encanta esto del <strong>diseño generativo con R</strong>, que es básicamente usar funciones y algo de aleatoriedad para crear hermosos <em>objetos visuales</em>. También me gusta que los capítulos del Blog tengan su parte didáctica y educativa, pero la guinda de este proyecto es que le añadimos (junto a mis peques) ese punto de empresa para que descubrieran uno de los pilares fundamentales de la innovación, que es <em>emprender</em>.</p>
+<p>Os voy a contar cómo surgió todo, pero para los impacientes aquí dejo el <a href="https://www.amazon.es/dp/B0D56YKC7J?binding=paperback&ref=dbs_dp_sirpi " target="_blank" rel="noopener noreferrer"> enlace directo de venta en amazon de estos pasatiempos que vamos a crear hoy!!! </a></p>
+<p><img src="images/portadalibros.png" /></p>
+<p>Creo que fue en el verano de 2023, cuando vi un curioso <a href="https://youtu.be/PKIpNtFCMzA?si=roL9L8PrABgRJVx9" target="_blank" rel="noopener noreferrer">video en youtube de un gallego</a> que decía dedicarse a vender libros de colorear por amazon y que ganaba bastante dinero con eso.</p>
+<p>La idea de crear libros de colorear parecía tan simple, y tan buena que ciertamente me creí que eso podía funcionar de verdad. Todavía no se había cumplido un año desde el lanzamiento de cHatGPT y aunque había modelos que generaban imágenes con IA, los resultados eran más bien malos. Stable Diffusion nació en agosto del 22, así que para noviembre ya se podían encontrar modelos de generación de imagen interesantes, pero la idea de copiar esto sin innovar no me atrajo.</p>
+<p>Los que seguís este Blog puede que recordéis que hace muchoooo tiempo dediqué un post a <a href="https://enrdados.netlify.app/post/2021-01-07-editar-un-libro-con-r/ " target="_blank" rel="noopener noreferrer"> cómo hacer un libro con R </a>. Para obtener un ejemplar impreso del mismo use bubok una imprenta online que en el 2021 funcionaba bien. Con el tiempo aprendí a editar libros en <em>Amazon</em> ya que la calidad que daba es mejor y a menor precio.</p>
+<pre class="r"><code>blogdown::shortcode(&quot;youtube&quot;, &quot;PKIpNtFCMzA&quot;)</code></pre>
+{{% youtube "PKIpNtFCMzA" %}}
+<div id="amazon-kdp" class="section level2">
+<h2>Amazon KDP</h2>
+<p>Amazon tiene una división de autoedición editorial que se llama <em>amazon KDP</em>. Básicamente han montado una editorial en línea en la que si subes tu pdf y una portada puedes publicar un libro en unos cuantos click. La cosa no es tan sencilla como parece, al menos para mi primer libro en KDP tardé lo suyo, pero una vez que le pillas el tranquillo es mecánico y “<em>sencillo</em>”.</p>
+<p>Es por esto que el video del Gallego me pareció una forma realmente simple de vender un producto, pero el producto de libros para colorear no me gustaba, así que me puse a investigar otro <em>nicho de mercado</em>, y descubrí los pasatiempos.</p>
+</div>
+<div id="libros-de-pasatiempos" class="section level2">
+<h2>Libros de pasatiempos</h2>
+<p>Cuantos libros de pasatiempos se venden?… miles?, millones?, seguro que muchos, y muchos de ellos por amazon, pues aunque en España sea más barato y rápido acercarte al kiosco o al chino de la esquina, en otros lugares estoy seguro de que la gente le resulta más cómodo compra por internet desde el sofá de su casa.</p>
+<p>Hacer libros de pasatiempos es fácil si los generas automáticamente y ahí es donde entra la pata de la programación en esta historia. El proyecto va tomando forma, y me puse manos a la obra.</p>
+<p>Lo primero que pensé es en programar con R un generador de laberintos, me gustam mucho, y tengo varias pruebas hechas, pero hay cientos de programas para generar sopas de letras y laberintos que lo hacían mucho mejor que con mi código en R, y me estaba costando mucho mejorarlo. Había que pensar un pasatiempo nuevo…</p>
+<p>Como había hecho un post de <a href="https://enrdados.netlify.app/post/2021-03-20-r-logos-con-hexsticker/" target="_blank" rel="noopener noreferrer">logos de R con hexsticker</a>, me vino la inspiración de crear una malla de hexágonos en el espacio en la que había que inventar algún juego matemático. Y así surgió la idea de estos pasatiempos de <strong>“Sumas Emparejadas”</strong>.</p>
+</div>
+<div id="qué-son-las-sumas-emparejadas" class="section level2">
+<h2>¿Qué son las “Sumas Emparejadas”?</h2>
+<p>La idea es simple: tengo un tablero, en este caso una <strong>malla de hexágonos</strong>, donde cada hexágono tiene un número dentro. El juego consiste en encontrar <strong>pares de hexágonos que sean vecinos</strong> (que se toquen) y cuyos números <strong>sumen una cantidad determinada</strong> que definimos al inicio de cada tablero de juego (el <code>valor_buscado</code>). Es un pasatiempo visual y numérico, ideal para echar un rato y de paso practicar las sumas y la atención.</p>
+<div class="float">
+<img src="images/2025-05-14-5.png" alt="Explicación del juego que damos en los libros" />
+<div class="figcaption">Explicación del juego que damos en los libros</div>
+</div>
+</div>
+<div id="por-qué-hacerlo-con-r" class="section level2">
+<h2>¿Por qué hacerlo con R?</h2>
+<p>Podría diseñar los tableros a mano o con otro programa, claro, pero qué digo, si este es un Blog de R!, con R <strong>puedes programar todo lo que se te ocurra</strong> y automatizar el proceso para generar <strong>tantos pasatiempos únicos como quieras</strong>. Además, R es una máquina para <strong>crear gráficos de calidad</strong> y, como ya vimos con lo de <a href="">generar pdfs</a>, ¡es perfecto para dejar el pasatiempo listo para imprimir! y juntar muchos en un librito.</p>
+<p>Así que, ni corto ni perezoso, ¡manos a la obra para programar esto!</p>
+</div>
+<div id="la-estructura-del-código-un-paseo-por-las-funciones" class="section level2">
+<h2>La Estructura del Código: Un Paseo por las Funciones</h2>
+<p>Aquí os pongo el resumen final de mi código, aunque durante la programación le dí muchas vueltas. Como siempre trato de dividir el trabajo en varias funciones y luego usar una para llamar a cada parte secuencialmente. Esa <strong>función principal</strong> se llama <em>(<code>new.game</code>)</em> que orquesta todo, llamando a las otras funciones que hacen tareas más específicas: una crear la malla hexagonal, otra pone los números en el centro de cada hexágono, otra busca las soluciones del tablero y finalmente otra imprime el pdf del juego en una página y en otra la solución.</p>
+<p>Aquí os resumo las funciones básicas:</p>
+<div id="crea.malla_new-y-crea.forma-creando-el-tablero" class="section level3">
+<h3>4.2.2 <code>crea.malla_new</code> y <code>crea.forma</code> (¡Creando el Tablero!)</h3>
+<ul>
+<li>El primer paso es tener el tablero hexagonal. Para esto, he usado la maravillosa librería <code>sf</code> (simple features), que es la caña para trabajar con datos espaciales y geometrías (verl el post que hice explicando esta librería <a href="https://enrdados.netlify.app/post/manual-de-sf-para-sig/" target="_blank" rel="noopener noreferrer">aquí</a>). La función clave es <strong><code>st_make_grid()</code></strong>. Si le pones el argumento <code>square = FALSE</code>, ¡voilà!, te crea una malla de hexágonos en lugar de cuadrados.</li>
+</ul>
+<p><img src="{{< blogdown/postref >}}index.es_files/figure-html/crear_malla_hex-1.png" width="672" />
+Para el juego definitivo he añadido la posibilidad de darle <strong>diferentes formas</strong> al tablero (círculo, rombo, etc.). Esto lo hace la función <code>crea.forma</code>, que usa operaciones espaciales de <code>sf</code> como <code>st_buffer</code> (para crear áreas alrededor de puntos o geometrías), <code>st_within</code> (para ver qué hexágonos caen dentro de una forma), o <code>st_difference</code> y <code>st_union</code> (para cortar o juntar geometrías). ¡Es como usar un cortador de galletas, pero con código!</p>
+<p>Aquí podéis ver diferentes resultados en la forma de los tableros usando la función <code>crea.forma</code>:</p>
+<p><img src="images/formashex.jpg" /></p>
+</div>
+<div id="comple.ma-llenando-de-números" class="section level3">
+<h3>4.2.3 <code>comple.ma</code> (¡Llenando de Números!)</h3>
+<p>Una vez que tenemos la malla hexagonal,la función <code>comple.ma()</code> se encarga de <strong>asignar un número aleatorio a cada hexágono</strong>. Estos números se generan de forma aleatoria (uso la función <code>sample()</code>) aunque con ciertas reglas para que luego haya <em>posibles</em> soluciones para la suma que buscamos, ¡así cada juego es diferente!</p>
+<p><img src="{{< blogdown/postref >}}index.es_files/figure-html/ejemplo_malla%20funciones_basicas-1.png" width="672" /></p>
+</div>
+<div id="busca.soluciones-el-cerebro-del-juego" class="section level3">
+<h3>4.2.4 <code>busca.soluciones</code> (¡El Cerebro del Juego!)</h3>
+<p>Llegamos a la parte divertida del código: encontrar las soluciones. La función <code>busca.soluciones</code> recorre cada hexágono y usa la operación espacial <strong><code>st_touches</code></strong> de <code>sf</code>. Esta operación es genial porque <strong>te dice qué otras geometrías (hexágonos, en este caso) tocan al hexágono actual</strong>.
+Una vez que localizamos los vecinos del hexágono, solo hay que <strong>sumar ambos números</strong> y comprobar si esta suma es igual al <code>valor_buscado</code>. Si la suma cuadra, ¡ese par es una solución! y para acordarnos guardamos los códigos identificativos de estos dos hexágonos que luego usaremos para colorear las soluciones en el gráfico.</p>
+<p>Esta es la función que hemos programado:</p>
+<p>Veamos un ejemplo de tablero con el siguiente código:</p>
+</div>
+<div id="new.game-la-impresora-de-pasatiempos" class="section level3">
+<h3>4.2.5 <code>new.game</code> (¡La Impresora de Pasatiempos!)</h3>
+<p>Por último tenemos la función que lo une todo y que he denominado <code>new.game()</code>. Esta llama a <code>crea.malla_new</code> y <code>comple.ma</code> para preparar el tablero con números, luego a <code>busca.soluciones</code> para encontrar las parejas que suman el valor, y finalmente <strong>genera dos archivos PDF</strong>: uno con el pasatiempo listo para jugar y otro con las soluciones marcadas.</p>
+<p>Usa funciones básicas de R para generar gráficos en un dispositivo (como <code>pdf()</code>) y cerrarlo (<code>dev.off()</code>). También añade detalles como el número de soluciones encontradas o una “matrícula” única para cada juego.</p>
+<p>Así para generar un nuevo tablero de juego sería tan simple como:</p>
+<pre class="r"><code># Generará un juego de 8 columnas x 8 filas de hexágonos, buscando la suma 10
+# Y guardará los PDFs con prefijo &quot;juego_001_&quot;
+new.game(n_col = 8, n_row = 8, valor_buscado = 10, preindex = &quot;001_&quot;)
+
+# Para generar otro juego, solo cambiamos los parámetros:
+new.game(n_col = 10, n_row = 10, valor_buscado = 15, forma = 1, preindex = &quot;002_&quot;) # Con otra forma</code></pre>
+<div class="float">
+<img src="images/solucion01.png" alt="Ejemplo de tablero solucionado salida de new.gamel" />
+<div class="figcaption">Ejemplo de tablero solucionado salida de new.gamel</div>
+</div>
+</div>
+<div id="creando-un-libro-de-juegos" class="section level3">
+<h3>4.2.6 Creando un Libro de Juegos</h3>
+<p>La verdadera potencia de esto es la <strong>automatización</strong>. Como tengo la función <code>new.game</code> que me crea un pasatiempo único en un PDF, puedo llamarla <strong>muchas veces con diferentes parámetros</strong> (diferente tamaño, forma, valor buscado, etc.).</p>
+<p>Por ejemplo, para generar una serie de juegos para un libro, simplemente llamo a la función en un bucle o una lista, ¡creando un PDF para cada uno!</p>
+<pre class="r"><code># Antes: ejecutar todo el código de las funciones
+
+# Genera varios juegos con diferentes parámetros y formas
+new.game(5,7,8,forma=0,preindex=&quot;02&quot;)
+new.game(6,12,8,forma=3,preindex=&quot;03&quot;)
+new.game(12,12,23,forma=4,preindex=&quot;11&quot;) # Forma de corazón, ¡jeje!
+new.game(7,9,10,forma=1,preindex=&quot;04&quot;)
+# ... y muchas más llamadas ...</code></pre>
+<p>Esto me deja un montón de archivos PDF, uno por cada pasatiempo (juego + solución). Y para juntarlos todos en un único “libro”, he usado funciones de la librería <code>pdftools</code> y <code>dplyr</code>.</p>
+<pre class="r"><code># Usando pdftools para unir todos los PDFs generados
+library(pdftools)
+library(dplyr) # Útil para gestionar la lista de archivos
+
+# Buscamos todos los archivos PDF generados en el directorio de trabajo
+lista_pdfs &lt;- list.files(pattern = &quot;*.pdf&quot;) %&gt;%
+  sort() # Aseguramos que estén en orden
+
+# Unimos todos los PDFs en un solo archivo
+pdf_combine(input = lista_pdfs, output = &quot;Libro_Pasatiempos_Sumas_Emparejadas.pdf&quot;)</code></pre>
+<p>En resumen, con unas pocas funciones y aprovechando la potencia de R y de librerías como <code>sf</code> y <code>pdftools</code>, podemos pasar de una idea de juego a tener un libro de pasatiempos listo para imprimir. ¡Espero que os animéis a probarlo y, si le dais una vuelta o conocéis formas mejores de hacer algo, lo comentéis!</p>
+<pre class="r"><code># funcion new.game(), esta 
+# funcion que crea un nuevo juego y lo imprime dos pdf (juego y solucion)
+new.game &lt;- function(nc = 5,
+                     nf = 7,
+                     valor_buscado = 14,
+                     relleno = 0,
+                     forma = 0,
+                     preindex=&quot;&quot;) {
+  hexs1 &lt;- comple.ma(crea.malla_new(nc, nf, forma), valor_buscado, relleno)
+  pol.sol &lt;- busca.soluciones(hexs1, valor_buscado)
+  m_centro &lt;- st_centroid(hexs1)
+  aux &lt;-
+    hexs1 %&gt;% select(grid_id, juego) %&gt;% filter(grid_id %in% pol.sol[[1]])
+  
+  # Imprime el juego en pdf
+  # Crea un nombre para el fichero
+  nom&lt;-paste(&quot;Libro01&quot;,nc,nf,valor_buscado, relleno,forma,paste0(pol.sol[[2]],&quot;-&quot;),sep = &quot;_&quot;)  
+  nom&lt;-paste0(preindex,nom)
+  nombre_fichero &lt;- new_unique(c(nom, NA), &quot;.pdf&quot;, ask = FALSE)
+  matricula&lt;-substr(rlang::hash(nombre_fichero), start = 5, stop = 15) # selecciono solo 10 caracteres
+  matricula&lt;-paste0(preindex,&quot;-&quot;,matricula)
+  # imprime el primer pdf
+  pdf(nombre_fichero, paper = &quot;us&quot;)
+  par(mar = c(2, 2, 2, 2))
+  plot(
+    st_geometry(hexs1),
+    col = gray(0.8, alpha = 0.5),
+    col.main = &quot;black&quot;,
+    font = 2,
+    fontface = &quot;bold&quot;,
+    main = paste(&quot;Busca la suma de&quot;, valor_buscado),
+    cex.main = 1.6
+  )
+  text(st_coordinates(m_centro),
+       labels = hexs1$juego,
+       family=&quot;Dubai Medium&quot;,
+       cex = 1)
+  mtext(
+    paste0(&quot;Hay &quot;, pol.sol[[2]], &quot; soluciones&quot;),
+    side = 1, #abajo
+    line = 1, # un poco subido
+    cex = 1, # tamaño normal de letra
+    adj=0.8 # ajustado al margen izquierdo
+  )
+  mtext(matricula,
+    side = 1, #abajo
+    line = 0, 
+    cex = 0.7,
+    adj=0, # ajustado al margen dcho
+    font=3 # cursiva
+  )  
+  dev.off()
+
+  # Pintamos las soluciones
+  pdf(paste0(&quot;sol&quot;, nombre_fichero), paper = &quot;us&quot;)
+  par(mar = c(2, 2, 2, 2))
+  plot(
+    st_geometry(hexs1),
+    col = gray(0.9, alpha = 0.5),
+    col.main = &quot;black&quot;,
+    main = paste0(&quot;Soluciones busca suma de &quot;, valor_buscado,&quot;\n&quot;,matricula),
+    adj = 0,
+    cex.main=1.2
+  )
+  text(
+    st_coordinates(m_centro),
+    labels = hexs1$juego,
+    font = 1,
+    cex = 0.9
+  )
+  plot(st_geometry(aux),
+       col = gray(0.6, alpha = 0.8),
+       add = T)
+  m_centro1 &lt;- st_centroid(aux)
+  #pinta en negrita los hex solucion
+  text(
+    st_coordinates(m_centro1),
+    labels = aux$juego,
+    font = 2,
+    cex = 0.9,
+    col = &quot;black&quot;
+  )
+  #pinta abajo el num de soluciones
+  mtext(
+    paste0(&quot;&quot;, pol.sol[[2]], &quot; soluciones&quot;),
+    side = 1,
+    line = 1,
+    cex = 1,
+    adj= 0.8 # ajustado al margen izquierdo
+  )
+  dev.off()
+}</code></pre>
+</div>
+</div>
+<div id="venta-de-libros-creamos-funny-math-planet" class="section level1">
+<h1>Venta de libros creamos: “Funny Math Planet”</h1>
+<p>Y después de terminar el programa, quedaba la parte de emprendimiento. Esto fue lo mejor del proyecto ya que convencí a mis peques para ayudarme a montar un pequeño librito juntando varios tableros de pasatiempos y a realizar todo el trabajo complementario como dibujar la portada, contraportada, el texto de las primeras paginas, el logo de la **“Empresa”<em>. Y por último subir el resultado final a la web de </em>amazon KDP* para ponerlo a la venta!!!.</p>
+<p>En <em>amazon KDP</em> te dice lo que cuesta cada copia y lo que te cobra amazon por el proceso (ellos han montado la web de ventas más grande del mundo) así que se quedan el 60% de los beneficios, pero los costes de impresión son, al menos a mi me parece muy ajustados y con buena calidad final.</p>
+<p>Cuesta aprender el proceso, pero cuando ves el librito con esa portaa tan brillante en casa lo bien que ha quedado, y ves el esfuerzo que has puesto en semejante <em>tontería</em>, aprecias mucho que todo funcione por un coste razonable. Creo que ha sido realmente un proyecto familiar muy bonito.</p>
+<p>Creedme que lo que más nos ha costado de esta historia es la parte de edición, montaje y puesta en venta del producto, quizás porque no estamos habituados a esas otras competencias digitales, pero nos ha veniso muy bien. Lo de <em>amazon KDP</em> para venta de libros es también un mundo aparte y hemos aprendido con cada nueva edición (hemos sacado 4 libros de pasatiempo) . Y hasta creamos una firma editorial: <strong>“Funny Math Planet”</strong> para nuestros libros y versiones en inglés.</p>
+<p><img src="images/logoFMP3.jpg" /></p>
+<p>Espero que os haya gustado este pRoyecto y animaros a comprad uno de los libros que están a la venta en los siguientes enlaces, a mis peques les hará muchísima ilusión ver que alguien lo compra, jeje…</p>
+<p>Te sorprenderá lo bien encuadernados y bonitos que han quedado, y en cada volumen hemos mejorado la edición, todos contienen pasatiempos originales y distintos. Si compras el Vol3 del astronáuta verás el último modelo, que lo sacamos en amazon en febrero del 2024.</p>
+<p>¡SaludoRRRs y gracias!</p>
+<ul>
+<li><a href="https://www.amazon.es/dp/B0D5HL7945" target="_blank" rel="noopener noreferrer">PASATIEMPOS DE SUMAS EMPAREJADAS 03: JUEGOS DE SUMAS DIVERTIDOS PARA TODA LA GALAXIA</a></li>
+<li><a href="https://amzn.eu/d/hBa1NnW" target="_blank" rel="noopener noreferrer">PASATIEMPOS DE SUMAS EMPAREJADAS 2: JUEGOS MATEMÁTICOS PARA TODA LA FAMILIA</a></li>
+<li><a href="https://amzn.eu/d/avpVsM1" target="_blank" rel="noopener noreferrer">PASATIEMPOS DE SUMAS EMPAREJADAS 1: JUEGOS MATEMÁTICOS PARA TODA LA FAMILIA</a></li>
+<li><a href="https://amzn.eu/d/dkTPuEn" target="_blank" rel="noopener noreferrer">Paired sums puzzles: Daily math puzzles for kids and friends</a></li>
+</ul>
+</div>

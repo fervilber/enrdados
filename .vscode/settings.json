@@ -1,0 +1,5 @@
+{
+    "editor.semanticHighlighting.enabled": true,
+    "editor.inlineSuggest.syntaxHighlightingEnabled": true,
+    "markdown.occurrencesHighlight.enabled": true
+}
